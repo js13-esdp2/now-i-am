@@ -1,0 +1,55 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === true">
+    <div class="sidenav-menu">
+      <mat-toolbar>Menu</mat-toolbar>
+    </div>
+<!--    <mat-nav-list>-->
+<!--      <a mat-list-item href="#">Link 1</a>-->
+<!--      <a mat-list-item href="#">Link 2</a>-->
+<!--      <a mat-list-item href="#">Link 3</a>-->
+<!--    </mat-nav-list>-->
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="mat-toolbar">
+      <div class="logo-block">
+        <button mat-icon-button class="sidenav-btn" (click)="drawer.toggle(); onChange()">
+          <span class="material-icons icon-menu">{{isOpen ? 'menu' : 'close'}}</span>
+        </button>
+        <a class="logo" routerLink="/">Now I am</a>
+      </div>
+      <nav *appUserType="'user' else anonMenu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="icon-user">account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="user-menu">
+          <button mat-menu-item [disabled]="true">{{ (user | async)?.displayName }}</button>
+          <button mat-menu-item (click)="logout()">Выйти</button>
+        </mat-menu>
+      </nav>
+      <ng-template #anonMenu>
+        <nav *ngIf="changeOnMenuReg else btnRegMenu">
+          <button mat-icon-button [matMenuTriggerFor]="regMenu">
+            <span class="material-icons icon-reg-menu" style="font-size: 24px">how_to_reg</span>
+          </button>
+          <mat-menu #regMenu="matMenu" class="user-menu">
+            <a routerLink="/register" mat-menu-item>Регистрация</a>
+            <a routerLink="/login" mat-menu-item>Вход</a>
+          </mat-menu>
+        </nav>
+      </ng-template>
+    </mat-toolbar>
+    <div class="content" (window:resize) = onResize($event)>
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #btnRegMenu>
+  <nav>
+    <a mat-raised-button class="reg-link" routerLink="/register">Регистрация</a>
+    <a mat-raised-button class="reg-link" routerLink="/login">Вход</a>
+  </nav>
+</ng-template>

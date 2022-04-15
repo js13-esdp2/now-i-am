@@ -32,12 +32,12 @@ router.post('/sessions', async (req, res, next) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).send({error: 'Invalid email or password'});
+            return res.status(400).send({error: 'Неверный логин или пароль'});
         }
 
         const isMatch = await user.checkPassword(password);
         if (!isMatch) {
-            return res.status(400).send({error: 'Invalid email or password'});
+            return res.status(400).send({error: 'Неверный логин или пароль'});
         }
 
         user.generateToken();

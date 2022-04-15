@@ -1,0 +1,56 @@
+<app-centered-card title="Войти">
+  <div *ngIf="error | async" class="error">
+    {{ (error | async)?.error }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        #f="ngForm"
+        autocomplete="off"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Почтовый адрес</mat-label>
+      <input type="email"
+             name="email"
+             matInput
+             autocomplete="username"
+             ngModel
+             #email="ngModel"
+             required
+             email
+      />
+      <mat-error *ngIf="email.touched && email.hasError('required')">
+        Поле обязательно для ввода
+      </mat-error>
+      <mat-error *ngIf="email.touched && email.hasError('email')">
+        Некорректный почтовый адрес
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Пароль</mat-label>
+      <input type="password"
+             name="password"
+             matInput
+             autocomplete="current-password"
+             ngModel
+             #password="ngModel"
+             required
+      />
+      <mat-error *ngIf="password.touched && password.hasError('required')">
+        Поле обязательно для ввода
+      </mat-error>
+    </mat-form-field>
+    <p class="register-block">
+      <a routerLink="register">Нет аккаунта? Пройдите регистрацию</a>
+    </p>
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="f.invalid || (isLoading | async)"
+    >
+      <app-loader [isLoading]="isLoading | async" size="sm">
+        Войти
+      </app-loader>
+    </button>
+  </form>
+</app-centered-card>
