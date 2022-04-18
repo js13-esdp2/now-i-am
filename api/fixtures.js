@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 
 const User = require('./models/User');
+const Post = require('./models/Post');
 const {nanoid} = require("nanoid");
 
 const run = async () => {
@@ -12,7 +13,7 @@ const run = async () => {
         await mongoose.connection.db.dropCollection(coll.name);
     }
 
-    await User.create({
+    const[anna, john, vasiliy] = await User.create({
         email: 'anna@gmail.com',
         password: '123',
         displayName: 'Anna',
@@ -22,6 +23,31 @@ const run = async () => {
         password: '123',
         displayName: 'John',
         token: nanoid()
+    }, {
+      email: 'vasiliy@pupkin.com',
+      password: '123',
+      displayName: 'Vasiliy Pupkin',
+      token: nanoid(),
+    });
+
+    await Post.create({
+      user: anna,
+      title: 'test 1',
+      image: 'drinkingcoffee.jpeg',
+      datetime: new Date(),
+      time: '30',
+    }, {
+      user: john,
+      title: 'test 2',
+      image: 'drinkingtea.jpeg',
+      datetime: new Date(),
+      time: '60',
+    }, {
+      user: vasiliy,
+      title: 'test 3',
+      image: 'enjoycola.jpg',
+      datetime: new Date(),
+      time: '',
     });
 
     await mongoose.connection.close();
