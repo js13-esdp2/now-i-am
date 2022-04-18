@@ -16,7 +16,8 @@
     <mat-toolbar class="mat-toolbar">
       <div class="logo-block">
         <button mat-icon-button class="sidenav-btn" (click)="drawer.toggle(); onChange()">
-          <span class="material-icons icon-menu">{{isOpen ? 'menu' : 'close'}}</span>
+          <span class="material-icons icon-menu" *ngIf="!mobBreakpoint">{{isOpen ? 'menu' : 'close'}}</span>
+          <span class="material-icons icon-menu" *ngIf="mobBreakpoint">menu</span>
         </button>
         <a class="logo" routerLink="/">Now I am</a>
       </div>
@@ -41,7 +42,7 @@
         </nav>
       </ng-template>
     </mat-toolbar>
-    <div class="content" (window:resize) = onResize($event)>
+    <div class="content">
       <ng-content></ng-content>
     </div>
   </mat-sidenav-content>

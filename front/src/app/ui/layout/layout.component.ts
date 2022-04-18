@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { logoutUserRequest } from '../../store/users.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-layout',
@@ -16,13 +17,18 @@ export class LayoutComponent implements OnInit{
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map(result => {
+        this.changeOnMenuReg = result.matches;
+        this.mobBreakpoint = result.matches;
+        this.isOpen = !result.matches;
+        return result.matches
+      }),
       shareReplay()
     );
 
   isOpen = true;
   changeOnMenuReg = false;
-  breakpoint: number = 768;
+  mobBreakpoint = false;
   user: Observable<null | User>;
 
   constructor(
@@ -33,7 +39,6 @@ export class LayoutComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.changeOnMenuReg = this.breakpoint >= window.innerWidth;
   }
 
   onChange() {
@@ -44,7 +49,4 @@ export class LayoutComponent implements OnInit{
     this.store.dispatch(logoutUserRequest());
   }
 
-  onResize(event: any) {
-    this.changeOnMenuReg = this.breakpoint >= event.target.innerWidth;
-  }
 }
