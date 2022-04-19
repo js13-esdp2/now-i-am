@@ -26,6 +26,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserTypeDirective } from './directives/user-type.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './pages/home/home.component';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { environment } from '../environments/environment';
+
+const socialConfig: SocialAuthServiceConfig = {
+  autoLogin: false,
+  providers: [
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider(environment.fbAppId, {
+        scope: 'email,public_profile'
+      })
+    }
+  ]
+}
 
 @NgModule({
   declarations: [
@@ -56,9 +70,12 @@ import { HomeComponent } from './pages/home/home.component';
     MatProgressSpinnerModule,
     MatCardModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
