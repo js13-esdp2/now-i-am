@@ -12,6 +12,7 @@ export class SearchService {
 
 
   searchUsers(searchData: string) {
-    return this.http.post<User[]>(env.apiUrl + '/search', searchData);
+    console.log(searchData);
+    return this.http.post<User[]>(env.apiUrl + '/search', {searchData: searchData});
   }
 }
