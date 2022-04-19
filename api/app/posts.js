@@ -21,11 +21,6 @@ const upload = multer({storage});
 router.get('/', async (req, res, next) => {
   try {
     const query = {};
-
-    if (req.query.filter === 'image') {
-      query.image = {$ne: null};
-    }
-
     if (req.query.user){
       query.user = {_id: req.query.user}
     }
@@ -50,18 +45,18 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', upload.single('image'), async (req, res, next) => {
+router.post('/', upload.single('content'), async (req, res, next) => {
   try {
     const postData = {
       user: req.body.user,
       title: req.body.title,
-      datetime: new Date(),
-      time: req.body.time,
-      image: null,
+      datetime: new Date().toISOString(),
+      time: JSON.parse(req.body.time),
+      content: null,
     }
 
     if (req.file) {
-      postData.image = req.file.filename;
+      postData.content = req.file.filename;
     }
 
     const post = new Post(postData);

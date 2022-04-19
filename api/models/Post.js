@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const TimesSchema = new Schema({
+  hours: Number,
+  minutes: Number
+})
+
 const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
@@ -11,7 +16,7 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
-  image: {
+  content: {
     type: String,
     required: true,
   },
@@ -20,7 +25,7 @@ const PostSchema = new Schema({
     required: true,
   },
   time: {
-    type: String,
+    type: TimesSchema,
   }
 })
 

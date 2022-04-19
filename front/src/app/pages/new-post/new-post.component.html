@@ -1,0 +1,44 @@
+<h1>Добавить новый пост:</h1>
+<mat-card>
+  <mat-card-content>
+    <div class="error" *ngIf="error | async">
+      {{ error | async }}
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" fxLayout="column">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Название</mat-label>
+        <input name="title" required matInput formControlName="title" id="title"/>
+      </mat-form-field>
+
+      <div class="group" formArrayName="time">
+        <button type="button" mat-raised-button (click)="addStep()" [disabled]="isAdd">Добавить время</button>
+
+        <div *ngFor="let t of getTime(); let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field appearance="outline">
+              <mat-label>Часы</mat-label>
+              <input type="time" name="hours" required matInput formControlName="hours" id="hours"/>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Изображение</mat-label>
+        <app-file-input name="content" formControlName="content" id="content"></app-file-input>
+      </mat-form-field>
+
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="form.invalid || (loading | async)"
+        >Сохранить</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+
+
