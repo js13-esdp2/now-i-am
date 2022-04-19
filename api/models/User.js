@@ -29,6 +29,27 @@ const UserSchema = new Schema({
     token: {
         type: String,
         required: true
+    },
+    photo: {
+        type: String
+    },
+    age: {
+        type: Number
+    },
+    sex: {
+        type: String
+    },
+    country: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    aboutMe: {
+        type: String
+    },
+    isPrivate: {
+        type: Boolean
     }
 });
 
