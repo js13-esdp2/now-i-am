@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const config = require('../config');
+const path = require('path');
 const axios = require('axios');
+const fs = require('fs');
 const {nanoid} = require('nanoid');
 
 const router = express.Router();
@@ -84,7 +86,7 @@ router.post('/facebookLogin', async (req, res, next) => {
         const accessToken = config.facebook.appId + '|' + config.facebook.appSecret;
         const debugTokenUrl = `https://graph.facebook.com/debug_token?input_token=${inputToken}&access_token=${accessToken}`;
 
-        const response = await axios.get(debugTokenUrl); // response.data = {}
+        const response = await axios.get(debugTokenUrl);
 
         if (response.data.data.error) {
             return res.status(401).send({message: 'Facebook token incorrect'});
@@ -97,21 +99,33 @@ router.post('/facebookLogin', async (req, res, next) => {
         let user = await User.findOne({facebookId: req.body.id});
 
         if (!user) {
-            user = new User({
+            const userData = {
                 email: req.body.email,
                 password: nanoid(),
+                displayName: req.body.name,
                 facebookId: req.body.id,
-                displayName: req.body.name
-            });
+            };
+
+            if (req.body.photoUrl) {
+                const photo = await axios.get(req.body.photoUrl, { responseType: 'stream' });
+                const photoName = nanoid() + '.jpg';
+
+                const photoPath = path.resolve(config.uploadPath, photoName);
+                photo.data.pipe(fs.createWriteStream(photoPath));
+
+                userData['avatar'] = photoName;
+            }
+
+            user = new User(userData);
+
+            user.generateToken();
+            await user.save();
         }
 
-        user.generateToken();
-        await user.save();
-
-        return res.send(user);
-    } catch (e) {
+        res.send(user);
+    } catch(e) {
         next(e);
     }
-})
+});
 
 module.exports = router;

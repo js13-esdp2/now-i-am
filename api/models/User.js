@@ -30,6 +30,29 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String,
+        validate: {
+            validator: async value => {
+                if (!value) {
+                    return true;
+                }
+
+                const extName = path.extname(value);
+                if (config.avatarAllowedTypes.length === 0 || config.avatarAllowedTypes.includes(extName)) {
+                    return true;
+                }
+
+                const filePath = config.uploadPath + '/' + value;
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                }
+
+                return false;
+            },
+            message: 'An avatar with this extension cannot be uploaded'
+        }
+    },
     facebookId: String,
 });
 

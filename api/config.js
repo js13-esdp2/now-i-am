@@ -5,6 +5,7 @@ const rootPath = __dirname;
 module.exports = {
   rootPath,
   uploadPath: path.join(rootPath, 'public/uploads'),
+  avatarAllowedTypes: ['.png', '.gif', '.jpg', '.jpeg'],
   mongo: {
     db: 'mongodb://localhost/now-i-am',
     options: {useNewUrlParser: true},

@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         authToken: user.authToken,
         id: user.id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        photoUrl: user.photoUrl
       }).subscribe(user => {
         this.store.dispatch(loginUserSuccess({user}));
       });
