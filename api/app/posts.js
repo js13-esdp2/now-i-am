@@ -5,6 +5,7 @@ const { nanoid } = require('nanoid');
 const config = require('../config');
 const Post = require("../models/Post");
 
+
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -47,6 +48,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', upload.single('content'), async (req, res, next) => {
   try {
+
     const postData = {
       user: req.body.user,
       title: req.body.title,
@@ -57,6 +59,14 @@ router.post('/', upload.single('content'), async (req, res, next) => {
 
     if (req.file) {
       postData.content = req.file.filename;
+    }
+    if (req.body.content) {
+        const base64Data = req.body.content.replace(/^data:image\/jpeg;base64,/, "");
+        const imagePath = `${nanoid()}.jpeg`
+        require("fs").writeFile( `public/uploads/${imagePath}`, base64Data, 'base64', function(err) {
+            console.log(err);
+        });
+        postData.content = imagePath;
     }
 
     const post = new Post(postData);

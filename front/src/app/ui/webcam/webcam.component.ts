@@ -13,8 +13,7 @@ import { PostsService } from '../../services/posts.service';
 export class WebcamComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<ModalWindowComponent>,
               private postsService: PostsService,
-              ) {
-  }
+              ) {}
 
   ngOnInit(): void {
   }
@@ -39,7 +38,7 @@ export class WebcamComponent implements OnInit {
   }
 
   savePicture() {
-    this.postsService.getImageUrl64(this.webcamImage!.imageAsBase64)
+    this.postsService.getImageUrl64(this.webcamImage);
     this.dialogRef.close();
   }
 

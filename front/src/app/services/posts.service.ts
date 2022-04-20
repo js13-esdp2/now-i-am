@@ -4,12 +4,13 @@ import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { ApiPostData, Post, PostData } from '../models/post.model';
 import { Subject } from 'rxjs';
+import { WebcamImage } from 'ngx-webcam';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
-  public imageData64 = new Subject<string>();
+  public imageData64 = new Subject<WebcamImage>();
 
   constructor(private http: HttpClient) { }
 
@@ -71,8 +72,8 @@ export class PostsService {
     );
   }
 
-  getImageUrl64(imageUrl64: string) {
-    this.imageData64.next(imageUrl64);
+  getImageUrl64(imageUrl64: WebcamImage | null) {
+    this.imageData64.next(imageUrl64!);
   }
 }
 

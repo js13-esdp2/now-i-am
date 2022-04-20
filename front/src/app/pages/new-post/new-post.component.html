@@ -18,16 +18,20 @@
           <div [formGroupName]="i">
             <mat-form-field appearance="outline">
               <mat-label>Часы</mat-label>
-              <input type="time" name="hours" required matInput formControlName="hours" id="hours"/>
+              <input type="time" name="hours" matInput formControlName="hours" id="hours"/>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="choose-image-box">
-        <mat-form-field appearance="outline" fxFlex="90">
+        <mat-form-field appearance="outline" fxFlex="90" *ngIf="!imageData64, else imageNow">
           <mat-label>Изображение</mat-label>
           <app-file-input name="content" formControlName="content" id="content"></app-file-input>
         </mat-form-field>
+        <ng-template #imageNow>
+          <img [src]="imageData64?.imageAsDataUrl" style="width: 100px; height: 100px">
+          <button mat-icon-button type="button" (click)="onCancel()"><mat-icon>cancel</mat-icon></button>
+        </ng-template>
         <button mat-icon-button type="button" style="margin-top: 10px" fxFlex="10" (click)="openModal()">
           <mat-icon style="color: #24c3be">camera_enhance</mat-icon></button>
       </div>
@@ -36,7 +40,7 @@
           type="submit"
           mat-raised-button
           color="primary"
-          [disabled]="form.invalid || (loading | async)"
+          [disabled]="!form.value.title || (loading | async)"
         >Сохранить</button>
       </div>
     </form>

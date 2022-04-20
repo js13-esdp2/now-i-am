@@ -9,6 +9,7 @@ import { createPostRequest, fetchPostsRequest } from '../../store/posts.actions'
 import { MatDialog } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { PostsService } from '../../services/posts.service';
+import { WebcamImage } from 'ngx-webcam';
 
 @Component({
   selector: 'app-new-post',
@@ -23,7 +24,7 @@ export class NewPostComponent implements OnInit {
   user!: Observable<User | null>;
   id!: string;
   isAdd = false;
-  imageData64!: string;
+  imageData64!: WebcamImage | null;
 
   constructor(private store: Store<AppState>, private dialog: MatDialog, private postsService: PostsService) {
     this.loading = store.select(state => state.posts.createLoading);
@@ -45,7 +46,7 @@ export class NewPostComponent implements OnInit {
     })
 
     this.postsService.imageData64.subscribe( imageData64 => {
-      this.imageData64 = imageData64;
+      this.imageData64 = imageData64
     })
   }
 
@@ -55,12 +56,21 @@ export class NewPostComponent implements OnInit {
       hours: timeData[0],
       minutes: timeData[1]
     }
+
     const postData: PostData = {
       user: this.id,
       title: this.form.value.title,
-      content: this.form.value.content,
+      content: null,
       time: timeObj,
     }
+
+    if (this.form.value.content) {
+      postData.content = this.form.value.content
+    }
+    if (this.imageData64) {
+      postData.content = this.imageData64.imageAsBase64
+    }
+
     this.store.dispatch(createPostRequest({postData}))
   }
 
@@ -82,5 +92,8 @@ export class NewPostComponent implements OnInit {
     this.dialog.open(ModalWindowComponent);
   }
 
+  onCancel() {
+    this.imageData64 = null;
+  }
 
 }
