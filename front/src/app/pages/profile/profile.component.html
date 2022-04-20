@@ -1,0 +1,37 @@
+<app-centered-card *ngIf="user | async as userData">
+  <img mat-card-image
+       class="photo"
+       [src]="userData.photo ? apiUrl + '/uploads/' + userData.photo : '/assets/no-image.jpg'"
+       [alt]="userData.displayName"
+  />
+  <mat-card-content>
+    <p>
+      <strong>Отображаемое имя: </strong>{{ userData.displayName }}
+    </p>
+    <p>
+      <strong>О себе: </strong>{{ userData.aboutMe || 'Не указано' }}
+    </p>
+    <p>
+      <strong>Возраст: </strong>{{ userData.age || 'Не указано' }}
+    </p>
+    <p>
+      <strong>Пол: </strong>{{ userData.sex === 'male' ? 'Муж.' : userData.sex === 'female' ? 'Жен.' : 'Не указано' }}
+    </p>
+    <p>
+      <strong>Страна: </strong>{{ userData.country || 'Не указано' }}
+    </p>
+    <p>
+      <strong>Город: </strong>{{ userData.city || 'Не указано' }}
+    </p>
+    <p>
+      <strong>Приватный аккаунт: </strong>
+      <mat-checkbox [checked]="userData.isPrivate" disabled="true"></mat-checkbox>
+    </p>
+  </mat-card-content>
+  <mat-card-actions fxLayoutAlign="center">
+    <a routerLink="/profile/edit"
+       mat-raised-button
+       color="primary"
+    >Редактировать</a>
+  </mat-card-actions>
+</app-centered-card>

@@ -32,6 +32,8 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { NewPostComponent } from './pages/new-post/new-post.component';
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -58,6 +60,7 @@ const socialConfig: SocialAuthServiceConfig = {
     PostsComponent,
     NewPostComponent,
     FileInputComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -80,8 +83,8 @@ const socialConfig: SocialAuthServiceConfig = {
     MatIconModule,
     MatMenuModule,
     SocialLoginModule,
-    MatMenuModule,
     MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
