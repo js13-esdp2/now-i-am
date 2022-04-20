@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
-import { LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,15 @@ export class UsersService {
 
   register(registerData: RegisterUserData) {
     return this.http.post<User>(env.apiUrl + '/users', registerData);
+  }
+
+  edit(editData: EditUserData) {
+    const formData = new FormData();
+    Object.keys(editData).forEach((key) => {
+      formData.append(key, editData[key]);
+    });
+
+    return this.http.post<User>(env.apiUrl + '/users/edit-profile', formData);
   }
 
   login(loginData: LoginUserData) {

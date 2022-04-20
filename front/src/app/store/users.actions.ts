@@ -1,5 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { LoginError, LoginUserData, RegisterError, RegisterUserData, User } from '../models/user.model';
+import {
+  EditUserError,
+  EditUserData,
+  LoginError,
+  LoginUserData,
+  RegisterError,
+  RegisterUserData,
+  User
+} from '../models/user.model';
 
 export const registerUserRequest = createAction(
   '[Users] Register Request',
@@ -12,6 +20,19 @@ export const registerUserSuccess = createAction(
 export const registerUserFailure = createAction(
   '[Users] Register Failure',
   props<{error: null | RegisterError}>()
+);
+
+export const editUserRequest = createAction(
+  '[Users] Edit Request',
+  props<{userData: EditUserData}>()
+);
+export const editUserSuccess = createAction(
+  '[Users] Edit Success',
+  props<{user: User}>()
+);
+export const editUserFailure = createAction(
+  '[Users] Edit Failure',
+  props<{error: null | EditUserError}>()
 );
 
 export const loginUserRequest = createAction(

@@ -1,4 +1,4 @@
-import { LoginError, RegisterError, User } from '../models/user.model';
+import { EditUserError, LoginError, RegisterError, User } from '../models/user.model';
 import { Post } from '../models/post.model';
 
 
@@ -6,6 +6,8 @@ export type UsersState = {
   user: null | User,
   registerLoading: boolean,
   registerError: null | RegisterError,
+  editLoading: boolean,
+  editError: null | EditUserError,
   loginLoading: boolean,
   loginError: null | LoginError,
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UsersService } from '../services/users.service';
 import {
+  editUserFailure,
+  editUserRequest, editUserSuccess,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
@@ -37,6 +39,18 @@ export class UsersEffects {
         void this.router.navigate(['/']);
       }),
       this.helpersService.catchServerError(registerUserFailure)
+    )),
+  ));
+
+  editUser = createEffect(() => this.actions.pipe(
+    ofType(editUserRequest),
+    mergeMap(({userData}) => this.usersService.edit(userData).pipe(
+      map((user) => editUserSuccess({user})),
+      tap(() => {
+        this.helpersService.openSnackBar('Информация успешно обновлена!');
+        void this.router.navigate(['/profile']);
+      }),
+      this.helpersService.catchServerError(editUserFailure)
     )),
   ));
 
