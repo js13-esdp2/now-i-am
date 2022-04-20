@@ -21,7 +21,14 @@ export type PostState = {
   createError: null | string,
 }
 
-export  type AppState = {
+export type SearchState = {
+  searchData: string,
+  searchLoading: boolean,
+  searchError: null | string,
+}
+
+export type AppState = {
   users: UsersState,
   posts: PostState,
+  search: SearchState,
 }
