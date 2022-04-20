@@ -7,12 +7,14 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { NewPostComponent } from './pages/new-post/new-post.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: '', canActivate: [AuthGuardService], children: [
       {path: '', component: HomeComponent},
       {path: 'profile', children: [
-          {path: '', component: ProfileComponent}
+          {path: '', component: ProfileComponent},
+          {path: 'edit', component: EditProfileComponent}
       ]}
   ]},
   {path: 'login', component: LoginComponent},

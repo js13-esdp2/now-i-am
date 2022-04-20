@@ -34,6 +34,7 @@ import { FileInputComponent } from './ui/file-input/file-input.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -60,7 +61,8 @@ const socialConfig: SocialAuthServiceConfig = {
     PostsComponent,
     NewPostComponent,
     FileInputComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NgControl } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 import { MAT_FORM_FIELD, MatFormField, MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -80,8 +80,19 @@ export class FileInputComponent implements ControlValueAccessor, MatFormFieldCon
     // do nothing, cannot set file value
   }
 
+  @Input()
+  get accept(): string {
+    return this._accept;
+  }
+  set accept(value: string) {
+    this._accept = value;
+    this.stateChanges.next();
+  }
+
+  private _accept: string = '';
+
   get errorState(): boolean {
-    return this.required && this.touched && !this.selectedFile;
+    return this.touched && !!this.ngControl.errors && Object.keys(this.ngControl.errors).length > 0;
   }
 
   constructor(
@@ -135,6 +146,22 @@ export class FileInputComponent implements ControlValueAccessor, MatFormFieldCon
     controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
 
+  checkAcceptError(file: File | null): void {
+    let errors: null | ValidationErrors = this.ngControl.errors || {};
+
+    if (file && this._accept && !this._accept.includes(file.type)) {
+      errors['accept'] = true;
+    } else {
+      delete errors['accept'];
+    }
+
+    if (Object.keys(errors).length === 0) {
+      errors = null;
+    }
+
+    this.ngControl.control?.setErrors(errors);
+  }
+
   onContainerClick() {
     this.fileInput.nativeElement.click();
   }
@@ -160,10 +187,12 @@ export class FileInputComponent implements ControlValueAccessor, MatFormFieldCon
     if (input.files && input.files[0]) {
       const file = <File>input.files[0];
       this.onChange(file);
+      this.checkAcceptError(file);
       this.selectedFile = file;
       this.fileName = file.name;
     } else {
       this.onChange(null);
+      this.checkAcceptError(null);
       this.selectedFile = null;
       this.fileName = '';
     }

@@ -1,0 +1,98 @@
+<app-centered-card title="Редактировать профиль">
+  <form (ngSubmit)="onSubmit()"
+        #f="ngForm"
+        fxLayout="column"
+  >
+    <mat-form-field appearance="outline" *ngIf="isPhotoExists; else emptyPhoto">
+      <mat-label>Фото профиля</mat-label>
+      <input type="text"
+             name="photo"
+             matInput
+             ngModel
+             disabled="true"
+      />
+      <button type="button"
+              mat-raised-button
+              color="warn"
+              class="remove-photo-btn"
+              (click)="onRemovePhoto()"
+      >Удалить</button>
+    </mat-form-field>
+    <ng-template #emptyPhoto>
+      <mat-form-field appearance="outline">
+        <mat-label>Фото профиля</mat-label>
+        <app-file-input name="photo"
+                        accept="image/png, image/gif, image/jpeg"
+                        ngModel
+                        #photo="ngModel"
+        ></app-file-input>
+        <mat-error *ngIf="photo.touched && photo.hasError('accept')">
+          Загружать можно только изображения
+        </mat-error>
+      </mat-form-field>
+    </ng-template>
+    <mat-form-field appearance="outline">
+      <mat-label>Отображаемое имя</mat-label>
+      <input type="text"
+             name="displayName"
+             matInput
+             ngModel
+             #name="ngModel"
+             required
+      />
+      <mat-error *ngIf="name.touched && name.hasError('required')">
+        Поле обязательное для ввода
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>О себе</mat-label>
+      <input type="text"
+             name="aboutMe"
+             matInput
+             ngModel
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Возраст</mat-label>
+      <input type="number"
+             name="age"
+             matInput
+             ngModel
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Пол</mat-label>
+      <mat-select name="sex" ngModel>
+        <mat-option value="male">Мужской</mat-option>
+        <mat-option value="female">Женский</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Страна</mat-label>
+      <input type="text"
+             name="country"
+             matInput
+             ngModel
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Город</mat-label>
+      <input type="text"
+             name="city"
+             matInput
+             ngModel
+      />
+    </mat-form-field>
+    <p class="is-private-block">
+      <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
+    </p>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="f.invalid || (isLoading | async)"
+    >
+      <app-loader [isLoading]="isLoading | async" size="sm">
+        Сохранить
+      </app-loader>
+    </button>
+  </form>
+</app-centered-card>

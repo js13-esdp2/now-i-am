@@ -15,5 +15,5 @@
   >
     Browse
   </button>
-  <input type="file" #fileInput (change)="onFileInputChange($event)" />
+  <input type="file" #fileInput (change)="onFileInputChange($event)" [accept]="accept" />
 </div>
