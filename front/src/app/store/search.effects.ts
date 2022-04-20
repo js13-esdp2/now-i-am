@@ -8,7 +8,7 @@ import { searchUsersFailure, searchUsersRequest, searchUsersSuccess } from './se
 import { SearchService } from '../services/search.service';
 
 @Injectable()
-export class UsersEffects {
+export class SearchEffects {
 
   constructor(
     private actions: Actions,

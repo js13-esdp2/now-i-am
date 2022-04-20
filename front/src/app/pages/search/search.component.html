@@ -1,26 +1,29 @@
 <app-centered-card title="Поиск">
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
-        fxLayout="column" >
-    <mat-form-field appearance="outline">
+        class="form"
+  >
+    <mat-form-field appearance="outline" class="searchInput">
       <mat-label>Название поста</mat-label>
       <input type="text"
-             name="displayName"
+             name="search"
              matInput
-             ngModel
-             #name="ngModel"
              required
+             ngModel
+             #search="ngModel"
       />
-      <mat-error *ngIf="name.touched && name.hasError('required')">
+      <mat-error *ngIf="search.touched && search.hasError('required')">
         Поле обязательное для ввода
       </mat-error>
     </mat-form-field>
     <button mat-raised-button
+            class="searchBtn"
             color="primary"
+            [disabled]="f.invalid || (isLoading | async)"
     >
-      <app-loader size="sm">
-        Поиск
+      <app-loader [isLoading]="isLoading | async" size="sm">
+        <span class="material-icons">search</span>
       </app-loader>
     </button>
   </form>
-</app-centered-card>>
+</app-centered-card>

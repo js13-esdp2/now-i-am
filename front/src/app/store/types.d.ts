@@ -22,6 +22,7 @@ export type PostState = {
 }
 
 export type SearchState = {
+  users: null | User[],
   searchData: string,
   searchLoading: boolean,
   searchError: null | string,

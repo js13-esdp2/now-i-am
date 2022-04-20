@@ -6,6 +6,8 @@ import { UsersEffects } from './store/users.effects';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { postsReducer } from './store/posts.reducer';
 import { PostsEffects } from './store/posts.effects';
+import { searchReducer } from './store/search.reducer';
+import { SearchEffects } from './store/search.effects';
 
 const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
   return localStorageSync({
@@ -18,10 +20,13 @@ const metaReducers: MetaReducer[] = [localStorageSyncReducer];
 
 const reducers = {
   users: usersReducer,
+  search: searchReducer,
   posts: postsReducer,
 };
 
 const effects = [
+  UsersEffects,
+  SearchEffects,
   UsersEffects,
   PostsEffects,
 ];

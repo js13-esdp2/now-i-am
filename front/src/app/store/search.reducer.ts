@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { searchUsersFailure, searchUsersRequest, searchUsersSuccess } from './search.actions';
 
 const initialState: SearchState = {
+  users: null,
   searchData: '',
   searchLoading: false,
   searchError: null,
