@@ -17,38 +17,61 @@ const run = async () => {
         email: 'anna@gmail.com',
         password: '123',
         displayName: 'Anna',
-        token: nanoid()
+        token: nanoid(),
+        age: 26,
+        sex: 'female',
+        country: 'Австралия'
     }, {
         email: 'john@gmail.com',
         password: '123',
         displayName: 'John',
-        token: nanoid()
+        token: nanoid(),
+        age: 23,
+        sex: 'male',
+        country: 'Кыргызстан',
+        city: 'Ош',
+        isPrivate: true
     }, {
-      email: 'vasiliy@pupkin.com',
-      password: '123',
-      displayName: 'Vasiliy Pupkin',
-      token: nanoid(),
+        email: 'vasiliy@pupkin.com',
+        password: '123',
+        displayName: 'Vasiliy Pupkin',
+        token: nanoid(),
+        age: 35,
+        sex: 'male',
+        country: 'Кыргызстан',
+        city: 'Кант'
     });
 
     await Post.create({
-      user: anna,
-      title: 'test 1',
-      image: 'drinkingcoffee.jpeg',
-      datetime: new Date(),
-      time: '30',
+        user: anna,
+        title: 'test 1',
+        content: 'drinkingcoffee.jpeg',
+        datetime: new Date().toISOString(),
+        time: {
+          hours: 12,
+          minutes: 0,
+        },
     }, {
-      user: john,
-      title: 'test 2',
-      image: 'drinkingtea.jpeg',
-      datetime: new Date(),
-      time: '60',
+        user: john,
+        title: 'test 2',
+        content: 'drinkingtea.jpeg',
+        datetime: new Date().toISOString(),
+      time: {
+        hours: 15,
+        minutes: 10,
+      },
     }, {
-      user: vasiliy,
-      title: 'test 3',
-      image: 'enjoycola.jpg',
-      datetime: new Date(),
-      time: '',
+        user: vasiliy,
+        title: 'test 3',
+        content: 'enjoycola.jpg',
+        datetime: new Date().toISOString(),
+      time: {
+        hours: 12,
+        minutes: 20,
+      },
     });
+
+
 
     await mongoose.connection.close();
 };

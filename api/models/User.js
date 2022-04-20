@@ -54,6 +54,27 @@ const UserSchema = new Schema({
         }
     },
     facebookId: String,
+    photo: {
+        type: String
+    },
+    age: {
+        type: Number
+    },
+    sex: {
+        type: String
+    },
+    country: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    aboutMe: {
+        type: String
+    },
+    isPrivate: {
+        type: Boolean
+    }
 });
 
 const SALT_WORK_FACTOR = 10;

@@ -14,7 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FlexModule } from '@angular/flex-layout';
 import { CenteredCardComponent } from './ui/centered-card/centered-card.component';
@@ -28,6 +28,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './pages/home/home.component';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { environment } from '../environments/environment';
+import { PostsComponent } from './pages/posts/posts.component';
+import { NewPostComponent } from './pages/new-post/new-post.component';
+import { FileInputComponent } from './ui/file-input/file-input.component';
+import { MatSelectModule } from '@angular/material/select';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -50,7 +54,10 @@ const socialConfig: SocialAuthServiceConfig = {
     CenteredCardComponent,
     LoaderComponent,
     UserTypeDirective,
-    HomeComponent
+    HomeComponent,
+    PostsComponent,
+    NewPostComponent,
+    FileInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,13 +72,16 @@ const socialConfig: SocialAuthServiceConfig = {
     MatSidenavModule,
     MatListModule,
     FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
     FlexModule,
     MatProgressSpinnerModule,
     MatCardModule,
     MatIconModule,
     MatMenuModule,
-    SocialLoginModule
+    SocialLoginModule,
+    MatMenuModule,
+    MatSelectModule,
   ],
   providers: [
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },

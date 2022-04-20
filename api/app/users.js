@@ -1,13 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const multer = require('multer');
 const User = require('../models/User');
 const config = require('../config');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 const {nanoid} = require('nanoid');
+const auth = require('../middleware/auth');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, config.uploadPath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, nanoid() + path.extname(file.originalname));
+    },
+});
 
 const router = express.Router();
+const upload = multer({storage});
 
 
 router.post('/', async (req, res, next) => {
@@ -22,6 +34,30 @@ router.post('/', async (req, res, next) => {
         await user.save();
 
         return res.send(user);
+    } catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
+});
+
+router.post('/edit-profile', auth, upload.single('photo'), async (req, res, next) => {
+    try {
+        req.user['displayName'] = req.body.displayName;
+        req.user['age'] = req.body.age;
+        req.user['sex'] = req.body.sex;
+        req.user['country'] = req.body.country;
+        req.user['city'] = req.body.city;
+        req.user['aboutMe'] = req.body.aboutMe;
+        req.user['isPrivate'] = req.body.isPrivate || false
+
+        if (req.body.photo === '') req.user['photo'] = req.body.photo;
+        else if (req.file !== undefined) req.user['photo'] = req.file.filename;
+
+        await req.user.save();
+        return res.send(req.user);
     } catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
             return res.status(400).send(e);
