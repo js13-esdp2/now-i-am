@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppStoreModule } from './app-store.module';
 import { RegisterComponent } from './pages/register/register.component';
@@ -35,6 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { AuthInterceptor } from './auth.interceptor';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -89,6 +90,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatCheckboxModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
   ],
   bootstrap: [AppComponent]
