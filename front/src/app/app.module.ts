@@ -52,6 +52,7 @@ const socialConfig: SocialAuthServiceConfig = {
     }
   ]
 }
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,8 @@ const socialConfig: SocialAuthServiceConfig = {
     CenteredCardComponent,
     LoaderComponent,
     UserTypeDirective,
+    HomeComponent,
+    SearchComponent,
     HomeComponent,
     PostsComponent,
     NewPostComponent,

@@ -1,0 +1,26 @@
+<app-centered-card title="Поиск">
+  <form (ngSubmit)="onSubmit()"
+        #f="ngForm"
+        fxLayout="column" >
+    <mat-form-field appearance="outline">
+      <mat-label>Название поста</mat-label>
+      <input type="text"
+             name="displayName"
+             matInput
+             ngModel
+             #name="ngModel"
+             required
+      />
+      <mat-error *ngIf="name.touched && name.hasError('required')">
+        Поле обязательное для ввода
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+    >
+      <app-loader size="sm">
+        Поиск
+      </app-loader>
+    </button>
+  </form>
+</app-centered-card>>
