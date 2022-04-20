@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authStateSub = this.auth.authState.subscribe((user: SocialUser) => {
-      console.log('FB Login Successful!');
-      console.log(user);
       this.http.post<User>(environment.apiUrl + '/users/facebookLogin', {
         authToken: user.authToken,
         id: user.id,
