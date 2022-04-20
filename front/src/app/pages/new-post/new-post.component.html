@@ -23,11 +23,14 @@
           </div>
         </div>
       </div>
-      <mat-form-field appearance="outline">
-        <mat-label>Изображение</mat-label>
-        <app-file-input name="content" formControlName="content" id="content"></app-file-input>
-      </mat-form-field>
-
+      <div class="choose-image-box">
+        <mat-form-field appearance="outline" fxFlex="90">
+          <mat-label>Изображение</mat-label>
+          <app-file-input name="content" formControlName="content" id="content"></app-file-input>
+        </mat-form-field>
+        <button mat-icon-button type="button" style="margin-top: 10px" fxFlex="10" (click)="openModal()">
+          <mat-icon style="color: #24c3be">camera_enhance</mat-icon></button>
+      </div>
       <div>
         <button
           type="submit"

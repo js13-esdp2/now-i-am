@@ -1,0 +1,33 @@
+<div class="image-container">
+  <webcam
+    [trigger]="triggerObservable"
+    (imageCapture)="handleImage($event)"
+    *ngIf="!webcamImage, else image"
+    [width]="320"
+    [height]="400"
+  >
+  </webcam>
+</div>
+<button style="margin: 0 auto; display: block" mat-icon-button class="actionBtn" *ngIf="!webcamImage" (click)="triggerSnapshot();">
+  <mat-icon>
+    camera
+  </mat-icon>
+</button>
+<ng-template class="snapshot" #image>
+  <img *ngIf="webcamImage" [height]="400"
+       [src]="webcamImage.imageAsDataUrl" alt=""/>
+  <div style="display: flex; flex-direction: row; justify-content: center">
+    <button mat-icon-button (click)="savePicture()">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button mat-icon-button (click)="takePictureAgain()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+
+

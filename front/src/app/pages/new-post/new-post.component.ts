@@ -6,6 +6,9 @@ import { AppState } from '../../store/types';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Post, PostData } from '../../models/post.model';
 import { createPostRequest, fetchPostsRequest } from '../../store/posts.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-new-post',
@@ -20,8 +23,9 @@ export class NewPostComponent implements OnInit {
   user!: Observable<User | null>;
   id!: string;
   isAdd = false;
+  imageData64!: string;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private dialog: MatDialog, private postsService: PostsService) {
     this.loading = store.select(state => state.posts.createLoading);
     this.error = store.select(state => state.posts.createError);
     this.posts = store.select(state => state.posts.posts);
@@ -38,6 +42,10 @@ export class NewPostComponent implements OnInit {
       title: new FormControl('', Validators.required),
       content: new FormControl('', Validators.required),
       time: new FormArray([]),
+    })
+
+    this.postsService.imageData64.subscribe( imageData64 => {
+      this.imageData64 = imageData64;
     })
   }
 
@@ -69,4 +77,10 @@ export class NewPostComponent implements OnInit {
     const nameTime = <FormArray>(this.form.get('time'));
     return nameTime.controls;
   }
+
+  openModal() {
+    this.dialog.open(ModalWindowComponent);
+  }
+
+
 }

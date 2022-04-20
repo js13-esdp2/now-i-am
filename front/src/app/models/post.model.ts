@@ -19,7 +19,7 @@ export interface PostData {
   [key: string]: any,
   user: string,
   title: string,
-  content: File | null,
+  content: File | string | null,
 }
 
 export interface ApiPostData {

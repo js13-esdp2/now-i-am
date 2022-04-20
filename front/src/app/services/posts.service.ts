@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { ApiPostData, Post, PostData } from '../models/post.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
+  public imageData64 = new Subject<string>();
+
   constructor(private http: HttpClient) { }
 
   getPosts(id: string) {
@@ -67,4 +70,9 @@ export class PostsService {
       })
     );
   }
+
+  getImageUrl64(imageUrl64: string) {
+    this.imageData64.next(imageUrl64);
+  }
 }
+

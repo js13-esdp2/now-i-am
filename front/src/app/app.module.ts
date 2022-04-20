@@ -32,6 +32,10 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { NewPostComponent } from './pages/new-post/new-post.component';
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ModalWindowComponent } from './ui/modal-window/modal-window.component';
+import { WebcamComponent } from './ui/webcam/webcam.component';
+import { WebcamModule } from 'ngx-webcam';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
@@ -63,7 +67,9 @@ const socialConfig: SocialAuthServiceConfig = {
     NewPostComponent,
     FileInputComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ModalWindowComponent,
+    WebcamComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +93,8 @@ const socialConfig: SocialAuthServiceConfig = {
     MatMenuModule,
     SocialLoginModule,
     MatSelectModule,
+    WebcamModule,
+    MatDialogModule,
     MatCheckboxModule
   ],
   providers: [
