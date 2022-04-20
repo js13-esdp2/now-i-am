@@ -6,14 +6,13 @@
     <div class="sidenav-menu">
       <mat-toolbar>Menu</mat-toolbar>
     </div>
-<!--    <mat-nav-list>-->
-<!--      <a mat-list-item href="#">Link 1</a>-->
-<!--      <a mat-list-item href="#">Link 2</a>-->
-<!--      <a mat-list-item href="#">Link 3</a>-->
-<!--    </mat-nav-list>-->
+    <mat-nav-list>
+      <a mat-list-item routerLink="/new-post">Опубликовать пост</a>
+      <a mat-list-item routerLink="/search">Поиск пользователя</a>
+    </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="mat-toolbar">
+    <mat-toolbar color="primary" class="mat-toolbar">
       <div class="logo-block">
         <button mat-icon-button class="sidenav-btn" (click)="drawer.toggle(); onChange()">
           <span class="material-icons icon-menu" *ngIf="!mobBreakpoint">{{isOpen ? 'menu' : 'close'}}</span>

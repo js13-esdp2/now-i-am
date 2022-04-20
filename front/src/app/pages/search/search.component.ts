@@ -11,7 +11,7 @@ import { searchUsersRequest } from '../../store/search.actions';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.sass']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
   @ViewChild('f') form!: NgForm;
 
   users: Observable<null | User[]>;
@@ -22,9 +22,6 @@ export class SearchComponent implements OnInit {
     this.users = store.select(state => state.search.users);
     this.isLoading = store.select(state => state.search.searchLoading);
     this.error = store.select(state => state.search.searchError);
-  }
-
-  ngOnInit(): void {
   }
 
   onSubmit(): void {

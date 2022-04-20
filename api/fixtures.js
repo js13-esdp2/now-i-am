@@ -72,7 +72,6 @@ const run = async () => {
     });
 
 
-
     await mongoose.connection.close();
 };
 
