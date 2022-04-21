@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { ApiPostData, Post, PostData } from '../models/post.model';
@@ -14,8 +14,12 @@ export class PostsService {
 
   constructor(private http: HttpClient) { }
 
-  getPosts(id: string) {
-    return this.http.get<ApiPostData[]>(environment.apiUrl + `/posts?user=${id}`).pipe(
+  getPosts(userId?: string, title?: string) {
+    let params = new HttpParams();
+    if (userId) params = params.append('user', userId);
+    if (title) params = params.append('title', title);
+
+    return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', { params }).pipe(
       map(response => {
         return response.map(postData => {
           return new Post(
