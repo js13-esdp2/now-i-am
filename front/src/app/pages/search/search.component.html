@@ -29,15 +29,19 @@
 </app-centered-card>
 
 <div class="search-users-block">
-    <mat-card *ngIf="users |async" class="search-users-block__search-card-wrapper">
-      <mat-card-content>
-    <div class="amount-user">
-      <p class="amount-user__title-number">{{ (users | async)?.length }}</p>
-      <h3 class="amount-user__title">Количество найденных пользователей</h3>
-    </div>
-    <div class="search-users" *ngFor="let user of users | async">
-      <mat-card class="search-users__search-user-card">{{ user.displayName }}</mat-card>
-    </div>
-      </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="isSearched && (posts | async) as $posts"
+            class="search-users-block__search-card-wrapper"
+  >
+    <mat-card-content>
+      <div class="amount-user">
+        <p class="amount-user__title-number">{{ $posts.length }}</p>
+        <h3 class="amount-user__title">Количество найденных постов</h3>
+      </div>
+      <div class="search-users" *ngFor="let post of $posts">
+        <mat-card class="search-users__search-user-card"
+                  (click)="openPost(post)"
+        >{{ post.user.displayName }}</mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

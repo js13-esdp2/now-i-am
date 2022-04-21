@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { User } from '../../models/user.model';
-import { searchUsersRequest } from '../../store/search.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
+import { fetchTitlePostsRequest } from '../../store/posts.actions';
+import { Post } from '../../models/post.model';
 
 @Component({
   selector: 'app-search',
@@ -14,18 +16,32 @@ import { searchUsersRequest } from '../../store/search.actions';
 export class SearchComponent {
   @ViewChild('f') form!: NgForm;
 
-  users: Observable<null | User[]>;
+  posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
 
-  constructor(private store: Store<AppState>) {
-    this.users = store.select(state => state.search.users);
-    this.isLoading = store.select(state => state.search.searchLoading);
-    this.error = store.select(state => state.search.searchError);
+  isSearched = false;
+
+  constructor(
+    private store: Store<AppState>,
+    private dialog: MatDialog,
+  ) {
+    this.posts = store.select(state => state.posts.posts);
+    this.isLoading = store.select(state => state.posts.fetchLoading);
+    this.error = store.select(state => state.posts.fetchError);
   }
 
   onSubmit(): void {
-    const searchData = (this.form.value).search;
-    this.store.dispatch(searchUsersRequest({searchData}))
+    this.isSearched = true;
+
+    const searchTitle = (this.form.value).search;
+    this.store.dispatch(fetchTitlePostsRequest({ title: searchTitle }));
   }
+
+  openPost(post: Post): void {
+    this.dialog.open(PostModalComponent, {
+      data: { post }
+    });
+  }
+
 }
