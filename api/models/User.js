@@ -15,7 +15,7 @@ const UserSchema = new Schema({
                 const checkUser = await User.findOne({email: value});
                 if (checkUser) return false;
             },
-            message: 'User with this email is already registered'
+            message: 'Пользователь с таким почтовым адресом уже зарегистрирован'
         }
     },
     password: {
@@ -50,7 +50,7 @@ const UserSchema = new Schema({
 
                 return false;
             },
-            message: 'An avatar with this extension cannot be uploaded'
+            message: 'Загружать можно только изображения'
         }
     },
     facebookId: String,
