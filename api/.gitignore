@@ -4,5 +4,5 @@ db.json
 public/uploads/*
 !public/uploads/.gitkeep
 !public/uploads/drinkingcoffee.jpg
-!public/uploads/drinkingtea.jpg
 !public/uploads/enjoycola.jpeg
+!public/uploads/drinkingtea.jpg

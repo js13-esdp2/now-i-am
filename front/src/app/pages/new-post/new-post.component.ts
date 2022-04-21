@@ -96,4 +96,10 @@ export class NewPostComponent implements OnInit {
     this.imageData64 = null;
   }
 
+  fieldHasError(fieldName: string, errorType: string) {
+    const field = this.form.get(fieldName);
+    return Boolean(
+      field && field.touched && field.errors?.[errorType]
+    );
+  }
 }

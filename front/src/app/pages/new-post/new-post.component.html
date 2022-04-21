@@ -1,5 +1,5 @@
 <mat-card>
-  <h2>Добавить новый пост:</h2>
+  <h2>Добавить новое занятие:</h2>
   <mat-card-content>
     <div class="error" *ngIf="error | async">
       {{ error | async }}
@@ -10,6 +10,9 @@
         <mat-label>Название</mat-label>
         <input name="title" required matInput formControlName="title" id="title"/>
       </mat-form-field>
+      <mat-error *ngIf="fieldHasError('title', 'required')" class="invalid-form-text">
+        Название обязательно!!!
+      </mat-error>
 
       <div class="group clockBlock" formArrayName="time">
         <button name="clockBtn" type="button" mat-raised-button (click)="addStep()" [disabled]="isAdd">Добавить время</button>

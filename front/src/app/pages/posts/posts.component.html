@@ -3,21 +3,20 @@
 </div>
 <div class="error" *ngIf="error | async"> {{error | async}}</div>
 <mat-progress-spinner *ngIf="loading | async else postsArea" mode="indeterminate"></mat-progress-spinner>
+
 <ng-template #postsArea>
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.lt-lg="33%" fxFlex="25%" *ngFor="let post of posts | async">
-      <mat-card>
-        <mat-card-title>
-          <img [src]="post.content | image" [alt]="'Photo of ' + post.content" mat-card-image>
-        </mat-card-title>
+      <mat-card class="card">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+          <mat-card-title class="card__title">{{ post.user.displayName }}</mat-card-title>
+          <mat-divider inset></mat-divider>
+        </mat-card-header>
+        <img class="card__image" [src]="post.content | image" [alt]="'Photo of ' + post.title">
         <mat-card-content>
-          <p>{{ post.content }}</p>
+          <mat-card-subtitle class="card__subtitle">{{ post.title }}</mat-card-subtitle>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 </ng-template>
-
-
-
-

@@ -21,8 +21,8 @@ export class PostsService {
           return new Post(
             postData._id,
             postData.user,
-            postData.content,
             postData.title,
+            postData.content,
             postData.datetime,
             postData.time
           );
