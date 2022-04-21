@@ -22,8 +22,18 @@ const upload = multer({storage});
 router.get('/', async (req, res, next) => {
   try {
     const query = {};
-    if (req.query.user){
-      query.user = {_id: req.query.user}
+    const andQuery = [];
+
+    if (req.query.user) {
+      andQuery.push({user: req.query.user});
+    }
+
+    if (req.query.title) {
+      andQuery.push({title: req.query.title});
+    }
+
+    if (andQuery.length) {
+      query['$and'] = andQuery;
     }
 
     const posts = await Post.find(query).populate('user', 'displayName');

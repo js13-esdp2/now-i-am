@@ -13,7 +13,7 @@ import {
   fetchOneOfPostSuccess,
   fetchPostsFailure,
   fetchPostsRequest,
-  fetchPostsSuccess,
+  fetchPostsSuccess, fetchTitlePostsFailure, fetchTitlePostsRequest, fetchTitlePostsSuccess,
   fetchUserPostFailure,
   fetchUserPostRequest,
   fetchUserPostSuccess,
@@ -35,6 +35,16 @@ export class PostsEffects {
     mergeMap(() => this.postsService.getPosts('').pipe(
       map(posts => fetchPostsSuccess({posts})),
       catchError(() => of(fetchPostsFailure({
+        error: 'Что-то пошло не так'
+      })))
+    ))
+  ));
+
+  fetchTitlePosts = createEffect(() => this.actions.pipe(
+    ofType(fetchTitlePostsRequest),
+    mergeMap(({ title }) => this.postsService.getPosts('', title).pipe(
+      map(posts => fetchTitlePostsSuccess({posts})),
+      catchError(() => of(fetchTitlePostsFailure({
         error: 'Что-то пошло не так'
       })))
     ))

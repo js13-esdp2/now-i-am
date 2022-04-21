@@ -23,4 +23,6 @@ export class SearchEffects {
       map((users) => searchUsersSuccess({users})),
       this.helpersService.catchServerError(searchUsersFailure)
     )),
-  ))};
+  ));
+
+}

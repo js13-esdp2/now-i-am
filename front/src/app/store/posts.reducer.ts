@@ -9,7 +9,7 @@ import {
   fetchOneOfPostSuccess,
   fetchPostsFailure,
   fetchPostsRequest,
-  fetchPostsSuccess,
+  fetchPostsSuccess, fetchTitlePostsFailure, fetchTitlePostsRequest, fetchTitlePostsSuccess,
   fetchUserPostFailure,
   fetchUserPostRequest,
   fetchUserPostSuccess,
@@ -30,6 +30,10 @@ export const postsReducer = createReducer(
   on(fetchPostsRequest, state => ({...state, fetchLoading: true})),
   on(fetchPostsSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
   on(fetchPostsFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
+
+  on(fetchTitlePostsRequest, state => ({...state, fetchLoading: true})),
+  on(fetchTitlePostsSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+  on(fetchTitlePostsFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 
   on(fetchOneOfPostRequest, state => ({...state, fetchLoading: true})),
   on(fetchOneOfPostSuccess, (state, {post}) => ({...state, fetchLoading: false, post})),
