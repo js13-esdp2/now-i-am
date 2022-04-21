@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { nanoid } = require('nanoid');
+const axios = require("axios");
+const path = require("path");
+const config = require("../config");
+const fs = require("fs");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -100,6 +104,16 @@ UserSchema.set('toJSON', {
 
 UserSchema.methods.generateToken = function() {
     this.token = nanoid();
+};
+
+UserSchema.methods.generatePhoto = async function() {
+  const photo = await axios.get('https://picsum.photos/300/300', { responseType: 'stream' });
+  const photoName = nanoid() + '.jpg';
+
+  const photoPath = path.resolve(config.uploadPath, photoName);
+  photo.data.pipe(fs.createWriteStream(photoPath));
+
+  this.photo = photoName;
 };
 
 UserSchema.methods.checkPassword = function(password) {

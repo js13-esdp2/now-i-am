@@ -27,13 +27,16 @@ router.post('/', async (req, res, next) => {
         const user = new User({
             email: req.body.email,
             password: req.body.password,
-            displayName: req.body.displayName
+            displayName: req.body.displayName,
         });
 
-        user.generateToken();
-        await user.save();
+      await user.generatePhoto();
 
-        return res.send(user);
+      user.generateToken();
+
+      await user.save();
+
+      return res.send(user);
     } catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
             return res.status(400).send(e);
