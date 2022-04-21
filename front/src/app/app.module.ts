@@ -26,7 +26,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserTypeDirective } from './directives/user-type.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './pages/home/home.component';
-import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule
+} from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { PostsComponent } from './pages/posts/posts.component';
 import { NewPostComponent } from './pages/new-post/new-post.component';
@@ -46,9 +51,13 @@ const socialConfig: SocialAuthServiceConfig = {
   providers: [
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.fbAppId, {
+      provider: new FacebookLoginProvider(environment.facebookAppId, {
         scope: 'email,public_profile'
       })
+    },
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider(environment.googleAppId)
     }
   ]
 }

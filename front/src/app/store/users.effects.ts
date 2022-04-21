@@ -3,7 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UsersService } from '../services/users.service';
 import {
   editUserFailure,
-  editUserRequest, editUserSuccess,
+  editUserRequest,
+  editUserSuccess,
+  loginFbFailure,
+  loginFbRequest,
+  loginFbSuccess,
+  loginGoogleFailure,
+  loginGoogleRequest,
+  loginGoogleSuccess,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
@@ -65,6 +72,30 @@ export class UsersEffects {
       this.helpersService.catchServerError(loginUserFailure),
     )),
   ));
+
+  loginUserFb = createEffect(() => this.actions.pipe(
+    ofType(loginFbRequest),
+    mergeMap(({userData}) => this.usersService.loginFb(userData).pipe(
+      map(user => loginFbSuccess({user})),
+      tap(() => {
+        this.helpersService.openSnackBar('Вход успешно выполнен c Facebook!');
+        void this.router.navigate(['/']);
+      }),
+      this.helpersService.catchServerError(loginFbFailure)
+    ))
+  ))
+
+  loginUserGoogle = createEffect(() => this.actions.pipe(
+    ofType(loginGoogleRequest),
+    mergeMap(({userData}) => this.usersService.loginGoogle(userData).pipe(
+      map(user => loginGoogleSuccess({user})),
+      tap(() => {
+        this.helpersService.openSnackBar('Вход успешно выполнен c Google!');
+        void this.router.navigate(['/']);
+      }),
+      this.helpersService.catchServerError(loginGoogleFailure)
+    ))
+  ))
 
   logoutUser = createEffect(() => this.actions.pipe(
     ofType(logoutUserRequest),

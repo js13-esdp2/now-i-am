@@ -34,7 +34,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    avatar: {
+  photo: {
         type: String,
         validate: {
             validator: async value => {
@@ -58,9 +58,7 @@ const UserSchema = new Schema({
         }
     },
     facebookId: String,
-    photo: {
-        type: String
-    },
+    googleId: String,
     age: {
         type: Number
     },

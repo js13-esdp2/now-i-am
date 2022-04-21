@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { LoginError, User } from '../../models/user.model';
+import { LoginError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
-import { loginUserRequest, loginUserSuccess } from '../../store/users.actions';
-import { FacebookLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { loginFbRequest, loginGoogleRequest, loginUserRequest } from '../../store/users.actions';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +18,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading: Observable<boolean>;
   error: Observable<null | LoginError>;
   authStateSub!: Subscription;
+  loginFb = false;
+  loginGoogle = false;
 
   constructor(
     private store: Store<AppState>,
     private auth: SocialAuthService,
-    private http: HttpClient,
   ) {
     this.isLoading = store.select((state) => state.users.loginLoading);
     this.error = store.select((state) => state.users.loginError);
@@ -32,15 +31,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authStateSub = this.auth.authState.subscribe((user: SocialUser) => {
-      this.http.post<User>(environment.apiUrl + '/users/facebookLogin', {
-        authToken: user.authToken,
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        photoUrl: user.photoUrl
-      }).subscribe(user => {
-        this.store.dispatch(loginUserSuccess({user}));
-      });
+      if (this.loginGoogle) {
+        this.store.dispatch(loginGoogleRequest({userData: user}))
+      }
+      if (this.loginFb) {
+        this.store.dispatch(loginFbRequest({userData: user}));
+      }
     });
   }
 
@@ -54,7 +50,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   fbLogin() {
+    this.loginFb = true;
     void this.auth.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  googleLogin() {
+    this.loginGoogle = true;
+    void this.auth.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   ngOnDestroy() {
