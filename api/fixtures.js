@@ -44,8 +44,8 @@ const run = async () => {
 
     await Post.create({
         user: anna,
-        title: 'test 1',
-        content: 'drinkingcoffee.jpeg',
+        title: 'Пью кофе',
+        content: 'drinkingcoffee.jpg',
         datetime: new Date().toISOString(),
         time: {
           hours: 12,
@@ -53,8 +53,8 @@ const run = async () => {
         },
     }, {
         user: john,
-        title: 'test 2',
-        content: 'drinkingtea.jpeg',
+        title: 'Пью чай',
+        content: 'drinkingtea.jpg',
         datetime: new Date().toISOString(),
       time: {
         hours: 15,
@@ -62,15 +62,41 @@ const run = async () => {
       },
     }, {
         user: vasiliy,
-        title: 'test 3',
-        content: 'enjoycola.jpg',
+        title: 'Пью коллу',
+        content: 'enjoycola.jpeg',
         datetime: new Date().toISOString(),
       time: {
         hours: 12,
-        minutes: 20,
+        minutes: 10,
       },
-    });
-
+    }, {
+      user: vasiliy,
+      title: 'Пью чай',
+      content: 'drinkingtea.jpg',
+      datetime: new Date().toISOString(),
+      time: {
+        hours: 7,
+        minutes: 10,
+      },
+    }, {
+      user: john,
+      title: 'Пью коллу',
+      content: 'enjoycola.jpeg',
+      datetime: new Date().toISOString(),
+      time: {
+        hours: 15,
+        minutes: 10,
+      },
+    }, {
+      user: anna,
+      title: 'Пью коллу',
+      content: 'enjoycola.jpeg',
+      datetime: new Date().toISOString(),
+      time: {
+        hours: 5,
+        minutes: 0,
+      },
+    }, );
 
     await mongoose.connection.close();
 };

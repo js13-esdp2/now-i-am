@@ -3,3 +3,6 @@ node_modules
 db.json
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/drinkingcoffee.jpg
+!public/uploads/drinkingtea.jpg
+!public/uploads/enjoycola.jpeg

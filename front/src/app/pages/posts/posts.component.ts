@@ -32,6 +32,5 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchPostsRequest());
-
   }
 }
