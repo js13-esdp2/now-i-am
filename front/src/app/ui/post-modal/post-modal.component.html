@@ -1,0 +1,21 @@
+<div mat-dialog-content
+     fxLayout="column"
+     fxLayoutAlign="center"
+     class="post-block"
+>
+    <button type="button"
+            class="post-block__close"
+            (click)="onClose()"
+    >
+        <mat-icon class="post-block__close__icon">close</mat-icon>
+    </button>
+    <img [src]="apiUrl + '/uploads/' + post.content" [alt]="post.title" class="post-block__image"/>
+    <mat-card-header fxLayoutAlign="center" fxLayoutGap="10px">
+        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-subtitle>{{ post.user.displayName }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+        <button type="button" mat-raised-button color="primary" disabled="false">Профиль</button>
+        <button type="button" mat-raised-button color="accent" disabled="false">Чат</button>
+    </mat-card-actions>
+</div>

@@ -63,6 +63,7 @@ const socialConfig: SocialAuthServiceConfig = {
 }
 import { SearchComponent } from './pages/search/search.component';
 import { ImagePipes } from './pipes/image.pipe';
+import { PostModalComponent } from './ui/post-modal/post-modal.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { ImagePipes } from './pipes/image.pipe';
     ProfileComponent,
     EditProfileComponent,
     ModalWindowComponent,
-    WebcamComponent
+    WebcamComponent,
+    PostModalComponent
   ],
   imports: [
     BrowserModule,
