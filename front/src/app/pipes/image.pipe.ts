@@ -9,6 +9,6 @@ export class ImagePipes implements  PipeTransform{
     if(value){
     return environment.apiUrl + '/uploads/' + value;
     }
-    return '/assets/images/no_image_available.jpg'
+    return '/assets/images/pipe-image.jpg'
   }
 }
