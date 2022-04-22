@@ -58,7 +58,13 @@
              name="age"
              matInput
              ngModel
+             min="1"
+             max="90"
+             #age="ngModel"
       />
+      <mat-error *ngIf="age.invalid">
+        Выберете возраст в диапозоне от 1 до 90
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Пол</mat-label>
