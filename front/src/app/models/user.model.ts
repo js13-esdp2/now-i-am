@@ -10,6 +10,7 @@ export interface User {
   city?: string;
   aboutMe?: string;
   isPrivate?: boolean;
+  role: string;
 }
 
 export interface RegisterUserData {

@@ -9,6 +9,7 @@ import { NewPostComponent } from './pages/new-post/new-post.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { RoleGuardService } from './services/role-guard.service';
 
 const routes: Routes = [
   {path: 'www', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -21,7 +22,7 @@ const routes: Routes = [
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'search', component: SearchComponent},
+  {path: 'search', component: SearchComponent, canActivate: [RoleGuardService], data: {roles: ['user']}},
   {path: 'register', component: RegisterComponent},
   {path: 'new-post', component: NewPostComponent},
   {path: 'posts', component: PostsComponent},

@@ -20,7 +20,8 @@ const run = async () => {
     token: nanoid(),
     age: 26,
     sex: 'female',
-    country: 'Австралия'
+    country: 'Австралия',
+    role: 'user',
   }, {
     email: 'john@gmail.com',
     password: '123',
@@ -30,7 +31,8 @@ const run = async () => {
     sex: 'male',
     country: 'Кыргызстан',
     city: 'Ош',
-    isPrivate: true
+    isPrivate: true,
+    role: 'user',
   }, {
     email: 'vasiliy@pupkin.com',
     password: '123',
@@ -39,7 +41,8 @@ const run = async () => {
     age: 35,
     sex: 'male',
     country: 'Кыргызстан',
-    city: 'Кант'
+    city: 'Кант',
+    role: 'user',
   });
 
   await Post.create({
