@@ -6,7 +6,7 @@ import { User } from '../../models/user.model';
 import { logoutUserRequest } from '../../store/users.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { MatSidenav } from '@angular/material/sidenav';
+import { environment as env } from '../../../environments/environment';
 
 @Component({
   selector: 'app-layout',
@@ -30,6 +30,7 @@ export class LayoutComponent implements OnInit{
   changeOnMenuReg = false;
   mobBreakpoint = false;
   user: Observable<null | User>;
+  apiUrl = env.apiUrl;
 
   constructor(
     private breakpointObserver: BreakpointObserver,

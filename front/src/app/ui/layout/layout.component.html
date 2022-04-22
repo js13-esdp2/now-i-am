@@ -22,7 +22,7 @@
       </div>
       <nav *appUserType="'user' else anonMenu">
         <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon class="icon-user">account_circle</mat-icon>
+          <img class="user-avatar" [src]="apiUrl + '/uploads/' +  (user | async)?.photo" alt="Фото пользователя">
         </button>
         <mat-menu #menu="matMenu" class="user-menu">
           <button mat-menu-item [disabled]="true">{{ (user | async)?.displayName }}</button>
