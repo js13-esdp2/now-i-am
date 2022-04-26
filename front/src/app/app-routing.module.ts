@@ -22,7 +22,7 @@ const routes: Routes = [
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'search', component: SearchComponent, canActivate: [RoleGuardService], data: {roles: ['user']}},
+  {path: 'search', component: SearchComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'new-post', component: NewPostComponent},
   {path: 'posts', component: PostsComponent},
