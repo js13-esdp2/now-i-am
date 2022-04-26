@@ -10,8 +10,7 @@ export class SearchService {
 
   constructor(private http: HttpClient) {}
 
-
   searchUsers(searchData: string) {
-    return this.http.post<User[]>(env.apiUrl + '/search', {searchData: searchData});
+  return  this.http.post<User[]>(env.apiUrl + '/search', {searchData: searchData});
   }
 }

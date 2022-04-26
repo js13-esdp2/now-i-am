@@ -13,27 +13,12 @@
           Название обязательно!!!
         </mat-error>
       </mat-form-field>
-
-<!--      <div class="group clockBlock" formArrayName="time">-->
-<!--        <button name="clockBtn" type="button" mat-raised-button (click)="addStep()" [disabled]="isAdd">Добавить время-->
-<!--        </button>-->
-
-<!--        <div *ngFor="let t of getTime(); let i = index">-->
-<!--          <div [formGroupName]="i">-->
-<!--            <mat-form-field appearance="outline" class="hours-input">-->
-<!--              <mat-label>Часы</mat-label>-->
-<!--              <input type="time" name="hours" matInput formControlName="hours" id="hours"/>-->
-<!--            </mat-form-field>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <div class="time-block">
         <p class="time-block__title">Таймер</p>
         <div class="select-block">
           <mat-form-field appearance="outline">
             <mat-label>Часы</mat-label>
-            <mat-select placeholder="0" value="0" formControlName="hours" id="hours">
+            <mat-select placeholder="0" min="0" max="24" value="0" formControlName="hours" id="hours">
               <mat-option *ngFor="let hours of arrHours" [value]="hours">{{ hours }}</mat-option>
             </mat-select>
           </mat-form-field>

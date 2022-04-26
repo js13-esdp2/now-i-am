@@ -76,7 +76,7 @@ export class PostsEffects {
       map(() => createPostSuccess()),
       tap(() => {
         this.helpers.openSnackBar('Успешно создан пост')
-        this.router.navigate(['/'])
+        void this.router.navigate(['/statistic'], { queryParams: { title: postData.title }})
       }),
       catchError(() => of(createPostFailure({error: 'Неверные данные'})))
     ))

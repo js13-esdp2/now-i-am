@@ -18,12 +18,10 @@ export class PostsComponent implements OnInit {
   loading: Observable<boolean>;
   error: Observable<null | string>;
   user: Observable<User | null>;
-  newUser!: User | null;
+
 
   constructor(private store: Store<AppState>,
-              private route: ActivatedRoute,
-              private postsService: PostsService,
-              ) {
+  ) {
     this.posts = store.select(state => state.posts.posts);
     this.loading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);

@@ -10,6 +10,7 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { RoleGuardService } from './services/role-guard.service';
+import { StatisticComponent } from './pages/statistic/statistic.component';
 
 const routes: Routes = [
   {path: 'www', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'new-post', component: NewPostComponent},
   {path: 'posts', component: PostsComponent},
+  {path: 'statistic', component: StatisticComponent},
 ];
 
 @NgModule({
