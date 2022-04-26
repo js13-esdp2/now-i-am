@@ -81,7 +81,7 @@ export class NewPostComponent implements OnInit {
       postData.content = this.imageData64.imageAsBase64
     }
 
-    this.store.dispatch(createPostRequest({postData}))
+    this.store.dispatch(createPostRequest({postData}));
   }
 
   addStep() {

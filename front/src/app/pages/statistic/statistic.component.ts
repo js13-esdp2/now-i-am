@@ -20,6 +20,17 @@ export class StatisticComponent implements OnInit {
   isSearched = false;
   showList: Boolean = false;
 
+  zoom = 12
+  center!: google.maps.LatLngLiteral
+  options: google.maps.MapOptions = {
+    zoomControl: false,
+    scrollwheel: false,
+    disableDoubleClickZoom: true,
+    mapTypeId: 'hybrid',
+    maxZoom: 30,
+    minZoom: 8,
+  }
+
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
@@ -37,6 +48,12 @@ export class StatisticComponent implements OnInit {
       this.store.dispatch(fetchTitlePostsRequest({ title: title }));
     });
 
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      }
+    })
   }
 
   openPost(post: Post): void {
@@ -48,4 +65,13 @@ export class StatisticComponent implements OnInit {
   openList() {
     this.showList = !this.showList;
   }
+
+  zoomIn() {
+    if (this.zoom < this.options.maxZoom!) this.zoom++
+  }
+
+  zoomOut() {
+    if (this.zoom > this.options.minZoom!) this.zoom--
+  }
+
 }
