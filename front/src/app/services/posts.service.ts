@@ -11,6 +11,8 @@ import { WebcamImage } from 'ngx-webcam';
 })
 export class PostsService {
   public imageData64 = new Subject<WebcamImage>();
+  post!: Post;
+  postModalChange = new Subject<Post>();
 
   constructor(private http: HttpClient) { }
 

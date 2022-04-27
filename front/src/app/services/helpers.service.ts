@@ -19,7 +19,7 @@ export class HelpersService {
     }
 
     if (!config || !config.duration) {
-      config = {...config, duration: 3000};
+      config = {...config, duration: 3000, panelClass: ['mat-toolbar', 'mat-primary']};
     }
 
     return this.snackBar.open(message, action, config);

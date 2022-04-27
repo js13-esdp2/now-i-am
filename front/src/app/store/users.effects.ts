@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 import { HelpersService } from '../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
+import { onPostModalDataChange } from './posts.actions';
 
 @Injectable()
 export class UsersEffects {
@@ -35,7 +36,8 @@ export class UsersEffects {
     private store: Store<AppState>,
     private usersService: UsersService,
     private helpersService: HelpersService,
-  ) {}
+  ) {
+  }
 
   registerUser = createEffect(() => this.actions.pipe(
     ofType(registerUserRequest),
@@ -43,7 +45,7 @@ export class UsersEffects {
       map((user) => registerUserSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вы успешно зарегистрировались!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/search']);
       }),
       this.helpersService.catchServerError(registerUserFailure)
     )),
@@ -67,7 +69,7 @@ export class UsersEffects {
       map((user) => loginUserSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/search']);
       }),
       this.helpersService.catchServerError(loginUserFailure),
     )),
@@ -79,11 +81,11 @@ export class UsersEffects {
       map(user => loginFbSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен c Facebook!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/search']);
       }),
       this.helpersService.catchServerError(loginFbFailure)
     ))
-  ))
+  ));
 
   loginUserGoogle = createEffect(() => this.actions.pipe(
     ofType(loginGoogleRequest),
@@ -91,11 +93,11 @@ export class UsersEffects {
       map(user => loginGoogleSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен c Google!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/search']);
       }),
       this.helpersService.catchServerError(loginGoogleFailure)
     ))
-  ))
+  ));
 
   logoutUser = createEffect(() => this.actions.pipe(
     ofType(logoutUserRequest),
@@ -103,9 +105,9 @@ export class UsersEffects {
       map(() => logoutUser()),
       tap(() => {
         void this.router.navigate(['/login']);
+        this.store.dispatch(onPostModalDataChange({post: null}));
         this.helpersService.openSnackBar('Выход выполнен!');
       }),
     )),
   ));
-
 }

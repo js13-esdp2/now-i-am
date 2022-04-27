@@ -23,3 +23,5 @@ export const createPostFailure = createAction('[Posts] Create Failure', props<{e
 
 export const removePostRequest = createAction('[Posts] Remove Request', props<{id: string}>());
 export const removePostSuccess = createAction('[Posts] Remove Success', props<{posts: Post[]}>());
+
+export const onPostModalDataChange = createAction('[Posts] Change Post Modal Data', props<{post: null | Post}>());

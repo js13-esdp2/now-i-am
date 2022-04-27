@@ -14,6 +14,7 @@ export type UsersState = {
 
 export type PostState = {
   post: null | Post,
+  postModalData: null | Post,
   posts: Post[],
   fetchLoading: boolean,
   fetchError: null | string,

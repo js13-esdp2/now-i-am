@@ -9,16 +9,21 @@ import {
   fetchOneOfPostSuccess,
   fetchPostsFailure,
   fetchPostsRequest,
-  fetchPostsSuccess, fetchTitlePostsFailure, fetchTitlePostsRequest, fetchTitlePostsSuccess,
+  fetchPostsSuccess,
+  fetchTitlePostsFailure,
+  fetchTitlePostsRequest,
+  fetchTitlePostsSuccess,
   fetchUserPostFailure,
   fetchUserPostRequest,
   fetchUserPostSuccess,
+  onPostModalDataChange,
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
 
 const initialState: PostState = {
   post: null,
+  postModalData: null,
   posts: [],
   fetchLoading: false,
   fetchError: null,
@@ -49,4 +54,6 @@ export const postsReducer = createReducer(
 
   on(removePostRequest, state => ({...state, fetchLoading: true})),
   on(removePostSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+
+  on(onPostModalDataChange, (state, {post}) => ({...state, postModalData: post})),
 );

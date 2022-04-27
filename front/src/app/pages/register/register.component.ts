@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { loginFbRequest, loginGoogleRequest, registerUserRequest } from '../../store/users.actions';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private auth: SocialAuthService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.isLoading = store.select(state => state.users.registerLoading);
     this.error = store.select(state => state.users.registerError);
