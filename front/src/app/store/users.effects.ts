@@ -105,7 +105,7 @@ export class UsersEffects {
       map(() => logoutUser()),
       tap(() => {
         void this.router.navigate(['/login']);
-        this.store.dispatch(onPostModalDataChange({post: null}));
+        this.store.dispatch(onPostModalDataChange({postModalData: {post: null, searchTitle: ''}}));
         this.helpersService.openSnackBar('Выход выполнен!');
       }),
     )),

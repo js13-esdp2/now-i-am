@@ -31,7 +31,8 @@ export class PostModalComponent {
   onClose(): void {
     this.dialogRef.close();
     if (this.user) {
-      this.store.dispatch(onPostModalDataChange({post: null}));
+      const postModalData = {post: null, searchTitle: ''};
+      this.store.dispatch(onPostModalDataChange({postModalData}));
     }
   }
 }

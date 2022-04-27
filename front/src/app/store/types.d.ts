@@ -1,5 +1,5 @@
 import { EditUserError, LoginError, RegisterError, User } from '../models/user.model';
-import { Post } from '../models/post.model';
+import { Post, PostModalData } from '../models/post.model';
 
 
 export type UsersState = {
@@ -14,7 +14,7 @@ export type UsersState = {
 
 export type PostState = {
   post: null | Post,
-  postModalData: null | Post,
+  postModalData: PostModalData,
   posts: Post[],
   fetchLoading: boolean,
   fetchError: null | string,

@@ -6,7 +6,7 @@ import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
 import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts.actions';
-import { Post } from '../../models/post.model';
+import { Post, PostModalData } from '../../models/post.model';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
@@ -16,9 +16,9 @@ import { PostsService } from '../../services/posts.service';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
-  postObservable!: Observable<null | Post>;
+  postObservable!: Observable<PostModalData>;
   post: null | Post = null;
-  postModalChangeSubscription!: Subscription;
+  postModalDataChangeSubscription!: Subscription;
 
   posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
@@ -38,13 +38,20 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.post = null;
-    this.postModalChangeSubscription = this.postObservable.subscribe((post: null | Post) => {
-      if (post && this.post !== post) {
-        this.post = post;
+    this.postModalDataChangeSubscription = this.postObservable.subscribe((postModalData: PostModalData) => {
+      if (postModalData.post && this.post !== postModalData.post) {
+        const post = postModalData.post
+        this.post = postModalData.post;
         this.dialog.closeAll();
         this.dialog.open(PostModalComponent, {
           data: {post}
         });
+        this.isSearched = true;
+        setTimeout(() => {
+          this.form.setValue({
+            search: postModalData.searchTitle,
+          })
+        },);
       }
     });
   }
@@ -59,10 +66,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.dialog.open(PostModalComponent, {
       data: {post}
     });
-    this.store.dispatch(onPostModalDataChange({post}));
+    const postModalData = {post: post, searchTitle: (this.form.value).search}
+    this.store.dispatch(onPostModalDataChange({postModalData}));
   }
 
   ngOnDestroy() {
-    this.postModalChangeSubscription.unsubscribe();
+    this.postModalDataChangeSubscription.unsubscribe();
   }
 }

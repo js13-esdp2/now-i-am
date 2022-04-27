@@ -1,4 +1,4 @@
-export class Post{
+export class Post {
   constructor(
     public _id: string,
     public user: {
@@ -12,11 +12,18 @@ export class Post{
       hours: number,
       minutes: number
     },
-  ) {}
+  ) {
+  }
+}
+
+export interface PostModalData {
+  post: null | Post,
+  searchTitle: string,
 }
 
 export interface PostData {
   [key: string]: any,
+
   user: string,
   title: string,
   content: File | string | null,

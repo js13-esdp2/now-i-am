@@ -23,7 +23,10 @@ import {
 
 const initialState: PostState = {
   post: null,
-  postModalData: null,
+  postModalData: {
+    post: null,
+    searchTitle: '',
+  },
   posts: [],
   fetchLoading: false,
   fetchError: null,
@@ -55,5 +58,5 @@ export const postsReducer = createReducer(
   on(removePostRequest, state => ({...state, fetchLoading: true})),
   on(removePostSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
 
-  on(onPostModalDataChange, (state, {post}) => ({...state, postModalData: post})),
+  on(onPostModalDataChange, (state, {postModalData}) => ({...state, postModalData})),
 );
