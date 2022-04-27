@@ -1,1 +1,30 @@
-<app-posts></app-posts>
+<app-centered-card title="Опубликовать свое занятие">
+  <form (ngSubmit)="onSubmit()"
+        #f="ngForm"
+        class="form"
+        fxLayout="column"
+  >
+    <mat-form-field appearance="outline" class="form__searchInput">
+      <mat-label>Название занятия</mat-label>
+      <input type="text"
+             name="search"
+             matInput
+             required
+             ngModel
+             #search="ngModel"
+      />
+      <mat-error *ngIf="search.touched && search.hasError('required')">
+        Поле обязательное для ввода
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button
+            class="form__searchBtn"
+            color="primary"
+            [disabled]="f.invalid || (isLoading)"
+    >
+      <app-loader [isLoading]="isLoading" class="form__search-slider" size="sm">
+        <span>Опубликовать</span>
+      </app-loader>
+    </button>
+  </form>
+</app-centered-card>

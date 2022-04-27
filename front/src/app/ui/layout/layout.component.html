@@ -18,7 +18,10 @@
           <span class="material-icons icon-menu" *ngIf="!mobBreakpoint">{{isOpen ? 'menu' : 'close'}}</span>
           <span class="material-icons icon-menu" *ngIf="mobBreakpoint">menu</span>
         </button>
-        <a class="logo" routerLink="/">Now I am</a>
+        <a class="logo" routerLink="/new-post" *appUserType="'user' else changeWay">Now I am</a>
+        <ng-template #changeWay>
+          <a class="logo" routerLink="/">Now I am</a>
+        </ng-template>
       </div>
       <nav *appUserType="'user' else anonMenu">
         <button mat-icon-button [matMenuTriggerFor]="menu">
