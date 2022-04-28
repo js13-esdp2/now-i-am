@@ -1,7 +1,5 @@
 const path = require('path');
-
 const rootPath = __dirname;
-
 let dbUrl = 'mongodb://localhost/now-i-am';
 let port = 8000;
 
@@ -9,7 +7,6 @@ if (process.env.NODE_ENV === 'test') {
     dbUrl = 'mongodb://localhost/now-i-am-test';
     port = 8010;
 }
-
 
 module.exports = {
     corsWhiteList: [

@@ -43,7 +43,7 @@ export class StatisticComponent implements OnInit {
       this.store.dispatch(fetchTitlePostsRequest({title: title}));
     });
     this.mapService.initMap();
-    this.getLocation()
+    this.getLocation();
   }
 
   openPost(post: Post): void {
