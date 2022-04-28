@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { fetchOneOfPostRequest, likePostRequest } from '../../store/posts.actions';
 import { User } from '../../models/user.model';
 import { onPostModalDataChange } from '../../store/posts.actions';
+import { addFriendRequest } from '../../store/users.actions';
 
 @Component({
   selector: 'app-post-modal',
@@ -19,6 +20,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   post: Observable<null | Post>;
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
+  addFriendLoading: Observable<boolean>;
 
   apiUrl = env.apiUrl;
   userData: null | User = null;
@@ -39,6 +41,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.post = store.select((state) => state.posts.post);
     this.postLoading = store.select((state) => state.posts.fetchLoading)
     this.likeLoading = store.select((state) => state.posts.likeLoading);
+    this.addFriendLoading = store.select((state) => state.users.addFriendLoading);
 
     store.dispatch(fetchOneOfPostRequest({ id: this.postId }));
   }
@@ -62,8 +65,12 @@ export class PostModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  authorIsMe(): boolean {
+    return this.postData.user._id === this.userData?._id;
+  }
+
   checkUserLike(): boolean {
-    return !!this.postData && !!this.postData.likes.find((like) => like.user === this.userData?._id);
+    return !!this.postData.likes.find((like) => like.user === this.userData?._id);
   }
 
   likePost(): void {
@@ -72,6 +79,14 @@ export class PostModalComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(likePostRequest({ id: this.postId }));
+  }
+
+  checkUserFriend(): boolean {
+    return !!this.userData?.friendRequests.find((request) => request.user === this.postData.user._id);
+  }
+
+  addFriend(): void {
+    this.store.dispatch(addFriendRequest({ userId: this.postData.user._id }));
   }
 
   ngOnDestroy(): void {

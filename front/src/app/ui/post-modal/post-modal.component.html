@@ -29,7 +29,6 @@
       </app-loader>
     </button>
     <a routerLink="/"
-       type="button"
        mat-raised-button
        color="primary"
        title="Показать на карте"
@@ -38,15 +37,27 @@
       <mat-icon>location_on</mat-icon>
     </a>
     <button type="button" mat-raised-button color="primary">Профиль</button>
+    <button type="button"
+            mat-raised-button
+            color="accent"
+            title="Добавить в друзья"
+            *ngIf="userData && !authorIsMe()"
+            [disabled]="checkUserFriend() || (addFriendLoading | async)"
+            (click)="addFriend()"
+    >
+      <app-loader [isLoading]="addFriendLoading | async">
+        <mat-icon>person_add_alt</mat-icon>
+      </app-loader>
+    </button>
     <button type="button" mat-raised-button color="accent" disabled="true">Чат</button>
   </mat-card-actions>
   <ng-template #anonLink>
-      <a class="post-block__link"
-         style="text-align: center; display: block;"
-         (click)="onClose()"
-         routerLink="/register"
-      >
-        Хотите поговорить с {{ postData.user.displayName }}? Тогда пройдите регистрацию
-      </a>
+    <a class="post-block__link"
+       style="text-align: center; display: block;"
+       (click)="onClose()"
+       routerLink="/register"
+    >
+      Хотите поговорить с {{ postData.user.displayName }}? Тогда пройдите регистрацию
+    </a>
   </ng-template>
 </div>

@@ -48,7 +48,7 @@ export class StatisticComponent implements OnInit {
 
   openPost(post: Post): void {
     this.dialog.open(PostModalComponent, {
-      data: {post}
+      data: { postId: post._id }
     });
   }
 
