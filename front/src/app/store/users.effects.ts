@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UsersService } from '../services/users.service';
 import {
+  addFriendFailure,
+  addFriendRequest,
+  addFriendSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
@@ -110,4 +113,15 @@ export class UsersEffects {
       }),
     )),
   ));
+
+  addFriend = createEffect(() => this.actions.pipe(
+    ofType(addFriendRequest),
+    mergeMap(({userId}) => this.usersService.addFriend(userId).pipe(
+      map((user) => addFriendSuccess({user})),
+      tap(() => {
+        this.helpersService.openSnackBar('Запрос на дружбу успешно отправлен!');
+      }),
+      this.helpersService.catchServerError(addFriendFailure)
+    ))
+  ))
 }

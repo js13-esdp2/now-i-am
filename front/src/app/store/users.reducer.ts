@@ -1,12 +1,16 @@
 import { UsersState } from './types';
 import { createReducer, on } from '@ngrx/store';
 import {
+  addFriendFailure,
+  addFriendRequest,
+  addFriendSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
   loginFbFailure,
   loginFbRequest,
-  loginFbSuccess, loginGoogleFailure,
+  loginFbSuccess,
+  loginGoogleFailure,
   loginGoogleRequest,
   loginGoogleSuccess,
   loginUserFailure,
@@ -25,7 +29,9 @@ const initialState: UsersState = {
   editLoading: false,
   editError: null,
   loginLoading: false,
-  loginError: null
+  loginError: null,
+  addFriendLoading: false,
+  addFriendError: null,
 };
 
 export const usersReducer = createReducer(
@@ -50,6 +56,9 @@ export const usersReducer = createReducer(
   on(loginGoogleSuccess, (state, {user}) => ({...state, loginLoading: false, user})),
   on(loginGoogleFailure, (state, {error}) => ({...state, loginLoading: false, loginError: error})),
 
-
   on(logoutUser, state => ({...state, user: null})),
+
+  on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),
+  on(addFriendSuccess, (state, {user}) => ({...state, addFriendLoading: false, user})),
+  on(addFriendFailure, (state, {error}) => ({...state, addFriendLoading: false, addFriendError: error})),
 );

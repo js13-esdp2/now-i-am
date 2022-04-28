@@ -75,6 +75,9 @@ export const loginGoogleFailure = createAction(
   props<{error: null | LoginError}>()
 );
 
-
 export const logoutUser = createAction('[Users] Logout');
 export const logoutUserRequest = createAction('[Users] Logout Request');
+
+export const addFriendRequest = createAction('[Users] Add Friend Request', props<{userId: string}>());
+export const addFriendSuccess = createAction('[Users] Add Friend Success', props<{user: User}>());
+export const addFriendFailure = createAction('[Users] Add Friend Failure', props<{error: string}>());

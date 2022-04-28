@@ -10,6 +10,8 @@ export type UsersState = {
   editError: null | EditUserError,
   loginLoading: boolean,
   loginError: null | LoginError,
+  addFriendLoading: boolean,
+  addFriendError: null | string,
 }
 
 export type PostState = {
