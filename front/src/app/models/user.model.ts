@@ -11,6 +11,10 @@ export interface User {
   aboutMe?: string;
   isPrivate?: boolean;
   role: string;
+  friendRequests: {
+    _id: string;
+    user: string;
+  }[]
 }
 
 export interface RegisterUserData {

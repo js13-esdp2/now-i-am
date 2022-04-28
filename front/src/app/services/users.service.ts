@@ -43,4 +43,7 @@ export class UsersService {
     return this.http.delete(env.apiUrl + '/users/sessions');
   }
 
+  addFriend(userId: string) {
+    return this.http.post<User>(env.apiUrl + '/users/addFriend', { userId });
+  }
 }
