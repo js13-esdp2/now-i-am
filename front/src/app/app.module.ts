@@ -65,7 +65,6 @@ import { SearchComponent } from './pages/search/search.component';
 import { ImagePipes } from './pipes/image.pipe';
 import { PostModalComponent } from './ui/post-modal/post-modal.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MapService } from './services/map.service';
 
@@ -117,7 +116,6 @@ import { MapService } from './services/map.service';
     WebcamModule,
     MatDialogModule,
     MatCheckboxModule,
-    GoogleMapsModule,
     MatButtonToggleModule
   ],
   providers: [

@@ -1,4 +1,4 @@
-export class Post {
+export class Post{
   constructor(
     public _id: string,
     public user: {
@@ -12,6 +12,10 @@ export class Post {
       hours: number,
       minutes: number
     },
+    public likes: {
+      _id: string,
+      user: string
+    }[],
   ) {
   }
 }
@@ -42,4 +46,8 @@ export interface ApiPostData {
     hours: number,
     minutes: number
   },
+  likes: {
+    _id: string,
+    user: string
+  }[]
 }

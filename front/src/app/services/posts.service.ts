@@ -30,7 +30,8 @@ export class PostsService {
             postData.title,
             postData.content,
             postData.datetime,
-            postData.time
+            postData.time,
+            postData.likes
           );
         });
       })
@@ -71,7 +72,8 @@ export class PostsService {
             postData.title,
             postData.content,
             postData.datetime,
-            postData.time
+            postData.time,
+            postData.likes
           );
         });
       })
@@ -80,6 +82,22 @@ export class PostsService {
 
   getImageUrl64(imageUrl64: WebcamImage | null) {
     this.imageData64.next(imageUrl64!);
+  }
+
+  likePost(id: string) {
+    return this.http.post<Post>(environment.apiUrl + '/posts/' + id + '/like', {}).pipe(
+      map((postData) => {
+        return new Post(
+          postData._id,
+          postData.user,
+          postData.title,
+          postData.content,
+          postData.datetime,
+          postData.time,
+          postData.likes
+        );
+      }),
+    );
   }
 }
 
