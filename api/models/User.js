@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { nanoid } = require('nanoid');
-const axios = require("axios");
-const path = require("path");
-const config = require("../config");
-const fs = require("fs");
+const axios = require('axios');
+const path = require('path');
+const config = require('../config');
+const fs = require('fs');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -83,6 +83,13 @@ const UserSchema = new Schema({
       default: 'user',
       enum: ['user', 'admin']
     },
+    friendRequests: [{
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      }
+    }]
 });
 
 const SALT_WORK_FACTOR = 10;

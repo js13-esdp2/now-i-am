@@ -114,7 +114,7 @@ router.delete('/sessions', async (req, res, next) => {
         await user.save();
 
         return res.send({message: 'ok'});
-    } catch(e) {
+    } catch (e) {
         return next(e);
     }
 });
@@ -166,7 +166,7 @@ router.post('/facebookLogin', async (req, res, next) => {
         }
 
         res.send(user);
-    } catch(e) {
+    } catch (e) {
       if (e instanceof mongoose.Error.ValidationError) {
         return res.status(400).send(e);
       }
@@ -174,7 +174,6 @@ router.post('/facebookLogin', async (req, res, next) => {
       return next(e);
     }
 });
-
 
 router.post('/googleLogin', async (req, res, next) => {
   try {
@@ -222,12 +221,41 @@ router.post('/googleLogin', async (req, res, next) => {
     }
 
     res.send(user);
-  } catch(e) {
+  } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(e);
     }
 
     return next(e);
+  }
+});
+
+router.post('/addFriend', auth, async (req, res, next) => {
+  try {
+    const friendUser = await User.findById(req.body.userId);
+    if (!friendUser) {
+      return res.status(400).send({ error: 'Пользователь с таким ID отсутствует' });
+    }
+
+    if (friendUser._id === req.user._id) {
+      return res.status(400).send({ error: 'Вы не можете отправить запрос на дружбу себе' });
+    }
+
+    const checkFriend = req.user.friendRequests.find((friend) => friend.user.equals(friendUser._id));
+    if (checkFriend) {
+      return res.send(req.user);
+    }
+
+    req.user.friendRequests.push({ user: friendUser._id });
+    await req.user.save();
+
+    res.send(req.user);
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+
+    next(e);
   }
 });
 
