@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fetchTitlePostsRequest } from '../../store/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-statistic',
@@ -16,22 +17,23 @@ import { MapService } from 'src/app/services/map.service';
 })
 export class StatisticComponent implements OnInit {
 
+  user: Observable<null | User>;
   posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
   isSearched = false;
   showList: Boolean = false;
 
-
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private mapService: MapService
+    private mapService: MapService,
   ) {
     this.posts = store.select(state => state.posts.posts);
     this.isLoading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);
+    this.user = store.select((state) => state.users.user);
   }
 
   ngOnInit(): void {
@@ -40,7 +42,8 @@ export class StatisticComponent implements OnInit {
       this.isSearched = true;
       this.store.dispatch(fetchTitlePostsRequest({title: title}));
     });
-   this.mapService.initMap();
+    this.mapService.initMap();
+    this.getLocation()
   }
 
   openPost(post: Post): void {
@@ -53,5 +56,16 @@ export class StatisticComponent implements OnInit {
     this.showList = !this.showList;
   }
 
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position: any) => {
+        if (position) {
+          this.mapService.createMarker(position.coords.latitude, position.coords.longitude, 'assets/icons/map-marker.svg')
+        }
+      })
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }
 
 }
