@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
 import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts.actions';
 import { Post, PostModalData } from '../../models/post.model';
-import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-search',
@@ -44,7 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.post = postModalData.post;
         this.dialog.closeAll();
         this.dialog.open(PostModalComponent, {
-          data: {post}
+          data: { postId: post._id }
         });
         this.isSearched = true;
         setTimeout(() => {
@@ -64,7 +63,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   openPost(post: Post): void {
     this.dialog.open(PostModalComponent, {
-      data: {post}
+      data: { postId: post._id }
     });
     const postModalData = {post: post, searchTitle: (this.form.value).search}
     this.store.dispatch(onPostModalDataChange({postModalData}));

@@ -1,3 +1,8 @@
+app-loader
+  display: flex
+  justify-content: center
+  align-items: center
+
 .mat-dialog-content
   margin: -24px
   padding: 0
@@ -5,7 +10,7 @@
   text-align: center
 
 .mat-card-header
-  margin: 15px 0
+  margin: 15px 0 0
   text-align: center
 
 .mat-card-title
@@ -21,13 +26,17 @@
 
 .mat-card-actions
   margin: 0
-  padding: 0 15px 15px
+  padding: 16px
   display: flex
+
+  & .mat-raised-button
+    margin: 0 0 0 8px
 
 .mat-card-actions button
   flex: 1 1
 
 .post-block
+  margin: -24px
   position: relative
   text-align: center
 
