@@ -2,9 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { nanoid } = require('nanoid');
+const mongoose = require('mongoose');
+
 const config = require('../config');
 const Post = require("../models/Post");
-
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -46,7 +48,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate('user', 'displayName');
     if (!post) {
       return res.status(404).send({message: 'Нет такого поста'});
     }
@@ -85,6 +87,31 @@ router.post('/', upload.single('content'), async (req, res, next) => {
     return res.send(
       {message: 'Created new post', id: post._id});
   } catch (e) {
+    next(e);
+  }
+});
+
+router.post('/:id/like', auth, async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id).populate('user', 'displayName');
+    if (!post) {
+      return res.status(404).send({ error: 'Page not found' });
+    }
+
+    const checkLike = post.likes.find((like) => like.user.equals(req.user._id));
+    if (checkLike) {
+      return res.send(post);
+    }
+
+    post.likes.push({ user: req.user._id });
+    await post.save();
+
+    res.send(post);
+  } catch(e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return next(e);
+    }
+
     next(e);
   }
 });

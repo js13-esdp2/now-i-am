@@ -25,7 +25,14 @@ const PostSchema = new Schema({
   },
   time: {
     type: TimesSchema,
-  }
+  },
+  likes: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    }
+  }]
 })
 
 const Post = mongoose.model('Post', PostSchema);
