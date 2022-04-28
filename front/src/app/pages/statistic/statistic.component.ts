@@ -7,6 +7,7 @@ import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
 import { fetchTitlePostsRequest } from '../../store/posts.actions';
 import { ActivatedRoute } from '@angular/router';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-statistic',
@@ -14,27 +15,19 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./statistic.component.sass']
 })
 export class StatisticComponent implements OnInit {
+
   posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
   isSearched = false;
   showList: Boolean = false;
 
-  zoom = 12
-  center!: google.maps.LatLngLiteral
-  options: google.maps.MapOptions = {
-    zoomControl: false,
-    scrollwheel: false,
-    disableDoubleClickZoom: true,
-    mapTypeId: 'hybrid',
-    maxZoom: 30,
-    minZoom: 8,
-  }
 
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private mapService: MapService
   ) {
     this.posts = store.select(state => state.posts.posts);
     this.isLoading = store.select(state => state.posts.fetchLoading);
@@ -43,22 +36,16 @@ export class StatisticComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-       const title = params['title'];
+      const title = params['title'];
       this.isSearched = true;
-      this.store.dispatch(fetchTitlePostsRequest({ title: title }));
+      this.store.dispatch(fetchTitlePostsRequest({title: title}));
     });
-
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      }
-    })
+   this.mapService.initMap();
   }
 
   openPost(post: Post): void {
     this.dialog.open(PostModalComponent, {
-      data: { post }
+      data: {post}
     });
   }
 
@@ -66,12 +53,5 @@ export class StatisticComponent implements OnInit {
     this.showList = !this.showList;
   }
 
-  zoomIn() {
-    if (this.zoom < this.options.maxZoom!) this.zoom++
-  }
-
-  zoomOut() {
-    if (this.zoom > this.options.minZoom!) this.zoom--
-  }
 
 }

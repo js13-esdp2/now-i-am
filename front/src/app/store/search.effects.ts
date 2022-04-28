@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
 import { HelpersService } from '../services/helpers.service';
-import { map, mergeMap, tap } from 'rxjs';
+import { map, mergeMap, } from 'rxjs';
 import { searchUsersFailure, searchUsersRequest, searchUsersSuccess } from './search.actions';
 import { SearchService } from '../services/search.service';
 
@@ -21,11 +21,7 @@ export class SearchEffects {
     ofType(searchUsersRequest),
     mergeMap(({searchData}) => this.searchService.searchUsers(searchData).pipe(
       map((users) => searchUsersSuccess({users})),
-      tap( (users) => {
-        console.log(users);
-      }),
       this.helpersService.catchServerError(searchUsersFailure)
     )),
   ));
-
 }

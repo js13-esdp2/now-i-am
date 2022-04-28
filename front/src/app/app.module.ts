@@ -67,6 +67,7 @@ import { PostModalComponent } from './ui/post-modal/post-modal.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MapService } from './services/map.service';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
+    MapService
   ],
   bootstrap: [AppComponent]
 })

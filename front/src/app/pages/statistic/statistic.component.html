@@ -1,22 +1,6 @@
 <div class="search-users-block">
   <div class="map-container">
-    <google-map
-      height="500px"
-      width="100%"
-      [zoom]="zoom"
-      [center]="center"
-      [options]="options"
-    >
-
-    </google-map>
-    <mat-button-toggle-group>
-      <button mat-icon-button (click)="zoomIn()">
-        <mat-icon>zoom_in</mat-icon>
-      </button>
-      <button mat-icon-button (click)="zoomOut()">
-        <mat-icon>zoom_out</mat-icon>
-      </button>
-    </mat-button-toggle-group>
+    <div id="map"></div>
   </div>
   <mat-card *ngIf="isSearched && (posts | async) as $posts"
             class="search-users-block__search-card-wrapper"
