@@ -20,6 +20,8 @@ export type PostState = {
   fetchError: null | string,
   createLoading: boolean,
   createError: null | string,
+  likeLoading: boolean,
+  likeError: null | string,
 }
 
 export type SearchState = {

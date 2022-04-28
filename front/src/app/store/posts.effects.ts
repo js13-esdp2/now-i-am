@@ -17,6 +17,9 @@ import {
   fetchUserPostFailure,
   fetchUserPostRequest,
   fetchUserPostSuccess,
+  likePostFailure,
+  likePostRequest,
+  likePostSuccess,
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
@@ -80,6 +83,14 @@ export class PostsEffects {
       }),
       catchError(() => of(createPostFailure({error: 'Неверные данные'})))
     ))
+  ));
+
+  likePost = createEffect(() => this.actions.pipe(
+    ofType(likePostRequest),
+    mergeMap(({ id }) => this.postsService.likePost(id).pipe(
+      map((post) => likePostSuccess({post})),
+      this.helpers.catchServerError(likePostFailure),
+    )),
   ));
 
   removePost= createEffect(() => this.actions.pipe(

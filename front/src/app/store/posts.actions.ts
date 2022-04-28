@@ -21,6 +21,10 @@ export const createPostRequest = createAction('[Posts] Create Request', props<{p
 export const createPostSuccess = createAction('[Posts] Create Success');
 export const createPostFailure = createAction('[Posts] Create Failure', props<{error: string}>());
 
+export const likePostRequest = createAction('[Posts] Like Request', props<{ id: string }>());
+export const likePostSuccess = createAction('[Posts] Like Success', props<{ post: Post }>());
+export const likePostFailure = createAction('[Posts] Like Failure', props<{ error: string }>());
+
 export const removePostRequest = createAction('[Posts] Remove Request', props<{id: string}>());
 export const removePostSuccess = createAction('[Posts] Remove Success', props<{posts: Post[]}>());
 
