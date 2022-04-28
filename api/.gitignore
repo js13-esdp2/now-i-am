@@ -1,6 +1,4 @@
-.idea
 node_modules
-db.json
 public/uploads/*
 !public/uploads/.gitkeep
 !public/uploads/drinkingcoffee.jpg

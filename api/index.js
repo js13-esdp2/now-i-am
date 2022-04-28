@@ -8,13 +8,10 @@ const posts = require('./app/posts');
 const search = require('./app/search');
 
 const app = express();
-const port = 8000;
-
-const whitelist = ['http://localhost:4200', 'https://localhost:4200'];
 
 const corsOptions = {
   origin: (origin, callback) => { // 'http://localhost:4200'
-    if (origin === undefined || whitelist.indexOf(origin) !== -1) {
+    if (origin === undefined || config.corsWhiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -32,8 +29,8 @@ app.use('/search', search);
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);
 
-  app.listen(port, () => {
-    console.log(`Server started on ${port} port!`);
+  app.listen(config.port, () => {
+    console.log(`Server started on ${config.port} port!`);
   });
 
   process.on('exit', () => {

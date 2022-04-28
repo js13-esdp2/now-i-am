@@ -1,29 +1,26 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="(isHandset$ | async) === true">
-    <div class="sidenav-menu">
-      <mat-toolbar>Menu</mat-toolbar>
-    </div>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/new-post">Опубликовать пост</a>
-      <a mat-list-item routerLink="/search">Поиск пользователя</a>
-    </mat-nav-list>
-  </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="mat-toolbar">
       <div class="logo-block">
-        <button mat-icon-button class="sidenav-btn" (click)="drawer.toggle(); onChange()">
-          <span class="material-icons icon-menu" *ngIf="!mobBreakpoint">{{isOpen ? 'menu' : 'close'}}</span>
-          <span class="material-icons icon-menu" *ngIf="mobBreakpoint">menu</span>
+        <button mat-icon-button class="sidenav-btn" *ngIf="mobWindow" [matMenuTriggerFor]="iconsMenu">
+          <span class="material-icons icon-menu">menu</span>
         </button>
+        <mat-menu #iconsMenu="matMenu" class="user-menu">
+          <a routerLink="/search" mat-menu-item>Поиск</a>
+          <a routerLink="/new-post" mat-menu-item>Добавить занятие</a>
+          <a routerLink="#" mat-menu-item>Сообщения</a>
+        </mat-menu>
         <a class="logo" routerLink="/new-post" *appUserType="'user' else changeWay">Now I am</a>
         <ng-template #changeWay>
           <a class="logo" routerLink="/">Now I am</a>
         </ng-template>
       </div>
-      <nav *appUserType="'user' else anonMenu">
+      <nav *appUserType="'user' else anonMenu" fxLayout fxLayoutAlign="center center">
+        <nav fxLayout *ngIf="!mobWindow">
+          <a routerLink="/search" mat-icon-button><mat-icon>search</mat-icon></a>
+          <a routerLink="/new-post" mat-icon-button><mat-icon>control_point</mat-icon></a>
+          <a routerLink="#" mat-icon-button><mat-icon>sms</mat-icon></a>
+        </nav>
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <img class="user-avatar" [src]="apiUrl + '/uploads/' +  (user | async)?.photo" alt="Фото пользователя">
         </button>
@@ -34,7 +31,7 @@
         </mat-menu>
       </nav>
       <ng-template #anonMenu>
-        <nav *ngIf="changeOnMenuReg else btnRegMenu">
+        <nav *ngIf="mobWindow else btnRegMenu">
           <button mat-icon-button [matMenuTriggerFor]="regMenu">
             <span class="material-icons icon-reg-menu" style="font-size: 24px">how_to_reg</span>
           </button>
@@ -45,7 +42,7 @@
         </nav>
       </ng-template>
     </mat-toolbar>
-    <div class="content">
+    <div class="content" (window:resize)="onResize($event)">
       <ng-content></ng-content>
     </div>
   </mat-sidenav-content>

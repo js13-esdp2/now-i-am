@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import { logoutUserRequest } from '../../store/users.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { environment as env } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-layout',
@@ -15,20 +15,8 @@ import { environment as env } from '../../../environments/environment';
 })
 export class LayoutComponent implements OnInit{
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => {
-        this.changeOnMenuReg = result.matches;
-        this.mobBreakpoint = result.matches;
-        this.isOpen = !result.matches;
-        return result.matches
-      }),
-      shareReplay()
-    );
-
-  isOpen = true;
-  changeOnMenuReg = false;
-  mobBreakpoint = false;
+  breakpoint = 768;
+  mobWindow = false;
   user: Observable<null | User>;
   apiUrl = env.apiUrl;
 
@@ -40,14 +28,14 @@ export class LayoutComponent implements OnInit{
   }
 
   ngOnInit() {
-  }
-
-  onChange() {
-    this.isOpen = !this.isOpen;
+    this.mobWindow = this.breakpoint >= window.innerWidth;
   }
 
   logout() {
     this.store.dispatch(logoutUserRequest());
   }
 
+  onResize(event: any) {
+    this.mobWindow = this.breakpoint >= event.target.innerWidth;
+  }
 }
