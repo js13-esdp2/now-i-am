@@ -1,11 +1,126 @@
-/* You can add global styles to this file, and also import other style files */
+*
+  font-size: 16px
+  font-weight: normal
+  font-family: 'Josefin Sans', sans-serif
+  line-height: 1.2
 
 html, body
   height: 100%
 
 body
+  padding: 0
   margin: 0
   font-family: Roboto, "Helvetica Neue", sans-serif
+
+.container
+  padding: 0 15px
+  margin: 0 auto
+  max-width: 1330px
+
+.content
+  height: 86%
+  background: url("./assets/images/background.jpg") 50% 50% repeat!important
+  background-size: 100%
+
+.material-icons
+  font-size: 30px
+  color: #303030
+
+.sidenav-btn
+  border: 2px solid #303030!important
+  border-radius: 5px
+
+mat-icon
+  margin-bottom: 7px
+  color: white
+
+.user-menu
+  display: flex
+  width: 200px
+  justify-content: center
+  border: 2px solid #6d6969
+  margin: 10px 15px
+  border-radius: 15px 0 15px 0 !important
+  box-shadow: 0 0 5px 3px #6d6969 inset
+
+.btn-reg-icon
+  padding: 0 2px 2px 4px!important
+  background: red
+
+.icon-reg-menu
+  text-align: center
+  width: 35px
+  height: 35px
+  border-radius: 50%
+  color: #303030 !important
+
+.logo-block
+  display: flex
+  align-items: center
+
+.logo-link
+  &__logo
+    max-width: 38%
+    margin: 5px 0 0!important
+    @media screen and (max-width: 650px)
+      min-width: 150px
+
+.nav-list
+  display: flex
+  padding-top: 10px!important
+  margin: 0 20px
+  &__list-item
+    margin: 0 5px!important
+
+.reg-btns
+  padding: 0 10px
+  &__reg-link
+    background: #303030
+    color: white
+    margin: 0 5px!important
+    &:hover
+      background: #6d6969
+
+.home-block
+  text-align: center
+  padding-top: 70px
+  &__title
+    font-size: 30px
+    font-weight: normal
+    margin-bottom: 50px
+    @media screen and (max-width: 650px)
+      font-size: 24px
+
+
+.home-form
+  display: flex
+  flex-direction: column
+  justify-content: center
+  margin: 0 auto
+  max-width: 700px
+
+  &__searchInput
+    margin: 0 30px
+
+
+  &__subtitle
+    font-size: 30px
+    font-weight: normal
+    margin-bottom: 50px
+    @media screen and (max-width: 650px)
+      font-size: 24px
+
+  &__searchBtn
+    padding: 10px 35px!important
+    margin: 0 auto!important
+    background: #303030
+    color: white
+    &:hover
+      background: #6d6969
+
+.mat-form-field-appearance-outline .mat-form-field-outline
+  background: white
+  color: #6d6969
 
 .error
   background-color: #f44336
@@ -14,3 +129,59 @@ body
   margin-bottom: 15px
   text-align: center
   border-radius: 2px
+
+.card-title
+  text-align: center
+  color: red
+
+
+.create-post
+  display: flex
+  flex-direction: column
+  justify-content: center
+  text-align: center
+  margin: 0 auto
+  max-width: 700px
+  &__title
+    font-size: 30px
+    font-weight: normal
+    margin-bottom: 50px
+    @media screen and (max-width: 650px)
+      font-size: 24px
+
+.time-block
+  &__title
+    font-size: 30px!important
+    font-weight: 700
+    margin-bottom: 50px
+    @media screen and (max-width: 650px)
+      font-size: 24px
+
+  &__subtitle
+    font-size: 18px!important
+    font-weight: 300
+    margin-bottom: 50px
+    color: #6d6969
+    @media screen and (max-width: 650px)
+      font-size: 16px
+
+.sendBtn
+  &__btn-send
+    padding: 10px 35px!important
+    margin: 0 auto!important
+    background: #303030
+    color: white
+    &:hover
+      background: #6d6969
+
+.camera-btn
+  margin-top: 10px!important
+  &__camera-icon
+    font-size: 60px
+    color: #303030!important
+
+.btn
+  background: #303030
+  color: white
+  &:hover
+    background: #6d6969

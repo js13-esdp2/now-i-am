@@ -55,7 +55,7 @@
       </mat-error>
     </mat-form-field>
     <button mat-raised-button
-            color="primary"
+            class="btn"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" size="sm">

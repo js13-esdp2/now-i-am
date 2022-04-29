@@ -18,7 +18,6 @@
     </mat-form-field>
     <button mat-raised-button
             class="form__searchBtn"
-            color="primary"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" class="form__search-slider" size="sm">

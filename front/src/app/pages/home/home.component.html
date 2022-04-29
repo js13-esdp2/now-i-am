@@ -1,10 +1,10 @@
-<app-centered-card title="Опубликовать свое занятие">
+<div class="home-block">
+  <h3 class="home-block__title">Каждую секунду люди во всем мире чем-то заняты...</h3>
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
-        class="form"
-        fxLayout="column"
+        class="home-form"
   >
-    <mat-form-field appearance="outline" class="form__searchInput">
+    <mat-form-field appearance="outline" class="home-form__searchInput">
       <mat-label>Название занятия</mat-label>
       <input type="text"
              name="search"
@@ -17,14 +17,14 @@
         Поле обязательное для ввода
       </mat-error>
     </mat-form-field>
+    <p class="home-form__subtitle">Посмотри сколько людей занимаются тем же</p>
     <button mat-raised-button
-            class="form__searchBtn"
-            color="primary"
+            class="home-form__searchBtn"
             [disabled]="f.invalid || (isLoading)"
     >
-      <app-loader [isLoading]="isLoading" class="form__search-slider" size="sm">
-        <span>Опубликовать</span>
+      <app-loader [isLoading]="isLoading" class="home-form__search-slider" size="sm">
+        <span>Посмотреть</span>
       </app-loader>
     </button>
   </form>
-</app-centered-card>
+</div>

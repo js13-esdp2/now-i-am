@@ -1,13 +1,13 @@
-<mat-card>
-  <h2>Добавить новое занятие:</h2>
-  <mat-card-content>
+<div class="container">
+  <div class="create-post">
+    <h2 class="create-post__title">Добавь своё занятие:</h2>
     <div class="error" *ngIf="error | async">
       {{ error | async }}
     </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form" fxLayout="column">
 
       <mat-form-field appearance="outline" class="titleField">
-        <mat-label>Название</mat-label>
+        <mat-label>Напиши, чем занимаешься ты</mat-label>
         <input name="title" required matInput formControlName="title" id="title"/>
         <mat-error *ngIf="fieldHasError('title', 'required')" class="invalid-form-text">
           Название обязательно!!!
@@ -15,6 +15,7 @@
       </mat-form-field>
       <div class="time-block">
         <p class="time-block__title">Таймер</p>
+        <p class="time-block__subtitle">Сколько еще ты будешь заниматься этим</p>
         <div class="select-block">
           <mat-form-field appearance="outline">
             <mat-label>Часы</mat-label>
@@ -33,7 +34,7 @@
 
       <div class="choose-image-box">
         <mat-form-field appearance="outline" fxFlex="90" *ngIf="!imageData64, else imageNow">
-          <mat-label>Изображение</mat-label>
+          <mat-label>Выбери картинку или сделай новую</mat-label>
           <app-file-input name="content" formControlName="content" id="content"></app-file-input>
         </mat-form-field>
         <ng-template #imageNow>
@@ -42,22 +43,23 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </ng-template>
-        <button mat-icon-button type="button" style="margin-top: 10px" fxFlex="10" (click)="openModal()">
-          <mat-icon style="color: #3f51b5">camera_enhance</mat-icon>
+        <button mat-icon-button type="button" class="camera-btn" (click)="openModal()">
+          <mat-icon class="camera-btn__camera-icon">camera_enhance</mat-icon>
         </button>
       </div>
       <div class="sendBtn">
         <button
           type="submit"
           mat-raised-button
-          color="primary"
+          class="sendBtn__btn-send"
           [disabled]="!form.value.title || (loading | async)"
         >ОТПРАВИТЬ
         </button>
       </div>
     </form>
-  </mat-card-content>
-</mat-card>
+  </div>
 
 
 
+
+</div>

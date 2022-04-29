@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
-import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts.actions';
+import { onPostModalDataChange } from '../../store/posts.actions';
 import { Post, PostModalData } from '../../models/post.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -28,6 +29,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
+    private router: Router
   ) {
     this.posts = store.select(state => state.posts.posts);
     this.isLoading = store.select(state => state.posts.fetchLoading);
@@ -58,7 +60,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.isSearched = true;
     const searchTitle = (this.form.value).search;
-    this.store.dispatch(fetchTitlePostsRequest({title: searchTitle}));
+    void this.router.navigate(['/statistic'], {queryParams: {title: searchTitle}})
   }
 
   openPost(post: Post): void {
