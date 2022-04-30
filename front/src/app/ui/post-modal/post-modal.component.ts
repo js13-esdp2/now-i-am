@@ -5,10 +5,10 @@ import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
-import { fetchOneOfPostRequest, likePostRequest } from '../../store/posts.actions';
+import { fetchOneOfPostRequest, likePostRequest, onPostModalDataChange } from '../../store/posts.actions';
 import { User } from '../../models/user.model';
-import { onPostModalDataChange } from '../../store/posts.actions';
 import { addFriendRequest } from '../../store/users.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-modal',
@@ -35,6 +35,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<PostModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
+    private router: Router,
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
@@ -42,8 +43,15 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.postLoading = store.select((state) => state.posts.fetchLoading)
     this.likeLoading = store.select((state) => state.posts.likeLoading);
     this.addFriendLoading = store.select((state) => state.users.addFriendLoading);
+    store.select(state => state.users.user).subscribe(user => {
+      this.userData = user;
+    });
+    this.dialogRef.backdropClick().subscribe(() => {
+      const postModalData = {postId: '', searchTitle: ''};
+      this.store.dispatch(onPostModalDataChange({postModalData: postModalData}))
+    })
 
-    store.dispatch(fetchOneOfPostRequest({ id: this.postId }));
+    store.dispatch(fetchOneOfPostRequest({id: this.postId}));
   }
 
   ngOnInit(): void {
@@ -59,10 +67,18 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   onClose(): void {
     this.dialogRef.close();
-    if (this.user) {
-      const postModalData = {post: null, searchTitle: ''};
-      this.store.dispatch(onPostModalDataChange({postModalData}));
-    }
+    const postModalData = {postId: '', searchTitle: ''};
+    this.store.dispatch(onPostModalDataChange({postModalData: postModalData}))
+  }
+
+  goToRegister() {
+    this.dialogRef.close();
+    void this.router.navigate(['/register']);
+  }
+
+  goToLogin() {
+    this.dialogRef.close();
+    void this.router.navigate(['/login']);
   }
 
   authorIsMe(): boolean {
@@ -78,7 +94,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.store.dispatch(likePostRequest({ id: this.postId }));
+    this.store.dispatch(likePostRequest({id: this.postId}));
   }
 
   checkUserFriend(): boolean {
@@ -86,7 +102,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   addFriend(): void {
-    this.store.dispatch(addFriendRequest({ userId: this.postData.user._id }));
+    this.store.dispatch(addFriendRequest({userId: this.postData.user._id}));
   }
 
   ngOnDestroy(): void {

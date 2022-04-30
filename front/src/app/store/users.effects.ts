@@ -29,9 +29,11 @@ import { HelpersService } from '../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
 import { onPostModalDataChange } from './posts.actions';
+import { PostModalData } from '../models/post.model';
 
 @Injectable()
 export class UsersEffects {
+  postModalData!: PostModalData;
 
   constructor(
     private actions: Actions,
@@ -40,6 +42,9 @@ export class UsersEffects {
     private usersService: UsersService,
     private helpersService: HelpersService,
   ) {
+    store.select(state => state.posts.postModalData).subscribe(postModalData => {
+      this.postModalData = postModalData;
+    })
   }
 
   registerUser = createEffect(() => this.actions.pipe(
@@ -48,7 +53,7 @@ export class UsersEffects {
       map((user) => registerUserSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вы успешно зарегистрировались!');
-        void this.router.navigate(['/search']);
+        this.helpersService.showModal();
       }),
       this.helpersService.catchServerError(registerUserFailure)
     )),
@@ -72,7 +77,7 @@ export class UsersEffects {
       map((user) => loginUserSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен!');
-        void this.router.navigate(['/search']);
+        this.helpersService.showModal();
       }),
       this.helpersService.catchServerError(loginUserFailure),
     )),
@@ -84,7 +89,7 @@ export class UsersEffects {
       map(user => loginFbSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен c Facebook!');
-        void this.router.navigate(['/search']);
+        this.helpersService.showModal();
       }),
       this.helpersService.catchServerError(loginFbFailure)
     ))
@@ -96,7 +101,7 @@ export class UsersEffects {
       map(user => loginGoogleSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Вход успешно выполнен c Google!');
-        void this.router.navigate(['/search']);
+        this.helpersService.showModal();
       }),
       this.helpersService.catchServerError(loginGoogleFailure)
     ))
@@ -108,7 +113,7 @@ export class UsersEffects {
       map(() => logoutUser()),
       tap(() => {
         void this.router.navigate(['/login']);
-        this.store.dispatch(onPostModalDataChange({postModalData: {post: null, searchTitle: ''}}));
+        this.store.dispatch(onPostModalDataChange({postModalData: {postId: '', searchTitle: ''}}));
         this.helpersService.openSnackBar('Выход выполнен!');
       }),
     )),
@@ -124,4 +129,5 @@ export class UsersEffects {
       this.helpersService.catchServerError(addFriendFailure)
     ))
   ))
+
 }

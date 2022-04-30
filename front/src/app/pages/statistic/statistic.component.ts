@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../models/post.model';
+import { Post, PostModalData } from '../../models/post.model';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
-import { fetchTitlePostsRequest } from '../../store/posts.actions';
+import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { User } from '../../models/user.model';
@@ -16,13 +16,16 @@ import { User } from '../../models/user.model';
   styleUrls: ['./statistic.component.sass']
 })
 export class StatisticComponent implements OnInit {
-
   user: Observable<null | User>;
+  userData!: null | User;
   posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
   isSearched = false;
   showList: Boolean = false;
+  postModalData!: PostModalData;
+  searchTitle!: string;
+
 
   constructor(
     private store: Store<AppState>,
@@ -34,22 +37,35 @@ export class StatisticComponent implements OnInit {
     this.isLoading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);
     this.user = store.select((state) => state.users.user);
+    store.select(state => state.posts.postModalData).subscribe(postModalData => {
+      this.postModalData = postModalData;
+    });
+    store.select(state => state.users.user).subscribe(user => {
+      this.userData = user;
+    })
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const title = params['title'];
+      this.searchTitle = params['title'];
       this.isSearched = true;
-      this.store.dispatch(fetchTitlePostsRequest({title: title}));
+      this.store.dispatch(fetchTitlePostsRequest({title: this.searchTitle}));
     });
     this.mapService.initMap();
     this.getLocation();
+    this.isSearched = true;
+    this.openPreviousPost();
   }
 
   openPost(post: Post): void {
     this.dialog.open(PostModalComponent, {
-      data: { postId: post._id }
+      data: {postId: post._id}
     });
+    const postModalData = {
+      postId: post._id,
+      searchTitle: this.searchTitle,
+    }
+    this.store.dispatch(onPostModalDataChange({postModalData}));
   }
 
   openList() {
@@ -68,4 +84,11 @@ export class StatisticComponent implements OnInit {
     }
   }
 
+  openPreviousPost() {
+    if (this.postModalData.postId) {
+      this.dialog.open(PostModalComponent, {
+        data: {postId: this.postModalData.postId}
+      });
+    }
+  }
 }

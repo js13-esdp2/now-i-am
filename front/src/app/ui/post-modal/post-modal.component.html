@@ -52,12 +52,20 @@
     <button type="button" mat-raised-button color="accent" disabled="true">Чат</button>
   </mat-card-actions>
   <ng-template #anonLink>
-    <a class="post-block__link"
-       style="text-align: center; display: block;"
-       (click)="onClose()"
-       routerLink="/register"
-    >
+    <a class="post-block__link">
       Хотите поговорить с {{ postData.user.displayName }}? Тогда пройдите регистрацию
     </a>
+    <button
+      mat-raised-button
+      routerLink="/register"
+      (click)="goToRegister()"
+    >Регистрация
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/login"
+      (click)="goToLogin()"
+    >Вход
+    </button>
   </ng-template>
 </div>

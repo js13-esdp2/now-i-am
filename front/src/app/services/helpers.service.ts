@@ -1,17 +1,27 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ActionType } from '@ngrx/store';
+import { ActionType, Store } from '@ngrx/store';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PostModalData } from '../models/post.model';
+import { AppState } from '../store/types';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelpersService {
+  postModalData!: PostModalData;
 
   constructor(
     private snackBar: MatSnackBar,
-  ) {}
+    private store: Store<AppState>,
+    private router: Router,
+  ) {
+    store.select(state => state.posts.postModalData).subscribe(postModalData => {
+      this.postModalData = postModalData;
+    })
+  }
 
   openSnackBar(message: string, action?: string, config?: MatSnackBarConfig) {
     if (!action) {
@@ -39,4 +49,12 @@ export class HelpersService {
     });
   }
 
+  showModal() {
+    if (this.postModalData.postId) {
+      void this.router.navigate(['/statistic'],
+        {queryParams: {title: this.postModalData.searchTitle}});
+    } else {
+      void this.router.navigate(['/search']);
+    }
+  }
 }

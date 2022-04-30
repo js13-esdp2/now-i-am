@@ -21,7 +21,7 @@ export class Post{
 }
 
 export interface PostModalData {
-  post: null | Post,
+  postId: string,
   searchTitle: string,
 }
 

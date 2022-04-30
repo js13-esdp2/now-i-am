@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { ActivatedRoute } from '@angular/router';
-import { PostsService } from '../../services/posts.service';
 import { fetchPostsRequest } from '../../store/posts.actions';
 
 @Component({

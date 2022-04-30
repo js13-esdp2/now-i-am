@@ -27,7 +27,7 @@ import {
 const initialState: PostState = {
   post: null,
   postModalData: {
-    post: null,
+    postId: '',
     searchTitle: '',
   },
   posts: [],

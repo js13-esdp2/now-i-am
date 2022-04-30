@@ -11,7 +11,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { StatisticComponent } from './pages/statistic/statistic.component';
 
 const routes: Routes = [
-  {path: 'www', component: HomeComponent},
+  {path: '', component: HomeComponent},
   {path: '', children: [
       {path: '', component: HomeComponent},
       {path: 'profile', children: [
