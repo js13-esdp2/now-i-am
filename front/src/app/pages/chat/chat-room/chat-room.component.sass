@@ -1,0 +1,117 @@
+.chat-room
+  display: flex
+  width: 100%
+  height: 100%
+  flex-direction: column
+
+  &__header
+    min-height: 67px
+    background-color: #eeeeee
+    box-shadow: 2px 0px 4px #ccc
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+  &__avatarSection
+    display: flex
+
+  &__usersPhoto
+    min-width: 40px
+    max-width: 40px
+    margin: 0 10px
+
+    &_img
+      max-width: 100%
+
+
+  &__nameSection
+    flex-grow: 1
+    color: #545454
+    display: flex
+    align-items: center
+
+  &__actionButtons
+    min-width: 50px
+    display: flex
+
+    &_img
+      width: 20px
+      margin-right: 15px
+      cursor: pointer
+
+#message-block
+  flex-grow: 1
+  display: flex
+  flex-direction: column
+  flex-direction: column-reverse
+  padding: 20px 50px
+  overflow: scroll
+
+  .message
+    margin-top: 10px
+    display: flex
+    align-items: flex-start
+    color: #1f1f1f
+    flex-direction: column
+
+.messageContent
+  background-color: #fff
+  border-radius: 5px
+  padding: 10px
+
+.time
+  text-align: right
+  font-size: 13px
+  margin-top: 5px
+
+.message.me
+  align-items: flex-end
+
+.messageContent
+  background-color: #90CAF9
+
+.chat-room-footer
+  min-height: 67px
+  background-color: #f0eeed
+  display: flex
+
+#smileyIcon
+  flex-basis: 50px
+
+
+.message-input-block
+  flex-grow: 1
+  display: flex
+  align-items: center
+
+textarea
+  width: 100%
+  height: 45px
+  border: 0px
+  border-radius: 4px
+  resize: none
+  outline: none
+  padding: 14px
+  font-family: sans-serif
+  box-sizing: border-box
+
+
+#iconSend
+  flex-basis: 50px
+
+#iconSend,
+#smileyIcon
+  display: flex
+  align-items: center
+  justify-content: center
+
+.iconSend_color
+  color: #3195fa
+
+img
+  max-width: 40%
+  cursor: pointer
+
+
+
+

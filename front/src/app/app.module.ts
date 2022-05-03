@@ -67,6 +67,9 @@ import { PostModalComponent } from './ui/post-modal/post-modal.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MapService } from './services/map.service';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
+import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +92,10 @@ import { MapService } from './services/map.service';
     ModalWindowComponent,
     WebcamComponent,
     PostModalComponent,
-    StatisticComponent
+    StatisticComponent,
+    ChatComponent,
+    ChatRoomComponent,
+    ChatSidebarComponent
   ],
   imports: [
     BrowserModule,
