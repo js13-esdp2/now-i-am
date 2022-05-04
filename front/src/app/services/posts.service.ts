@@ -99,5 +99,22 @@ export class PostsService {
       }),
     );
   }
+  getMyHistoryPosts(user_id: string){
+    return this.http.get<ApiPostData[]>(environment.apiUrl + `/posts/my-history-posts/${user_id}`).pipe(
+      map(response => {
+        return response.map(postData => {
+          return new Post(
+            postData._id,
+            postData.user,
+            postData.title,
+            postData.content,
+            postData.datetime,
+            postData.time,
+            postData.likes
+          );
+        });
+      })
+    );
+  }
 }
 

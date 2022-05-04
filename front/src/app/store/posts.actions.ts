@@ -28,4 +28,9 @@ export const likePostFailure = createAction('[Posts] Like Failure', props<{ erro
 export const removePostRequest = createAction('[Posts] Remove Request', props<{id: string}>());
 export const removePostSuccess = createAction('[Posts] Remove Success', props<{posts: Post[]}>());
 
+export const fetchMyHistoryPostsRequest = createAction('[MyHistoryPosts] Fetch Request', props<{user_id: string}>());
+export const fetchMyHistoryPostsSuccess = createAction('[MyHistoryPosts] Fetch Success', props<{posts: Post[]}>());
+export const fetchMyHistoryPostsFailure = createAction('[MyHistoryPosts] Fetch Failure', props<{error: string}>());
+
+
 export const onPostModalDataChange = createAction('[Posts] Change Post Modal Data', props<{postModalData: PostModalData}>());

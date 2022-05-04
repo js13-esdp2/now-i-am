@@ -7,7 +7,7 @@ import { PostsService } from '../services/posts.service';
 import {
   createPostFailure,
   createPostRequest,
-  createPostSuccess,
+  createPostSuccess, fetchMyHistoryPostsFailure, fetchMyHistoryPostsRequest, fetchMyHistoryPostsSuccess,
   fetchOneOfPostFailure,
   fetchOneOfPostRequest,
   fetchOneOfPostSuccess,
@@ -103,6 +103,16 @@ export class PostsEffects {
       tap(() => {
         this.helpers.openSnackBar('Задание было удалено!');
       })
+    ))
+  ));
+
+  fetchMyHistoryPosts = createEffect(() => this.actions.pipe(
+    ofType(fetchMyHistoryPostsRequest),
+    mergeMap(({user_id}) => this.postsService.getMyHistoryPosts(user_id).pipe(
+      map(posts => fetchMyHistoryPostsSuccess({posts})),
+      catchError(() => of(fetchMyHistoryPostsFailure({
+        error: 'Что-то пошло не так'
+      })))
     ))
   ));
 }

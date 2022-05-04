@@ -232,7 +232,6 @@ router.post('/googleLogin', async (req, res, next) => {
 
 router.post('/vkLogin', async (req, res, next) => {
   try {
-    console.log(req.body)
     const authToken = req.body.authToken;
     const access_tokenURL = `https://api.vk.com/oauth/access_token?v=5.21&client_id=${config.vk.appId}&client_secret=${config.vk.appSecret}&grant_type=client_credentials`
     const responseToken = await axios.get(access_tokenURL);

@@ -126,4 +126,13 @@ router.delete('/:id', async(req, res, next) =>{
   }
 });
 
+router.get('/my-history-posts/:id', auth, async (req, res, next) => {
+  try {
+    const posts= await Post.find({user: req.params.id})
+    return res.send(posts);
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;

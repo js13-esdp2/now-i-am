@@ -21,7 +21,7 @@ import {
   likePostRequest,
   likePostSuccess,
   removePostRequest,
-  removePostSuccess
+  removePostSuccess, fetchMyHistoryPostsRequest, fetchMyHistoryPostsSuccess, fetchMyHistoryPostsFailure
 } from './posts.actions';
 
 const initialState: PostState = {
@@ -66,6 +66,11 @@ export const postsReducer = createReducer(
 
   on(removePostRequest, state => ({...state, fetchLoading: true})),
   on(removePostSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+
+  on(fetchMyHistoryPostsRequest, state => ({...state, fetchLoading: true})),
+  on(fetchMyHistoryPostsSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+  on(fetchMyHistoryPostsFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
+
 
   on(onPostModalDataChange, (state, {postModalData}) => ({...state, postModalData})),
 );

@@ -1,0 +1,71 @@
+.my-actions-container
+  max-width: 768px
+  margin: 0 auto
+  background-color: rgba(255, 255, 255, 1)
+  position: relative
+  padding: 0 15px 10px
+
+  &__header
+    height: 150px
+    --start: 15%
+    margin: 0 -15px
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
+
+  &__title
+    position: absolute
+    z-index: 2
+    top: 77px
+    --start: 15%
+    right: calc(var(--start) * .75)
+    transform: translateY(-50%)
+    text-transform: uppercase
+    margin: 0 0 0 15px
+    color: white
+    font-size: 30px
+    font-weight: 700
+    letter-spacing: 2.5px
+
+.my-actions-item
+  margin: 10px 0 0
+  padding: 15px 10px
+
+  &__content
+    display: flex
+    flex-direction: row
+    align-items: center
+    @media only screen and (max-width: 768px)
+      flex-direction: column
+
+  &__image
+    display: block
+    width: 250px
+    height: auto
+    @media only screen and (max-width: 768px)
+      width: 80%
+      margin: 0 auto 10px
+
+  &__title
+    color: #979cb0
+    font-weight: 600
+    font-size: 24px
+    letter-spacing: 0.64px
+    margin-left: 12px
+
+  &__likes
+    color: #35d8ac
+    font-weight: 700
+    font-size: 16px
+    text-align: right
+    margin-left: auto
+
+  &__time
+    margin-left: 10px
+    @media only screen and (max-width: 768px)
+      margin-left: auto
+
+
+.completed
+  background-color: rgba(0, 0, 0, 0.1)
+

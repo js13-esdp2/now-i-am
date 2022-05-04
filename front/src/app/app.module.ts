@@ -81,6 +81,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ChatComponent } from './pages/chat/chat.component';
 import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
 import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
+import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.com
     StatisticComponent,
     ChatComponent,
     ChatRoomComponent,
-    ChatSidebarComponent
+    ChatSidebarComponent,
+    MyHistoryPostsComponent
   ],
   imports: [
     BrowserModule,

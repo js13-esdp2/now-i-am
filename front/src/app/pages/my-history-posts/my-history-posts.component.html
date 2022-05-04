@@ -1,0 +1,22 @@
+<div class="my-actions-container">
+  <div class="my-actions-container__header">
+    <h2 class="my-actions-container__title">История моих занятий</h2>
+  </div>
+  <mat-card class="my-actions-item" *ngFor="let post of (posts | async)">
+    <mat-card-content class="my-actions-item__content">
+      <img class="my-actions-item__image" [src]="post.content | image" [alt]="'Photo of ' + post.title">
+      <strong class="my-actions-item__title">{{ post.title }}</strong>
+      <span class="my-actions-item__likes">{{ post.likes }} 15 likes</span>
+      <span class="my-actions-item__time">Не завершено</span>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="my-actions-item completed" *ngFor="let post of (posts | async)">
+    <mat-card-content class="my-actions-item__content">
+      <img class="my-actions-item__image" [src]="post.content | image" [alt]="'Photo of ' + post.title">
+      <strong class="my-actions-item__title">{{ post.title }}</strong>
+      <span class="my-actions-item__likes">{{ post.likes }} 15 likes</span>
+      <span class="my-actions-item__time">Завершено 3 ч назад</span>
+    </mat-card-content>
+  </mat-card>
+</div>
+

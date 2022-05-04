@@ -10,6 +10,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,6 +30,9 @@ const routes: Routes = [
   {path: 'posts', component: PostsComponent},
   {path: 'statistic', component: StatisticComponent},
   {path: 'chat', component: ChatComponent},
+  {path: 'my-history-posts',
+    component: MyHistoryPostsComponent,
+    canActivate: [AuthGuardService]},
 ];
 
 @NgModule({
