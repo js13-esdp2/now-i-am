@@ -9,6 +9,7 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'new-post', component: NewPostComponent},
   {path: 'posts', component: PostsComponent},
   {path: 'statistic', component: StatisticComponent},
+  {path: 'chat', component: ChatComponent},
 ];
 
 @NgModule({

@@ -69,6 +69,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MapService } from './services/map.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
+import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +94,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     ModalWindowComponent,
     WebcamComponent,
     PostModalComponent,
-    StatisticComponent
+    StatisticComponent,
+    ChatComponent,
+    ChatRoomComponent,
+    ChatSidebarComponent
   ],
   imports: [
     BrowserModule,

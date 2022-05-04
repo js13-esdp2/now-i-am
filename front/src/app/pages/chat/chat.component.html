@@ -1,0 +1,16 @@
+  <div id="chatContainer">
+    <app-chat-sidebar
+      (conversationClicked)="onConversationSelected($event)"
+    ></app-chat-sidebar>
+    <div class="chat">
+      <div class="chatPlaceholder" *ngIf="!conversation">
+        <h2 class="chat__title">Выберите переписку</h2>
+        <p>
+          Здесь пока ничего нет :( ...
+        </p>
+        <div class="separator"></div>
+      </div>
+      <app-chat-room [conversation]="conversation" *ngIf="conversation"></app-chat-room>
+    </div>
+  </div>
+
