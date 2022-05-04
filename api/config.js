@@ -29,5 +29,9 @@ module.exports = {
     google: {
         appId: '40811209122-h2vmbta5hlsirf6rkjtahnuiv4rdko4u.apps.googleusercontent.com',
         appSecret: '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'
+    },
+    vk: {
+        appId: '8157037',
+        appSecret: '185dFESEbjJ5SrpyV7xn'
     }
 };

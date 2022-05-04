@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { LoginError, RegisterError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { loginFbRequest, loginGoogleRequest, registerUserRequest } from '../../store/users.actions';
+import { loginFbRequest, loginGoogleRequest, loginVKRequest, registerUserRequest } from '../../store/users.actions';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,
@@ -51,6 +51,9 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (this.loginFb) {
         this.store.dispatch(loginFbRequest({userData: user}));
+      }
+      if(this.loginVK) {
+        this.store.dispatch(loginVKRequest({userData: user}))
       }
     });
   }

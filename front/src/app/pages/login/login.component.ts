@@ -4,7 +4,7 @@ import { LoginError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
-import { loginFbRequest, loginGoogleRequest, loginUserRequest } from '../../store/users.actions';
+import { loginFbRequest, loginGoogleRequest, loginUserRequest, loginVKRequest } from '../../store/users.actions';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,
@@ -43,6 +43,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
       if (this.loginFb) {
         this.store.dispatch(loginFbRequest({userData: user}));
+      }
+      if(this.loginVK) {
+        this.store.dispatch(loginVKRequest({userData: user}));
       }
     });
   }

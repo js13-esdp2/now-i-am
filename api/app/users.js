@@ -230,6 +230,58 @@ router.post('/googleLogin', async (req, res, next) => {
   }
 });
 
+router.post('/vkLogin', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const authToken = req.body.authToken;
+    const access_tokenURL = `https://api.vk.com/oauth/access_token?v=5.21&client_id=${config.vk.appId}&client_secret=${config.vk.appSecret}&grant_type=client_credentials`
+    const responseToken = await axios.get(access_tokenURL);
+    const debugTokenUrl = `https://api.vk.com/method/secure.checkToken?access_token=${responseToken.data.access_token}&client_secret=${config.vk.appSecret}&v=5.131&client_id=${req.body.id}&token=${authToken}`;
+    const response = await axios.get(debugTokenUrl);
+    if (response.data.error) {
+      return res.status(401).send({message: 'VK token incorrect'});
+    }
+
+    if (response.data.response.user_id !== req.body.id) {
+      return res.status(401).send({message: 'Wrong user id'});
+    }
+
+    if (req.body.provider ==='VK'){
+      let user = await User.findOne({vkId: req.body.id});
+      res.send(user);
+      if (!user) {
+        const userData = {
+          email: req.body.id + '@vk.com',
+          password: nanoid(),
+          displayName: req.body.name,
+          vkId: req.body.id,
+        };
+
+        if (req.body.photoUrl) {
+          const photo = await axios.get(req.body.photoUrl, {responseType: 'stream'});
+          const photoName = nanoid() + '.jpg';
+
+          const photoPath = path.resolve(config.uploadPath, photoName);
+          photo.data.pipe(fs.createWriteStream(photoPath));
+
+          userData['photo'] = photoName;
+        }
+
+        user = new User(userData);
+        user.generateToken();
+        await user.save();
+        res.send(user);
+      }
+    }
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+
+    return next(e);
+  }
+})
+
 router.post('/addFriend', auth, async (req, res, next) => {
   try {
     const friendUser = await User.findById(req.body.userId);

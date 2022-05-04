@@ -47,7 +47,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { AuthInterceptor } from './auth.interceptor';
 
 const vkLoginOptions = {
-  fields: 'photo_max,email',
+  fields: 'photo_max',
   version: '5.124',
 };
 
