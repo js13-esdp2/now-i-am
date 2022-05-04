@@ -56,12 +56,14 @@
       Хотите поговорить с {{ postData.user.displayName }}? Тогда пройдите регистрацию
     </a>
     <button
+      id="dialog-register-button"
       mat-raised-button
       routerLink="/register"
       (click)="goToRegister()"
     >Регистрация
     </button>
     <button
+      id="dialog-login-button"
       mat-raised-button
       routerLink="/login"
       (click)="goToLogin()"
