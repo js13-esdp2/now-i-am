@@ -67,6 +67,8 @@ import { PostModalComponent } from './ui/post-modal/post-modal.component';
 import { StatisticComponent } from './pages/statistic/statistic.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MapService } from './services/map.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -116,7 +118,9 @@ import { MapService } from './services/map.service';
     WebcamModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

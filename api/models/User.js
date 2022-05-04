@@ -59,8 +59,8 @@ const UserSchema = new Schema({
     },
     facebookId: String,
     googleId: String,
-    age: {
-        type: Number
+    birthday: {
+        type: String
     },
     sex: {
         type: String

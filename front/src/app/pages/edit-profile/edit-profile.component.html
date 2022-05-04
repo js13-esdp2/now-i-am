@@ -16,7 +16,8 @@
               color="warn"
               class="remove-photo-btn"
               (click)="onRemovePhoto()"
-      >Удалить</button>
+      >Удалить
+      </button>
     </mat-form-field>
     <ng-template #emptyPhoto>
       <mat-form-field appearance="outline">
@@ -52,20 +53,17 @@
              ngModel
       />
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Возраст</mat-label>
-      <input type="number"
-             name="age"
-             matInput
-             ngModel
-             min="1"
-             max="90"
-             #age="ngModel"
-      />
-      <mat-error *ngIf="age.invalid">
-        Выберете возраст в диапозоне от 1 до 90
-      </mat-error>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" name="age" id="age" ngModel>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Пол</mat-label>
       <mat-select name="sex" ngModel>

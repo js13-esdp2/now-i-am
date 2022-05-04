@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
 router.post('/edit-profile', auth, upload.single('photo'), async (req, res, next) => {
     try {
         req.user['displayName'] = req.body.displayName;
-        req.user['age'] = req.body.age;
+        req.user['birthday'] = req.body.birthday;
         req.user['sex'] = req.body.sex;
         req.user['country'] = req.body.country;
         req.user['city'] = req.body.city;

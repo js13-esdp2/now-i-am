@@ -30,7 +30,6 @@ export class UsersService {
     return this.http.post<User>(env.apiUrl + '/users/sessions', loginData);
   }
 
-
   loginFb(userData: SocialUser) {
     return this.http.post<User>(env.apiUrl + '/users/facebookLogin', userData);
   }

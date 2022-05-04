@@ -1,20 +1,39 @@
-export interface User {
-  _id: string;
-  email: string;
-  displayName: string;
-  token: string;
-  photo?: string;
-  age?: number;
-  sex?: string;
-  country?: string;
-  city?: string;
-  aboutMe?: string;
-  isPrivate?: boolean;
-  role: string;
-  friendRequests: {
-    _id: string;
-    user: string;
-  }[]
+export class User {
+  constructor(
+    public _id: string,
+    public email: string,
+    public displayName: string,
+    public token: string,
+    public role: string,
+    public friendRequests: {
+      _id: string;
+      user: string;
+    }[],
+    public photo?: string,
+    public birthday?: string,
+    public sex?: string,
+    public country?: string,
+    public city?: string,
+    public aboutMe?: string,
+    public isPrivate?: boolean,
+  ) {
+  }
+
+  get age() {
+    const dob = this.birthday;
+
+    if (!dob) {
+      return 0;
+    }
+
+    const currentDate = Date.now();
+    const birthday = <any>new Date(dob);
+    const difference = currentDate - birthday;
+    const differenceDate = new Date(difference);
+    const age = Math.abs(differenceDate.getUTCFullYear() - 1970);
+
+    return age;
+  }
 }
 
 export interface RegisterUserData {
@@ -27,7 +46,7 @@ export interface EditUserData {
   [key: string]: any;
   photo: string;
   displayName: string;
-  age: number;
+  birthday: string;
   sex: string;
   country?: string;
   city?: string;
