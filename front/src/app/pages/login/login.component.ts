@@ -5,7 +5,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
 import { loginFbRequest, loginGoogleRequest, loginUserRequest } from '../../store/users.actions';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialAuthService,
+  SocialUser,
+  VKLoginProvider
+} from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   authStateSub!: Subscription;
   loginFb = false;
   loginGoogle = false;
+  loginVK = false;
 
   constructor(
     private store: Store<AppState>,
@@ -57,6 +64,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   googleLogin() {
     this.loginGoogle = true;
     void this.auth.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  vkLogin() {
+    this.loginVK = true;
+    void this.auth.signIn(VKLoginProvider.PROVIDER_ID);
   }
 
   ngOnDestroy() {

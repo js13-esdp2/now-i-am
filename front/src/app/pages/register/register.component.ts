@@ -5,8 +5,14 @@ import { LoginError, RegisterError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { loginFbRequest, loginGoogleRequest, registerUserRequest } from '../../store/users.actions';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialAuthService,
+  SocialUser,
+  VKLoginProvider
+} from 'angularx-social-login';
+
 
 @Component({
   selector: 'app-register',
@@ -22,15 +28,15 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   authStateSub!: Subscription;
   loginFb = false;
   loginGoogle = false;
+  loginVK = false;
   hide = true;
+
 
   private errorSub!: Subscription;
 
   constructor(
     private store: Store<AppState>,
     private auth: SocialAuthService,
-    private router: Router,
-    private route: ActivatedRoute,
   ) {
     this.isLoading = store.select(state => state.users.registerLoading);
     this.error = store.select(state => state.users.registerError);
@@ -77,6 +83,11 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   googleLogin() {
     this.loginGoogle = true;
     void this.auth.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  vkLogin() {
+    this.loginVK = true;
+    void this.auth.signIn(VKLoginProvider.PROVIDER_ID);
   }
 
   ngOnDestroy(): void {

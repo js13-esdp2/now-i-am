@@ -15,7 +15,7 @@ import {
   loginGoogleSuccess,
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess,
+  loginUserSuccess, loginVKFailure, loginVKRequest, loginVKSuccess,
   logoutUser,
   registerUserFailure,
   registerUserRequest,
@@ -74,6 +74,10 @@ export const usersReducer = createReducer(
   on(loginGoogleRequest, state => ({...state, loginLoading: true, loginError: null,})),
   on(loginGoogleSuccess, (state, {user}) => ({...state, loginLoading: false, user: createUserClass(user)})),
   on(loginGoogleFailure, (state, {error}) => ({...state, loginLoading: false, loginError: error})),
+
+  on(loginVKRequest, state => ({...state, loginLoading: true, loginError: null,})),
+  on(loginVKSuccess, (state, {user}) => ({...state, loginLoading: false, user})),
+  on(loginVKFailure, (state, {error}) => ({...state, loginLoading: false, loginError: error})),
 
   on(logoutUser, state => ({...state, user: null})),
 

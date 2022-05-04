@@ -16,7 +16,7 @@ import {
   loginGoogleSuccess,
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess,
+  loginUserSuccess, loginVKFailure, loginVKRequest, loginVKSuccess,
   logoutUser,
   logoutUserRequest,
   registerUserFailure,
@@ -104,6 +104,18 @@ export class UsersEffects {
         this.helpersService.showModal();
       }),
       this.helpersService.catchServerError(loginGoogleFailure)
+    ))
+  ));
+
+  loginUserVK = createEffect(() => this.actions.pipe(
+    ofType(loginVKRequest),
+    mergeMap(({userData}) => this.usersService.loginVK(userData).pipe(
+      map(user => loginVKSuccess({user})),
+      tap(() => {
+        this.helpersService.openSnackBar('Вход успешно выполнен c VK!');
+        this.helpersService.showModal();
+      }),
+      this.helpersService.catchServerError(loginVKFailure)
     ))
   ));
 

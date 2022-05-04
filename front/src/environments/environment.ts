@@ -7,6 +7,7 @@ export const environment = {
   apiUrl: 'http://localhost:8000',
   facebookAppId: '1036035837346520',
   googleAppId: '40811209122-h2vmbta5hlsirf6rkjtahnuiv4rdko4u.apps.googleusercontent.com',
+  vkAppId: '8157037'
 };
 
 /*

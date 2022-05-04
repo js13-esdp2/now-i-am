@@ -38,6 +38,10 @@ export class UsersService {
     return this.http.post<User>(env.apiUrl + '/users/googleLogin', userData);
   }
 
+  loginVK(userData: SocialUser) {
+    return this.http.post<User>(env.apiUrl + '/users/vkLogin', userData);
+  }
+
   logout() {
     return this.http.delete(env.apiUrl + '/users/sessions');
   }

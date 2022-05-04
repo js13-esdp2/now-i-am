@@ -75,6 +75,19 @@ export const loginGoogleFailure = createAction(
   props<{error: null | LoginError}>()
 );
 
+export const loginVKRequest = createAction(
+  '[Users] Login VK Request',
+  props<{userData: SocialUser}>()
+);
+export const loginVKSuccess = createAction(
+  '[Users] Login VK Success',
+  props<{user: User}>()
+);
+export const loginVKFailure = createAction(
+  '[Users] Login VK Failure',
+  props<{error: null | LoginError}>()
+);
+
 export const logoutUser = createAction('[Users] Logout');
 export const logoutUserRequest = createAction('[Users] Logout Request');
 

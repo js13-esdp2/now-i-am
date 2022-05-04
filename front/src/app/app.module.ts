@@ -30,7 +30,7 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule
+  SocialLoginModule, VKLoginProvider
 } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { PostsComponent } from './pages/posts/posts.component';
@@ -46,6 +46,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { AuthInterceptor } from './auth.interceptor';
 
+const vkLoginOptions = {
+  fields: 'photo_max,email',
+  version: '5.124',
+};
+
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
   providers: [
@@ -58,7 +63,11 @@ const socialConfig: SocialAuthServiceConfig = {
     {
       id: GoogleLoginProvider.PROVIDER_ID,
       provider: new GoogleLoginProvider(environment.googleAppId)
-    }
+    },
+    {
+      id: VKLoginProvider.PROVIDER_ID,
+      provider: new VKLoginProvider(environment.vkAppId, vkLoginOptions)
+    },
   ]
 }
 import { SearchComponent } from './pages/search/search.component';

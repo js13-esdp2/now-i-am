@@ -62,27 +62,37 @@
         Зарегистрироваться
       </app-loader>
     </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="default"
-      (click)="fbLogin()"
-      style="margin-top: 16px"
-    >
-      <img src="assets/icons/fb.svg" alt="facebook logo"/>
-      &nbsp;&nbsp;
-      Зарегистрироваться с помощью FACEBOOK
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="default"
-      (click)="googleLogin()"
-      style="margin-top: 16px"
-    >
-      <img src="assets/icons/google-icon.svg" alt="google logo"/>
-      &nbsp;&nbsp;
-      Зарегистрироваться с помощью Google
-    </button>
+    <span style="text-align: center; padding-top: 10px">
+      Вход при помощи:
+    </span>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <button
+        type="button"
+        mat-raised-button
+        color="default"
+        (click)="fbLogin()"
+        style="margin: 16px 5px 0"
+      >
+        <img src="assets/icons/fb.svg" alt="facebook logo"/>
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="default"
+        (click)="googleLogin()"
+        style="margin: 16px 5px 0"
+      >
+        <img src="assets/icons/google-icon.svg" alt="google logo"/>
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="default"
+        (click)="vkLogin()"
+        style="margin: 16px 5px 0"
+      >
+        <img src="assets/icons/vk.svg" alt="google logo"/>
+      </button>
+    </div>
   </form>
 </app-centered-card>
