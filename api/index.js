@@ -6,6 +6,7 @@ const config = require('./config');
 const users = require('./app/users');
 const posts = require('./app/posts');
 const search = require('./app/search');
+const friends = require('./app/friends');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static('public'));
 app.use('/users', users);
 app.use('/posts', posts);
 app.use('/search', search);
+app.use('/friends', friends);
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);

@@ -9,6 +9,7 @@ import {
   User
 } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
+import { Friends } from '../models/frends.model';
 
 export const registerUserRequest = createAction(
   '[Users] Register Request',
@@ -94,3 +95,7 @@ export const logoutUserRequest = createAction('[Users] Logout Request');
 export const addFriendRequest = createAction('[Users] Add Friend Request', props<{userId: string}>());
 export const addFriendSuccess = createAction('[Users] Add Friend Success', props<{user: User}>());
 export const addFriendFailure = createAction('[Users] Add Friend Failure', props<{error: string}>());
+
+export const fetchFriendsRequest = createAction('[Users] Fetch Friends Request');
+export const fetchFriendsSuccess = createAction('[Users] Fetch Friends Success', props<{friends: Friends[]}>());
+export const fetchFriendsFailure = createAction('[Users] Fetch Friends Failure', props<{error: string}>());

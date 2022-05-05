@@ -7,7 +7,7 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess,
+  editUserSuccess, fetchFriendsFailure, fetchFriendsRequest, fetchFriendsSuccess,
   loginFbFailure,
   loginFbRequest,
   loginFbSuccess,
@@ -141,5 +141,13 @@ export class UsersEffects {
       this.helpersService.catchServerError(addFriendFailure)
     ))
   ))
+
+  fetchFriends = createEffect(() => this.actions.pipe(
+    ofType(fetchFriendsRequest),
+    mergeMap(() => this.usersService.getFriends().pipe(
+      map((friends) => fetchFriendsSuccess({friends})),
+      this.helpersService.catchServerError(fetchFriendsFailure)
+    )),
+  ));
 
 }

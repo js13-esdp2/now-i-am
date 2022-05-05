@@ -6,7 +6,7 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess,
+  editUserSuccess, fetchFriendsFailure, fetchFriendsRequest, fetchFriendsSuccess,
   loginFbFailure,
   loginFbRequest,
   loginFbSuccess,
@@ -25,6 +25,7 @@ import { User } from '../models/user.model';
 
 const initialState: UsersState = {
   user: null,
+  friends: [],
   registerLoading: false,
   registerError: null,
   editLoading: false,
@@ -33,6 +34,8 @@ const initialState: UsersState = {
   loginError: null,
   addFriendLoading: false,
   addFriendError: null,
+  fetchFriendsLoading: false,
+  fetchFriendsError: null,
 };
 
 const createUserClass = (user: User) => {
@@ -84,4 +87,8 @@ export const usersReducer = createReducer(
   on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),
   on(addFriendSuccess, (state, {user}) => ({...state, addFriendLoading: false, user: createUserClass(user)})),
   on(addFriendFailure, (state, {error}) => ({...state, addFriendLoading: false, addFriendError: error})),
-)
+
+  on(fetchFriendsRequest, state => ({...state, fetchFriendsLoading: true, fetchFriendsError: null,})),
+  on(fetchFriendsSuccess, (state, {friends}) => ({...state, fetchFriendsLoading: false, friends})),
+  on(fetchFriendsFailure, (state, {error}) => ({...state, fetchFriendsLoading: false, fetchFriendsError: error})),
+);

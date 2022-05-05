@@ -29,6 +29,7 @@
         <mat-menu #menu="matMenu" class="user-menu">
           <button mat-menu-item [disabled]="true">{{ (user | async)?.displayName }}</button>
           <a routerLink="/profile" mat-menu-item>Мой профиль</a>
+          <a routerLink="/friends" mat-menu-item>Мои друзья</a>
           <button mat-menu-item (click)="logout()">Выйти</button>
         </mat-menu>
       </nav>

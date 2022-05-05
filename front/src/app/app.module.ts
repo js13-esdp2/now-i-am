@@ -82,6 +82,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
 import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
 import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
+import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-pos
     ChatComponent,
     ChatRoomComponent,
     ChatSidebarComponent,
-    MyHistoryPostsComponent
+    MyHistoryPostsComponent,
+    UserFriendsComponent
   ],
   imports: [
     BrowserModule,

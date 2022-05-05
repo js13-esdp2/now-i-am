@@ -3,6 +3,7 @@ const config = require('./config');
 
 const User = require('./models/User');
 const Post = require('./models/Post');
+const Friends = require('./models/Friends');
 const {nanoid} = require("nanoid");
 
 const run = async () => {
@@ -18,6 +19,7 @@ const run = async () => {
     password: '123',
     displayName: 'Anna',
     token: nanoid(),
+    photo: 'anna.jpg',
     age: 26,
     sex: 'female',
     country: 'Австралия',
@@ -27,6 +29,7 @@ const run = async () => {
     password: '123',
     displayName: 'John',
     token: nanoid(),
+    photo: 'john.jpg',
     age: 23,
     sex: 'male',
     country: 'Кыргызстан',
@@ -38,11 +41,32 @@ const run = async () => {
     password: '123',
     displayName: 'Vasiliy Pupkin',
     token: nanoid(),
+    photo: 'vasiy.jpg',
     age: 35,
     sex: 'male',
     country: 'Кыргызстан',
     city: 'Кант',
     role: 'user',
+  });
+
+  await Friends.create({
+    user: anna,
+    friend: vasiliy
+  }, {
+    user: anna,
+    friend: john,
+  }, {
+    user: john,
+    friend: vasiliy,
+  }, {
+    user: john,
+    friend: anna
+  }, {
+    user: vasiliy,
+    friend: john,
+  }, {
+    user: vasiliy,
+    friend: anna,
   });
 
   await Post.create({

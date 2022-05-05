@@ -1,9 +1,11 @@
 import { EditUserError, LoginError, RegisterError, User } from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
+import { Friends } from '../models/frends.model';
 
 
 export type UsersState = {
   user: null | User,
+  friends: Friends[],
   registerLoading: boolean,
   registerError: null | RegisterError,
   editLoading: boolean,
@@ -12,6 +14,8 @@ export type UsersState = {
   loginError: null | LoginError,
   addFriendLoading: boolean,
   addFriendError: null | string,
+  fetchFriendsLoading: boolean,
+  fetchFriendsError: null | string,
 }
 
 export type PostState = {

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
 import { EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
+import { map } from 'rxjs';
+import { Friends } from '../models/frends.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +50,19 @@ export class UsersService {
 
   addFriend(userId: string) {
     return this.http.post<User>(env.apiUrl + '/users/addFriend', { userId });
+  }
+
+  getFriends() {
+    return this.http.get<Friends[]>(env.apiUrl + '/friends').pipe(
+      map(response => {
+        return response.map(friendsData => {
+          return new Friends(
+            friendsData._id,
+            friendsData.user,
+            friendsData.friend,
+          );
+        });
+      })
+    );
   }
 }

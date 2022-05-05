@@ -1,0 +1,27 @@
+<div class="error" *ngIf="error | async"> {{error | async}}</div>
+<mat-progress-spinner *ngIf="loading | async else friendsArea" mode="indeterminate"></mat-progress-spinner>
+
+<ng-template #friendsArea>
+  <div class="friends-block" *ngIf="(friends | async)?.length">
+    <h2 class="friends-block__title">Мои друзья</h2>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.lt-lg="33%" fxFlex="15%" *ngFor="let friend of friends | async">
+        <mat-card class="friend-card">
+          <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+            <mat-card-title class="friend-card__title">{{ friend.friend.displayName }}</mat-card-title>
+            <mat-divider inset></mat-divider>
+          </mat-card-header>
+          <div class="friend-card__img-block">
+            <img class="friend-card__img" [src]="friend.friend.photo | image" [alt]="'Photo of ' + friend.friend.displayName">
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="friends-block" *ngIf="!(friends | async)?.length">
+    <h3 class="friends-block__title">Добавь новых друзей!</h3>
+  </div>
+</ng-template>
+
+
