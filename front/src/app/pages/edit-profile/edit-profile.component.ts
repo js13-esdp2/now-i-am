@@ -17,6 +17,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   country: Observable<ApiCountryData[]>;
   capital: Observable<City[]>;
   isLoading: Observable<boolean>;
+  countrySub!: Subscription;
 
   isPhotoExists: boolean = false;
   private userData!: User;
@@ -42,13 +43,13 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isPhotoExists = !!user.photo;
       }
     });
-    this.country.subscribe(data => {
-      this.countryData = data;
+    this.countrySub = this.country.subscribe(countryInfo => {
+      this.countryData = countryInfo;
     });
     this.store.dispatch(fetchCountriesRequest());
   }
 
-  onChoiceCountry(capital: string) {
+  onSplitCapitalToCountry(capital: string) {
     this.town = false;
     this.countryData?.forEach(country => {
       if (country.name.official === capital) {
@@ -105,5 +106,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.countrySub.unsubscribe();
   }
 }

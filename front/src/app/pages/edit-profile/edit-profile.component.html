@@ -75,8 +75,10 @@
     <mat-form-field appearance="outline">
       <mat-label>Страна</mat-label>
       <mat-select name="country" ngModel>
-        <mat-option *ngFor="let c of country | async" [value]="c.name.official"
-                    (click)="onChoiceCountry(c.name.official)">{{ c.name.official }}</mat-option>
+        <mat-option
+          *ngFor="let c of country | async" [value]="c.name.official"
+          (click)="onSplitCapitalToCountry(c.name.official)"
+        >{{ c.name.official }}</mat-option>
       </mat-select>
     </mat-form-field>
 
