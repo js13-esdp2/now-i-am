@@ -4,15 +4,26 @@
   &__title
     font-size: 44px
     font-weight: bold
-    font-style: italic
+    padding: 15px 0
+    --start: 15%
+    color: white
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
+    overflow: hidden
 
 .friend-card
-  background: #81c0ff
+  height: auto
+  --start: 15%
+  border-top-left-radius: 10px
+  border-top-right-radius: 10px
+  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
   overflow: hidden
 
   &__title
     font-size: 20px
     font-weight: bold
+    color: white
 
   &__img-block
     max-width: 330px
