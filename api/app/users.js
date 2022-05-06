@@ -22,6 +22,19 @@ const router = express.Router();
 const upload = multer({storage});
 
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findOne({_id: req.params.id});
+    return res.send(user);
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+
+    return next(e);
+  }
+});
+
 router.post('/', async (req, res, next) => {
     try {
         const user = new User({
