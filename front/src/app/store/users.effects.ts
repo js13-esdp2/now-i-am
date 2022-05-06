@@ -7,7 +7,13 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess, fetchFriendsFailure, fetchFriendsRequest, fetchFriendsSuccess,
+  editUserSuccess,
+  fetchFriendsFailure,
+  fetchFriendsRequest,
+  fetchFriendsSuccess,
+  fetchUserFailure,
+  fetchUserRequest,
+  fetchUserSuccess,
   loginFbFailure,
   loginFbRequest,
   loginFbSuccess,
@@ -16,7 +22,10 @@ import {
   loginGoogleSuccess,
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess, loginVKFailure, loginVKRequest, loginVKSuccess,
+  loginUserSuccess,
+  loginVKFailure,
+  loginVKRequest,
+  loginVKSuccess,
   logoutUser,
   logoutUserRequest,
   registerUserFailure,
@@ -128,6 +137,14 @@ export class UsersEffects {
         this.store.dispatch(onPostModalDataChange({postModalData: {postId: '', searchTitle: ''}}));
         this.helpersService.openSnackBar('Выход выполнен!');
       }),
+    )),
+  ));
+
+  fetchUser = createEffect(() => this.actions.pipe(
+    ofType(fetchUserRequest),
+    mergeMap(({userId}) => this.usersService.getUser(userId).pipe(
+      map(user => fetchUserSuccess({user})),
+      this.helpersService.catchServerError(fetchUserFailure)
     )),
   ));
 

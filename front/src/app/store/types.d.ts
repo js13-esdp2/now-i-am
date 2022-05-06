@@ -16,6 +16,8 @@ export type UsersState = {
   addFriendError: null | string,
   fetchFriendsLoading: boolean,
   fetchFriendsError: null | string,
+  fetchUserLoading: boolean,
+  fetchUserError: null | string,
 }
 
 export type PostState = {

@@ -6,7 +6,13 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess, fetchFriendsFailure, fetchFriendsRequest, fetchFriendsSuccess,
+  editUserSuccess,
+  fetchFriendsFailure,
+  fetchFriendsRequest,
+  fetchFriendsSuccess,
+  fetchUserFailure,
+  fetchUserRequest,
+  fetchUserSuccess,
   loginFbFailure,
   loginFbRequest,
   loginFbSuccess,
@@ -15,7 +21,10 @@ import {
   loginGoogleSuccess,
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess, loginVKFailure, loginVKRequest, loginVKSuccess,
+  loginUserSuccess,
+  loginVKFailure,
+  loginVKRequest,
+  loginVKSuccess,
   logoutUser,
   registerUserFailure,
   registerUserRequest,
@@ -36,6 +45,8 @@ const initialState: UsersState = {
   addFriendError: null,
   fetchFriendsLoading: false,
   fetchFriendsError: null,
+  fetchUserLoading: false,
+  fetchUserError: null,
 };
 
 const createUserClass = (user: User) => {
@@ -83,6 +94,10 @@ export const usersReducer = createReducer(
   on(loginVKFailure, (state, {error}) => ({...state, loginLoading: false, loginError: error})),
 
   on(logoutUser, state => ({...state, user: null})),
+
+  on(fetchUserRequest, state => ({...state, fetchUserLoading: true, fetchUserError: null,})),
+  on(fetchUserSuccess, (state, { user }) => ({...state, fetchUserLoading: false, user})),
+  on(fetchUserFailure, (state, {error}) => ({...state, fetchUserLoading: false, fetchUserError: ''})),
 
   on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),
   on(addFriendSuccess, (state, {user}) => ({...state, addFriendLoading: false, user: createUserClass(user)})),

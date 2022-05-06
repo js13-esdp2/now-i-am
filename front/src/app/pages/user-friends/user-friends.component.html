@@ -14,6 +14,12 @@
           <div class="friend-card__img-block">
             <img class="friend-card__img" [src]="friend.friend.photo | image" [alt]="'Photo of ' + friend.friend.displayName">
           </div>
+          <mat-divider inset></mat-divider>
+          <mat-card-actions class="btn-block">
+            <button mat-raised-button class="btn-block__btn-person" (click)="openProfileModal(friend.friend._id)"><span class="material-icons">person</span></button>
+            <button mat-raised-button class="btn-block__btn-chat"><span class="material-icons">question_answer</span></button>
+            <button mat-raised-button class="btn-block__btn-remove"><span class="material-icons">delete</span></button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>

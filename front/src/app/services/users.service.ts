@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
-import { EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { ApiUserData, EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
 import { map } from 'rxjs';
 import { Friends } from '../models/frends.model';
@@ -46,6 +46,10 @@ export class UsersService {
 
   logout() {
     return this.http.delete(env.apiUrl + '/users/sessions');
+  }
+
+  getUser(id: string) {
+    return this.http.get<User>(env.apiUrl + '/users/' + id);
   }
 
   addFriend(userId: string) {

@@ -42,6 +42,18 @@ export interface RegisterUserData {
   displayName: string;
 }
 
+export interface ApiUserData {
+  [key: string]: any;
+  photo: string;
+  displayName: string;
+  birthday: string;
+  sex: string;
+  country?: string;
+  city?: string;
+  aboutMe?: string;
+  isPrivate?: boolean;
+}
+
 export interface EditUserData {
   [key: string]: any;
   photo: string;

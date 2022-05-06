@@ -40,7 +40,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ModalWindowComponent } from './ui/modal-window/modal-window.component';
 import { WebcamComponent } from './ui/webcam/webcam.component';
 import { WebcamModule } from 'ngx-webcam';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
@@ -83,6 +82,8 @@ import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
 import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
 import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
+import { ProfileModalComponent } from './ui/profile-modal/profile-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { UserFriendsComponent } from './pages/user-friends/user-friends.componen
     ChatRoomComponent,
     ChatSidebarComponent,
     MyHistoryPostsComponent,
-    UserFriendsComponent
+    UserFriendsComponent,
+    ProfileModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,7 +141,7 @@ import { UserFriendsComponent } from './pages/user-friends/user-friends.componen
     MatCheckboxModule,
     MatButtonToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
