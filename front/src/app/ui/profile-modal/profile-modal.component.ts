@@ -11,22 +11,22 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./profile-modal.component.sass']
 })
 export class ProfileModalComponent implements OnInit, OnDestroy {
-  user: Observable<null | User>;
+  friend: Observable<null | User>;
   loading: Observable<boolean>;
-  // error: Observable<null | string>;
+  error: Observable<null | string>;
   userSub!: Subscription;
   apiUrl = environment.apiUrl;
-  userData!: User;
+  friendData!: User;
 
   constructor(private store: Store<AppState>) {
-    this.user = this.store.select(state => state.users.user);
-    this.loading = this.store.select( state => state.users.loginLoading);
-    // this.error = this.store.select( state => state.users.loginError);
+    this.friend = this.store.select(state => state.users.friend);
+    this.loading = this.store.select( state => state.users.fetchUserLoading);
+    this.error = this.store.select( state => state.users.fetchUserError);
   }
 
   ngOnInit(): void {
-    this.userSub = this.user.subscribe( user => {
-      this.userData = <User>user;
+    this.userSub = this.friend.subscribe( friend => {
+      this.friendData = <User>friend;
     })
   }
 

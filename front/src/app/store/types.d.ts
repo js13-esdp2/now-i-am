@@ -5,6 +5,7 @@ import { Friends } from '../models/frends.model';
 
 export type UsersState = {
   user: null | User,
+  friend: null | User,
   friends: Friends[],
   registerLoading: boolean,
   registerError: null | RegisterError,

@@ -142,8 +142,8 @@ export class UsersEffects {
 
   fetchUser = createEffect(() => this.actions.pipe(
     ofType(fetchUserRequest),
-    mergeMap(({userId}) => this.usersService.getUser(userId).pipe(
-      map(user => fetchUserSuccess({user})),
+    mergeMap(({friendId}) => this.usersService.getUser(friendId).pipe(
+      map(friend => fetchUserSuccess({friend})),
       this.helpersService.catchServerError(fetchUserFailure)
     )),
   ));

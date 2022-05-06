@@ -30,8 +30,8 @@ export class UserFriendsComponent implements OnInit {
     this.user = store.select(state => state.users.user);
   }
 
-  openProfileModal(userId: string) {
-    this.store.dispatch(fetchUserRequest({userId}))
+  openProfileModal(friendId: string) {
+    this.store.dispatch(fetchUserRequest({friendId}))
     this.dialog.open(ProfileModalComponent);
   }
 

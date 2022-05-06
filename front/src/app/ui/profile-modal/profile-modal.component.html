@@ -3,34 +3,32 @@
   mode="indeterminate"
 ></mat-progress-spinner>
 
-<!--<div class="error" *ngIf="error | async">-->
-<!--  {{ error | async }}-->
-<!--</div>-->
+<div class="error" *ngIf="error | async">
+  {{ error | async }}
+</div>
 
 <ng-template #photoArea>
   <mat-dialog-content class="mat-typography">
-    <img class="img" [src]=" apiUrl + '/uploads/' + userData.photo" [alt]="userData.displayName">
+    <img class="photo" [src]=" apiUrl + '/uploads/' + friendData.photo" [alt]="friendData.displayName">
     <mat-card-content>
-      <h2 class="title" mat-dialog-title>Имя: {{ userData.displayName }}</h2>
-      <p>
-        <strong>О себе: </strong>{{ userData.aboutMe || 'Не указано' }}
-      </p>
-      <p>
-        <strong>Возраст: </strong>{{ userData.age || 'Не указано' }}
-      </p>
-      <p>
-        <strong>Пол: </strong>{{ userData.sex === 'male' ? 'Муж.' : userData.sex === 'female' ? 'Жен.' : 'Не указано' }}
-      </p>
-      <p>
-        <strong>Страна: </strong>{{ userData.country || 'Не указано' }}
-      </p>
-      <p>
-        <strong>Город: </strong>{{ userData.city || 'Не указано' }}
-      </p>
-      <p>
-        <strong>Приватный аккаунт: </strong>
-        <mat-checkbox [checked]="userData.isPrivate" disabled="true"></mat-checkbox>
-      </p>
+      <h2 class="title" mat-dialog-title>Имя: {{ friendData.displayName }}</h2>
+      <div *ngIf="!friendData.isPrivate">
+        <p>
+          <strong>О себе: </strong>{{ friendData.aboutMe || 'Не указано' }}
+        </p>
+        <p>
+          <strong>Возраст: </strong>{{ friendData.age || 'Не указано' }}
+        </p>
+        <p>
+          <strong>Пол: </strong>{{ friendData.sex === 'male' ? 'Муж.' : friendData.sex === 'female' ? 'Жен.' : 'Не указано' }}
+        </p>
+        <p>
+          <strong>Страна: </strong>{{ friendData.country || 'Не указано' }}
+        </p>
+        <p>
+          <strong>Город: </strong>{{ friendData.city || 'Не указано' }}
+        </p>
+      </div>
     </mat-card-content>
     <mat-dialog-actions>
       <button class="button" mat-raised-button color="primary" mat-dialog-close="">Cancel</button>

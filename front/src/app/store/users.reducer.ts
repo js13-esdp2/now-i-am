@@ -34,6 +34,7 @@ import { User } from '../models/user.model';
 
 const initialState: UsersState = {
   user: null,
+  friend: null,
   friends: [],
   registerLoading: false,
   registerError: null,
@@ -96,7 +97,7 @@ export const usersReducer = createReducer(
   on(logoutUser, state => ({...state, user: null})),
 
   on(fetchUserRequest, state => ({...state, fetchUserLoading: true, fetchUserError: null,})),
-  on(fetchUserSuccess, (state, { user }) => ({...state, fetchUserLoading: false, user})),
+  on(fetchUserSuccess, (state, { friend }) => ({...state, fetchUserLoading: false, friend})),
   on(fetchUserFailure, (state, {error}) => ({...state, fetchUserLoading: false, fetchUserError: ''})),
 
   on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),

@@ -38,8 +38,8 @@ export const loginVKFailure = createAction('[Users] Login VK Failure', props<{er
 export const logoutUser = createAction('[Users] Logout');
 export const logoutUserRequest = createAction('[Users] Logout Request');
 
-export const fetchUserRequest = createAction('[Users] Fetch User Request', props<{userId: string}>());
-export const fetchUserSuccess = createAction('[Users] Fetch User Success', props<{user: User}>());
+export const fetchUserRequest = createAction('[Users] Fetch User Request', props<{friendId: string}>());
+export const fetchUserSuccess = createAction('[Users] Fetch User Success', props<{friend: User}>());
 export const fetchUserFailure = createAction('[Users] Fetch User Failure', props<{error: string}>());
 
 export const addFriendRequest = createAction('[Users] Add Friend Request', props<{userId: string}>());
