@@ -63,21 +63,7 @@ export class PostsService {
   }
 
   removePost(id: string) {
-    return this.http.delete<ApiPostData[]>(environment.apiUrl + `/posts/${id}`).pipe(
-      map(response => {
-        return response.map(postData => {
-          return new Post(
-            postData._id,
-            postData.user,
-            postData.title,
-            postData.content,
-            postData.datetime,
-            postData.time,
-            postData.likes
-          );
-        });
-      })
-    );
+    return this.http.delete(environment.apiUrl + `/posts/${id}`);
   }
 
   getImageUrl64(imageUrl64: WebcamImage | null) {

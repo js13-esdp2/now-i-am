@@ -24,7 +24,7 @@
           <a routerLink="/chat" class="nav-list__list-item" mat-icon-button><mat-icon>sms</mat-icon></a>
         </nav>
         <button mat-icon-button [matMenuTriggerFor]="menu">
-          <img class="user-avatar" [src]="apiUrl + '/uploads/' +  (user | async)?.photo" alt="Фото пользователя">
+          <img class="user-avatar" [src]="apiUrl + '/uploads/' + (user | async)?.photo" alt="Фото пользователя">
         </button>
         <mat-menu #menu="matMenu" class="user-menu">
           <button mat-menu-item [disabled]="true">{{ (user | async)?.displayName }}</button>

@@ -64,8 +64,12 @@ export const postsReducer = createReducer(
   on(likePostSuccess, (state, { post }) => ({...state, likeLoading: false, post})),
   on(likePostFailure, (state, { error }) => ({...state, likeLoading: false, likeError: error})),
 
-  on(removePostRequest, state => ({...state, fetchLoading: true})),
-  on(removePostSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+  on(removePostRequest, (state, {id}) => {
+    const array = state.posts.filter( post=> {
+      return post._id !== id
+    })
+    return ({...state, posts: array, fetchLoading: true})}),
+  on(removePostSuccess, state => ({...state, fetchLoading: false})),
 
   on(fetchMyHistoryPostsRequest, state => ({...state, fetchLoading: true})),
   on(fetchMyHistoryPostsSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),

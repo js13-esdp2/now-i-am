@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelpersService } from '../services/helpers.service';
 import { PostsService } from '../services/posts.service';
@@ -26,15 +26,21 @@ import {
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class PostsEffects {
+
+  user!: Observable<null | User>
+
   constructor(
     private actions: Actions,
     private postsService: PostsService,
     private router: Router,
     private helpers: HelpersService,
   ) {}
+
+
 
   fetchPosts = createEffect(() => this.actions.pipe(
     ofType(fetchPostsRequest),
@@ -99,7 +105,7 @@ export class PostsEffects {
   removePost= createEffect(() => this.actions.pipe(
     ofType(removePostRequest),
     mergeMap(({id}) => this.postsService.removePost(id).pipe(
-      map(posts => removePostSuccess({posts})),
+      map(() => removePostSuccess()),
       tap(() => {
         this.helpers.openSnackBar('Задание было удалено!');
       })

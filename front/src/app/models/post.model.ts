@@ -16,9 +16,9 @@ export class Post{
       _id: string,
       user: string
     }[],
-  ) {
-  }
+    ) {}
 }
+
 
 export interface PostModalData {
   postId: string,

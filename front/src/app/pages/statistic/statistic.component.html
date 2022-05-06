@@ -3,10 +3,10 @@
 >
   <mat-card-content>
     <div class="amount-user">
-      <p class="amount-user__title-number" (click)="openList()">{{ $posts.length }}</p>
+      <p class="amount-user__title-number">{{ $posts.length }}</p>
       <h3 class="amount-user__title">Количество человек с похожим занятием</h3>
     </div>
-    <div *ngIf="showList">
+    <div>
       <div class="search-users" *ngFor="let post of $posts">
         <mat-card  class="search-users__search-user-card"
                    (click)="openPost(post)"

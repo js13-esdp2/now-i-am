@@ -22,7 +22,6 @@ export class StatisticComponent implements OnInit {
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
   isSearched = false;
-  showList: Boolean = false;
   postModalData!: PostModalData;
   searchTitle!: string;
 
@@ -66,10 +65,6 @@ export class StatisticComponent implements OnInit {
       searchTitle: this.searchTitle,
     }
     this.store.dispatch(onPostModalDataChange({postModalData}));
-  }
-
-  openList() {
-    this.showList = !this.showList;
   }
 
   getLocation() {
