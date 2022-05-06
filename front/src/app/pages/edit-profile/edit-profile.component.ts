@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { User } from '../../models/user.model';
+import { ApiCountryData, City, User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
-import { editUserRequest } from '../../store/users.actions';
+import { editUserRequest, fetchCountriesRequest } from '../../store/users.actions';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,18 +14,24 @@ import { editUserRequest } from '../../store/users.actions';
 export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
   user: Observable<null | User>;
+  country: Observable<ApiCountryData[]>;
+  capital: Observable<City[]>;
   isLoading: Observable<boolean>;
-
 
   isPhotoExists: boolean = false;
   private userData!: User;
   private userSub!: Subscription;
 
+  town: boolean = true;
+  countryData: ApiCountryData [] | null = null;
+  city: string [] = [];
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.user = store.select((state) => state.users.user);
+    this.country = store.select((state) => state.users.country);
+    this.capital = store.select((state) => state.users.capital);
     this.isLoading = store.select((state) => state.users.editLoading);
   }
 
@@ -34,12 +40,24 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (user) {
         this.userData = user;
         this.isPhotoExists = !!user.photo;
+      }
+    });
+    this.country.subscribe(data => {
+      this.countryData = data;
+    });
+    this.store.dispatch(fetchCountriesRequest());
+  }
 
+  onChoiceCountry(capital: string) {
+    this.town = false;
+    this.countryData?.forEach(country => {
+      if (country.name.official === capital) {
+        this.city = country.capital;
       }
     });
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.setFormValue({
       photo: this.userData.photo || '',
       displayName: this.userData.displayName,
@@ -78,7 +96,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       isPrivate: this.form.value.isPrivate
     };
 
-    if(this.form.value.age){
+    if (this.form.value.age) {
       userData.birthday = this.form.value.age.toISOString();
     }
 

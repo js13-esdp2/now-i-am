@@ -6,7 +6,7 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess,
+  editUserSuccess, fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
   fetchFriendsSuccess,
@@ -36,6 +36,10 @@ const initialState: UsersState = {
   user: null,
   friend: null,
   friends: [],
+  capital: [],
+  country: [],
+  fetchLoading: false,
+  fetchError: null,
   registerLoading: false,
   registerError: null,
   editLoading: false,
@@ -107,4 +111,8 @@ export const usersReducer = createReducer(
   on(fetchFriendsRequest, state => ({...state, fetchFriendsLoading: true, fetchFriendsError: null,})),
   on(fetchFriendsSuccess, (state, {friends}) => ({...state, fetchFriendsLoading: false, friends})),
   on(fetchFriendsFailure, (state, {error}) => ({...state, fetchFriendsLoading: false, fetchFriendsError: error})),
+
+  on(fetchCountriesRequest, state => ({...state, fetchLoading: true})),
+  on(fetchCountriesSuccess, (state, {countries}) => ({...state, fetchLoading: false, country: countries})),
+  on(fetchCountriesFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 );

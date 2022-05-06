@@ -99,3 +99,34 @@ export interface EditUserError {
 export interface LoginError {
   error: string;
 }
+
+export interface Country {
+  name: string,
+}
+
+export interface ApiCountryData {
+  name: {
+    official: string,
+  },
+  capital: string[],
+}
+
+export interface CountryData {
+  name: string,
+}
+
+export class City {
+  constructor(
+    public _id: string,
+    public capital: string
+  ){}
+}
+
+export interface CityData {
+  capital: string,
+}
+
+export interface ApiCityData {
+  _id: string,
+  capital: string,
+}

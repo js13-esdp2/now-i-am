@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
-import { ApiUserData, EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { ApiCountryData, ApiUserData, EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
 import { map } from 'rxjs';
 import { Friends } from '../models/frends.model';
@@ -27,6 +27,10 @@ export class UsersService {
 
     return this.http.post<User>(env.apiUrl + '/users/edit-profile', formData);
   }
+
+  getCountries() {
+    return this.http.get<ApiCountryData[]>(env.apiUrlCountries + `/all`);
+  };
 
   login(loginData: LoginUserData) {
     return this.http.post<User>(env.apiUrl + '/users/sessions', loginData);

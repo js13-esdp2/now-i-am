@@ -1,4 +1,4 @@
-import { EditUserError, LoginError, RegisterError, User } from '../models/user.model';
+import { ApiCountryData, City, Country, EditUserError, LoginError, RegisterError, User } from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
 import { Friends } from '../models/frends.model';
 
@@ -19,6 +19,10 @@ export type UsersState = {
   fetchFriendsError: null | string,
   fetchUserLoading: boolean,
   fetchUserError: null | string,
+  country: ApiCountryData[],
+  fetchLoading: boolean,
+  fetchError: null | string,
+  capital: City[],
 }
 
 export type PostState = {
@@ -40,8 +44,22 @@ export type SearchState = {
   searchError: null | string,
 }
 
+export type CountryState = {
+  country: Country[];
+  fetchLoading: boolean,
+  fetchError: null | string,
+}
+
+export type CityState = {
+  capital: City[];
+  fetchLoading: boolean,
+  fetchError: null | string,
+}
+
 export type AppState = {
   users: UsersState,
   posts: PostState,
   search: SearchState,
+  country: CountryState,
+  capital: CityState,
 }

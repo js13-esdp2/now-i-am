@@ -71,22 +71,22 @@
         <mat-option value="female">Женский</mat-option>
       </mat-select>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Страна</mat-label>
-      <input type="text"
-             name="country"
-             matInput
-             ngModel
-      />
+      <mat-select name="country" ngModel>
+        <mat-option *ngFor="let c of country | async" [value]="c.name.official"
+                    (click)="onChoiceCountry(c.name.official)">{{ c.name.official }}</mat-option>
+      </mat-select>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Город</mat-label>
-      <input type="text"
-             name="city"
-             matInput
-             ngModel
-      />
+      <mat-select name="city" ngModel [disabled]="town">
+        <mat-option *ngFor="let c of city" [value]="c">{{ c }}</mat-option>
+      </mat-select>
     </mat-form-field>
+
     <p class="is-private-block">
       <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
     </p>
