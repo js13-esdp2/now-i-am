@@ -28,7 +28,7 @@ import {
   logoutUser,
   registerUserFailure,
   registerUserRequest,
-  registerUserSuccess
+  registerUserSuccess, removeFriendRequest, removeFriendSuccess
 } from './users.actions';
 import { User } from '../models/user.model';
 
@@ -52,6 +52,8 @@ const initialState: UsersState = {
   fetchFriendsError: null,
   fetchUserLoading: false,
   fetchUserError: null,
+  removeFriendLoading: false,
+  removeFriendError: null,
 };
 
 const createUserClass = (user: User) => {
@@ -102,7 +104,7 @@ export const usersReducer = createReducer(
 
   on(fetchUserRequest, state => ({...state, fetchUserLoading: true, fetchUserError: null,})),
   on(fetchUserSuccess, (state, { friend }) => ({...state, fetchUserLoading: false, friend})),
-  on(fetchUserFailure, (state, {error}) => ({...state, fetchUserLoading: false, fetchUserError: ''})),
+  on(fetchUserFailure, (state) => ({...state, fetchUserLoading: false, fetchUserError: ''})),
 
   on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),
   on(addFriendSuccess, (state, {user}) => ({...state, addFriendLoading: false, user: createUserClass(user)})),
@@ -115,4 +117,12 @@ export const usersReducer = createReducer(
   on(fetchCountriesRequest, state => ({...state, fetchLoading: true})),
   on(fetchCountriesSuccess, (state, {countries}) => ({...state, fetchLoading: false, country: countries})),
   on(fetchCountriesFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
+
+  on(removeFriendRequest, (state, {friendId}) => {
+    const array = state.friends.filter( friend => {
+      return friend.friend._id !== friendId;
+    });
+    return {...state, friends: array, removeFriendLoading: true, removeFriendError: null,}}),
+  on(removeFriendSuccess, (state) => ({...state, removeFriendLoading: false})),
+
 );

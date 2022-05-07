@@ -1,12 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import {
-  EditUserError,
+  ApiCountryData,
   EditUserData,
+  EditUserError,
   LoginError,
   LoginUserData,
   RegisterError,
   RegisterUserData,
-  User, ApiUserData, ApiCountryData
+  User
 } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
 import { Friends } from '../models/frends.model';
@@ -53,3 +54,6 @@ export const fetchFriendsFailure = createAction('[Users] Fetch Friends Failure',
 export const fetchCountriesRequest = createAction('[Country] Fetch Request');
 export const fetchCountriesSuccess = createAction('[Country] Fetch Success', props<{countries: ApiCountryData[]}>());
 export const fetchCountriesFailure = createAction('[Country] Fetch Failure', props<{ error: string }>());
+
+export const removeFriendRequest = createAction('[Users] Remove Friend Request', props<{friendId: string}>());
+export const removeFriendSuccess = createAction('[Users] Remove Friend Success');

@@ -7,7 +7,10 @@ import {
   addFriendSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess, fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess,
+  editUserSuccess,
+  fetchCountriesFailure,
+  fetchCountriesRequest,
+  fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
   fetchFriendsSuccess,
@@ -30,7 +33,9 @@ import {
   logoutUserRequest,
   registerUserFailure,
   registerUserRequest,
-  registerUserSuccess
+  registerUserSuccess,
+  removeFriendRequest,
+  removeFriendSuccess
 } from './users.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -172,6 +177,14 @@ export class UsersEffects {
     mergeMap(() => this.usersService.getFriends().pipe(
       map((friends) => fetchFriendsSuccess({friends})),
       this.helpersService.catchServerError(fetchFriendsFailure)
+    )),
+  ));
+
+  removeFriend = createEffect(() => this.actions.pipe(
+    ofType(removeFriendRequest),
+    mergeMap(({friendId}) => this.usersService.removeFriend(friendId).pipe(
+      map(() => removeFriendSuccess()),
+      this.helpersService.catchServerError('Удаление завершино!')
     )),
   ));
 

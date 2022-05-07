@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
-import { ApiCountryData, ApiUserData, EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { ApiCountryData, EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
 import { map } from 'rxjs';
 import { Friends } from '../models/frends.model';
@@ -72,5 +72,8 @@ export class UsersService {
         });
       })
     );
+  }
+  removeFriend(id: string) {
+    return this.http.delete(env.apiUrl + '/friends/' + id);
   }
 }

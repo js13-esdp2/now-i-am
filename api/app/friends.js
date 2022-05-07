@@ -37,10 +37,18 @@ router.post('/', auth, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async(req, res, next) =>{
+router.delete('/:id', auth, async(req, res, next) =>{
   try{
-    const friend = await Friends.deleteOne({_id: req.params.id});
-    return res.send(friend);
+    const findFriend = await Friends.findOne({friend: req.params.id});
+    if(!findFriend) {
+      return res.send({message: 'ok'});
+    }
+    if(!findFriend.user.equals(req.user._id)) {
+      return res.status(403).send({error: 'У Вас нет на это прав'});
+    }
+    await findFriend.remove();
+
+    res.send(findFriend)
   }catch(e){
     next(e);
   }

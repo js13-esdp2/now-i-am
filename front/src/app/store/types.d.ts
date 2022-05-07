@@ -23,6 +23,8 @@ export type UsersState = {
   fetchLoading: boolean,
   fetchError: null | string,
   capital: City[],
+  removeFriendLoading: boolean,
+  removeFriendError: null | string,
 }
 
 export type PostState = {

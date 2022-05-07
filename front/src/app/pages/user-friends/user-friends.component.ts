@@ -4,8 +4,7 @@ import { User } from '../../models/user.model';
 import { Friends } from '../../models/frends.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { fetchFriendsRequest, fetchUserRequest } from '../../store/users.actions';
-import { ProfileComponent } from '../profile/profile.component';
+import { fetchFriendsRequest, fetchUserRequest, removeFriendRequest } from '../../store/users.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileModalComponent } from '../../ui/profile-modal/profile-modal.component';
 
@@ -39,4 +38,7 @@ export class UserFriendsComponent implements OnInit {
     this.store.dispatch(fetchFriendsRequest());
   }
 
+  removeFriend(friendId: string) {
+    this.store.dispatch(removeFriendRequest({friendId}));
+  }
 }
