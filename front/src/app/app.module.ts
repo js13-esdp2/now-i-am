@@ -84,6 +84,8 @@ import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-pos
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
 import { ProfileModalComponent } from './ui/profile-modal/profile-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -142,6 +144,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatExpansionModule,
+    MatSliderModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

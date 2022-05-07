@@ -14,14 +14,27 @@ export class PostsService {
   post!: Post;
   postModalChange = new Subject<Post>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getPosts(userId?: string, title?: string) {
+  getPosts(filterData: any) {
     let params = new HttpParams();
-    if (userId) params = params.append('user', userId);
-    if (title) params = params.append('title', title);
+    if (filterData?.title) params = params.append('title', filterData.title);
+    if (filterData?.birthday) params = params.append('birthday', filterData.birthday);
+    if (filterData?.sex) params = params.append('sex', filterData.sex);
+    if (filterData?.country) params = params.append('country', filterData.country);
+    if (filterData?.city) params = params.append('city', filterData.city);
+    if (filterData?.isPrivate) params = params.append('isPrivate', filterData.isPrivate);
 
-    return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', { params }).pipe(
+    // Object.keys(filterData).forEach(key => {
+    //   if (filterData !== null) {
+    //     params.append(key, filterData[key]);
+    //   }
+    // });
+    //
+    // console.log(params);
+
+    return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', {params}).pipe(
       map(response => {
         return response.map(postData => {
           return new Post(
@@ -46,11 +59,11 @@ export class PostsService {
     );
   }
 
-  createPost(postData: PostData){
+  createPost(postData: PostData) {
     const formData = new FormData();
 
     Object.keys(postData).forEach(key => {
-      if (postData[key] !== null){
+      if (postData[key] !== null) {
         if (key !== 'time') {
           formData.append(key, postData[key]);
         } else {
@@ -85,7 +98,8 @@ export class PostsService {
       }),
     );
   }
-  getMyHistoryPosts(user_id: string){
+
+  getMyHistoryPosts(user_id: string) {
     return this.http.get<ApiPostData[]>(environment.apiUrl + `/posts/my-history-posts/${user_id}`).pipe(
       map(response => {
         return response.map(postData => {

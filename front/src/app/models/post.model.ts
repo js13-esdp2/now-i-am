@@ -19,6 +19,14 @@ export class Post{
     ) {}
 }
 
+export interface FilterData {
+  title: string,
+  birthday: string,
+  country: string,
+  city: string,
+  sex: string,
+  isPrivate: string,
+}
 
 export interface PostModalData {
   postId: string,

@@ -54,8 +54,11 @@ export class PostsEffects {
 
   fetchTitlePosts = createEffect(() => this.actions.pipe(
     ofType(fetchTitlePostsRequest),
-    mergeMap(({ title }) => this.postsService.getPosts('', title).pipe(
+    mergeMap(({ filterData }) => this.postsService.getPosts(filterData).pipe(
       map(posts => fetchTitlePostsSuccess({posts})),
+      tap(() => {
+        void this.router.navigate(['/statistic'])
+      }),
       catchError(() => of(fetchTitlePostsFailure({
         error: 'Что-то пошло не так'
       })))
