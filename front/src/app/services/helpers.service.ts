@@ -41,6 +41,7 @@ export class HelpersService {
 
       if (reqError instanceof HttpErrorResponse && reqError.status === 400) {
         error = reqError.error;
+        this.openSnackBar(error.error);
       } else {
         this.openSnackBar('Ошибка сервера');
       }

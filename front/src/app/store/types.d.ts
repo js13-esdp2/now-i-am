@@ -26,6 +26,8 @@ export type UsersState = {
   capital: City[],
   removeFriendLoading: boolean,
   removeFriendError: null | string,
+  changePasswordLoading: boolean,
+  changePasswordError: null | string,
 }
 
 export type PostState = {

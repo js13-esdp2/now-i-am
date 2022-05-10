@@ -130,3 +130,8 @@ export interface ApiCityData {
   _id: string,
   capital: string,
 }
+
+export interface PasswordData {
+  newPassword: string,
+  currentPassword: string
+}

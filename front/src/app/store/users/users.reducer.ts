@@ -3,7 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   addFriendFailure,
   addFriendRequest,
-  addFriendSuccess,
+  addFriendSuccess, changeUserPasswordFailure, changeUserPasswordRequest, changeUserPasswordSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess, fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess,
@@ -54,6 +54,8 @@ const initialState: UsersState = {
   fetchUserError: null,
   removeFriendLoading: false,
   removeFriendError: null,
+  changePasswordLoading: false,
+  changePasswordError: null,
 };
 
 const createUserClass = (user: User) => {
@@ -124,5 +126,9 @@ export const usersReducer = createReducer(
     });
     return {...state, friends: array, removeFriendLoading: true, removeFriendError: null,}}),
   on(removeFriendSuccess, (state) => ({...state, removeFriendLoading: false})),
+
+  on(changeUserPasswordRequest, state => ({...state, changePasswordLoading: true, changePasswordError: null})),
+  on(changeUserPasswordSuccess, state => ({...state, changePasswordLoading: false})),
+  on(changeUserPasswordFailure, (state, {error}) => ({...state, changePasswordLoading: false, changePasswordError: error})),
 
 );

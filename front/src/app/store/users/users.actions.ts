@@ -4,7 +4,7 @@ import {
   EditUserData,
   EditUserError,
   LoginError,
-  LoginUserData,
+  LoginUserData, PasswordData,
   RegisterError,
   RegisterUserData,
   User
@@ -57,3 +57,7 @@ export const fetchCountriesFailure = createAction('[Country] Fetch Failure', pro
 
 export const removeFriendRequest = createAction('[Users] Remove Friend Request', props<{friendId: string}>());
 export const removeFriendSuccess = createAction('[Users] Remove Friend Success');
+
+export const changeUserPasswordRequest = createAction('[User] Change Password Request', props<{passwords: PasswordData}>());
+export const changeUserPasswordSuccess = createAction('[User] Change Password Success');
+export const changeUserPasswordFailure = createAction('[User] Change Password Failure', props<{ error: string }>());

@@ -4,7 +4,7 @@ import { UsersService } from '../../services/users.service';
 import {
   addFriendFailure,
   addFriendRequest,
-  addFriendSuccess,
+  addFriendSuccess, changeUserPasswordFailure, changeUserPasswordRequest, changeUserPasswordSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
@@ -184,8 +184,20 @@ export class UsersEffects {
     ofType(removeFriendRequest),
     mergeMap(({friendId}) => this.usersService.removeFriend(friendId).pipe(
       map(() => removeFriendSuccess()),
-      this.helpersService.catchServerError('Удаление завершино!')
+      this.helpersService.catchServerError('Удаление завершено!')
     )),
   ));
+
+  changePassword = createEffect(() => this.actions.pipe(
+    ofType(changeUserPasswordRequest),
+    mergeMap(({passwords}) => this.usersService.changePassword(passwords).pipe(
+      map(() => changeUserPasswordSuccess()),
+      tap(() => {
+        this.helpersService.openSnackBar('Ваш пароль успешно изменен!');
+        void this.router.navigate(['/']);
+      }),
+      this.helpersService.catchServerError(changeUserPasswordFailure)
+    )),
+  ))
 
 }
