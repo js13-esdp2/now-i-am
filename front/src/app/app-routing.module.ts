@@ -19,7 +19,10 @@ const routes: Routes = [
   {path: '', children: [
       {path: '', component: HomeComponent},
       {path: 'profile', children: [
-          {path: '', component: ProfileComponent},
+          {path: '',
+            component: ProfileComponent,
+            canActivate: [AuthGuardService]
+          },
           {path: 'edit', component: EditProfileComponent}
       ]}
   ]},

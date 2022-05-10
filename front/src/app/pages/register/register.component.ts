@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   loginVK = false;
   hide = true;
 
-
   private errorSub!: Subscription;
 
   constructor(

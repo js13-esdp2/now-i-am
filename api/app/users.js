@@ -330,4 +330,5 @@ router.post('/addFriend', auth, async (req, res, next) => {
   }
 });
 
+
 module.exports = router;
