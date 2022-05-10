@@ -333,13 +333,20 @@ router.post('/addFriend', auth, async (req, res, next) => {
 
 router.post('/changePassword', auth, async (req, res, next) => {
   try {
-    const email = req.user.email;
-    const password = req.body.currentPassword;
-    const user = await User.findOne({ email: email});
-    const isMatch = await user.checkPassword(password);
+    const user = await User.findOne({ email: req.user.email});
+
+    const isMatch = await user.checkPassword(req.body.currentPassword);
+
     if (!isMatch) {
-      return res.status(400).send({error: 'Неверный пароль'});
+      return res.status(400).send({error: 'Вы ввели неверный текущий пароль'});
     }
+
+    const passwordsIsMatch = await user.passwordMatchingCheck(req.body.newPassword, req.body.currentPassword);
+
+    if(passwordsIsMatch) {
+      return res.status(400).send({error: 'Пароли совпадают, введите новый пароль'});
+    }
+
     user.password = req.body.newPassword;
     user.save();
 

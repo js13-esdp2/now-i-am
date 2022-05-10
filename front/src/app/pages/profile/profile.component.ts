@@ -31,7 +31,9 @@ export class ProfileComponent {
     this.changePassword = !this.changePassword;
   }
 
+
+
   onSubmit() {
-    this.changePassword = !this.changePassword;
+
   }
 }

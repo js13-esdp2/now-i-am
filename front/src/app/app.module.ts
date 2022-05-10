@@ -62,6 +62,8 @@ import { ProfileModalComponent } from './ui/profile-modal/profile-modal.componen
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
+import { ValidateIdenticalDirective } from './directives/validate-identical.directive';
+import { ValidatePasswordDirective } from './directives/validate-password.directive';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -118,6 +120,8 @@ const socialConfig: SocialAuthServiceConfig = {
     MyHistoryPostsComponent,
     UserFriendsComponent,
     ProfileModalComponent,
+    ValidateIdenticalDirective,
+    ValidatePasswordDirective
   ],
   imports: [
     BrowserModule,

@@ -44,7 +44,9 @@
              matInput
              autocomplete="password"
              ngModel
+             appPassword
              #password="ngModel"
+             minlength="6"
              required
       />
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -52,6 +54,12 @@
       </button>
       <mat-error *ngIf="password.touched && password.hasError('required')">
         Поле обязательное для ввода
+      </mat-error>
+      <mat-error *ngIf="password.touched && password.hasError('passwordError')">
+        Пароль должен состоять из букв латинского алфавита (A-z) и арабских цифр (0-9)
+      </mat-error>
+      <mat-error *ngIf="password.touched && password.hasError('minlength')">
+        Длина пароля должна быть не менее 6
       </mat-error>
     </mat-form-field>
     <button mat-raised-button

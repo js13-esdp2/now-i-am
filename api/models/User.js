@@ -132,5 +132,9 @@ UserSchema.methods.checkPassword = function(password) {
     return bcrypt.compare(password, this.password);
 };
 
+UserSchema.methods.passwordMatchingCheck = function (newPassword, currentPassword) {
+  return newPassword === currentPassword;
+}
+
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
