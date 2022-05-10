@@ -1,30 +1,27 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/types';
+import { ChatRoom } from '../../../models/chatRoom.model';
+import { environment } from '../../../../environments/environment';
+import { changeChatRoom } from '../../../store/chat/chat.actions';
 
 @Component({
   selector: 'app-chat-sidebar',
   templateUrl: './chat-sidebar.component.html',
   styleUrls: ['./chat-sidebar.component.sass']
 })
-export class ChatSidebarComponent implements OnInit {
-  @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
+export class ChatSidebarComponent {
   searchText!: string;
-  conversations = [
-    {
-      name: 'James',
-      time: '8:21',
-      latestMessage: 'Hi there!!',
-      latestMessageRead: false,
-      messages: [
-        { id: 2, body: 'How are you?', time: '8:21', me: false },
-        { id: 3, body: 'I am fine thanks', time: '8:21', me: true },
-        { id: 4, body: 'Glad to hear that', time: '8:21', me: false },
-      ],
-    },
-  ];
+  chatRooms!: ChatRoom[];
+  apiUrl = environment.apiUrl;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private store: Store<AppState>) {
+    store.select(state => state.chat.chatRooms).subscribe(chatRooms => {
+      this.chatRooms = chatRooms;
+    })
   }
 
+  chatRoomClicked(chatRoom: ChatRoom) {
+    this.store.dispatch(changeChatRoom({chatRoom}));
+  }
 }

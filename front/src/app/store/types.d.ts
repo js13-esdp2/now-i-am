@@ -1,5 +1,6 @@
 import { ApiCountryData, City, Country, EditUserError, LoginError, RegisterError, User } from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
+import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
 
 
@@ -46,6 +47,15 @@ export type SearchState = {
   searchError: null | string,
 }
 
+export type ChatState = {
+  chatRoom: undefined | null | ChatRoom,
+  chatRooms: ChatRoom[],
+  fetchLoading: boolean,
+  fetchError: null | string,
+  createLoading: boolean,
+  createError: null | string,
+}
+
 export type CountryState = {
   country: Country[];
   fetchLoading: boolean,
@@ -64,4 +74,5 @@ export type AppState = {
   search: SearchState,
   country: CountryState,
   capital: CityState,
+  chat: ChatState,
 }

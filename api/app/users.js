@@ -21,6 +21,14 @@ const storage = multer.diskStorage({
 const router = express.Router();
 const upload = multer({storage});
 
+router.get('/', async (req, res, next) => {
+  try {
+      const users = await User.find();
+      return res.send(users);
+  } catch (e) {
+    return next(e);
+  }
+});
 
 router.get('/:id', async (req, res, next) => {
   try {

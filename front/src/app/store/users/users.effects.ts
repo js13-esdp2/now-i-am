@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../services/users.service';
 import {
   addFriendFailure,
   addFriendRequest,
@@ -39,11 +39,11 @@ import {
 } from './users.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { HelpersService } from '../services/helpers.service';
+import { HelpersService } from '../../services/helpers.service';
 import { Store } from '@ngrx/store';
-import { AppState } from './types';
-import { onPostModalDataChange } from './posts.actions';
-import { PostModalData } from '../models/post.model';
+import { AppState } from '../types';
+import { onPostModalDataChange } from '../posts/posts.actions';
+import { PostModalData } from '../../models/post.model';
 
 @Injectable()
 export class UsersEffects {

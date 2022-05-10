@@ -4,7 +4,7 @@ import { User } from '../../models/user.model';
 import { Friends } from '../../models/frends.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { fetchFriendsRequest, fetchUserRequest, removeFriendRequest } from '../../store/users.actions';
+import { fetchFriendsRequest, fetchUserRequest, removeFriendRequest } from '../../store/users/users.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileModalComponent } from '../../ui/profile-modal/profile-modal.component';
 

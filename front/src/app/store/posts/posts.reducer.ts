@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { PostState } from './types';
+import { PostState } from '../types';
 import {
   createPostFailure,
   createPostRequest,

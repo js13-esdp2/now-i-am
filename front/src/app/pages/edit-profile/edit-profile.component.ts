@@ -4,7 +4,7 @@ import { ApiCountryData, City, User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
-import { editUserRequest, fetchCountriesRequest } from '../../store/users.actions';
+import { editUserRequest, fetchCountriesRequest } from '../../store/users/users.actions';
 
 @Component({
   selector: 'app-edit-profile',
@@ -49,14 +49,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(fetchCountriesRequest());
   }
 
-  onSplitCapitalToCountry(capital: string) {
-    this.town = false;
-    this.countryData?.forEach(country => {
-      if (country.name.official === capital) {
-        this.city = country.capital;
-      }
-    });
-  }
 
   ngAfterViewInit() {
     this.setFormValue({
@@ -69,6 +61,15 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       city: this.userData.city || '',
       isPrivate: this.userData.isPrivate || false
     });
+  }
+
+  onSplitCapitalToCountry(capital: string) {
+    this.town = false;
+    this.countryData?.forEach(country => {
+      if (country.name.official === capital) {
+        this.city = country.capital;
+      }
+    })
   }
 
   setFormValue(value: { [key: string]: any }) {

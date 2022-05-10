@@ -6,9 +6,16 @@ const config = require('./config');
 const users = require('./app/users');
 const posts = require('./app/posts');
 const search = require('./app/search');
+const chatWs = require('./app/chat-ws');
+const chat = require('./app/chat');
+const messages = require('./app/messages');
 const friends = require('./app/friends');
 
 const app = express();
+
+require('express-ws')(app);
+app.use('/chat-ws', chatWs);
+
 
 const corsOptions = {
   origin: (origin, callback) => { // 'http://localhost:4200'
@@ -26,6 +33,8 @@ app.use(express.static('public'));
 app.use('/users', users);
 app.use('/posts', posts);
 app.use('/search', search);
+app.use('/chat', chat);
+app.use('/messages', messages);
 app.use('/friends', friends);
 
 const run = async () => {
@@ -41,3 +50,4 @@ const run = async () => {
 };
 
 run().catch(e => console.error(e));
+

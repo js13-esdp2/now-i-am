@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { HelpersService } from '../services/helpers.service';
-import { PostsService } from '../services/posts.service';
+import { HelpersService } from '../../services/helpers.service';
+import { PostsService } from '../../services/posts.service';
 import {
   createPostFailure,
   createPostRequest,
@@ -26,7 +26,7 @@ import {
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class PostsEffects {

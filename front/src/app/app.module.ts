@@ -30,7 +30,8 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule, VKLoginProvider
+  SocialLoginModule,
+  VKLoginProvider
 } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { PostsComponent } from './pages/posts/posts.component';
@@ -44,6 +45,23 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { SearchComponent } from './pages/search/search.component';
+import { ImagePipes } from './pipes/image.pipe';
+import { PostModalComponent } from './ui/post-modal/post-modal.component';
+import { StatisticComponent } from './pages/statistic/statistic.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MapService } from './services/map.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
+import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
+import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
+import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
+import { ProfileModalComponent } from './ui/profile-modal/profile-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSliderModule } from '@angular/material/slider';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -69,23 +87,7 @@ const socialConfig: SocialAuthServiceConfig = {
     },
   ]
 }
-import { SearchComponent } from './pages/search/search.component';
-import { ImagePipes } from './pipes/image.pipe';
-import { PostModalComponent } from './ui/post-modal/post-modal.component';
-import { StatisticComponent } from './pages/statistic/statistic.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MapService } from './services/map.service';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { ChatComponent } from './pages/chat/chat.component';
-import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
-import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
-import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
-import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
-import { ProfileModalComponent } from './ui/profile-modal/profile-modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSliderModule } from '@angular/material/slider';
+
 
 @NgModule({
   declarations: [
@@ -111,6 +113,7 @@ import { MatSliderModule } from '@angular/material/slider';
     StatisticComponent,
     ChatComponent,
     ChatRoomComponent,
+    ChatSidebarComponent,
     ChatSidebarComponent,
     MyHistoryPostsComponent,
     UserFriendsComponent,
@@ -144,6 +147,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatNativeDateModule,
     MatExpansionModule,
     MatSliderModule,
   ],
@@ -152,6 +156,6 @@ import { MatSliderModule } from '@angular/material/slider';
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
     MapService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -3,8 +3,10 @@ const config = require('./config');
 
 const User = require('./models/User');
 const Post = require('./models/Post');
+const ChatRoom = require('./models/ChatRoom');
+const {nanoid} = require('nanoid');
+const Message = require('./models/Message');
 const Friends = require('./models/Friends');
-const {nanoid} = require("nanoid");
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -14,7 +16,7 @@ const run = async () => {
     await mongoose.connection.db.dropCollection(coll.name);
   }
 
-  const [anna, john, vasiliy] = await User.create({
+  const [anna, john, james, caitlyn] = await User.create({
     email: 'anna@gmail.com',
     password: '123',
     displayName: 'Anna',
@@ -29,7 +31,17 @@ const run = async () => {
     password: '123',
     displayName: 'John',
     token: nanoid(),
-    photo: 'john.jpg',
+    birthday: 26,
+    sex: 'male',
+    country: 'Австралия',
+    role: 'user',
+  }, {
+    email: 'james@gmail.com',
+    password: '123',
+    displayName: 'james',
+    photo: 'james.jpeg',
+    token: nanoid(),
+    age: 23,
     birthday: "23",
     sex: 'male',
     country: 'Кыргызстан',
@@ -37,13 +49,14 @@ const run = async () => {
     isPrivate: true,
     role: 'user',
   }, {
-    email: 'vasiliy@pupkin.com',
+    email: 'caitlyn@gmail.com',
     password: '123',
-    displayName: 'Vasiliy Pupkin',
+    displayName: 'Caitlyn',
+    photo: 'caitlyn.jpg',
     token: nanoid(),
-    photo: 'vasiy.jpg',
     birthday: "23",
     sex: 'male',
+    isPrivate: true,
     country: 'Russian Federation',
     city: 'Moscow',
     role: 'user',
@@ -88,7 +101,7 @@ const run = async () => {
       minutes: 10,
     },
   }, {
-    user: vasiliy,
+    user: james,
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
@@ -97,7 +110,7 @@ const run = async () => {
       minutes: 10,
     },
   }, {
-    user: vasiliy,
+    user: james,
     title: 'Пью чай',
     content: 'drinkingtea.jpg',
     datetime: new Date().toISOString(),
@@ -124,6 +137,40 @@ const run = async () => {
       minutes: 0,
     },
   },);
+
+  const chatRoomInbox = caitlyn._id.toString() + james._id.toString();
+
+  await ChatRoom.create({
+    owner: caitlyn,
+    chattingWith: james,
+    name: 'James',
+    chatRoomInbox: chatRoomInbox,
+    lastMessage: 'Hi James!',
+  })
+
+  await ChatRoom.create({
+    owner: james,
+    chattingWith: caitlyn,
+    name: 'Caitlyn',
+    chatRoomInbox: chatRoomInbox,
+    lastMessage: 'Hi James!',
+  });
+
+  await Message.create({
+    chatRoomInbox: chatRoomInbox,
+    text: 'Hi, James! How are you doing?',
+    userFrom: anna,
+    userTo: james,
+    createdAt: '10 мая 2022 г., 12:00:00'
+  });
+
+  await Message.create({
+    chatRoomInbox: chatRoomInbox,
+    text: 'Hello Anna! Long time no see you',
+    userFrom: james,
+    userTo: anna,
+    createdAt: '10 мая 2022 г., 12:05:00'
+  });
 
   await mongoose.connection.close();
 };

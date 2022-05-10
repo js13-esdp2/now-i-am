@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
-import { onPostModalDataChange } from '../../store/posts.actions';
+import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { User } from '../../models/user.model';
@@ -22,6 +22,7 @@ export class StatisticComponent implements OnInit {
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
   isSearched = false;
+  showList: Boolean = false;
   postModalData!: PostModalData;
   searchTitle!: string;
 
@@ -48,6 +49,7 @@ export class StatisticComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.searchTitle = params['title'];
       this.isSearched = true;
+      this.store.dispatch(fetchTitlePostsRequest({filterData: this.searchTitle}));
     });
     this.mapService.initMap();
     this.getLocation();
@@ -64,6 +66,10 @@ export class StatisticComponent implements OnInit {
       searchTitle: this.searchTitle,
     }
     this.store.dispatch(onPostModalDataChange({postModalData}));
+  }
+
+  openList() {
+    this.showList = !this.showList;
   }
 
   getLocation() {

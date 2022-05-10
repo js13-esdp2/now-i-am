@@ -8,9 +8,9 @@ import {
   RegisterError,
   RegisterUserData,
   User
-} from '../models/user.model';
+} from '../../models/user.model';
 import { SocialUser } from 'angularx-social-login';
-import { Friends } from '../models/frends.model';
+import { Friends } from '../../models/frends.model';
 
 export const registerUserRequest = createAction('[Users] Register Request', props<{userData: RegisterUserData}>());
 export const registerUserSuccess = createAction('[Users] Register Success', props<{user: User}>());

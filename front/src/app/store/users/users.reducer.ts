@@ -1,4 +1,4 @@
-import { UsersState } from './types';
+import { UsersState } from '../types';
 import { createReducer, on } from '@ngrx/store';
 import {
   addFriendFailure,
@@ -30,7 +30,7 @@ import {
   registerUserRequest,
   registerUserSuccess, removeFriendRequest, removeFriendSuccess
 } from './users.actions';
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
 
 const initialState: UsersState = {
   user: null,

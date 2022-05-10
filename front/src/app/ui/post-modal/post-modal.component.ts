@@ -5,10 +5,12 @@ import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
-import { fetchOneOfPostRequest, likePostRequest, onPostModalDataChange } from '../../store/posts.actions';
+import { fetchOneOfPostRequest, likePostRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
-import { addFriendRequest } from '../../store/users.actions';
-import { Router } from '@angular/router';
+import { addFriendRequest } from '../../store/users/users.actions';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChatService } from '../../services/chat.service';
+import { createNewChatRoom } from '../../store/chat/chat.actions';
 
 @Component({
   selector: 'app-post-modal',
@@ -36,6 +38,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
     private router: Router,
+    private chatService: ChatService,
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
@@ -79,6 +82,15 @@ export class PostModalComponent implements OnInit, OnDestroy {
   goToLogin() {
     this.dialogRef.close();
     void this.router.navigate(['/login']);
+  }
+
+  goToChat() {
+    this.dialogRef.close();
+    void this.router.navigate(['/chat'], {queryParams: {ownerId: this.userData?._id}});
+    const chatRoomData = {
+      participants: [this.userData?._id, this.postData.user._id],
+    }
+    this.store.dispatch(createNewChatRoom({chatRoomData}));
   }
 
   authorIsMe(): boolean {

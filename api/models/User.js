@@ -90,7 +90,7 @@ const UserSchema = new Schema({
         ref: 'User',
         required: true
       }
-    }]
+    },]
 });
 
 const SALT_WORK_FACTOR = 10;

@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { LoginError, RegisterError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { loginFbRequest, loginGoogleRequest, loginVKRequest, registerUserRequest } from '../../store/users.actions';
+import { loginFbRequest, loginGoogleRequest, loginVKRequest, registerUserRequest } from '../../store/users/users.actions';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,

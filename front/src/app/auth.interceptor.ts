@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from './store/types';
 import { User } from './models/user.model';
 import { Router } from '@angular/router';
-import { logoutUser } from './store/users.actions';
+import { logoutUser } from './store/users/users.actions';
 import { HelpersService } from './services/helpers.service';
 
 @Injectable()

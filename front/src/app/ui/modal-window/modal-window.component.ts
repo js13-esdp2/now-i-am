@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { removePostRequest } from '../../store/posts.actions';
+import { removePostRequest } from '../../store/posts/posts.actions';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 

@@ -1,10 +1,17 @@
 import { Message } from './message.model';
+import { User } from './user.model';
 
 export interface ChatRoom {
   _id: string,
-  name: string,
-  time: string,
-  latestMessage: string,
-  latestMessageRead: boolean,
+  owner: User,
+  chattingWith: User,
+  name: String,
+  chatRoomInbox: string,
+  lastMessage: string,
   messages: Message[],
+}
+
+
+export interface ChatRoomData {
+  participants: (string | undefined)[],
 }

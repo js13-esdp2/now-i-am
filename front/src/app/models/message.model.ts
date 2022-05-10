@@ -1,8 +1,18 @@
+import { User } from './user.model';
+
 export interface Message {
-  chatRoomId: string,
   _id: string,
+  chatRoomInbox: string,
   text: string,
-  time: string,
+  createdAt: string,
+  userFrom: string,
+  userTo: string,
+}
+
+
+export interface MessageData {
+  chatRoomInbox: string,
+  text: string,
   userFrom: string,
   userTo: string,
 }

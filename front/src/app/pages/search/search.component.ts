@@ -7,8 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
 import { Post, PostModalData } from '../../models/post.model';
 import { ApiCountryData, City } from '../../models/user.model';
-import { fetchCountriesRequest } from '../../store/users.actions';
-import { fetchTitlePostsRequest } from '../../store/posts.actions';
+import { fetchCountriesRequest } from '../../store/users/users.actions';
+import { fetchTitlePostsRequest } from '../../store/posts/posts.actions';
 
 @Component({
   selector: 'app-search',

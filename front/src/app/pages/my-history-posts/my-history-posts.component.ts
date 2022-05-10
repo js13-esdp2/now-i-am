@@ -4,7 +4,7 @@ import { Post } from '../../models/post.model';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { fetchMyHistoryPostsRequest, fetchOneOfPostRequest } from '../../store/posts.actions';
+import { fetchMyHistoryPostsRequest, fetchOneOfPostRequest } from '../../store/posts/posts.actions';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';

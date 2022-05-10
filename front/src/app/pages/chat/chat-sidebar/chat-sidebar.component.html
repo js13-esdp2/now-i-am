@@ -1,7 +1,7 @@
 <div id="sidebar">
   <div id="row1">
     <div class="searchBox">
-      <img class="searchBox__img" width="19" src="../../assets/chat/searchIcon.svg" />
+      <img class="searchBox__img" width="19" src="../../assets/chat/searchIcon.svg"/>
       <input
         class="searchBox__input"
         [(ngModel)]="searchText"
@@ -15,28 +15,33 @@
     <div
       class="conversation"
       *ngFor="
-        let conversation of conversations
+        let chatRoom of chatRooms
       "
-      (click)="conversationClicked.emit(conversation)"
+      (click)="chatRoomClicked(chatRoom)"
     >
       <div class="picture">
-        <img class="picture__img" src="../../assets/chat/noPic.svg" />
+        <img *ngIf="!chatRoom.chattingWith.photo"
+             class="picture__img"
+             src="../../assets/chat/noPic.svg"/>
+        <img *ngIf="chatRoom.chattingWith.photo"
+             [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
+             class="picture__img"/>
       </div>
       <div class="sidebar-content-block">
         <div class="conversationHeader">
-          <div class="name">{{ conversation.name }}</div>
-          <div class="time">{{ conversation.time }}</div>
+          <div class="name">{{ chatRoom.name }}</div>
+<!--                    <div class="time">8:55</div>-->
         </div>
         <div class="message">
-          <img class="message__img"
-            *ngIf="!conversation.latestMessageRead"
-            src="../../assets/chat/doubleTick.svg"
-          />
-          <img class="message__img"
-            *ngIf="conversation.latestMessageRead"
-            src="../../assets/chat/doubleTickBlue.svg"
-          />
-          {{ conversation.latestMessage }}
+          <!--          <img class="message__img"-->
+          <!--            *ngIf="!conversation.latestMessageRead"-->
+          <!--            src="../../assets/chat/doubleTick.svg"-->
+          <!--          />-->
+          <!--                    <img class="message__img"-->
+          <!--                      *ngIf="chatRoom.latestMessageRead"-->
+          <!--                      src="../../assets/chat/doubleTickBlue.svg"-->
+          <!--                    />-->
+          {{ chatRoom.lastMessage }}
         </div>
       </div>
     </div>

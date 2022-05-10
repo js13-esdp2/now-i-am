@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
-import { logoutUserRequest } from '../../store/users.actions';
+import { logoutUserRequest } from '../../store/users/users.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { environment as env } from '../../../environments/environment';

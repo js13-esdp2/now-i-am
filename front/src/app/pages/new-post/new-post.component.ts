@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Post, PostData } from '../../models/post.model';
-import { createPostRequest, fetchPostsRequest } from '../../store/posts.actions';
+import { createPostRequest, fetchPostsRequest } from '../../store/posts/posts.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { PostsService } from '../../services/posts.service';

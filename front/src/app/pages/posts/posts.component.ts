@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { fetchPostsRequest } from '../../store/posts.actions';
+import { fetchPostsRequest } from '../../store/posts/posts.actions';
 
 @Component({
   selector: 'app-posts',

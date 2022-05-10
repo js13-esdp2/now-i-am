@@ -4,7 +4,7 @@ import { LoginError } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { NgForm } from '@angular/forms';
-import { loginFbRequest, loginGoogleRequest, loginUserRequest, loginVKRequest } from '../../store/users.actions';
+import { loginFbRequest, loginGoogleRequest, loginUserRequest, loginVKRequest } from '../../store/users/users.actions';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,

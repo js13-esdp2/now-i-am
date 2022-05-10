@@ -24,7 +24,7 @@ Given('я ввожу в поля формы:', (table) => {
   });
 });
 
-Given('нажимаю на кнопку на кнопку формы {string}', (buttonText) => {
+Given('нажимаю на кнопку формы {string}', (buttonText) => {
   I.click(buttonText, {css: 'form'});
 });
 

@@ -1,41 +1,46 @@
-<div class="chat-room">
-  <div class="chat-room__header">
-    <div class="chat-room__avatarSection">
-      <div class="chat-room__usersPhoto">
-        <img class="chat-room__usersPhoto_img" src="../../assets/chat/noPic.svg" />
+<div id="container">
+  <div id="header">
+    <div class="avatarSection">
+            <div class="picture">
+              <img
+                class="picture__img"
+                *ngIf="chatRoom"
+                [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"/>
+            </div>
+      <div class="nameSection">{{ chatRoom.name }}</div>
+    </div>
+    <div class="actionButtons">
+      <img src="../../assets/chat/attached.svg" />
+      <img src="../../assets/chat/moreVertIcon.svg" />
+    </div>
+  </div>
+  <div id="body">
+    <div
+      class="message"
+      [ngClass]="{ me: checkIfMe(message) }"
+      *ngFor="let message of chatRoom.messages"
+    >
+      <div class="messageContent">
+        {{ message.text }}
+        <div class="time">{{ message.createdAt.slice(16, 21) }}</div>
       </div>
-      <div class="chat-room__nameSection">James</div>
-    </div>
-    <div class="chat-room__actionButtons">
-      <img class="actionButtons__img" src="../../assets/chat/moreVertIcon.svg" />
     </div>
   </div>
-  <div id="message-block">
-<!--    <div-->
-<!--      class="message"-->
-<!--      [ngClass]="{ me: message.me }"-->
-<!--      *ngFor="let message of conversation.messages"-->
-<!--    >-->
-<!--      <div class="messageContent">-->
-<!--        {{ message.body }}-->
-<!--        <div class="time">{{ message.time }}</div>-->
-<!--      </div>-->
-<!--    </div>-->
-  </div>
-  <div class="chat-room-footer">
+  <div id="footer">
     <div id="smileyIcon">
       <img
         src="../../assets/chat/smileIcon.svg"
       />
     </div>
-    <div class="message-input-block">
+    <div id="textarea">
       <textarea
         [(ngModel)]="message"
         (keyup.enter)="submitMessage($event)"
       ></textarea>
     </div>
-    <div id="iconSend">
-      <mat-icon class="iconSend_color">send</mat-icon>
+    <div id="micIcon">
+      <mat-icon (click)="sendMessage()" class="iconSend_color">send</mat-icon>
     </div>
   </div>
 </div>
+
