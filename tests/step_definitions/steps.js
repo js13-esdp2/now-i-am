@@ -13,6 +13,8 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/statistic');
     case 'История моих занятий':
       return I.amOnPage('/login');
+    case 'Изменение пароля':
+      return I.amOnPage('/login');
     default:
       return I.amOnPage('/');
   }
@@ -51,6 +53,3 @@ Given('я вижу текст {string} со стилями {string}', (text, sty
   I.see(text, {css: styles});
 });
 
-// Given('я нажимаю на ссылку {string}', (styles) => {
-//   I.clickLink('my-history-posts', {css: styles});
-// });
