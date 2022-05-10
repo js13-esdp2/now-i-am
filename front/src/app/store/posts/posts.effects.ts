@@ -38,9 +38,8 @@ export class PostsEffects {
     private postsService: PostsService,
     private router: Router,
     private helpers: HelpersService,
-  ) {}
-
-
+  ) {
+  }
 
   fetchPosts = createEffect(() => this.actions.pipe(
     ofType(fetchPostsRequest),
@@ -54,7 +53,7 @@ export class PostsEffects {
 
   fetchTitlePosts = createEffect(() => this.actions.pipe(
     ofType(fetchTitlePostsRequest),
-    mergeMap(({ filterData }) => this.postsService.getPosts(filterData).pipe(
+    mergeMap(({filterData}) => this.postsService.getPosts(filterData).pipe(
       map(posts => fetchTitlePostsSuccess({posts})),
       tap(() => {
         void this.router.navigate(['/statistic'])
@@ -65,7 +64,7 @@ export class PostsEffects {
     ))
   ));
 
-  fetchPostOfOne= createEffect(() => this.actions.pipe(
+  fetchPostOfOne = createEffect(() => this.actions.pipe(
     ofType(fetchOneOfPostRequest),
     mergeMap(({id}) => this.postsService.getPost(id).pipe(
       map(post => fetchOneOfPostSuccess({post})),
@@ -90,8 +89,7 @@ export class PostsEffects {
     mergeMap(({postData}) => this.postsService.createPost(postData).pipe(
       map(() => createPostSuccess()),
       tap(() => {
-        this.helpers.openSnackBar('Успешно создан пост')
-        void this.router.navigate(['/statistic'], { queryParams: { title: postData.title }})
+        this.helpers.openSnackBar('Успешно создан пост');
       }),
       catchError(() => of(createPostFailure({error: 'Неверные данные'})))
     ))
@@ -99,13 +97,13 @@ export class PostsEffects {
 
   likePost = createEffect(() => this.actions.pipe(
     ofType(likePostRequest),
-    mergeMap(({ id }) => this.postsService.likePost(id).pipe(
+    mergeMap(({id}) => this.postsService.likePost(id).pipe(
       map((post) => likePostSuccess({post})),
       this.helpers.catchServerError(likePostFailure),
     )),
   ));
 
-  removePost= createEffect(() => this.actions.pipe(
+  removePost = createEffect(() => this.actions.pipe(
     ofType(removePostRequest),
     mergeMap(({id}) => this.postsService.removePost(id).pipe(
       map(() => removePostSuccess()),

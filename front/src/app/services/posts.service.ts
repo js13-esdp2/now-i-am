@@ -25,15 +25,6 @@ export class PostsService {
     if (filterData?.country) params = params.append('country', filterData.country);
     if (filterData?.city) params = params.append('city', filterData.city);
     if (filterData?.isPrivate) params = params.append('isPrivate', filterData.isPrivate);
-
-    // Object.keys(filterData).forEach(key => {
-    //   if (filterData !== null) {
-    //     params.append(key, filterData[key]);
-    //   }
-    // });
-    //
-    // console.log(params);
-
     return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', {params}).pipe(
       map(response => {
         return response.map(postData => {

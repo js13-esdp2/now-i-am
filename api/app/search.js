@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', auth, async (req, res, next) => {
   try {
     const users = await User.find(req.query);
     const usersId = users.map(user => {
@@ -25,6 +25,8 @@ router.post('/', async (req, res, next) => {
     const usersId = posts.map(post => {
       return post.user;
     });
+
+
 
     const users = await User.find({_id: {$in: usersId}});
 

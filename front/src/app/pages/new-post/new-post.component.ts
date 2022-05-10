@@ -4,13 +4,12 @@ import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Post, PostData } from '../../models/post.model';
-import { createPostRequest, fetchPostsRequest } from '../../store/posts/posts.actions';
+import { FilterData, Post, PostData } from '../../models/post.model';
+import { createPostRequest, fetchTitlePostsRequest } from '../../store/posts/posts.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { PostsService } from '../../services/posts.service';
 import { WebcamImage } from 'ngx-webcam';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
@@ -43,8 +42,6 @@ export class NewPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.store.dispatch(fetchPostsRequest());
     this.user.subscribe(user => {
       this.id = <string>user?._id;
     });
@@ -77,7 +74,7 @@ export class NewPostComponent implements OnInit {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
     const selectTimeObj = {
       hours: this.form.value.hours,
       minutes: this.form.value.min,
@@ -96,8 +93,16 @@ export class NewPostComponent implements OnInit {
     if (this.imageData64) {
       postData.content = this.imageData64.imageAsBase64
     }
-
-    this.store.dispatch(createPostRequest({postData}));
+   await this.store.dispatch(createPostRequest({postData}));
+    const filterData: FilterData = {
+      title: postData.title,
+      birthday: '',
+      country: '',
+      city: '',
+      sex: '',
+      isPrivate: '',
+    }
+    this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}))
   }
 
   addStep() {

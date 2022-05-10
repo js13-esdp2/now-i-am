@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
-import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
+import { onPostModalDataChange } from '../../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { User } from '../../models/user.model';
@@ -46,11 +46,6 @@ export class StatisticComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.searchTitle = params['title'];
-      this.isSearched = true;
-      this.store.dispatch(fetchTitlePostsRequest({filterData: this.searchTitle}));
-    });
     this.mapService.initMap();
     this.getLocation();
     this.isSearched = true;
