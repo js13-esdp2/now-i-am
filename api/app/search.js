@@ -26,8 +26,6 @@ router.post('/', async (req, res, next) => {
       return post.user;
     });
 
-
-
     const users = await User.find({_id: {$in: usersId}});
 
     return res.send(users);

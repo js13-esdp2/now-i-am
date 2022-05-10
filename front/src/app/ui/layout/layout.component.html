@@ -19,7 +19,7 @@
       <nav *appUserType="'user' else anonMenu" fxLayout fxLayoutAlign="center center">
         <nav *ngIf="!mobWindow" class="nav-list">
           <a routerLink="/search" class="nav-list__list-item" mat-icon-button><mat-icon>search</mat-icon></a>
-          <a routerLink="/my-history-posts" class="nav-list__list-item" mat-icon-button><mat-icon>pending_actions</mat-icon></a>
+          <a routerLink="/my-history-posts" class="nav-list__list-item history-posts" mat-icon-button><mat-icon>pending_actions</mat-icon></a>
           <a routerLink="/new-post" class="nav-list__list-item" mat-icon-button><mat-icon>control_point</mat-icon></a>
           <a routerLink="/chat" class="nav-list__list-item" mat-icon-button><mat-icon>sms</mat-icon></a>
         </nav>

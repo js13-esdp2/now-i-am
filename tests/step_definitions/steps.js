@@ -11,6 +11,8 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/login');
     case 'Статистика':
       return I.amOnPage('/statistic');
+    case 'История моих занятий':
+      return I.amOnPage('/login');
     default:
       return I.amOnPage('/');
   }
@@ -41,6 +43,14 @@ Given('я кликаю на текст {string} со стилями {string}', (
   I.click(text, {css: styles});
 });
 
+Given('я кликаю на иконку со стилями {string}', (styles) => {
+  I.click({css: styles});
+});
+
 Given('я вижу текст {string} со стилями {string}', (text, styles) => {
   I.see(text, {css: styles});
 });
+
+// Given('я нажимаю на ссылку {string}', (styles) => {
+//   I.clickLink('my-history-posts', {css: styles});
+// });
