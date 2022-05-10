@@ -34,7 +34,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-  photo: {
+    photo: {
         type: String,
         validate: {
             validator: async value => {

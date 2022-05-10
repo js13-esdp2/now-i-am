@@ -9,6 +9,7 @@ const fs = require('fs');
 const {nanoid} = require('nanoid');
 const auth = require('../middleware/auth');
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, config.uploadPath);
@@ -330,5 +331,22 @@ router.post('/addFriend', auth, async (req, res, next) => {
   }
 });
 
+router.post('/changePassword', auth, async (req, res, next) => {
+  try {
+    const email = req.user.email;
+    const password = req.body.currentPassword;
+    const user = await User.findOne({ email: email});
+    const isMatch = await user.checkPassword(password);
+    if (!isMatch) {
+      return res.status(400).send({error: 'Неверный пароль'});
+    }
+    user.password = req.body.newPassword;
+    user.save();
+
+    res.send(user);
+  } catch (e) {
+    next(e);
+  }
+});
 
 module.exports = router;
