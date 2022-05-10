@@ -18,7 +18,7 @@ app.use('/chat-ws', chatWs);
 
 
 const corsOptions = {
-  origin: (origin, callback) => { // 'http://localhost:4200'
+  origin: (origin, callback) => {
     if (origin === undefined || config.corsWhiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {

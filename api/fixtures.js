@@ -64,21 +64,21 @@ const run = async () => {
 
   await Friends.create({
     user: anna,
-    friend: vasiliy
+    friend: james,
   }, {
     user: anna,
     friend: john,
   }, {
     user: john,
-    friend: vasiliy,
+    friend: james,
   }, {
     user: john,
     friend: anna
   }, {
-    user: vasiliy,
+    user: james,
     friend: john,
   }, {
-    user: vasiliy,
+    user: james,
     friend: anna,
   });
 
