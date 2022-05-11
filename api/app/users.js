@@ -69,7 +69,7 @@ router.get('/recovery/:email', async (req, res, next) => {
       from: 'nowiam07@gmail.com',
       to: req.params.email,
       subject: "Востановление пароля от приложения 'Now I Am'",
-      text: "Код активации: " + codeForUser()
+      text: codeForUser()
     }
 
     transporter.sendMail(mailOptions)
