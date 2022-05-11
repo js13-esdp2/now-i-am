@@ -63,6 +63,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { CheckPasswordComponent } from './pages/check-password/check-password.component';
+import { RecoveryModalComponent } from './ui/recovery-modal/recovery-modal.component';
 import { ValidateIdenticalDirective } from './directives/validate-identical.directive';
 import { ValidatePasswordDirective } from './directives/validate-password.directive';
 
@@ -122,6 +123,7 @@ const socialConfig: SocialAuthServiceConfig = {
     UserFriendsComponent,
     ProfileModalComponent,
     CheckPasswordComponent,
+    RecoveryModalComponent,
     ValidateIdenticalDirective,
     ValidatePasswordDirective
   ],

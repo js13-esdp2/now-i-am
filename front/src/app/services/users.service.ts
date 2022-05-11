@@ -82,7 +82,7 @@ export class UsersService {
   }
 
   getPassword(email: string) {
-    return this.http.get(env.apiUrl + '/check-password/' + email);
+    return this.http.get(env.apiUrl + '/users/recovery/' + email);
   }
 
 

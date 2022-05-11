@@ -16,6 +16,7 @@ export class User {
     public city?: string,
     public aboutMe?: string,
     public isPrivate?: boolean,
+    public code?: string,
   ) {
   }
 
@@ -52,6 +53,7 @@ export interface ApiUserData {
   city?: string;
   aboutMe?: string;
   isPrivate?: boolean;
+  code?: string;
 }
 
 export interface EditUserData {

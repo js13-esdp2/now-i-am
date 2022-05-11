@@ -25,8 +25,7 @@ export class CheckPasswordComponent {
   }
 
   onSubmit() {
-    const email = this.form.value.email;
-    console.log(email);
+    const email = this.form.value;
     this.store.dispatch(fetchPasswordRequest(email))
   }
 }

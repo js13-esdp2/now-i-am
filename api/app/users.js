@@ -6,8 +6,10 @@ const config = require('../config');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
-const {nanoid} = require('nanoid');
+const {nanoid, customAlphabet} = require('nanoid');
 const auth = require('../middleware/auth');
+require('dotenv').config();
+const nodemailer = require('nodemailer');
 
 
 const storage = multer.diskStorage({
@@ -43,6 +45,45 @@ router.get('/:id', async (req, res, next) => {
     return next(e);
   }
 });
+
+router.get('/recovery/:email', async (req, res, next) => {
+  try {
+
+    const userData = await User.findOne({email: req.params.email});
+
+    const codeForUser = customAlphabet('123456789', 6);
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    });
+
+    const mailOptions = {
+      from: 'nowiam07@gmail.com',
+      to: req.params.email,
+      subject: "Востановление пароля от приложения 'Now I Am'",
+      text: codeForUser()
+    }
+
+    transporter.sendMail(mailOptions)
+
+    const user = User.findOneAndUpdate({_id: userData._id});
+    user.code = mailOptions.text;
+    await user.save();
+
+    return res.send(user);
+  } catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    }
+    return next(e);
+  }
+});
+
+
 
 router.post('/', async (req, res, next) => {
   try {
