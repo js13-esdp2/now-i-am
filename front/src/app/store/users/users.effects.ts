@@ -13,7 +13,7 @@ import {
   fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess,
+  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -177,6 +177,14 @@ export class UsersEffects {
     mergeMap(() => this.usersService.getFriends().pipe(
       map((friends) => fetchFriendsSuccess({friends})),
       this.helpersService.catchServerError(fetchFriendsFailure)
+    )),
+  ));
+
+  fetchPassword = createEffect(() => this.actions.pipe(
+    ofType(fetchPasswordRequest),
+    mergeMap(({email}) => this.usersService.getPassword(email).pipe(
+      map(() => fetchPasswordSuccess()),
+      this.helpersService.catchServerError(fetchPasswordFailure)
     )),
   ));
 

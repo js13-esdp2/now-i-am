@@ -13,6 +13,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
+import { CheckPasswordComponent } from './pages/check-password/check-password.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -36,6 +37,7 @@ const routes: Routes = [
   {path: 'statistic', component: StatisticComponent},
   {path: 'chat', component: ChatComponent},
   {path: 'friends', component: UserFriendsComponent},
+  {path: 'password-check', component: CheckPasswordComponent},
   {path: 'my-history-posts',
     component: MyHistoryPostsComponent,
     canActivate: [AuthGuardService]},

@@ -81,6 +81,11 @@ export class UsersService {
     );
   }
 
+  getPassword(email: string) {
+    return this.http.get(env.apiUrl + '/check-password/' + email);
+  }
+
+
   removeFriend(id: string) {
     return this.http.delete(env.apiUrl + '/friends/' + id);
   }

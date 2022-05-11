@@ -55,6 +55,10 @@ export const fetchCountriesRequest = createAction('[Country] Fetch Request');
 export const fetchCountriesSuccess = createAction('[Country] Fetch Success', props<{countries: ApiCountryData[]}>());
 export const fetchCountriesFailure = createAction('[Country] Fetch Failure', props<{ error: string }>());
 
+export const fetchPasswordRequest = createAction('[Country] Fetch Request', props<{email: string}>());
+export const fetchPasswordSuccess = createAction('[Country] Fetch Success');
+export const fetchPasswordFailure = createAction('[Country] Fetch Failure', props<{ error: string }>());
+
 export const removeFriendRequest = createAction('[Users] Remove Friend Request', props<{friendId: string}>());
 export const removeFriendSuccess = createAction('[Users] Remove Friend Success');
 

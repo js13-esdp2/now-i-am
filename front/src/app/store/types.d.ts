@@ -23,6 +23,8 @@ export type UsersState = {
   country: ApiCountryData[],
   fetchLoading: boolean,
   fetchError: null | string,
+  fetchPasswordLoading: boolean,
+  fetchPasswordError: null | string,
   capital: City[],
   removeFriendLoading: boolean,
   removeFriendError: null | string,

@@ -9,7 +9,7 @@ import {
   editUserSuccess, fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess,
+  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -52,6 +52,8 @@ const initialState: UsersState = {
   fetchFriendsError: null,
   fetchUserLoading: false,
   fetchUserError: null,
+  fetchPasswordLoading: false,
+  fetchPasswordError: null,
   removeFriendLoading: false,
   removeFriendError: null,
   changePasswordLoading: false,
@@ -119,6 +121,10 @@ export const usersReducer = createReducer(
   on(fetchCountriesRequest, state => ({...state, fetchLoading: true})),
   on(fetchCountriesSuccess, (state, {countries}) => ({...state, fetchLoading: false, country: countries})),
   on(fetchCountriesFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
+
+  on(fetchPasswordRequest, state => ({...state, fetchPasswordLoading: true})),
+  on(fetchPasswordSuccess, (state) => ({...state, fetchPasswordLoading: false})),
+  on(fetchPasswordFailure, (state, {error}) => ({...state, fetchPasswordLoading: false, fetchPasswordError: error})),
 
   on(removeFriendRequest, (state, {friendId}) => {
     const array = state.friends.filter( friend => {
