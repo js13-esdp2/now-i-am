@@ -9,6 +9,7 @@
           <a routerLink="/search" mat-menu-item>Поиск</a>
           <a routerLink="/new-post" mat-menu-item>Добавить занятие</a>
           <a routerLink="/my-history-posts" mat-menu-item>История моих занятий</a>
+          <a routerLink="/notifications" mat-menu-item>Уведомления</a>
           <a href="#" mat-menu-item>Сообщения</a>
         </mat-menu>
         <a class="logo-link" routerLink="/new-post" *appUserType="'user' else changeWay"><img class="logo-link__logo" src="./assets/images/logo.jpg" alt="Now-i-Am"></a>
@@ -19,6 +20,7 @@
       <nav *appUserType="'user' else anonMenu" fxLayout fxLayoutAlign="center center">
         <nav *ngIf="!mobWindow" class="nav-list">
           <a routerLink="/search" class="nav-list__list-item" mat-icon-button><mat-icon>search</mat-icon></a>
+          <a routerLink="/notifications" class="nav-list__list-item" mat-icon-button><mat-icon>notifications</mat-icon></a>
           <a routerLink="/my-history-posts" class="nav-list__list-item history-posts" mat-icon-button><mat-icon>pending_actions</mat-icon></a>
           <a routerLink="/new-post" class="nav-list__list-item" mat-icon-button><mat-icon>control_point</mat-icon></a>
           <a routerLink="/chat" class="nav-list__list-item" mat-icon-button id="sms-icon"><mat-icon>sms</mat-icon></a>

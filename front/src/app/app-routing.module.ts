@@ -14,6 +14,7 @@ import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-pos
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
 import { CheckPasswordComponent } from './pages/check-password/check-password.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -41,6 +42,7 @@ const routes: Routes = [
   {path: 'my-history-posts',
     component: MyHistoryPostsComponent,
     canActivate: [AuthGuardService]},
+  {path: 'notifications', component: NotificationsComponent}
 ];
 
 @NgModule({

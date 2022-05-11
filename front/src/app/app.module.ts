@@ -66,6 +66,8 @@ import { CheckPasswordComponent } from './pages/check-password/check-password.co
 import { RecoveryModalComponent } from './ui/recovery-modal/recovery-modal.component';
 import { ValidateIdenticalDirective } from './directives/validate-identical.directive';
 import { ValidatePasswordDirective } from './directives/validate-password.directive';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -125,7 +127,8 @@ const socialConfig: SocialAuthServiceConfig = {
     CheckPasswordComponent,
     RecoveryModalComponent,
     ValidateIdenticalDirective,
-    ValidatePasswordDirective
+    ValidatePasswordDirective,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,
@@ -158,6 +161,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatNativeDateModule,
     MatExpansionModule,
     MatSliderModule,
+    MatTabsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

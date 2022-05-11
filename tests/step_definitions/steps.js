@@ -11,10 +11,6 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/login');
     case 'Статистика':
       return I.amOnPage('/statistic');
-    case 'История моих занятий':
-      return I.amOnPage('/login');
-    case 'Изменение пароля':
-      return I.amOnPage('/login');
     case 'Поиск':
       return I.amOnPage('/search');
     default:

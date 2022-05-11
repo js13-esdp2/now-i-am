@@ -206,7 +206,9 @@ export class UsersEffects {
     ofType(removeFriendRequest),
     mergeMap(({friendId}) => this.usersService.removeFriend(friendId).pipe(
       map(() => removeFriendSuccess()),
-      this.helpersService.catchServerError('Удаление завершено!')
+      tap(()=> {
+        this.helpersService.openSnackBar('Удаление завершено!')
+      })
     )),
   ));
 
