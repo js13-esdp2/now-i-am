@@ -79,7 +79,7 @@ const UserSchema = new Schema({
     type: Boolean
   },
   code: {
-    type: String
+    type: Number
   },
   role: {
     type: String,

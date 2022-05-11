@@ -51,6 +51,10 @@ router.get('/recovery/:email', async (req, res, next) => {
 
     const userData = await User.findOne({email: req.params.email});
 
+    if (!userData) {
+      return res.status(400).send({error: "Вы не зарегистрированы!"});
+    }
+
     const codeForUser = customAlphabet('123456789', 6);
 
     const transporter = nodemailer.createTransport({
@@ -65,14 +69,33 @@ router.get('/recovery/:email', async (req, res, next) => {
       from: 'nowiam07@gmail.com',
       to: req.params.email,
       subject: "Востановление пароля от приложения 'Now I Am'",
-      text: codeForUser()
+      text: "Код активации: " + codeForUser()
     }
 
     transporter.sendMail(mailOptions)
 
-    const user = User.findOneAndUpdate({_id: userData._id});
-    user.code = mailOptions.text;
-    await user.save();
+    await User.updateOne({_id: userData._id}, {code: mailOptions.text});
+
+    const recoveryData = {
+      code: mailOptions.text,
+      email: userData.email,
+    }
+
+    return res.send(recoveryData);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+router.get('/check-code/:code', async (req, res, next) => {
+  try {
+    const userData = await User.findOne({code: req.params.code});
+
+    if (!userData){
+      return res.status(400).send({error: "Код активации неверный!"});
+    }
+
+    const user = await User.updateOne({code: req.params.code}, {code: 0});
 
     return res.send(user);
   } catch (e) {

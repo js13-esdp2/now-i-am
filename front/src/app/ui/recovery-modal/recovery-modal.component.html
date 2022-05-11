@@ -1,0 +1,39 @@
+<mat-dialog-content class="mat-typography">
+  <mat-card-content>
+    <app-centered-card title="Востановление пароля">
+      <div *ngIf="error | async" class="error">
+        {{ (error | async)?.error }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()"
+            fxLayout="column"
+            #f="ngForm"
+            autocomplete="off"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Код востановления</mat-label>
+          <input type="text"
+                 name="code"
+                 matInput
+                 ngModel
+                 #code="ngModel"
+                 required
+                 email
+          />
+          <mat-error *ngIf="code.touched && code.hasError('required')">
+            Поле обязательно!
+          </mat-error>
+        </mat-form-field>
+        <button type="submit"
+                mat-raised-button
+                class="btn"
+                style="margin-top: 10px"
+        >
+          <app-loader [isLoading]="loading | async" size="sm">
+            Отправить код
+          </app-loader>
+        </button>
+      </form>
+    </app-centered-card>
+  </mat-card-content>
+</mat-dialog-content>

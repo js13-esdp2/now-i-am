@@ -5,8 +5,9 @@ import {
   ApiCountryData,
   EditUserData,
   LoginUserData,
-  PasswordData,
+  RecoveryData,
   RegisterUserData,
+  PasswordData,
   User
 } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
@@ -82,7 +83,11 @@ export class UsersService {
   }
 
   getPassword(email: string) {
-    return this.http.get(env.apiUrl + '/users/recovery/' + email);
+    return this.http.get<RecoveryData>(env.apiUrl + '/users/recovery/' + email);
+  }
+
+  checkCode(code: string) {
+    return this.http.get(env.apiUrl + '/users/check-code/' + code);
   }
 
 

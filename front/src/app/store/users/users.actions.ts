@@ -4,7 +4,9 @@ import {
   EditUserData,
   EditUserError,
   LoginError,
-  LoginUserData, PasswordData,
+  RecoveryData,
+  LoginUserData,
+  PasswordData,
   RegisterError,
   RegisterUserData,
   User
@@ -56,8 +58,12 @@ export const fetchCountriesSuccess = createAction('[Country] Fetch Success', pro
 export const fetchCountriesFailure = createAction('[Country] Fetch Failure', props<{ error: string }>());
 
 export const fetchPasswordRequest = createAction('[User] Fetch Password Request', props<{email: string}>());
-export const fetchPasswordSuccess = createAction('[User] Fetch Password Success');
-export const fetchPasswordFailure = createAction('[User] Fetch Password Failure', props<{ error: string }>());
+export const fetchPasswordSuccess = createAction('[User] Fetch Password Success', props<{recoveryData: RecoveryData}>());
+export const fetchPasswordFailure = createAction('[User] Fetch Password Failure', props<{ error: LoginError }>());
+
+export const checkCodeRequest = createAction('[User] Check Code Request', props<{code: string}>());
+export const checkCodeSuccess = createAction('[User] Check Code Success');
+export const checkCodeFailure = createAction('[User] Check Code Failure', props<{ error: LoginError }>());
 
 export const removeFriendRequest = createAction('[Users] Remove Friend Request', props<{friendId: string}>());
 export const removeFriendSuccess = createAction('[Users] Remove Friend Success');

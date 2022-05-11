@@ -3,13 +3,25 @@ import { createReducer, on } from '@ngrx/store';
 import {
   addFriendFailure,
   addFriendRequest,
-  addFriendSuccess, changeUserPasswordFailure, changeUserPasswordRequest, changeUserPasswordSuccess,
+  addFriendSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
+  changeUserPasswordFailure,
+  changeUserPasswordRequest,
+  changeUserPasswordSuccess,
   editUserFailure,
   editUserRequest,
-  editUserSuccess, fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess,
+  editUserSuccess,
+  fetchCountriesFailure,
+  fetchCountriesRequest,
+  fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
+  fetchFriendsSuccess,
+  fetchPasswordFailure,
+  fetchPasswordRequest,
+  fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -28,13 +40,16 @@ import {
   logoutUser,
   registerUserFailure,
   registerUserRequest,
-  registerUserSuccess, removeFriendRequest, removeFriendSuccess
+  registerUserSuccess,
+  removeFriendRequest,
+  removeFriendSuccess
 } from './users.actions';
 import { User } from '../../models/user.model';
 
 const initialState: UsersState = {
   user: null,
   friend: null,
+  recoveryData: null,
   friends: [],
   capital: [],
   country: [],
@@ -54,6 +69,8 @@ const initialState: UsersState = {
   fetchUserError: null,
   fetchPasswordLoading: false,
   fetchPasswordError: null,
+  checkCodeLoading: false,
+  checkCodeError: null,
   removeFriendLoading: false,
   removeFriendError: null,
   changePasswordLoading: false,
@@ -123,8 +140,12 @@ export const usersReducer = createReducer(
   on(fetchCountriesFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 
   on(fetchPasswordRequest, state => ({...state, fetchPasswordLoading: true})),
-  on(fetchPasswordSuccess, (state) => ({...state, fetchPasswordLoading: false})),
+  on(fetchPasswordSuccess, (state, {recoveryData}) => ({...state, fetchPasswordLoading: false, recoveryData})),
   on(fetchPasswordFailure, (state, {error}) => ({...state, fetchPasswordLoading: false, fetchPasswordError: error})),
+
+  on(checkCodeRequest, state => ({...state, checkCodeLoading: true})),
+  on(checkCodeSuccess, (state) => ({...state, checkCodeLoading: false})),
+  on(checkCodeFailure, (state, {error}) => ({...state, checkCodeLoading: false, checkCodeError: error})),
 
   on(removeFriendRequest, (state, {friendId}) => {
     const array = state.friends.filter( friend => {

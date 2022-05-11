@@ -1,4 +1,13 @@
-import { ApiCountryData, City, Country, EditUserError, LoginError, RegisterError, User } from '../models/user.model';
+import {
+  ApiCountryData,
+  City,
+  Country,
+  EditUserError,
+  LoginError,
+  RecoveryData,
+  RegisterError,
+  User
+} from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
@@ -7,6 +16,7 @@ import { Friends } from '../models/frends.model';
 export type UsersState = {
   user: null | User,
   friend: null | User,
+  recoveryData: null | RecoveryData,
   friends: Friends[],
   registerLoading: boolean,
   registerError: null | RegisterError,
@@ -24,7 +34,9 @@ export type UsersState = {
   fetchLoading: boolean,
   fetchError: null | string,
   fetchPasswordLoading: boolean,
-  fetchPasswordError: null | string,
+  fetchPasswordError: null | LoginError,
+  checkCodeLoading: boolean,
+  checkCodeError: null | LoginError,
   capital: City[],
   removeFriendLoading: boolean,
   removeFriendError: null | string,

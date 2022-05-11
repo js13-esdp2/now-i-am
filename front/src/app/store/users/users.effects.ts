@@ -4,7 +4,13 @@ import { UsersService } from '../../services/users.service';
 import {
   addFriendFailure,
   addFriendRequest,
-  addFriendSuccess, changeUserPasswordFailure, changeUserPasswordRequest, changeUserPasswordSuccess,
+  addFriendSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
+  changeUserPasswordFailure,
+  changeUserPasswordRequest,
+  changeUserPasswordSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
@@ -183,8 +189,16 @@ export class UsersEffects {
   fetchPassword = createEffect(() => this.actions.pipe(
     ofType(fetchPasswordRequest),
     mergeMap(({email}) => this.usersService.getPassword(email).pipe(
-      map(() => fetchPasswordSuccess()),
+      map((recoveryData) => fetchPasswordSuccess({recoveryData})),
       this.helpersService.catchServerError(fetchPasswordFailure)
+    )),
+  ));
+
+  checkCode = createEffect(() => this.actions.pipe(
+    ofType(checkCodeRequest),
+    mergeMap(({code}) => this.usersService.checkCode(code).pipe(
+      map(() => checkCodeSuccess()),
+      this.helpersService.catchServerError(checkCodeFailure)
     )),
   ));
 

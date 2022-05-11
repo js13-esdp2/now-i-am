@@ -37,6 +37,14 @@ export class User {
   }
 }
 
+export class RecoveryData {
+  constructor(
+    public code: string,
+    public email: string
+  ) {
+  }
+}
+
 export interface RegisterUserData {
   email: string;
   password: string;
