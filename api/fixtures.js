@@ -22,7 +22,7 @@ const run = async () => {
     displayName: 'Anna',
     token: nanoid(),
     photo: 'anna.jpg',
-    birthday: "23",
+    birthday: '23',
     sex: 'female',
     country: 'Австралия',
     role: 'user',
@@ -38,11 +38,11 @@ const run = async () => {
   }, {
     email: 'james@gmail.com',
     password: '123',
-    displayName: 'james',
+    displayName: 'James',
     photo: 'james.jpeg',
     token: nanoid(),
     age: 23,
-    birthday: "23",
+    birthday: '23',
     sex: 'male',
     country: 'Кыргызстан',
     city: 'Ош',
@@ -54,7 +54,7 @@ const run = async () => {
     displayName: 'Caitlyn',
     photo: 'caitlyn.jpg',
     token: nanoid(),
-    birthday: "23",
+    birthday: '23',
     sex: 'male',
     isPrivate: true,
     country: 'Russian Federation',
@@ -140,12 +140,30 @@ const run = async () => {
 
   const chatRoomInbox = caitlyn._id.toString() + james._id.toString();
 
+  const [messageFromCaitlyn, messageFromJohn] = await Message.create({
+    chatRoomInbox: chatRoomInbox,
+    text: 'Hi, James! How are you doing?',
+    userFrom: caitlyn,
+    userTo: james,
+    createdAt: '10 мая 2022 г., 12:00:00'
+  }, {
+    chatRoomInbox: chatRoomInbox,
+    text: 'Hello Caitlyn! Not bad',
+    userFrom: james,
+    userTo: caitlyn,
+    createdAt: '10 мая 2022 г., 12:05:00'
+  });
+
   await ChatRoom.create({
     owner: caitlyn,
     chattingWith: james,
     name: 'James',
     chatRoomInbox: chatRoomInbox,
-    lastMessage: 'Hi James!',
+    lastMessage: 'Hello Caitlyn! Not bad',
+    messages: [
+      messageFromCaitlyn,
+      messageFromJohn
+    ]
   })
 
   await ChatRoom.create({
@@ -153,24 +171,13 @@ const run = async () => {
     chattingWith: caitlyn,
     name: 'Caitlyn',
     chatRoomInbox: chatRoomInbox,
-    lastMessage: 'Hi James!',
+    lastMessage: 'Hello Caitlyn! Not bad',
+    messages: [
+      messageFromCaitlyn,
+      messageFromJohn
+    ]
   });
 
-  await Message.create({
-    chatRoomInbox: chatRoomInbox,
-    text: 'Hi, James! How are you doing?',
-    userFrom: anna,
-    userTo: james,
-    createdAt: '10 мая 2022 г., 12:00:00'
-  });
-
-  await Message.create({
-    chatRoomInbox: chatRoomInbox,
-    text: 'Hello Anna! Long time no see you',
-    userFrom: james,
-    userTo: anna,
-    createdAt: '10 мая 2022 г., 12:05:00'
-  });
 
   await mongoose.connection.close();
 };

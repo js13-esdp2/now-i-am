@@ -48,6 +48,20 @@ export class ChatService {
     }
   }
 
+  reconnectWs() {
+    this.ws.onclose = (event) => {
+      setTimeout(() => {
+        if (this.myId) {
+          this.ws = new WebSocket(env.webSocketApiUrl);
+          this.ws.send(JSON.stringify({
+            type: 'LOGIN',
+            userId: this.myId,
+          }));
+        }
+      }, 3000);
+    }
+  }
+
   getUsersChatRooms(userId: string | undefined) {
     let params = new HttpParams();
     if (userId) params = params.append('ownerId', userId);

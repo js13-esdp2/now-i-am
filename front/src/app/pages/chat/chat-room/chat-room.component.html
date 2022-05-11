@@ -1,17 +1,21 @@
 <div id="container">
   <div id="header">
     <div class="avatarSection">
-            <div class="picture">
-              <img
-                class="picture__img"
-                *ngIf="chatRoom"
-                [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"/>
-            </div>
+      <div class="picture">
+        <img
+          class="picture__img"
+          *ngIf="chatRoom.chattingWith.photo"
+          [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"/>
+        <img
+          class="picture__img"
+          *ngIf="!chatRoom.chattingWith.photo"
+          src="../../assets/chat/noPic.svg"/>
+      </div>
       <div class="nameSection">{{ chatRoom.name }}</div>
     </div>
     <div class="actionButtons">
-      <img src="../../assets/chat/attached.svg" />
-      <img src="../../assets/chat/moreVertIcon.svg" />
+      <img src="../../assets/chat/attached.svg"/>
+      <img src="../../assets/chat/moreVertIcon.svg"/>
     </div>
   </div>
   <div id="body">
@@ -32,13 +36,13 @@
         src="../../assets/chat/smileIcon.svg"
       />
     </div>
-    <div id="textarea">
-      <textarea
+    <div class="textarea">
+      <textarea id="textarea" name="textarea"
         [(ngModel)]="message"
         (keyup.enter)="submitMessage($event)"
       ></textarea>
     </div>
-    <div id="micIcon">
+    <div id="sendIcon">
       <mat-icon (click)="sendMessage()" class="iconSend_color">send</mat-icon>
     </div>
   </div>

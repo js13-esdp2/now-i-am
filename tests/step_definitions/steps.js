@@ -15,6 +15,8 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/login');
     case 'Изменение пароля':
       return I.amOnPage('/login');
+    case 'Поиск':
+      return I.amOnPage('/search');
     default:
       return I.amOnPage('/');
   }
@@ -53,3 +55,11 @@ Given('я вижу текст {string} со стилями {string}', (text, sty
   I.see(text, {css: styles});
 });
 
+Given('я ввожу в поле {string} текст {string}', (field, text) => {
+  I.fillField(field, text);
+});
+
+Given('я открываю новую вкладку', () => {
+  I.openNewTab();
+  I.amOnPage('http://localhost:4210/');
+});
