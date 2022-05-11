@@ -75,12 +75,19 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', upload.single('content'), async (req, res, next) => {
   try {
 
+    const time = JSON.parse(req.body.time);
+    const timer = (time.hours * 3600) + (time.minutes * 60);
+    const invisibleAtUnixTime = (Math.round((new Date().getTime() / 1000)) + timer);
+    const invisibleDate = new Date((invisibleAtUnixTime  * 1000)).toString();
+
     const postData = {
       user: req.body.user,
       title: req.body.title,
-      datetime: new Date().toISOString(),
-      time: JSON.parse(req.body.time),
       content: null,
+      datetime: new Date().toISOString(),
+      invisibleDate:  invisibleDate,
+      invisibleAtUnixTime: invisibleAtUnixTime,
+      time: time,
     }
 
     if (req.file) {
@@ -97,6 +104,8 @@ router.post('/', upload.single('content'), async (req, res, next) => {
 
     const post = new Post(postData);
     await post.save();
+
+    console.log('NEW_POST', post);
 
     return res.send(
       {message: 'Created new post', id: post._id});

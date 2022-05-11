@@ -82,11 +82,22 @@ const run = async () => {
     friend: anna,
   });
 
+
+  const hours = 0;
+  const minutes = 1;
+  const timer = (hours * 3600) + (minutes * 60);
+  const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
+  const invisibleDate = new Date((invisibleAtUnixTime  * 1000)).toString();
+
   await Post.create({
     user: anna,
     title: 'Пью кофе',
     content: 'drinkingcoffee.jpg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime,
+    invisibleDate: invisibleDate,
     time: {
       hours: 12,
       minutes: 0,
@@ -96,6 +107,10 @@ const run = async () => {
     title: 'Пью чай',
     content: 'drinkingtea.jpg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 60,
+    invisibleDate: invisibleDate,
     time: {
       hours: 15,
       minutes: 10,
@@ -105,6 +120,10 @@ const run = async () => {
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 120,
+    invisibleDate: invisibleDate,
     time: {
       hours: 12,
       minutes: 10,
@@ -114,6 +133,10 @@ const run = async () => {
     title: 'Пью чай',
     content: 'drinkingtea.jpg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 180,
+    invisibleDate: invisibleDate,
     time: {
       hours: 7,
       minutes: 10,
@@ -123,6 +146,10 @@ const run = async () => {
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 240,
+    invisibleDate: invisibleDate,
     time: {
       hours: 15,
       minutes: 10,
@@ -132,6 +159,10 @@ const run = async () => {
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 300,
+    invisibleDate: invisibleDate,
     time: {
       hours: 5,
       minutes: 0,

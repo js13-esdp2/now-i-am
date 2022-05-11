@@ -23,6 +23,24 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: String,
+    default: new Date().toString(),
+    required: true,
+  },
+  isVisible: {
+    type: Boolean,
+    default: true,
+    required: true,
+  },
+  invisibleAtUnixTime: {
+    type: Number,
+    required: true,
+  },
+  invisibleDate: {
+    type: String,
+    required: true,
+  },
   time: {
     type: TimesSchema,
   },

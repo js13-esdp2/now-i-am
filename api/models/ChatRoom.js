@@ -5,7 +5,7 @@ const dateOptions = {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-  timezone: 'UTC',
+  timezone: 'GMT+6',
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric'
