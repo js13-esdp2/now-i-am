@@ -42,7 +42,9 @@ const routes: Routes = [
   {path: 'my-history-posts',
     component: MyHistoryPostsComponent,
     canActivate: [AuthGuardService]},
-  {path: 'notifications', component: NotificationsComponent}
+  {path: 'notifications',
+    component: NotificationsComponent,
+    canActivate: [AuthGuardService]}
 ];
 
 @NgModule({

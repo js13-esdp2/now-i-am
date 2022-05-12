@@ -12,6 +12,7 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, config.uploadPath);
@@ -383,6 +384,7 @@ router.post('/addFriend', auth, async (req, res, next) => {
     }
 
     req.user.friendRequests.push({user: friendUser._id});
+
     await req.user.save();
 
     res.send(req.user);
@@ -422,5 +424,16 @@ router.post('/changePassword', async (req, res, next) => {
     next(e);
   }
 });
+
+
+router.post('/usersId', async (req, res, next) => {
+  try {
+    console.log(req.body.users);
+    const users = await User.find({id: req.body.users})
+    return res.send(users);
+  } catch (e) {
+    next(e);
+  }
+})
 
 module.exports = router;

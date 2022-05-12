@@ -46,7 +46,7 @@ export const fetchUserSuccess = createAction('[Users] Fetch User Success', props
 export const fetchUserFailure = createAction('[Users] Fetch User Failure', props<{error: string}>());
 
 export const addFriendRequest = createAction('[Users] Add Friend Request', props<{userId: string}>());
-export const addFriendSuccess = createAction('[Users] Add Friend Success', props<{user: User}>());
+export const addFriendSuccess = createAction('[Users] Add Friend Success', props<{friends: Friends[]}>());
 export const addFriendFailure = createAction('[Users] Add Friend Failure', props<{error: string}>());
 
 export const fetchFriendsRequest = createAction('[Users] Fetch Friends Request');

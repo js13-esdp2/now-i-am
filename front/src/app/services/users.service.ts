@@ -65,7 +65,7 @@ export class UsersService {
   }
 
   addFriend(userId: string) {
-    return this.http.post<User>(env.apiUrl + '/users/addFriend', { userId });
+    return this.http.post<Friends[]>(env.apiUrl + '/friends', { userId });
   }
 
   getFriends() {
@@ -76,6 +76,7 @@ export class UsersService {
             friendsData._id,
             friendsData.user,
             friendsData.friend,
+            friendsData.isFriend,
           );
         });
       })

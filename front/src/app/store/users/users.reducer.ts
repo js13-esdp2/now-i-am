@@ -128,7 +128,7 @@ export const usersReducer = createReducer(
   on(fetchUserFailure, (state) => ({...state, fetchUserLoading: false, fetchUserError: ''})),
 
   on(addFriendRequest, state => ({...state, addFriendLoading: true, addFriendError: null,})),
-  on(addFriendSuccess, (state, {user}) => ({...state, addFriendLoading: false, user: createUserClass(user)})),
+  on(addFriendSuccess, (state, {friends}) => ({...state, addFriendLoading: false, friends})),
   on(addFriendFailure, (state, {error}) => ({...state, addFriendLoading: false, addFriendError: error})),
 
   on(fetchFriendsRequest, state => ({...state, fetchFriendsLoading: true, fetchFriendsError: null,})),

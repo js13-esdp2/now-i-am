@@ -12,6 +12,10 @@ const FriendsSchema = new Schema({
     ref: 'User',
     required: true
   },
+  isFriend: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const Friends = mongoose.model('Friends', FriendsSchema);

@@ -11,5 +11,6 @@ export class Friends {
       displayName: string,
       photo: string,
     },
+    public isFriend: boolean,
   ) {}
 }

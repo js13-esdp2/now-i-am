@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res, next) => {
   try {
+
     const friends = await Friends.find({user: req.user._id}).populate('friend', 'displayName photo');
 
     return res.send(friends);
@@ -20,15 +21,22 @@ router.get('/', auth, async (req, res, next) => {
 
 router.post('/', auth, async (req, res, next) => {
   try {
+
     const friendData = {
       user: req.user._id,
-      friend: req.body.user,
+      friend: req.body.userId,
+    }
+
+    const checkFriend =  await Friends.findOne({user: req.user._id, friend: req.body.userId});
+
+    if (checkFriend) {
+      return res.status(400).send({error: 'Запрос отправлен повторно'});
     }
 
     const data = new Friends(friendData);
     await data.save();
 
-    return res.send({message: 'Добавление прошло успешно!'});
+    return res.send(data);
   } catch(e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return next(e);
@@ -39,14 +47,7 @@ router.post('/', auth, async (req, res, next) => {
 
 router.delete('/:id', auth, async(req, res, next) =>{
   try{
-    const findFriend = await Friends.findOne({friend: req.params.id});
-    if(!findFriend) {
-      return res.send({message: 'ok'});
-    }
-    if(!findFriend.user.equals(req.user._id)) {
-      return res.status(403).send({error: 'У Вас нет на это прав'});
-    }
-    await findFriend.remove();
+    const findFriend = await Friends.deleteOne({user: req.user._id, friend: req.params.id});
 
     res.send(findFriend)
   }catch(e){

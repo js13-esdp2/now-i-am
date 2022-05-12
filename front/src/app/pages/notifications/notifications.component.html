@@ -5,44 +5,16 @@
   <div class="notifications-container__content">
     <mat-tab-group class="notifications-tab">
       <mat-tab class="notifications-tab__item" label="Запросы на добавление в друзья">
-        <mat-card class="user-item">
-        <mat-card-content class="user-item__content">
+        <mat-card class="user-item" *ngFor="let friend of friends | async">
+        <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
           <div class="user-item__image-container">
-            <img class="user-item__image" src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-businessman-user-avatar-free-vector-png-image_1538405.jpg" [alt]="'Photo of '">
+            <img class="user-item__image" [src]="apiUrl + '/uploads/' + friend.friend.photo " [alt]="'Photo of '">
           </div>
-          <strong class="user-item__name">User name</strong>
+          <strong class="user-item__name">{{ friend.friend.displayName }}</strong>
           <button mat-icon-button class="user-item__btn">
             <mat-icon style="font-size: 22px" color="primary">done</mat-icon>
           </button>
-          <button mat-icon-button class="user-item__btn">
-            <mat-icon style="font-size: 22px" color="warn">clear</mat-icon>
-          </button>
-        </mat-card-content>
-      </mat-card>
-        <mat-card class="user-item">
-        <mat-card-content class="user-item__content">
-          <div class="user-item__image-container">
-            <img class="user-item__image" src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-businessman-user-avatar-free-vector-png-image_1538405.jpg" [alt]="'Photo of '">
-          </div>
-          <strong class="user-item__name">User name</strong>
-          <button mat-icon-button class="user-item__btn">
-            <mat-icon style="font-size: 22px" color="primary">done</mat-icon>
-          </button>
-          <button mat-icon-button class="user-item__btn">
-            <mat-icon style="font-size: 22px" color="warn">clear</mat-icon>
-          </button>
-        </mat-card-content>
-      </mat-card>
-        <mat-card class="user-item">
-        <mat-card-content class="user-item__content">
-          <div class="user-item__image-container">
-            <img class="user-item__image" src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-businessman-user-avatar-free-vector-png-image_1538405.jpg" [alt]="'Photo of '">
-          </div>
-          <strong class="user-item__name">User name</strong>
-          <button mat-icon-button class="user-item__btn">
-            <mat-icon style="font-size: 22px" color="primary">done</mat-icon>
-          </button>
-          <button mat-icon-button class="user-item__btn">
+          <button mat-icon-button class="user-item__btn" (click)="onRemove(friend.friend._id)">
             <mat-icon style="font-size: 22px" color="warn">clear</mat-icon>
           </button>
         </mat-card-content>

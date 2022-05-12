@@ -170,7 +170,7 @@ export class UsersEffects {
   addFriend = createEffect(() => this.actions.pipe(
     ofType(addFriendRequest),
     mergeMap(({userId}) => this.usersService.addFriend(userId).pipe(
-      map((user) => addFriendSuccess({user})),
+      map((friends) => addFriendSuccess({friends})),
       tap(() => {
         this.helpersService.openSnackBar('Запрос на дружбу успешно отправлен!');
       }),

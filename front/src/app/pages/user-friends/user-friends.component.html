@@ -6,7 +6,7 @@
     <h2 class="friends-block__title">Мои друзья</h2>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.lt-lg="33%" fxFlex="15%" *ngFor="let friend of friends | async">
-        <mat-card class="friend-card">
+        <mat-card class="friend-card" *ngIf="friend.isFriend">
           <mat-card-header fxLayout="column" fxLayoutAlign="center center">
             <mat-card-title class="friend-card__title">{{ friend.friend.displayName }}</mat-card-title>
             <mat-divider inset></mat-divider>
