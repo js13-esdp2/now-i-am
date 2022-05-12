@@ -21,7 +21,7 @@ const run = async () => {
     password: '123',
     displayName: 'Anna',
     token: nanoid(),
-    photo: 'anna.jpg',
+    photo: 'anna.jpeg',
     birthday: '23',
     sex: 'female',
     country: 'Австралия',
