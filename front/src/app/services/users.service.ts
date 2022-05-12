@@ -60,6 +60,10 @@ export class UsersService {
     return this.http.delete(env.apiUrl + '/users/sessions');
   }
 
+  getUser(id: string) {
+    return this.http.get<User>(env.apiUrl + '/users/' + id);
+  }
+
   addFriend(userId: string) {
     return this.http.post<User>(env.apiUrl + '/users/addFriend', { userId });
   }
