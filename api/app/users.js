@@ -395,20 +395,23 @@ router.post('/addFriend', auth, async (req, res, next) => {
   }
 });
 
-router.post('/changePassword', auth, async (req, res, next) => {
+router.post('/changePassword', async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.user.email});
 
-    const isMatch = await user.checkPassword(req.body.currentPassword);
+    let user = await User.findOne({ email: req.body.email});
 
-    if (!isMatch) {
-      return res.status(400).send({error: 'Вы ввели неверный текущий пароль'});
-    }
+    if (req.body.currentPassword){
+      const isMatch = await user.checkPassword(req.body.currentPassword);
 
-    const passwordsIsMatch = await user.passwordMatchingCheck(req.body.newPassword, req.body.currentPassword);
+      if (!isMatch) {
+        return res.status(400).send({error: 'Вы ввели неверный текущий пароль'});
+      }
 
-    if(passwordsIsMatch) {
-      return res.status(400).send({error: 'Пароли совпадают, введите новый пароль'});
+      const passwordsIsMatch = await user.passwordMatchingCheck(req.body.newPassword, req.body.currentPassword);
+
+      if(passwordsIsMatch) {
+        return res.status(400).send({error: 'Пароли совпадают, введите новый пароль'});
+      }
     }
 
     user.password = req.body.newPassword;

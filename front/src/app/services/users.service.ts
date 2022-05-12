@@ -5,9 +5,9 @@ import {
   ApiCountryData,
   EditUserData,
   LoginUserData,
+  PasswordData,
   RecoveryData,
   RegisterUserData,
-  PasswordData,
   User
 } from '../models/user.model';
 import { SocialUser } from 'angularx-social-login';
@@ -95,7 +95,7 @@ export class UsersService {
     return this.http.delete(env.apiUrl + '/friends/' + id);
   }
 
-  changePassword(passwords: PasswordData) {
-    return this.http.post(env.apiUrl + '/users/changePassword', passwords);
+  changePassword(passwords: PasswordData ) {
+    return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
   }
 }

@@ -4,9 +4,9 @@ import {
   EditUserData,
   EditUserError,
   LoginError,
-  RecoveryData,
   LoginUserData,
   PasswordData,
+  RecoveryData,
   RegisterError,
   RegisterUserData,
   User
@@ -69,5 +69,5 @@ export const removeFriendRequest = createAction('[Users] Remove Friend Request',
 export const removeFriendSuccess = createAction('[Users] Remove Friend Success');
 
 export const changeUserPasswordRequest = createAction('[User] Change Password Request', props<{passwords: PasswordData}>());
-export const changeUserPasswordSuccess = createAction('[User] Change Password Success');
+export const changeUserPasswordSuccess = createAction('[User] Change Password Success', props<{user: User}>());
 export const changeUserPasswordFailure = createAction('[User] Change Password Failure', props<{ error: string }>());

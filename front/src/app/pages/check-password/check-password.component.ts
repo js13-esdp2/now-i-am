@@ -21,6 +21,7 @@ export class CheckPasswordComponent implements  OnDestroy{
   loading: Observable<boolean>;
   error: Observable<null | LoginError>;
   recoveryDataSub!: Subscription;
+  userEmail!: string;
 
   constructor(
     private store: Store<AppState>,
@@ -37,6 +38,7 @@ export class CheckPasswordComponent implements  OnDestroy{
       this.store.dispatch(fetchPasswordRequest(email));
     }
     this.recoveryDataSub = this.recoveryData.subscribe( data => {
+      this.userEmail = <string>data?.email;
       if (data) {
         this.dialog.open(RecoveryModalComponent);
       }
@@ -44,6 +46,8 @@ export class CheckPasswordComponent implements  OnDestroy{
   }
 
   ngOnDestroy() {
-    this.recoveryDataSub.unsubscribe();
+    if (this.userEmail){
+      this.recoveryDataSub.unsubscribe();
+    }
   }
 }

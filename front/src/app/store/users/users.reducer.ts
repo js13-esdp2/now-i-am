@@ -155,7 +155,7 @@ export const usersReducer = createReducer(
   on(removeFriendSuccess, (state) => ({...state, removeFriendLoading: false})),
 
   on(changeUserPasswordRequest, state => ({...state, changePasswordLoading: true, changePasswordError: null})),
-  on(changeUserPasswordSuccess, state => ({...state, changePasswordLoading: false})),
+  on(changeUserPasswordSuccess, (state, {user}) => ({...state, changePasswordLoading: false, user: createUserClass(user)})),
   on(changeUserPasswordFailure, (state, {error}) => ({...state, changePasswordLoading: false, changePasswordError: error})),
 
 );

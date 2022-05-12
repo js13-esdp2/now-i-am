@@ -213,7 +213,7 @@ export class UsersEffects {
   changePassword = createEffect(() => this.actions.pipe(
     ofType(changeUserPasswordRequest),
     mergeMap(({passwords}) => this.usersService.changePassword(passwords).pipe(
-      map(() => changeUserPasswordSuccess()),
+      map((user) => changeUserPasswordSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Ваш пароль успешно изменен!');
         void this.router.navigate(['/']);

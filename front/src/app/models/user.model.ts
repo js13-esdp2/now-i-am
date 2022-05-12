@@ -142,6 +142,8 @@ export interface ApiCityData {
 }
 
 export interface PasswordData {
+  email: string,
   newPassword: string,
-  currentPassword: string
+  currentPassword: null | string
 }
+

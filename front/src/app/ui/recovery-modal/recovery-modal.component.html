@@ -1,11 +1,11 @@
 <mat-dialog-content class="mat-typography">
   <mat-card-content>
-    <app-centered-card title="Востановление пароля">
+    <div *ngIf="correctCode else newPassword">
+      <h3 class="title">Проверьте код на почте</h3>
       <div *ngIf="error | async" class="error">
         {{ (error | async)?.error }}
       </div>
-
-      <form (ngSubmit)="onSubmit()"
+      <form (ngSubmit)="onSubmitCode()"
             fxLayout="column"
             #f="ngForm"
             autocomplete="off"
@@ -34,6 +34,75 @@
           </app-loader>
         </button>
       </form>
-    </app-centered-card>
+    </div>
   </mat-card-content>
 </mat-dialog-content>
+
+<ng-template #newPassword>
+  <div>
+    <h3 class="title">Придумайте новый пароль</h3>
+    <form #f="ngForm" class="form" [appIdenticalPasswords]="['newPassword', 'repeatPassword']"
+          (ngSubmit)="onSubmitNewPassword()">
+      <mat-form-field appearance="outline">
+        <mat-label>Введите новый пароль</mat-label>
+        <input [type]="newPasswordHide ? 'password' : 'text'"
+               name="newPassword"
+               type="password"
+               matInput
+               autocomplete="password"
+               ngModel
+               #newPassword="ngModel"
+               appPassword
+               minlength="6"
+               required
+        />
+        <button mat-icon-button matSuffix type="button" (click)="newPasswordHide = !newPasswordHide"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="newPasswordHide">
+          <mat-icon>{{newPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="newPassword.touched && newPassword.hasError('required')">
+          Поле обязательное для ввода
+        </mat-error>
+        <mat-error *ngIf="newPassword.touched && newPassword.hasError('passwordError')">
+          Пароль должен состоять из букв латинского алфавита (A-z) и арабских цифр (0-9)
+        </mat-error>
+        <mat-error *ngIf="newPassword.touched && newPassword.hasError('minlength')"
+        >
+          Длина пароля должна быть не менее 6
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Повторите пароль</mat-label>
+        <input [type]="newPasswordRepeatHide ? 'password' : 'text'"
+               name="repeatPassword"
+               matInput
+               type="password"
+               autocomplete="password"
+               ngModel
+               #repeatPassword="ngModel"
+               appPassword
+               minlength="6"
+               required
+        />
+        <button mat-icon-button matSuffix type="button" (click)="newPasswordRepeatHide = !newPasswordRepeatHide"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="newPasswordRepeatHide">
+          <mat-icon>{{newPasswordRepeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="repeatPassword.touched && repeatPassword.hasError('required')">
+          <p class="text-error">Поле обязательное для ввода</p>
+        </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="f.hasError('identicalPassword') ">
+        <p class="text-error">Пароли не совпадают</p>
+      </mat-error>
+      <button type="submit"
+              mat-raised-button
+              class="btn"
+      >
+        <app-loader [isLoading]="isLoading | async" size="sm">
+          Отправить
+        </app-loader>
+      </button>
+    </form>
+  </div>
+</ng-template>
