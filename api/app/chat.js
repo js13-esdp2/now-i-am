@@ -87,4 +87,59 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.delete('/oneChatRoom', async (req, res, next) => {
+  try {
+    if (!req.body.chatRoomInbox || !req.body.ownerId) {
+      return res.status(404).send({message: 'Wrong data!'});
+    }
+    const chatRoomInbox = req.body.chatRoomInbox;
+    const owner = req.body.ownerId;
+    const chatRoom = await ChatRoom.findOneAndDelete({chatRoomInbox, owner});
+    return res.send({message: 'chatRoom deleted with id = ', chatRoom});
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.delete('/chatRooms', async (req, res, next) => {
+  try {
+    if (!req.body.chatRoomInbox) {
+      return res.status(404).send({message: 'Wrong data!'});
+    }
+    const chatRoomInbox = req.body.chatRoomInbox;
+    const chatRooms = await ChatRoom.deleteMany({chatRoomInbox});
+    return res.send({message: 'chatRoom deleted with id = ', chatRooms});
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.delete('/chatRoom/messages', async (req, res, next) => {
+  try {
+    if (!req.body.chatRoomInbox || !req.body.ownerId) {
+      return res.status(404).send({message: 'Wrong data!'});
+    }
+    const owner = req.body.ownerId;
+    const chatRoomInbox = req.body.chatRoomInbox;
+    const chatRoom = await ChatRoom.findOneAndUpdate({chatRoomInbox, owner}, {messages: []});
+    return res.send(chatRoom);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.delete('/chatRooms/allMessages', async (req, res, next) => {
+  try {
+    if (!req.body.chatRoomInbox) {
+      return res.status(404).send({message: 'Wrong data!'});
+    }
+    const chatRoomInbox = req.body.chatRoomInbox;
+    const chatRoom = await ChatRoom.updateMany({chatRoomInbox}, {messages: []});
+    return res.send(chatRoom);
+  } catch (e) {
+    next(e);
+  }
+});
+
+
 module.exports = router;

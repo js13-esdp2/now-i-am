@@ -164,4 +164,23 @@ router.get('/my-history-posts/:id', auth, async (req, res, next) => {
   }
 });
 
+
+const checkIfPostsAreOnline = () => {
+  setInterval(async () => {
+    let currentUnixTime = Math.round((new Date().getTime() / 1000));
+
+    const posts = await Post.find();
+    const postsData = [...posts];
+
+    for (let i = 0; i < postsData.length; i++) {
+      const post = postsData[i];
+      if (currentUnixTime > post.invisibleAtUnixTime) {
+        await Post.findByIdAndUpdate(post._id, {isVisible: false});
+      }
+    }
+  }, 60000);
+}
+
+checkIfPostsAreOnline();
+
 module.exports = router;
