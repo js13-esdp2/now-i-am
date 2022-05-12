@@ -42,6 +42,6 @@ export class ProfileComponent {
       newPassword: this.form.value.newPassword,
       currentPassword: this.form.value.currentPassword
     }
-   this.store.dispatch(changeUserPasswordRequest({passwords: passwords}))
+    this.store.dispatch(changeUserPasswordRequest({passwords: passwords}))
   }
 }

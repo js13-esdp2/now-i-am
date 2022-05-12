@@ -48,12 +48,12 @@ export type PostState = {
   post: null | Post,
   postModalData: PostModalData,
   posts: Post[],
-  fetchLoading: boolean,
-  fetchError: null | string,
   createLoading: boolean,
   createError: null | string,
   likeLoading: boolean,
   likeError: null | string,
+  fetchLoading: boolean,
+  fetchError: null | string,
 }
 
 export type SearchState = {
@@ -61,6 +61,8 @@ export type SearchState = {
   searchData: string,
   searchLoading: boolean,
   searchError: null | string,
+  fetchLoading: boolean,
+  fetchError: null | string,
 }
 
 export type ChatState = {

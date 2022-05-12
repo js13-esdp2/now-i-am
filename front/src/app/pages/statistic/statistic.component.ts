@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { onPostModalDataChange } from '../../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
-import { User } from '../../models/user.model';
+import { ApiUserData, User } from '../../models/user.model';
 
 @Component({
   selector: 'app-statistic',
@@ -25,7 +25,7 @@ export class StatisticComponent implements OnInit {
   showList: Boolean = false;
   postModalData!: PostModalData;
   searchTitle!: string;
-
+  userId!: ApiUserData;
 
   constructor(
     private store: Store<AppState>,

@@ -10,50 +10,62 @@
   >
     <mat-icon class="post-block__close__icon">close</mat-icon>
   </button>
-  <img [src]="apiUrl + '/uploads/' + postData.content" [alt]="postData.title" class="post-block__image"/>
-  <mat-card-header fxLayoutAlign="center" fxLayoutGap="10px">
-    <mat-card-title>{{ postData.title }}</mat-card-title>
-    <mat-card-subtitle>{{ postData.user.displayName }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-actions *appUserType="'user' else anonLink">
-    <button type="button"
-            mat-raised-button
-            color="accent"
-            title="Поставить лайк"
-            (click)="likePost()"
-            [disabled]="!userData || checkUserLike() || (likeLoading | async)"
-    >
-      <app-loader [isLoading]="likeLoading | async">
-        <mat-icon>favorite_border</mat-icon>
-        {{ postData.likes.length }}
-      </app-loader>
-    </button>
-    <a routerLink="/"
-       mat-raised-button
-       color="primary"
-       title="Показать на карте"
-       (click)="onClose()"
-    >
-      <mat-icon>location_on</mat-icon>
-    </a>
-    <button type="button" mat-raised-button color="primary">Профиль</button>
-    <button type="button"
-            mat-raised-button
-            color="accent"
-            title="Добавить в друзья"
-            *ngIf="userData && !authorIsMe()"
-            [disabled]="checkUserFriend() || (addFriendLoading | async)"
-            (click)="addFriend()"
-    >
-      <app-loader [isLoading]="addFriendLoading | async">
-        <mat-icon>person_add_alt</mat-icon>
-      </app-loader>
-    </button>
-    <button type="button"
-            mat-raised-button
-            color="accent"
-            (click)="goToChat()">Чат</button>
-  </mat-card-actions>
+
+  <div *ngIf="profileIsOpen else profile">
+    <img [src]="apiUrl + '/uploads/' + postData.content" [alt]="postData.title" class="post-block__image"/>
+    <mat-card-header fxLayoutAlign="center" fxLayoutGap="10px">
+      <mat-card-title>{{ postData.title }}</mat-card-title>
+      <mat-card-subtitle>{{ postData.user.displayName }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions *appUserType="'user' else anonLink">
+      <button type="button"
+              mat-raised-button
+              color="accent"
+              title="Поставить лайк"
+              (click)="likePost()"
+              [disabled]="!userData || checkUserLike() || (likeLoading | async)"
+      >
+        <app-loader [isLoading]="likeLoading | async">
+          <mat-icon>favorite_border</mat-icon>
+          {{ postData.likes.length }}
+        </app-loader>
+      </button>
+      <a routerLink="/"
+         mat-raised-button
+         color="primary"
+         title="Показать на карте"
+         (click)="onClose()"
+      >
+        <mat-icon>location_on</mat-icon>
+      </a>
+
+      <button type="button"
+              mat-raised-button
+              color="primary"
+              (click)="goToProfile(postData.title, postData.user._id)"
+      >Профиль
+      </button>
+
+      <button type="button"
+              mat-raised-button
+              color="accent"
+              title="Добавить в друзья"
+              *ngIf="userData && !authorIsMe()"
+              [disabled]="checkUserFriend() || (addFriendLoading | async)"
+              (click)="addFriend()"
+      >
+        <app-loader [isLoading]="addFriendLoading | async">
+          <mat-icon>person_add_alt</mat-icon>
+        </app-loader>
+      </button>
+      <button type="button"
+              mat-raised-button
+              color="accent"
+              (click)="goToChat()">Чат
+      </button>
+    </mat-card-actions>
+  </div>
+
   <ng-template #anonLink>
     <a class="post-block__link">
       Хотите поговорить с {{ postData.user.displayName }}? Тогда пройдите регистрацию
@@ -73,4 +85,38 @@
     >Вход
     </button>
   </ng-template>
+
+  <ng-template #profile>
+    <div class="profile" *ngIf="userData">
+      <div class="photo-block">
+        <img *ngIf="userData.photo" class="photo" [src]="apiUrl + '/uploads/' + userData.photo"
+             [alt]="userData.displayName">
+        <img *ngIf="!userData.photo" class="photo" src="./assets/images/pipe-image.jpg" [alt]="userData.displayName">
+      </div>
+      <mat-card-content>
+        <h2 class="title" mat-dialog-title>Имя: {{ userData.displayName }}</h2>
+        <div *ngIf="!userData.isPrivate">
+          <p>
+            <strong>О себе: </strong>{{ userData.aboutMe || 'Не указано' }}
+          </p>
+          <p>
+            <strong>Возраст: </strong>{{ userData.age || 'Не указано' }}
+          </p>
+          <p>
+            <strong>Пол: </strong>{{ userData.sex === 'male' ? 'Муж.' : userData.sex === 'female' ? 'Жен.' : 'Не указано' }}
+          </p>
+          <p>
+            <strong>Страна: </strong>{{ userData.country || 'Не указано' }}
+          </p>
+          <p>
+            <strong>Город: </strong>{{ userData.city || 'Не указано' }}
+          </p>
+        </div>
+      </mat-card-content>
+      <button class="button-exit" color="primary" (click)="closeProfile()">
+        <mat-icon class="post-block__close__icon">reply</mat-icon>
+      </button>
+    </div>
+  </ng-template>
 </div>
+

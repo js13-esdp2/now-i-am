@@ -15,7 +15,8 @@ export class SearchEffects {
     private store: Store<AppState>,
     private searchService: SearchService,
     private helpersService: HelpersService,
-  ) {}
+  ) {
+  }
 
   searchUsers = createEffect(() => this.actions.pipe(
     ofType(searchUsersRequest),
@@ -23,5 +24,6 @@ export class SearchEffects {
       map((users) => searchUsersSuccess({users})),
       this.helpersService.catchServerError(searchUsersFailure)
     )),
-  ));
+  ))
+
 }

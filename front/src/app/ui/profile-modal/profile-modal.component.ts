@@ -33,5 +33,4 @@ export class ProfileModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
-
 }

@@ -8,9 +8,10 @@ import { Observable, Subscription } from 'rxjs';
 import { fetchOneOfPostRequest, likePostRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
 import { addFriendRequest } from '../../store/users/users.actions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
+import { searchUsersRequest } from '../../store/search/search.actions';
 
 @Component({
   selector: 'app-post-modal',
@@ -19,6 +20,7 @@ import { createNewChatRoom } from '../../store/chat/chat.actions';
 })
 export class PostModalComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
+  users: Observable<null | User[]>;
   post: Observable<null | Post>;
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
@@ -29,7 +31,9 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   postId!: string;
   postData!: Post;
+  profileIsOpen = true;
 
+  private usersSub!: Subscription;
   private userSub!: Subscription;
   private postSub!: Subscription;
 
@@ -42,6 +46,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
+    this.users = store.select((state) => state.search.users);
     this.post = store.select((state) => state.posts.post);
     this.postLoading = store.select((state) => state.posts.fetchLoading)
     this.likeLoading = store.select((state) => state.posts.likeLoading);
@@ -53,7 +58,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
       const postModalData = {postId: '', searchTitle: ''};
       this.store.dispatch(onPostModalDataChange({postModalData: postModalData}))
     })
-
     store.dispatch(fetchOneOfPostRequest({id: this.postId}));
   }
 
@@ -93,6 +97,20 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(createNewChatRoom({chatRoomData}));
   }
 
+  goToProfile(title: string, id: string) {
+    const searchData = title;
+    this.store.dispatch(searchUsersRequest({searchData}));
+
+    this.usersSub = this.users.subscribe(arrayUsers => {
+      arrayUsers?.forEach(user => {
+        if (user._id === id) {
+          this.profileIsOpen = false;
+          this.userData = user;
+        }
+      })
+    });
+  }
+
   authorIsMe(): boolean {
     return this.postData.user._id === this.userData?._id;
   }
@@ -119,6 +137,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.usersSub.unsubscribe();
     this.postSub.unsubscribe();
+  }
+
+  closeProfile() {
+    this.profileIsOpen = true;
   }
 }

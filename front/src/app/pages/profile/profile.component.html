@@ -46,7 +46,7 @@
       <h2 class="change-password__title">Изменение пароля</h2>
     </mat-card-title>
     <mat-card-content>
-      <form #f="ngForm"  [appIdenticalPasswords]="['newPassword', 'repeatPassword']" (ngSubmit)="onSubmit()">
+      <form #f="ngForm" [appIdenticalPasswords]="['newPassword', 'repeatPassword']" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline">
           <mat-label>Введите новый пароль</mat-label>
           <input [type]="newPasswordHide ? 'password' : 'text'"
@@ -116,8 +116,8 @@
                  #currentPassword="ngModel"
                  required
           />
-<!--          appPassword-->
-<!--          minlength="6"-->
+          <!--          appPassword-->
+          <!--          minlength="6"-->
           <button mat-icon-button matSuffix (click)="currentPasswordHide = !currentPasswordHide"
                   [attr.aria-label]="'Hide password'" [attr.aria-pressed]="currentPasswordHide">
             <mat-icon>{{currentPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -125,13 +125,13 @@
           <mat-error *ngIf="currentPassword.touched && currentPassword.hasError('required')">
             Поле обязательное для ввода
           </mat-error>
-<!--          <mat-error *ngIf="currentPassword.touched && currentPassword.invalid">-->
-<!--            Пароль должен состоять из букв алфавита (А-я-A-z) и арабских цифр (0-9)-->
-<!--          </mat-error>-->
-<!--          <mat-error *ngIf="currentPassword.touched && currentPassword.hasError('minlength')"-->
-<!--          >-->
-<!--            Длина пароля должна быть не менее 6-->
-<!--          </mat-error>-->
+          <!--          <mat-error *ngIf="currentPassword.touched && currentPassword.invalid">-->
+          <!--            Пароль должен состоять из букв алфавита (А-я-A-z) и арабских цифр (0-9)-->
+          <!--          </mat-error>-->
+          <!--          <mat-error *ngIf="currentPassword.touched && currentPassword.hasError('minlength')"-->
+          <!--          >-->
+          <!--            Длина пароля должна быть не менее 6-->
+          <!--          </mat-error>-->
         </mat-form-field>
         <div class="change-password__btn-group">
           <button mat-raised-button color="primary" type="submit" (click)="onSubmit()"

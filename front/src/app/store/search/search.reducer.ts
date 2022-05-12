@@ -7,6 +7,8 @@ const initialState: SearchState = {
   searchData: '',
   searchLoading: false,
   searchError: null,
+  fetchLoading: false,
+  fetchError: null,
 };
 
 export const searchReducer = createReducer(

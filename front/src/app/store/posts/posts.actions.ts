@@ -32,5 +32,4 @@ export const fetchMyHistoryPostsRequest = createAction('[MyHistoryPosts] Fetch R
 export const fetchMyHistoryPostsSuccess = createAction('[MyHistoryPosts] Fetch Success', props<{posts: Post[]}>());
 export const fetchMyHistoryPostsFailure = createAction('[MyHistoryPosts] Fetch Failure', props<{error: string}>());
 
-
 export const onPostModalDataChange = createAction('[Posts] Change Post Modal Data', props<{postModalData: PostModalData}>());
