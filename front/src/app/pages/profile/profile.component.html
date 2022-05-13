@@ -1,5 +1,4 @@
 <app-centered-card *ngIf="user | async as userData">
-  <div *ngIf="!changePassword else editPassword">
     <img mat-card-image
          class="photo"
          [src]=" apiUrl + '/uploads/' + userData.photo"
@@ -29,7 +28,7 @@
         <mat-checkbox [checked]="userData.isPrivate" disabled="true"></mat-checkbox>
       </p>
       <p>
-        <button mat-button color="primary" (click)="onChangePassword()">Изменить пароль</button>
+        <a mat-button color="primary" routerLink="/profile/change-password">Изменить пароль</a>
       </p>
     </mat-card-content>
     <mat-card-actions fxLayoutAlign="center">
@@ -38,112 +37,4 @@
          color="primary"
       >Редактировать</a>
     </mat-card-actions>
-  </div>
 </app-centered-card>
-<ng-template #editPassword>
-  <mat-card class="change-password">
-    <mat-card-title class="change-password__header">
-      <h2 class="change-password__title">Изменение пароля</h2>
-    </mat-card-title>
-    <mat-card-content>
-      <form #f="ngForm" [appIdenticalPasswords]="['newPassword', 'repeatPassword']" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Введите новый пароль</mat-label>
-          <input [type]="newPasswordHide ? 'password' : 'text'"
-                 name="newPassword"
-                 type="password"
-                 matInput
-                 autocomplete="password"
-                 ngModel
-                 #newPassword="ngModel"
-                 appPassword
-                 minlength="6"
-                 required
-          />
-          <button mat-icon-button matSuffix (click)="newPasswordHide = !newPasswordHide"
-                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="newPasswordHide">
-            <mat-icon>{{newPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error *ngIf="newPassword.touched && newPassword.hasError('required')">
-            Поле обязательное для ввода
-          </mat-error>
-          <mat-error *ngIf="newPassword.touched && newPassword.hasError('passwordError')">
-            Пароль должен состоять из букв латинского алфавита (A-z) и арабских цифр (0-9)
-          </mat-error>
-          <mat-error *ngIf="newPassword.touched && newPassword.hasError('minlength')"
-          >
-            Длина пароля должна быть не менее 6
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Повторите пароль</mat-label>
-          <input [type]="newPasswordRepeatHide ? 'password' : 'text'"
-                 name="repeatPassword"
-                 matInput
-                 type="password"
-                 autocomplete="password"
-                 ngModel
-                 #repeatPassword="ngModel"
-                 appPassword
-                 minlength="6"
-                 required
-          />
-          <button mat-icon-button matSuffix (click)="newPasswordRepeatHide = !newPasswordRepeatHide"
-                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="newPasswordRepeatHide">
-            <mat-icon>{{newPasswordRepeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error *ngIf="repeatPassword.touched && repeatPassword.hasError('required')">
-            Поле обязательное для ввода
-          </mat-error>
-          <mat-error *ngIf="repeatPassword.touched && repeatPassword.hasError('passwordError')">
-            Пароль должен состоять из букв латинского алфавита (A-z) и арабских цифр (0-9)
-          </mat-error>
-          <mat-error *ngIf="repeatPassword.touched && repeatPassword.hasError('minlength')">
-            Длина пароля должна быть не менее 6
-          </mat-error>
-        </mat-form-field>
-        <mat-error *ngIf="repeatPassword.touched && f.hasError('identicalPassword') ">
-          Пароли не совпадают
-        </mat-error>
-        <mat-form-field appearance="outline">
-          <mat-label>Введите текущий пароль</mat-label>
-          <input [type]="currentPasswordHide ? 'password' : 'text'"
-                 name="currentPassword"
-                 matInput
-                 type="password"
-                 autocomplete="password"
-                 ngModel
-                 #currentPassword="ngModel"
-                 required
-          />
-          <!--          appPassword-->
-          <!--          minlength="6"-->
-          <button mat-icon-button matSuffix (click)="currentPasswordHide = !currentPasswordHide"
-                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="currentPasswordHide">
-            <mat-icon>{{currentPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error *ngIf="currentPassword.touched && currentPassword.hasError('required')">
-            Поле обязательное для ввода
-          </mat-error>
-          <!--          <mat-error *ngIf="currentPassword.touched && currentPassword.invalid">-->
-          <!--            Пароль должен состоять из букв алфавита (А-я-A-z) и арабских цифр (0-9)-->
-          <!--          </mat-error>-->
-          <!--          <mat-error *ngIf="currentPassword.touched && currentPassword.hasError('minlength')"-->
-          <!--          >-->
-          <!--            Длина пароля должна быть не менее 6-->
-          <!--          </mat-error>-->
-        </mat-form-field>
-        <div class="change-password__btn-group">
-          <button mat-raised-button color="primary" type="submit" (click)="onSubmit()"
-                  [disabled]="f.invalid || (isLoading | async)">
-            <app-loader [isLoading]="isLoading | async" size="sm">
-              Подтвердить
-            </app-loader>
-          </button>
-          <button mat-raised-button color="warn" (click)="onChangePassword()">Отмена</button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-</ng-template>

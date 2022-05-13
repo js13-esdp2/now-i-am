@@ -15,6 +15,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
 import { CheckPasswordComponent } from './pages/check-password/check-password.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
       {path: 'profile',
         canActivate: [AuthGuardService],
         children: [
+          {path: 'change-password', component: ChangePasswordComponent},
           {path: '',
             component: ProfileComponent,
           },

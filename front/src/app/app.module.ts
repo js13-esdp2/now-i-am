@@ -68,6 +68,7 @@ import { ValidateIdenticalDirective } from './directives/validate-identical.dire
 import { ValidatePasswordDirective } from './directives/validate-password.directive';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -113,6 +114,7 @@ const socialConfig: SocialAuthServiceConfig = {
     FileInputComponent,
     ProfileComponent,
     EditProfileComponent,
+    ChangePasswordComponent,
     ModalWindowComponent,
     WebcamComponent,
     PostModalComponent,
