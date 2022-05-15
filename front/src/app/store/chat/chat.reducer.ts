@@ -6,6 +6,13 @@ import {
   createNewChatRoom,
   createNewChatRoomFailure,
   createNewChatRoomSuccess,
+  deleteAllMessages,
+  deleteAllMessagesFailure,
+  deleteAllMessagesSuccess, deleteChatRoomFailure,
+  deleteChatRoomRequest, deleteChatRoomSuccess,
+  deleteMyMessages,
+  deleteMyMessagesFailure,
+  deleteMyMessagesSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
   getUsersChatRoomsSuccess
@@ -18,7 +25,11 @@ const initialState: ChatState = {
   fetchError: null,
   createLoading: false,
   createError: null,
+  deleteLoading: true,
+  deleteError: null,
 };
+
+
 export const chatReducer = createReducer(
   initialState,
   on(getUsersChatRooms, (state) => ({...state, fetchLoading: true})),
@@ -46,4 +57,13 @@ export const chatReducer = createReducer(
 
     return {...state, chatRooms: updatedChatRooms, chatRoom: upDatedChatRoom};
   }),
+  on(deleteMyMessages, (state) => ({...state, deleteLoading: true})),
+  on(deleteMyMessagesSuccess, (state) => ({...state})),
+  on(deleteMyMessagesFailure, (state, {error}) => ({...state, deleteLoading: false, deleteError: error})),
+  on(deleteAllMessages, (state) => ({...state, deleteLoading: true})),
+  on(deleteAllMessagesSuccess, (state) => ({...state})),
+  on(deleteAllMessagesFailure, (state, {error}) => ({...state, deleteLoading: false, deleteError: error})),
+  on(deleteChatRoomRequest, (state) => ({...state, deleteLoading: true})),
+  on(deleteChatRoomSuccess, (state) => ({...state, deleteLoading: false})),
+  on(deleteChatRoomFailure, (state, {error}) => ({...state, deleteLoading: false, deleteError: error})),
 )

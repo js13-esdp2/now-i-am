@@ -2,7 +2,17 @@ import { Injectable } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  createNewChatRoom, createNewChatRoomFailure, createNewChatRoomSuccess,
+  changeChatRoom,
+  createNewChatRoom,
+  createNewChatRoomFailure,
+  createNewChatRoomSuccess, deleteAllMessages,
+  deleteAllMessagesFailure,
+  deleteAllMessagesSuccess,
+  deleteChatRoomFailure,
+  deleteChatRoomRequest,
+  deleteChatRoomSuccess,
+  deleteMyMessages, deleteMyMessagesFailure,
+  deleteMyMessagesSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
   getUsersChatRoomsSuccess
@@ -43,6 +53,44 @@ export class ChatEffects {
         tap(() => this.store.dispatch(getUsersChatRooms({userId: this.userId}))),
         map(() => createNewChatRoomSuccess()),
         this.helpers.catchServerError(createNewChatRoomFailure)
+      ))
+  ));
+
+  deleteMyMessages = createEffect(() => this.actions.pipe(
+    ofType(deleteMyMessages),
+    mergeMap(({chatRoom}) => this.chatService.deleteMyMessages(chatRoom)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(changeChatRoom({chatRoom: null}));
+          this.store.dispatch(getUsersChatRooms({userId: this.userId}));
+        }),
+        map(() => deleteMyMessagesSuccess()),
+        this.helpers.catchServerError(deleteMyMessagesFailure)
+      ))
+  ))
+
+  deleteAllMessages = createEffect(() => this.actions.pipe(
+    ofType(deleteAllMessages),
+    mergeMap(({chatRoom}) => this.chatService.deleteAllMessages(chatRoom)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(changeChatRoom({chatRoom: null}));
+          this.store.dispatch(getUsersChatRooms({userId: this.userId}));
+        }),
+        map(() => deleteAllMessagesSuccess()),
+        this.helpers.catchServerError(deleteAllMessagesFailure)
+      ))
+  ));
+
+  deleteChatRoom = createEffect(() => this.actions.pipe(
+    ofType(deleteChatRoomRequest),
+    mergeMap(({chatRoom}) => this.chatService.deleteChatRoom(chatRoom)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(getUsersChatRooms({userId: this.userId}));
+        }),
+        map(() => deleteChatRoomSuccess()),
+        this.helpers.catchServerError(deleteChatRoomFailure)
       ))
   ))
 }

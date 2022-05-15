@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ChatRoom, ChatRoomData } from '../models/chatRoom.model';
 import { MessageData } from '../models/message.model';
 import { addNewMessageToChatRoom } from '../store/chat/chat.actions';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class ChatService {
       }));
     };
     this.getMessages();
+    this.reconnectWs();
   }
 
   sendMessage(messageData: MessageData) {
@@ -70,6 +72,22 @@ export class ChatService {
 
   newChatRoom(chatRoomData: ChatRoomData) {
     return this.http.post<ChatRoom>(env.apiUrl + '/chat', chatRoomData);
+  }
+
+  deleteChatRoom(chatRoom: ChatRoom) {
+    return this.http.delete<ChatRoom>(env.apiUrl + '/chat/oneChatRoom', {body: chatRoom});
+  }
+
+  deleteMyMessages(chatRoom: ChatRoom) {
+    return this.http.delete<ChatRoom | null | undefined>(
+      env.apiUrl + '/chat/chatRoom/messages',
+      {body: chatRoom});
+  }
+
+  deleteAllMessages(chatRoom: ChatRoom) {
+    return this.http.delete<ChatRoom>(
+      env.apiUrl + '/chat/chatRooms/allMessages',
+      {body: chatRoom});
   }
 }
 

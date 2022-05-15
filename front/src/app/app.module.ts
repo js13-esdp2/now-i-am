@@ -68,6 +68,7 @@ import { ValidateIdenticalDirective } from './directives/validate-identical.dire
 import { ValidatePasswordDirective } from './directives/validate-password.directive';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { DeleteChatModalComponent } from './ui/delete-chat-modal/delete-chat-modal.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const vkLoginOptions = {
@@ -130,7 +131,8 @@ const socialConfig: SocialAuthServiceConfig = {
     RecoveryModalComponent,
     ValidateIdenticalDirective,
     ValidatePasswordDirective,
-    NotificationsComponent
+    NotificationsComponent,
+    DeleteChatModalComponent
   ],
   imports: [
     BrowserModule,

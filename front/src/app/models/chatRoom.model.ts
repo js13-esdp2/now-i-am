@@ -15,3 +15,8 @@ export interface ChatRoom {
 export interface ChatRoomData {
   participants: (string | undefined)[],
 }
+
+export interface DialogDeleteData {
+  chatRoom: ChatRoom,
+  deleteAll: Boolean,
+}

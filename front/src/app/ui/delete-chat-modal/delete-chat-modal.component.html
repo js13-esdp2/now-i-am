@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Вы точно хотите удалить чат?</h1>
+<div mat-dialog-content>
+  <form #f="ngForm" class="delete-form">
+    <mat-checkbox
+      class="delete-form_checkbox"
+      color="primary"
+      name="deleteAll"
+      [(ngModel)]="deleteAll"
+    >
+      Удалить у меня и у {{ data.chatRoom.chattingWith.displayName }}
+    </mat-checkbox>
+  </form>
+</div>
+<div mat-dialog-actions class="mat-dialog-delete-actions">
+  <button mat-button (click)="closeModal()">Отмена</button>
+  <button mat-button color="warn" [mat-dialog-close]="{chatRoom: data.chatRoom, deleteAll: deleteAll}" cdkFocusInitial>Удалить</button>
+</div>

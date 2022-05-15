@@ -15,7 +15,10 @@
     </div>
     <div class="actionButtons">
       <img src="../../assets/chat/attached.svg"/>
-      <img src="../../assets/chat/moreVertIcon.svg"/>
+      <img [matMenuTriggerFor]="menu" src="../../assets/chat/moreVertIcon.svg"/>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item class="matMenu_delete" (click)="openDialog()">Удалить чат</button>
+      </mat-menu>
     </div>
   </div>
   <div id="body">

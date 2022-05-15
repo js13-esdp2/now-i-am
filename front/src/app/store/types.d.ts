@@ -72,6 +72,8 @@ export type ChatState = {
   fetchError: null | string,
   createLoading: boolean,
   createError: null | string,
+  deleteLoading: boolean,
+  deleteError: null | string,
 }
 
 export type CountryState = {

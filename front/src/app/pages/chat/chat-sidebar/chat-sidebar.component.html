@@ -12,14 +12,8 @@
   </div>
 
   <div id="sidebarContent">
-    <div
-      class="conversation"
-      *ngFor="
-        let chatRoom of chatRooms
-      "
-      (click)="chatRoomClicked(chatRoom)"
-    >
-      <div class="picture">
+    <div class="conversation" *ngFor="let chatRoom of chatRooms">
+      <div class="picture" (click)="chatRoomClicked(chatRoom)">
         <img *ngIf="!chatRoom.chattingWith.photo"
              class="picture__img"
              src="../../assets/chat/noPic.svg"/>
@@ -27,7 +21,7 @@
              [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
              class="picture__img"/>
       </div>
-      <div class="sidebar-content-block">
+      <div class="sidebar-content-block" (click)="chatRoomClicked(chatRoom)">
         <div class="conversationHeader">
           <div class="name">{{ chatRoom.name }}</div>
 <!--                    <div class="time">8:55</div>-->
@@ -43,6 +37,12 @@
           <!--                    />-->
           {{ chatRoom.lastMessage }}
         </div>
+      </div>
+      <div [matMenuTriggerFor]="menu"  class="moreVertIcon">
+        <img src="../../assets/chat/moreVertIcon.svg"/>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="deleteChatRoom(chatRoom)"  color="warn">Удалить</button>
+        </mat-menu>
       </div>
     </div>
   </div>
