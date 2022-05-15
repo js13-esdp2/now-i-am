@@ -25,9 +25,7 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
         children: [
           {path: 'change-password', component: ChangePasswordComponent},
-          {path: '',
-            component: ProfileComponent,
-          },
+          {path: '', component: ProfileComponent},
           {path: 'edit', component: EditProfileComponent}
       ]}
   ]},
@@ -41,12 +39,16 @@ const routes: Routes = [
   {path: 'chat', component: ChatComponent},
   {path: 'friends', component: UserFriendsComponent},
   {path: 'password-check', component: CheckPasswordComponent},
-  {path: 'my-history-posts',
+  {
+    path: 'my-history-posts',
     component: MyHistoryPostsComponent,
-    canActivate: [AuthGuardService]},
-  {path: 'notifications',
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'notifications',
     component: NotificationsComponent,
-    canActivate: [AuthGuardService]}
+    canActivate: [AuthGuardService]
+  }
 ];
 
 @NgModule({

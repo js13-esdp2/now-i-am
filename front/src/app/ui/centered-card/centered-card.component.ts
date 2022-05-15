@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./centered-card.component.sass']
 })
 export class CenteredCardComponent {
-  @Input() title = '';
+  @Input() cardName = '';
 }

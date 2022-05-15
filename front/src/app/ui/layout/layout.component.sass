@@ -1,5 +1,13 @@
-.sidenav-container
-  height: 100%
+.mat-sidenav-container
+  height: 100vh
+  background-color: transparent
+
+.mat-sidenav-content
+  display: flex
+  flex-direction: column
+
+.mat-toolbar
+  min-height: 64px
 
 .mat-drawer-inner-container
   border-right: 2px solid white
@@ -12,7 +20,7 @@
   border-bottom: 2px solid white
 
 .sidenav-btn
-  margin: 10px 8px
+  margin: 10px 8px 10px 0
 
 .mat-toolbar.mat-primary
   position: sticky
@@ -20,27 +28,15 @@
   z-index: 10000
 
 .mat-toolbar
-  display: flex
   justify-content: space-between
   position: relative
-  z-index: 100
-  background: white
+  background: #fdfdfd
   border-bottom: 5px solid #6d6969
-
-
-
-
-
-
-
-
-
-
-
-
+  z-index: 100
 
 .content
   padding: 35px 16px
+  flex: 1
 
 .container
   max-width: 1330px
@@ -48,10 +44,25 @@
   padding: 0 15px
 
 .icon-menu
-  display: inline-block
   margin-bottom: 5px
 
 .user-avatar
   width: 40px
   height: 40px
   border-radius: 50%
+  object-fit: cover
+
+.logo-block
+  display: flex
+  align-items: center
+
+.logo-link
+  max-width: 38%
+  display: flex
+
+  @media screen and (max-width: 650px)
+    min-width: 150px
+
+  &__logo
+    width: 100%
+    height: auto

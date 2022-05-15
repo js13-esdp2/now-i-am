@@ -7,18 +7,17 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { environment as env } from '../../../environments/environment';
 
-
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.sass']
 })
-export class LayoutComponent implements OnInit{
+export class LayoutComponent implements OnInit {
+  user: Observable<null | User>;
+  apiUrl = env.apiUrl;
 
   breakpoint = 768;
   mobWindow = false;
-  user: Observable<null | User>;
-  apiUrl = env.apiUrl;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
