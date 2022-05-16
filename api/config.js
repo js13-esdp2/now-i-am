@@ -12,7 +12,9 @@ module.exports = {
     corsWhiteList: [
         'http://localhost:4200',
         'https://localhost:4200',
-        'http://localhost:4210'
+        'http://localhost:4210',
+        'http://159.223.23.60',
+        'https://159.223.23.60',
     ],
     port,
     rootPath,
