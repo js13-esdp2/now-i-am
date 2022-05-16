@@ -59,3 +59,8 @@ Given('я открываю новую вкладку', () => {
   I.openNewTab();
   I.amOnPage('http://localhost:4210/');
 });
+
+Given('я не должен видеть текст {string}', (text) => {
+  I.wait(2);
+  I.dontSee(text);
+});
