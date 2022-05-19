@@ -43,6 +43,7 @@ export interface PostData {
   user: string,
   title: string,
   content: File | string | null,
+  geolocation: string | null
 }
 
 export interface ApiPostData {

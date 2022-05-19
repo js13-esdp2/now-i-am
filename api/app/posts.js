@@ -78,17 +78,27 @@ router.post('/', upload.single('content'), async (req, res, next) => {
     const time = JSON.parse(req.body.time);
     const timer = (time.hours * 3600) + (time.minutes * 60);
     const invisibleAtUnixTime = (Math.round((new Date().getTime() / 1000)) + timer);
-    const invisibleDate = new Date((invisibleAtUnixTime  * 1000)).toString();
+    const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
+    const geolocation = JSON.parse(req.body.geolocation);
 
     const postData = {
       user: req.body.user,
       title: req.body.title,
       content: null,
       datetime: new Date().toISOString(),
-      invisibleDate:  invisibleDate,
+      invisibleDate: invisibleDate,
       invisibleAtUnixTime: invisibleAtUnixTime,
       time: time,
+      geolocation: null
     }
+
+    if (req.body.geolocation) {
+      postData.geolocation = {
+        lat: geolocation.lat,
+        lng: geolocation.lng
+      }
+    }
+
 
     if (req.file) {
       postData.content = req.file.filename;
@@ -104,8 +114,6 @@ router.post('/', upload.single('content'), async (req, res, next) => {
 
     const post = new Post(postData);
     await post.save();
-
-    console.log('NEW_POST', post);
 
     return res.send(
       {message: 'Created new post', id: post._id});

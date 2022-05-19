@@ -58,7 +58,7 @@ const PostSchema = new Schema({
     lng: {
       type: Number
     }
-  }
+  } | null
 })
 
 const Post = mongoose.model('Post', PostSchema);

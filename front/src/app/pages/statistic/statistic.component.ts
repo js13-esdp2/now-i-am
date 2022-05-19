@@ -76,18 +76,6 @@ export class StatisticComponent implements OnInit {
     this.showList = !this.showList;
   }
 
-  // getLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position: any) => {
-  //       if (position) {
-  //         this.mapService.createMarker(position.coords.latitude, position.coords.longitude, 'assets/icons/map-marker.svg')
-  //       }
-  //     })
-  //   } else {
-  //     alert('Geolocation is not supported by this browser.');
-  //   }
-  // }
-
   openPreviousPost() {
     if (this.postModalData.postId) {
       this.dialog.open(PostModalComponent, {

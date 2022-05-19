@@ -30,6 +30,10 @@ export class NewPostComponent implements OnInit {
   arrMin: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60];
   post: Observable<Post | null>
   isEdit: boolean = false;
+  geolocation?: {
+    lat: number,
+    lng: number
+  } | null
 
   constructor(private store: Store<AppState>,
               private dialog: MatDialog,
@@ -46,9 +50,9 @@ export class NewPostComponent implements OnInit {
       this.id = <string>user?._id;
     });
 
-    if(this.post) {
+    if (this.post) {
       this.post.subscribe(post => {
-        if(post){
+        if (post) {
           this.form = new FormGroup({
             title: new FormControl(post.title, Validators.required),
             content: new FormControl(post.content, Validators.required),
@@ -59,16 +63,22 @@ export class NewPostComponent implements OnInit {
       })
     }
 
-      this.form = new FormGroup({
-        title: new FormControl('', Validators.required),
-        content: new FormControl('', Validators.required),
-        hours: new FormControl(''),
-        min: new FormControl(''),
-        time: new FormArray([]),
-      })
+    this.form = new FormGroup({
+      title: new FormControl('', Validators.required),
+      content: new FormControl('', Validators.required),
+      hours: new FormControl(''),
+      min: new FormControl(''),
+      time: new FormArray([]),
+    })
 
+    navigator.geolocation.getCurrentPosition( (position: any) => {
+      this.geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+    });
 
-    this.postsService.imageData64.subscribe( imageData64 => {
+    this.postsService.imageData64.subscribe(imageData64 => {
       this.imageData64 = imageData64
     });
 
@@ -85,6 +95,11 @@ export class NewPostComponent implements OnInit {
       title: this.form.value.title,
       content: null,
       time: selectTimeObj,
+      geolocation: null
+    }
+
+    if(this.geolocation) {
+      postData.geolocation = JSON.stringify(this.geolocation)
     }
 
     if (this.form.value.content) {
@@ -93,7 +108,7 @@ export class NewPostComponent implements OnInit {
     if (this.imageData64) {
       postData.content = this.imageData64.imageAsBase64
     }
-   await this.store.dispatch(createPostRequest({postData}));
+    await this.store.dispatch(createPostRequest({postData}));
     const filterData: FilterData = {
       title: postData.title,
       birthday: '',
@@ -104,6 +119,7 @@ export class NewPostComponent implements OnInit {
     }
     this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}))
   }
+
 
   addStep() {
     const nameTime = <FormArray>this.form.get('time');
@@ -121,7 +137,7 @@ export class NewPostComponent implements OnInit {
 
   openModal() {
     this.dialog.open(ModalWindowComponent, {
-      data: { webcam: true}
+      data: {webcam: true}
     });
   }
 
