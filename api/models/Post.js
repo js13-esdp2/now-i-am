@@ -50,7 +50,15 @@ const PostSchema = new Schema({
       ref: 'User',
       required: true
     }
-  }]
+  }],
+  geolocation: {
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    }
+  }
 })
 
 const Post = mongoose.model('Post', PostSchema);

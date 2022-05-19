@@ -16,6 +16,10 @@ export class Post{
       _id: string,
       user: string
     }[],
+    public geolocation: {
+      lat: number
+      lng: number
+    }
     ) {}
 }
 
@@ -58,4 +62,8 @@ export interface ApiPostData {
     _id: string,
     user: string
   }[]
+  geolocation: {
+    lat: number,
+    lng: number
+  }
 }

@@ -154,6 +154,10 @@ const run = async () => {
       hours: 15,
       minutes: 10,
     },
+    geolocation: {
+      lat: 42.8718444,
+      lng: 74.5101855
+    }
   }, {
     user: anna,
     title: 'Пью коллу',
@@ -167,7 +171,12 @@ const run = async () => {
       hours: 5,
       minutes: 0,
     },
-  },);
+    geolocation: {
+      lat: 42.8629855,
+      lng: 74.5696804
+    }
+  },
+);
 
   const chatRoomInbox = caitlyn._id.toString() + james._id.toString();
 

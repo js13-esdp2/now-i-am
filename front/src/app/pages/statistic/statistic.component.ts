@@ -50,6 +50,7 @@ export class StatisticComponent implements OnInit {
     this.getLocation();
     this.isSearched = true;
     this.openPreviousPost();
+
   }
 
   openPost(post: Post): void {
@@ -71,6 +72,7 @@ export class StatisticComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
         if (position) {
+          console.log(this.posts);
           this.mapService.createMarker(position.coords.latitude, position.coords.longitude, 'assets/icons/map-marker.svg')
         }
       })

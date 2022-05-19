@@ -51,7 +51,7 @@ router.get('/', async (req, res, next) => {
     const usersId = users.map(user => {
       return user._id;
     });
-    const posts = await Post.find({title: {$in: req.query.title}, user: usersId}).populate('user', 'displayName');
+    const posts = await Post.find({title: {$in: req.query.title}, user: usersId}).populate('user', 'displayName photo');
     return res.send(posts);
   } catch (e) {
     return next(e);
