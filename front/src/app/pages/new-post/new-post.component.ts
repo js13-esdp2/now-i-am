@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { PostsService } from '../../services/posts.service';
 import { WebcamImage } from 'ngx-webcam';
+import { HelpersService } from 'src/app/services/helpers.service';
 
 @Component({
   selector: 'app-new-post',
@@ -37,7 +38,8 @@ export class NewPostComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
               private dialog: MatDialog,
-              private postsService: PostsService) {
+              private postsService: PostsService,
+              private helpersService: HelpersService) {
     this.loading = store.select(state => state.posts.createLoading);
     this.error = store.select(state => state.posts.createError);
     this.post = store.select(state => state.posts.post);
@@ -58,6 +60,7 @@ export class NewPostComponent implements OnInit {
             content: new FormControl(post.content, Validators.required),
             hours: new FormControl(post.time.hours),
             min: new FormControl(post.time.minutes),
+            switchGeolocation: new FormControl(false)
           })
         }
       })
@@ -69,14 +72,19 @@ export class NewPostComponent implements OnInit {
       hours: new FormControl(''),
       min: new FormControl(''),
       time: new FormArray([]),
+      switchGeolocation: new FormControl()
     })
 
-    navigator.geolocation.getCurrentPosition( (position: any) => {
-      this.geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
-    });
+      navigator.geolocation.getCurrentPosition((position: any) => {
+        this.geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+      });
+
+    if(this.geolocation === undefined) {
+      this.helpersService.openSnackBar('Вы не можете делиться местоположением, пройдите в настройки браузера');
+    }
 
     this.postsService.imageData64.subscribe(imageData64 => {
       this.imageData64 = imageData64
@@ -98,9 +106,12 @@ export class NewPostComponent implements OnInit {
       geolocation: null
     }
 
-    if(this.geolocation) {
-      postData.geolocation = JSON.stringify(this.geolocation)
+    if (this.geolocation) {
+      if (this.form.value.switchGeolocation === true) {
+        postData.geolocation = JSON.stringify(this.geolocation)
+      }
     }
+
 
     if (this.form.value.content) {
       postData.content = this.form.value.content

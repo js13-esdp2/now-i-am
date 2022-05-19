@@ -79,7 +79,6 @@ router.post('/', upload.single('content'), async (req, res, next) => {
     const timer = (time.hours * 3600) + (time.minutes * 60);
     const invisibleAtUnixTime = (Math.round((new Date().getTime() / 1000)) + timer);
     const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
-    const geolocation = JSON.parse(req.body.geolocation);
 
     const postData = {
       user: req.body.user,
@@ -92,13 +91,14 @@ router.post('/', upload.single('content'), async (req, res, next) => {
       geolocation: null
     }
 
-    if (req.body.geolocation) {
+
+    if(req.body.geolocation){
+     const geolocation = JSON.parse(req.body.geolocation);
       postData.geolocation = {
         lat: geolocation.lat,
         lng: geolocation.lng
       }
     }
-
 
     if (req.file) {
       postData.content = req.file.filename;
