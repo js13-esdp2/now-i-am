@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, startWith, Subscription } from 'rxjs';
 import { ApiCountryData, User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
@@ -18,6 +18,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   country: Observable<ApiCountryData[]>;
   isLoading: Observable<boolean>;
   countrySub!: Subscription;
+  cityData!: string;
 
   isPhotoExists: boolean = false;
   private userData!: User;
@@ -77,9 +78,17 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
+    let countryData = '';
+
     if (this.form.invalid) {
       return;
     }
+
+    this.options.forEach(data  => {
+      if(data.city === this.cityData){
+        countryData = data.country;
+      }
+    })
 
     const userData = {
       photo: this.form.value.photo,
@@ -87,14 +96,14 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
-      city: this.form.value.city,
+      country: countryData,
+      city: this.cityData,
       isPrivate: this.form.value.isPrivate
     };
 
     if (this.form.value.age) {
       userData.birthday = this.form.value.age.toISOString();
     }
-
     this.store.dispatch(editUserRequest({userData}));
   }
 
@@ -104,6 +113,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _filter(city: string): ApiCountryData[] {
     const filterValue = city.toLowerCase();
+    this.cityData = city;
     return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
   }
 
