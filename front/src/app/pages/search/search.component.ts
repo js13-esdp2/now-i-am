@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { FormControl, NgForm } from '@angular/forms';
+import { Observable, startWith, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
 import { Post, PostModalData } from '../../models/post.model';
-import { ApiCountryData, City } from '../../models/user.model';
+import { ApiCountryData } from '../../models/user.model';
 import { fetchCountriesRequest } from '../../store/users/users.actions';
 import { fetchTitlePostsRequest } from '../../store/posts/posts.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -20,7 +21,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   postObservable!: Observable<PostModalData>;
   post: null | Post = null;
   country: Observable<ApiCountryData[]>;
-  capital: Observable<City[]>;
   countrySub!: Subscription;
 
   posts: Observable<Post[]>;
@@ -28,9 +28,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   error: Observable<null | string>;
   postModalData!: PostModalData;
 
-  town: boolean = true;
-  countryData: ApiCountryData [] | null = null;
-  city: string [] = [];
+  myControl = new FormControl();
+  options!: ApiCountryData[];
+  filteredOptions!: Observable<ApiCountryData[]>;
 
   isSearched = false;
   panelOpenState = false;
@@ -41,7 +41,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {
     this.posts = store.select(state => state.posts.posts);
     this.country = store.select((state) => state.users.country);
-    this.capital = store.select((state) => state.users.capital);
     this.isLoading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);
     this.postObservable = store.select(state => state.posts.postModalData);
@@ -49,18 +48,15 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.countrySub = this.country.subscribe(countryInfo => {
-      this.countryData = countryInfo;
+      this.options = countryInfo;
     });
     this.store.dispatch(fetchCountriesRequest());
-  }
 
-  onSplitCapitalToCountry(capital: string) {
-    this.town = false;
-    this.countryData?.forEach(country => {
-      if (country.name.official === capital) {
-        this.city = country.capital;
-      }
-    });
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : value.city)),
+      map(city => (city ? this._filter(city) : this.options.slice())),
+    );
   }
 
   onSubmit(): void {
@@ -73,6 +69,15 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.dialog.open(PostModalComponent, {
       data: {postId: post._id}
     });
+  }
+
+  displayFn(data: ApiCountryData): string {
+    return data && data.city ? data.city : '';
+  }
+
+  private _filter(city: string): ApiCountryData[] {
+    const filterValue = city.toLowerCase();
+    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {

@@ -40,22 +40,17 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="filter-block__country">
-          <mat-label>Страна</mat-label>
-          <mat-select name="country" ngModel>
-            <mat-option
-              *ngFor="let c of country | async" [value]="c.name.official"
-              (click)="onSplitCapitalToCountry(c.name.official)"
-            >{{ c.name.official }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
         <mat-form-field appearance="outline" class="filter-block__city">
           <mat-label>Город</mat-label>
-          <mat-select name="city" ngModel [disabled]="town">
-            <mat-option *ngFor="let c of city" [value]="c">{{ c }}</mat-option>
-          </mat-select>
+          <input type="text" name="city" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.city}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
+
+
 
         <mat-form-field appearance="outline" class="filter-block__isPrivate">
           <mat-label>Приватность</mat-label>

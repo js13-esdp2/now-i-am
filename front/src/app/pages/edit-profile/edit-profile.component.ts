@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { ApiCountryData, City, User } from '../../models/user.model';
+import { Observable, startWith, Subscription } from 'rxjs';
+import { ApiCountryData, User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { editUserRequest, fetchCountriesRequest } from '../../store/users/users.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,7 +16,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
   user: Observable<null | User>;
   country: Observable<ApiCountryData[]>;
-  capital: Observable<City[]>;
   isLoading: Observable<boolean>;
   countrySub!: Subscription;
 
@@ -23,16 +23,17 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private userData!: User;
   private userSub!: Subscription;
 
-  town: boolean = true;
   countryData: ApiCountryData [] | null = null;
-  city: string [] = [];
+
+  myControl = new FormControl();
+  options!: ApiCountryData[];
+  filteredOptions!: Observable<ApiCountryData[]>;
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.user = store.select((state) => state.users.user);
     this.country = store.select((state) => state.users.country);
-    this.capital = store.select((state) => state.users.capital);
     this.isLoading = store.select((state) => state.users.editLoading);
   }
 
@@ -40,15 +41,19 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userSub = this.user.subscribe((user) => {
       if (user) {
         this.userData = user;
-        this.isPhotoExists = !!user.photo;
-      }
+        this.isPhotoExists = !!user.photo;}
     });
     this.countrySub = this.country.subscribe(countryInfo => {
-      this.countryData = countryInfo;
+      this.options = countryInfo;
     });
     this.store.dispatch(fetchCountriesRequest());
-  }
 
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : value.city)),
+      map(city => (city ? this._filter(city) : this.options.slice())),
+    );
+  }
 
   ngAfterViewInit() {
     this.setFormValue({
@@ -57,19 +62,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.userData.aboutMe || '',
       age: this.userData.birthday || '',
       sex: this.userData.sex || '',
-      country: this.userData.country || '',
-      city: this.userData.city || '',
       isPrivate: this.userData.isPrivate || false
     });
-  }
-
-  onSplitCapitalToCountry(capital: string) {
-    this.town = false;
-    this.countryData?.forEach(country => {
-      if (country.name.official === capital) {
-        this.city = country.capital;
-      }
-    })
   }
 
   setFormValue(value: { [key: string]: any }) {
@@ -93,7 +87,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
-      country: this.form.value.country,
       city: this.form.value.city,
       isPrivate: this.form.value.isPrivate
     };
@@ -103,6 +96,15 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.store.dispatch(editUserRequest({userData}));
+  }
+
+  displayFn(data: ApiCountryData): string {
+    return data && data.city ? data.city : '';
+  }
+
+  private _filter(city: string): ApiCountryData[] {
+    const filterValue = city.toLowerCase();
+    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {

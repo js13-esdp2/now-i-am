@@ -95,7 +95,7 @@ export class UsersEffects {
     ofType(fetchCountriesRequest),
     mergeMap(() => this.usersService.getCountries().pipe(
       map(countries => fetchCountriesSuccess({countries})),
-      catchError(() => of(fetchCountriesFailure({error: 'Нет такой страны!'})))
+      catchError(() => of(fetchCountriesFailure({error: 'Нет такого города!'})))
     ))
   ));
 

@@ -70,6 +70,7 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { MatTabsModule } from '@angular/material/tabs';
 import { DeleteChatModalComponent } from './ui/delete-chat-modal/delete-chat-modal.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -166,6 +167,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatExpansionModule,
     MatSliderModule,
     MatTabsModule,
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

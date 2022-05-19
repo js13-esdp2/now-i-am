@@ -24,7 +24,8 @@ const run = async () => {
     photo: 'anna.jpeg',
     birthday: '23',
     sex: 'female',
-    country: 'Австралия',
+    country: 'Russia',
+    city: 'MOSCVA',
     role: 'user',
   }, {
     email: 'john@gmail.com',
@@ -33,7 +34,8 @@ const run = async () => {
     token: nanoid(),
     birthday: 26,
     sex: 'male',
-    country: 'Австралия',
+    country: 'Kyrgyzstan',
+    city: 'BISHKEK',
     role: 'user',
   }, {
     email: 'james@gmail.com',

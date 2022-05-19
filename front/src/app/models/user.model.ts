@@ -115,10 +115,8 @@ export interface Country {
 }
 
 export interface ApiCountryData {
-  name: {
-    official: string,
-  },
-  capital: string[],
+  city: string,
+  country: string,
 }
 
 export interface CountryData {
@@ -127,8 +125,15 @@ export interface CountryData {
 
 export class City {
   constructor(
-    public _id: string,
+    public country: string,
     public capital: string
+  ){}
+}
+
+export class Countries {
+  constructor(
+    public city: string,
+    public country: string,
   ){}
 }
 

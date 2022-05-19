@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment as env } from '../../environments/environment';
+import { environment, environment as env } from '../../environments/environment';
 import {
-  ApiCountryData,
+  ApiCountryData, Countries,
   EditUserData,
   LoginUserData,
   PasswordData,
@@ -13,6 +13,9 @@ import {
 import { SocialUser } from 'angularx-social-login';
 import { map } from 'rxjs';
 import { Friends } from '../models/frends.model';
+import { ApiPostData, Post } from '../models/post.model';
+import { Util } from 'leaflet';
+import isArray = Util.isArray;
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,8 @@ export class UsersService {
 
   constructor(
     private http: HttpClient,
-  ) {}
+  ) {
+  }
 
   register(registerData: RegisterUserData) {
     return this.http.post<User>(env.apiUrl + '/users', registerData);
@@ -37,8 +41,14 @@ export class UsersService {
   }
 
   getCountries() {
-    return this.http.get<ApiCountryData[]>(env.apiUrlCountries + `/all`);
+    return this.http.get<ApiCountryData[]>(env.apiUrlCountries).pipe(
+      map(response => {
+        let array = Object.values(response);
+        return getCitiesArray(array[2]);
+      })
+    );
   };
+
 
   login(loginData: LoginUserData) {
     return this.http.post<User>(env.apiUrl + '/users/sessions', loginData);
@@ -65,7 +75,7 @@ export class UsersService {
   }
 
   addFriend(userId: string) {
-    return this.http.post<Friends[]>(env.apiUrl + '/friends', { userId });
+    return this.http.post<Friends[]>(env.apiUrl + '/friends', {userId});
   }
 
   getFriends() {
@@ -96,7 +106,15 @@ export class UsersService {
     return this.http.delete(env.apiUrl + '/friends/' + id);
   }
 
-  changePassword(passwords: PasswordData ) {
+  changePassword(passwords: PasswordData) {
     return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
   }
+}
+
+const getCitiesArray = (array: any) => {
+  let arrayData = [];
+  for (let i = 0; i <= array.length -1; i++) {
+    arrayData.push(array[i]);
+  }
+  return arrayData;
 }
