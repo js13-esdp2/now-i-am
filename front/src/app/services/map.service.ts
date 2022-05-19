@@ -26,6 +26,7 @@ export class MapService {
     const myIcon = L.icon({
       iconUrl: marker,
       iconSize: [40, 40],
+
     })
     L.marker([lat, lng], {icon: myIcon}).addTo(this.map).bindPopup('<p>Hello world!<br />This is a nice popup.</p>');
   }

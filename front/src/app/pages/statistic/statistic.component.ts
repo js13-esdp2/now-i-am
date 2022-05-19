@@ -47,9 +47,17 @@ export class StatisticComponent implements OnInit {
 
   ngOnInit(): void {
     this.mapService.initMap();
-    this.getLocation();
     this.isSearched = true;
     this.openPreviousPost();
+    this.posts.subscribe(posts => {
+      if(posts){
+        posts.forEach((post) =>{
+          if(post.geolocation) {
+            this.mapService.createMarker(post.geolocation.lat, post.geolocation.lng, 'assets/icons/map-marker.svg')
+          }
+        })
+      }
+    });
 
   }
 
@@ -68,18 +76,17 @@ export class StatisticComponent implements OnInit {
     this.showList = !this.showList;
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: any) => {
-        if (position) {
-          console.log(this.posts);
-          this.mapService.createMarker(position.coords.latitude, position.coords.longitude, 'assets/icons/map-marker.svg')
-        }
-      })
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
+  // getLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position: any) => {
+  //       if (position) {
+  //         this.mapService.createMarker(position.coords.latitude, position.coords.longitude, 'assets/icons/map-marker.svg')
+  //       }
+  //     })
+  //   } else {
+  //     alert('Geolocation is not supported by this browser.');
+  //   }
+  // }
 
   openPreviousPost() {
     if (this.postModalData.postId) {

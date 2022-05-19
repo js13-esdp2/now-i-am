@@ -128,6 +128,10 @@ const run = async () => {
       hours: 12,
       minutes: 10,
     },
+    geolocation: {
+      lat: 42.844748,
+      lng: 74.543953
+    }
   }, {
     user: james,
     title: 'Пью чай',
@@ -155,8 +159,8 @@ const run = async () => {
       minutes: 10,
     },
     geolocation: {
-      lat: 42.8718444,
-      lng: 74.5101855
+      lat: 42.848022,
+      lng: 74.645576
     }
   }, {
     user: anna,
@@ -172,8 +176,8 @@ const run = async () => {
       minutes: 0,
     },
     geolocation: {
-      lat: 42.8629855,
-      lng: 74.5696804
+      lat: 42.876474,
+      lng: 74.637337
     }
   },
 );
