@@ -24,3 +24,7 @@ export const deleteAllMessagesFailure = createAction('[Chat] Delete All Messages
 export const deleteChatRoomRequest = createAction('[Chat] Delete Chat Room Request', props<{chatRoom: ChatRoom}>());
 export const deleteChatRoomSuccess = createAction('[Chat] Delete Chat Room Success');
 export const deleteChatRoomFailure = createAction('[Chat] Delete Chat Room Failure', props<{error: string}>());
+
+export const getChatRoomByIdRequest = createAction('[Chat] Get ChatRoom Request', props<{chatRoomId: string | null}>());
+export const getChatRoomByIdSuccess = createAction('[Chat] Get ChatRoom Success', props<{chatRoom: ChatRoom}>());
+export const getChatRoomByIdFailure = createAction('[Chat] Get ChatRoom Failure', props<{error: string}>());

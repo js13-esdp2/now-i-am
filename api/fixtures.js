@@ -16,7 +16,7 @@ const run = async () => {
     await mongoose.connection.db.dropCollection(coll.name);
   }
 
-  const [anna, john, james, caitlyn] = await User.create({
+  const [anna, john, james, caitlyn, cara] = await User.create({
     email: 'anna@gmail.com',
     password: '123',
     displayName: 'Anna',
@@ -58,6 +58,18 @@ const run = async () => {
     token: nanoid(),
     birthday: '23',
     sex: 'male',
+    isPrivate: true,
+    country: 'Russian Federation',
+    city: 'Moscow',
+    role: 'user',
+  }, {
+    email: 'cara@gmail.com',
+    password: '123',
+    displayName: 'Cara',
+    photo: 'cara.jpg',
+    token: nanoid(),
+    birthday: '23',
+    sex: 'female',
     isPrivate: true,
     country: 'Russian Federation',
     city: 'Moscow',
@@ -168,6 +180,19 @@ const run = async () => {
     user: anna,
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
+    datetime: new Date().toISOString(),
+    createdAt: new Date().getTime(),
+    isVisible: true,
+    invisibleAtUnixTime: invisibleAtUnixTime + 300,
+    invisibleDate: invisibleDate,
+    time: {
+      hours: 5,
+      minutes: 0,
+    },
+  }, {
+    user: cara,
+    title: 'Смотрю Neflix',
+    content: 'watching-neflix.jpg',
     datetime: new Date().toISOString(),
     createdAt: new Date().getTime(),
     isVisible: true,

@@ -16,6 +16,8 @@ import { UserFriendsComponent } from './pages/user-friends/user-friends.componen
 import { CheckPasswordComponent } from './pages/check-password/check-password.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
+import { ChatRoomMobileComponent } from './pages/chat/chat-room-mobile/chat-room-mobile.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -37,6 +39,8 @@ const routes: Routes = [
   {path: 'posts', component: PostsComponent},
   {path: 'statistic', component: StatisticComponent},
   {path: 'chat', component: ChatComponent},
+  {path: 'chat-list', component: ChatListComponent},
+  {path: 'chat-room-mobile/:id', component: ChatRoomMobileComponent},
   {path: 'friends', component: UserFriendsComponent},
   {path: 'password-check', component: CheckPasswordComponent},
   {

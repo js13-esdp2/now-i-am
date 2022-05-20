@@ -70,6 +70,8 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { MatTabsModule } from '@angular/material/tabs';
 import { DeleteChatModalComponent } from './ui/delete-chat-modal/delete-chat-modal.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
+import { ChatRoomMobileComponent } from './pages/chat/chat-room-mobile/chat-room-mobile.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const vkLoginOptions = {
@@ -133,7 +135,9 @@ const socialConfig: SocialAuthServiceConfig = {
     ValidateIdenticalDirective,
     ValidatePasswordDirective,
     NotificationsComponent,
-    DeleteChatModalComponent
+    DeleteChatModalComponent,
+    ChatListComponent,
+    ChatRoomMobileComponent,
   ],
   imports: [
     BrowserModule,

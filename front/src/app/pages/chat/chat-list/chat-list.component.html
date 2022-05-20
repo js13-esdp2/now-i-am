@@ -1,0 +1,62 @@
+<div class="chat-list-block">
+  <div class="chat-list-block_body">
+    <div class="search-block search-block_inner">
+      <img
+        class="search-block__img"
+        width="19"
+        src="../../assets/chat/searchIcon.svg"
+        alt="search"
+      />
+      <input
+        class="search-block__input"
+        placeholder="Поиск"
+      >
+    </div>
+
+    <div class="chat-list-content">
+      <div
+        class="chat-list-content__item"
+        *ngFor="let chatRoom of chatRooms">
+        <div class="chat-list-content__user-icon"
+             [routerLink]="['/chat-room-mobile/' + chatRoom._id]"
+        >
+          <img
+            *ngIf="!chatRoom.chattingWith.photo"
+            alt="user-icon"
+            class="chat-list-content__user-img"
+            src="../../assets/chat/noPic.svg"
+          />
+          <img
+            [alt]="chatRoom.chattingWith.displayName"
+            *ngIf="chatRoom.chattingWith.photo"
+            [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
+            class="chat-list-content__user-img"
+          />
+        </div>
+        <div class="chat-list-content__info"
+             [routerLink]="['/chat-room-mobile/' + chatRoom._id]"
+        >
+          <p class="chat-list-content__name">{{ chatRoom.name }}</p>
+          <p class="chat-list-content__last-message">{{ chatRoom.lastMessage}}</p>
+        </div>
+        <div class="chat-list-content__more-icon_wrapper">
+          <img
+            [matMenuTriggerFor]="menu"
+            class="chat-list-content__more-icon"
+            alt="more-icon"
+            src="../../assets/chat/moreVertIcon.svg"
+          />
+          <mat-menu
+            #menu="matMenu"
+            xPosition="before">
+            <button
+              mat-menu-item
+              (click)="deleteChatRoom(chatRoom)"
+            >Удалить
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

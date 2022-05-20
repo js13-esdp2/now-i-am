@@ -51,7 +51,7 @@ router.get('/', async (req, res, next) => {
     const usersId = users.map(user => {
       return user._id;
     });
-    const posts = await Post.find({title: {$in: req.query.title}, user: usersId}).populate('user', 'displayName photo');
+    const posts = await Post.find({title: {$in: req.query.title}, user: usersId, isVisible: true}).populate('user', 'displayName photo');
     return res.send(posts);
   } catch (e) {
     return next(e);
@@ -183,10 +183,10 @@ const checkIfPostsAreOnline = () => {
     for (let i = 0; i < postsData.length; i++) {
       const post = postsData[i];
       if (currentUnixTime > post.invisibleAtUnixTime) {
-        await Post.findByIdAndUpdate(post._id, {isVisible: false});
+        const updatedPost = await Post.findByIdAndUpdate(post._id, {isVisible: false});
       }
     }
-  }, 60000);
+  }, 6000);
 }
 
 checkIfPostsAreOnline();

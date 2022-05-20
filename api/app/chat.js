@@ -5,14 +5,18 @@ const ChatRoom = require('../models/ChatRoom');
 const router = express.Router();
 
 
-router.get('/:chatRoomInbox', async (req, res, next) => {
+router.get('/:chatRoomId', async (req, res, next) => {
   try {
-    const chatRoom = await ChatRoom.find({chatRoomInbox: req.params.chatRoomInbox})
+    const chatRoomId = req.params.chatRoomId;
+    const chatRoom = await ChatRoom.findById(chatRoomId)
+      .populate('owner', 'displayName photo')
+      .populate('chattingWith', 'displayName photo');
     return res.send(chatRoom);
   } catch (e) {
     return next(e);
   }
 });
+
 
 router.get('/', async (req, res, next) => {
   try {
@@ -94,8 +98,8 @@ router.delete('/oneChatRoom', async (req, res, next) => {
     }
 
     const chatRoomInbox = req.body.chatRoomInbox;
-    const owner = req.body.owner;
-    const chatRoom = await ChatRoom.findOneAndDelete({chatRoomInbox, owner});
+    // const owner = req.body.owner;
+    const chatRoom = await ChatRoom.deleteMany({chatRoomInbox});
     return res.send({message: 'chatRoom deleted with id = ', chatRoom});
   } catch (e) {
     next(e);
@@ -135,7 +139,7 @@ router.delete('/chatRooms/allMessages', async (req, res, next) => {
       return res.status(404).send({message: 'Wrong data!'});
     }
     const chatRoomInbox = req.body.chatRoomInbox;
-    const chatRoom = await ChatRoom.updateMany({chatRoomInbox}, {messages: [], lastMessage: ''} );
+    const chatRoom = await ChatRoom.updateMany({chatRoomInbox}, {messages: [], lastMessage: ''});
     return res.send(chatRoom);
   } catch (e) {
     next(e);

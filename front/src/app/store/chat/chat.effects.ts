@@ -12,7 +12,7 @@ import {
   deleteChatRoomRequest,
   deleteChatRoomSuccess,
   deleteMyMessages, deleteMyMessagesFailure,
-  deleteMyMessagesSuccess,
+  deleteMyMessagesSuccess, getChatRoomByIdFailure, getChatRoomByIdRequest, getChatRoomByIdSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
   getUsersChatRoomsSuccess
@@ -21,10 +21,12 @@ import { map, mergeMap, tap } from 'rxjs';
 import { HelpersService } from '../../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../types';
+import { ChatRoom } from '../../models/chatRoom.model';
 
 @Injectable()
 export class ChatEffects {
   userId!: string | undefined;
+  chatRoom!: ChatRoom;
 
   constructor(
     private actions: Actions,
@@ -34,7 +36,10 @@ export class ChatEffects {
   ) {
     store.select(state => state.users.user).subscribe((user) => {
       this.userId = user?._id;
-    })
+    });
+    store.select(state => state.chat.chatRoom).subscribe((chatRoom) => {
+      if (chatRoom) this.chatRoom = chatRoom;
+    });
   }
 
   fetchChatRooms = createEffect(() => this.actions.pipe(
@@ -61,7 +66,8 @@ export class ChatEffects {
     mergeMap(({chatRoom}) => this.chatService.deleteMyMessages(chatRoom)
       .pipe(
         tap(() => {
-          this.store.dispatch(changeChatRoom({chatRoom: null}));
+          const chatRoomWithDeletedMessages = {...this.chatRoom, messages: []};
+          this.store.dispatch(changeChatRoom({chatRoom: chatRoomWithDeletedMessages}));
           this.store.dispatch(getUsersChatRooms({userId: this.userId}));
         }),
         map(() => deleteMyMessagesSuccess()),
@@ -74,7 +80,8 @@ export class ChatEffects {
     mergeMap(({chatRoom}) => this.chatService.deleteAllMessages(chatRoom)
       .pipe(
         tap(() => {
-          this.store.dispatch(changeChatRoom({chatRoom: null}));
+          const chatRoomWithDeletedMessages = {...this.chatRoom, messages: []};
+          this.store.dispatch(changeChatRoom({chatRoom: chatRoomWithDeletedMessages}));
           this.store.dispatch(getUsersChatRooms({userId: this.userId}));
         }),
         map(() => deleteAllMessagesSuccess()),
@@ -92,5 +99,14 @@ export class ChatEffects {
         map(() => deleteChatRoomSuccess()),
         this.helpers.catchServerError(deleteChatRoomFailure)
       ))
-  ))
+  ));
+
+  getChatRoomByID = createEffect(() => this.actions.pipe(
+    ofType(getChatRoomByIdRequest),
+    mergeMap(({chatRoomId}) => this.chatService.getChatRoomById(chatRoomId)
+      .pipe(
+        map((chatRoom) => getChatRoomByIdSuccess({chatRoom})),
+        this.helpers.catchServerError(getChatRoomByIdFailure)
+      ))
+  ));
 }

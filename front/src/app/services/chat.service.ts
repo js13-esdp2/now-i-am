@@ -89,6 +89,10 @@ export class ChatService {
       env.apiUrl + '/chat/chatRooms/allMessages',
       {body: chatRoom});
   }
+
+  getChatRoomById(chatRoomId: string | null) {
+    return this.http.get<ChatRoom>(`${env.apiUrl}/chat/${chatRoomId}`);
+  }
 }
 
 
