@@ -42,6 +42,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   private userSub!: Subscription;
   private postSub!: Subscription;
 
+
   constructor(
     public dialogRef: MatDialogRef<PostModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },

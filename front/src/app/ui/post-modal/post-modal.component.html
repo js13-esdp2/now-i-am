@@ -69,7 +69,7 @@
               *ngIf="userData?.role === 'moderator'"
               (click)="removePost(postData._id)"
       >
-        <app-loader [isLoading]="likeLoading | async">
+        <app-loader [isLoading]="postLoading | async">
           <mat-icon>delete</mat-icon>
         </app-loader>
       </button>
