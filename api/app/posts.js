@@ -8,6 +8,7 @@ const config = require('../config');
 const Post = require('../models/Post');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const permit = require('../middleware/permit');
 
 const router = express.Router();
 
@@ -147,15 +148,18 @@ router.post('/:id/like', auth, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', auth, async (req, res, next) => {
+router.delete('/:id', auth, permit('moderator', 'user'), async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
       return res.send({message: 'ok'});
     }
-    if (!post.user.equals(req.user._id)) {
-      return res.status(403).send({error: 'У Вас нет на это прав'});
+    if (req.user.role === 'user'){
+      if (!post.user.equals(req.user._id)) {
+        return res.status(403).send({error: 'У Вас нет на это прав'});
+      }
     }
+
     await post.remove();
     res.send(post);
   } catch (e) {

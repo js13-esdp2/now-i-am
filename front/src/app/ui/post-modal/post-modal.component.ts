@@ -5,7 +5,12 @@ import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
-import { fetchOneOfPostRequest, likePostRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
+import {
+  fetchOneOfPostRequest,
+  likePostRequest,
+  onPostModalDataChange,
+  removePostRequest
+} from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
 import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
@@ -143,5 +148,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   closeProfile() {
     this.profileIsOpen = true;
+  }
+
+  removePost(id: string) {
+    this.store.dispatch(removePostRequest({id}));
+    this.dialogRef.close();
   }
 }

@@ -26,7 +26,7 @@ const run = async () => {
     sex: 'female',
     country: 'Russia',
     city: 'MOSCVA',
-    role: 'user',
+    role: 'moderator',
   }, {
     email: 'john@gmail.com',
     password: '123',

@@ -63,6 +63,16 @@
               color="accent"
               (click)="goToChat()">Чат
       </button>
+      <button type="button"
+              mat-raised-button
+              color="accent"
+              *ngIf="userData?.role === 'moderator'"
+              (click)="removePost(postData._id)"
+      >
+        <app-loader [isLoading]="likeLoading | async">
+          <mat-icon>delete</mat-icon>
+        </app-loader>
+      </button>
     </mat-card-actions>
   </div>
 
