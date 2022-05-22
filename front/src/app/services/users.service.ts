@@ -101,7 +101,6 @@ export class UsersService {
     return this.http.get(env.apiUrl + '/users/check-code/' + code);
   }
 
-
   removeFriend(id: string) {
     return this.http.delete(env.apiUrl + '/friends/' + id);
   }
@@ -109,6 +108,8 @@ export class UsersService {
   changePassword(passwords: PasswordData) {
     return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
   }
+
+
 }
 
 const getCitiesArray = (array: any) => {

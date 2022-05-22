@@ -9,6 +9,7 @@ import { onPostModalDataChange } from '../../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { ApiUserData, User } from '../../models/user.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-statistic',
@@ -53,12 +54,15 @@ export class StatisticComponent implements OnInit {
       if(posts){
         posts.forEach((post) =>{
           if(post.geolocation) {
-            this.mapService.createMarker(post.geolocation.lat, post.geolocation.lng, 'assets/icons/map-marker.svg')
+            const userInfo = {
+              title: post.user.displayName,
+              photo: post.user.photo
+            }
+            this.mapService.createMarker(post.geolocation.lat, post.geolocation.lng, `${environment.apiUrl + '/uploads/' + post.user.photo}`, userInfo)
           }
         })
       }
     });
-
   }
 
   openPost(post: Post): void {

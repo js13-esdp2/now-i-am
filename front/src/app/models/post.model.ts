@@ -3,7 +3,8 @@ export class Post{
     public _id: string,
     public user: {
       _id: string,
-      displayName: string
+      displayName: string,
+      photo: string
     },
     public title: string,
     public content: string,
@@ -50,7 +51,8 @@ export interface ApiPostData {
   _id: string,
   user: {
     _id: string,
-    displayName: string
+    displayName: string,
+    photo: string
   },
   title: string,
   datetime: string,

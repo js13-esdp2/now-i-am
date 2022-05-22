@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
 
 @Injectable({
@@ -22,12 +22,17 @@ export class MapService {
     tiles.addTo(this.map);
   }
 
-  createMarker(lat: number, lng: number, marker: string): void {
+  createMarker(lat: number, lng: number, marker: string, userInfo: {title: string, photo: string}): void {
     const myIcon = L.icon({
       iconUrl: marker,
       iconSize: [40, 40],
+      className: 'icon'
+    });
+    let popup = L.popup()
+      .setContent(userInfo.title)
 
-    })
-    L.marker([lat, lng], {icon: myIcon}).addTo(this.map).bindPopup('<p>Hello world!<br />This is a nice popup.</p>');
+    L.marker([lat, lng], {icon: myIcon})
+      .addTo(this.map)
+      .bindPopup(popup)
   }
 }

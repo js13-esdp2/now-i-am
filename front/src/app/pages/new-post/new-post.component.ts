@@ -75,10 +75,10 @@ export class NewPostComponent implements OnInit {
       switchGeolocation: new FormControl()
     })
 
-      navigator.geolocation.getCurrentPosition((position: any) => {
-        this.geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+    navigator.geolocation.getCurrentPosition((position: any) => {
+      this.geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
         }
       });
 
