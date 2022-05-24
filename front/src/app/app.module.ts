@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -73,6 +73,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { ChatRoomMobileComponent } from './pages/chat/chat-room-mobile/chat-room-mobile.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { WebsocketService } from './services/websocket.service';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -176,7 +177,14 @@ const socialConfig: SocialAuthServiceConfig = {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
-    MapService
+    MapService,
+    WebsocketService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (ws: WebsocketService) => () => ws.initialize(),
+      deps: [WebsocketService],
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
 })

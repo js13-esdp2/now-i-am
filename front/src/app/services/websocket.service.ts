@@ -19,6 +19,10 @@ export class WebsocketService {
     return this.websocket;
   }
 
+  initialize() {
+    return new Promise<boolean>((resolve) => resolve(true));
+  }
+
   onEvent(type: string) {
     return new Observable<{ws: WebSocket, message: WebsocketMessage}>((subscriber) => {
       let eventCallbacks = this.eventCallbacks;
