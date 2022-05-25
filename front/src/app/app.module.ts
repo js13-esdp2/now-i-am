@@ -74,6 +74,7 @@ import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { ChatRoomMobileComponent } from './pages/chat/chat-room-mobile/chat-room-mobile.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from './services/websocket.service';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -173,6 +174,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatSliderModule,
     MatTabsModule,
     MatAutocompleteModule,
+    MatBadgeModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

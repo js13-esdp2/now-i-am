@@ -8,9 +8,9 @@
         <mat-card class="user-item" *ngFor="let friend of friends | async">
         <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
           <div class="user-item__image-container">
-            <img class="user-item__image" [src]="apiUrl + '/uploads/' + friend.friend.photo " [alt]="'Photo of '">
+            <img class="user-item__image" [src]="apiUrl + '/uploads/' + friend.user.photo " [alt]="'Photo of '">
           </div>
-          <strong class="user-item__name">{{ friend.friend.displayName }}</strong>
+          <strong class="user-item__name">{{ friend.user.displayName }}</strong>
           <button mat-icon-button class="user-item__btn">
             <mat-icon style="font-size: 22px" color="primary">done</mat-icon>
           </button>

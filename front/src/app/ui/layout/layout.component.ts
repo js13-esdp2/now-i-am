@@ -6,6 +6,11 @@ import { logoutUserRequest } from '../../store/users/users.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { environment as env } from '../../../environments/environment';
+import { WebsocketMessage, WebsocketService } from '../../services/websocket.service';
+
+export interface NotificationMessage extends WebsocketMessage {
+  notifications: number,
+}
 
 @Component({
   selector: 'app-layout',
@@ -19,15 +24,21 @@ export class LayoutComponent implements OnInit {
   breakpoint = 768;
   mobWindow = false;
 
+  arrNotifications!: number;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private store: Store<AppState>,
+    private wsService: WebsocketService,
   ) {
     this.user = store.select((state) => state.users.user);
   }
 
   ngOnInit() {
     this.mobWindow = this.breakpoint >= window.innerWidth;
+    this.wsService.onEvent('ADD_FRIEND').subscribe((message: any) => {
+      this.arrNotifications = message.message.notifications
+    })
   }
 
   logout() {
@@ -36,5 +47,9 @@ export class LayoutComponent implements OnInit {
 
   onResize(event: any) {
     this.mobWindow = this.breakpoint >= event.target.innerWidth;
+  }
+
+  clearNotifications() {
+    this.arrNotifications = 0;
   }
 }

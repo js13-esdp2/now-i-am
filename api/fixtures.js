@@ -31,6 +31,7 @@ const run = async () => {
     email: 'john@gmail.com',
     password: '123',
     displayName: 'John',
+    photo: 'john.jpg',
     token: nanoid(),
     birthday: 26,
     sex: 'male',

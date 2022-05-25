@@ -39,6 +39,16 @@
           >
             <mat-icon>pending_actions</mat-icon>
           </a>
+          <a routerLink="/notifications"
+             class="nav-list__list-item history-posts"
+             mat-icon-button
+             matBadge="{{ arrNotifications > 0? arrNotifications : ''}}"
+             (click)="clearNotifications()"
+             matBadgeColor="warn"
+             title="Уведомления"
+          >
+            <mat-icon>notifications</mat-icon>
+          </a>
           <a routerLink="/new-post"
              class="nav-list__list-item"
              mat-icon-button
@@ -64,6 +74,7 @@
         <mat-menu #menu="matMenu" class="user-menu">
           <button mat-menu-item [disabled]="true">{{ $user.displayName }}</button>
           <a routerLink="/profile" mat-menu-item>Мой профиль</a>
+          <a routerLink="/notifications" mat-menu-item>Уведомления</a>
           <a routerLink="/friends" mat-menu-item>Мои друзья</a>
           <button mat-menu-item (click)="logout()">Выйти</button>
         </mat-menu>

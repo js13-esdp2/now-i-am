@@ -1,16 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const Friends = require("../models/Friends");
 const auth = require('../middleware/auth');
+const websocket = require('../classes/websocket');
 
 const router = express.Router();
 
+let notifications = {}
+
+websocket.onEvent('new_connection', (ws) => {
+  if (notifications[ws.userId]){
+    const wsAddFriendObj = {
+      type: 'ADD_FRIEND',
+      notifications: notifications[ws.userId]
+    }
+    ws.send(JSON.stringify(wsAddFriendObj));
+    delete notifications[ws.userId];
+  }
+})
 
 router.get('/', auth, async (req, res, next) => {
   try {
 
-    const friends = await Friends.find({user: req.user._id}).populate('friend', 'displayName photo');
+    const friends = await Friends.find({friend: req.user._id}).populate('user', 'displayName photo');
 
     return res.send(friends);
   } catch (e) {
@@ -28,6 +40,21 @@ router.post('/', auth, async (req, res, next) => {
     }
 
     const checkFriend =  await Friends.findOne({user: req.user._id, friend: req.body.userId});
+
+    const userWs = websocket.getActiveConnections[req.body.userId];
+    if (userWs) {
+      const wsAddFriendObj = {
+        type: 'ADD_FRIEND',
+        notifications: 1
+      }
+      userWs.send(JSON.stringify(wsAddFriendObj));
+    } else {
+      if (notifications[req.body.userId]){
+        notifications[req.body.userId]++;
+      } else {
+        notifications[req.body.userId] = 1;
+      }
+    }
 
     if (checkFriend) {
       return res.status(400).send({error: 'Запрос отправлен повторно'});

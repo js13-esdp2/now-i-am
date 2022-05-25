@@ -14,6 +14,7 @@ import { WebsocketService } from './services/websocket.service';
 export class AppComponent implements OnInit, OnDestroy {
   usersIdObservable!: Observable<null | User>;
   usersIdSub!: Subscription;
+  title= 'Now-I-Am';
 
   constructor(
     private store: Store<AppState>,

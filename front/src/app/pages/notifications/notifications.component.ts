@@ -6,6 +6,7 @@ import { AppState } from '../../store/types';
 import { Friends } from '../../models/frends.model';
 import { fetchFriendsRequest, removeFriendRequest } from '../../store/users/users.actions';
 import { environment } from '../../../environments/environment';
+import { WebsocketService } from '../../services/websocket.service';
 
 
 @Component({
@@ -19,7 +20,10 @@ export class NotificationsComponent implements OnInit {
   loading: Observable<boolean>;
   apiUrl = environment.apiUrl
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private wsService: WebsocketService,
+    ) {
     this.user = store.select((state) => state.users.user);
     this.friends = store.select(state => state.users.friends);
     this.loading = store.select(state => state.users.fetchFriendsLoading);
@@ -27,6 +31,11 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchFriendsRequest());
+    this.wsService.onEvent('ADD_FRIEND').subscribe((message: any) => {
+      if (message){
+        this.store.dispatch(fetchFriendsRequest());
+      }
+    })
   }
 
   onRemove(friendId: string) {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment, environment as env } from '../../environments/environment';
+import { environment as env } from '../../environments/environment';
 import {
-  ApiCountryData, Countries,
+  ApiCountryData,
   EditUserData,
   LoginUserData,
   PasswordData,
@@ -13,9 +13,6 @@ import {
 import { SocialUser } from 'angularx-social-login';
 import { map } from 'rxjs';
 import { Friends } from '../models/frends.model';
-import { ApiPostData, Post } from '../models/post.model';
-import { Util } from 'leaflet';
-import isArray = Util.isArray;
 
 @Injectable({
   providedIn: 'root'
@@ -108,8 +105,6 @@ export class UsersService {
   changePassword(passwords: PasswordData) {
     return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
   }
-
-
 }
 
 const getCitiesArray = (array: any) => {
