@@ -4,7 +4,8 @@ const router = express.Router();
 ws(express);
 
 const eventCallbacks = {};
-const activeConnections = {}
+const messageTypeCallbacks = {};
+const activeConnections = {};
 
 router.ws('/', (ws) => {
   ws.on('message', (message) => {
@@ -12,30 +13,60 @@ router.ws('/', (ws) => {
       const decodedMessage = JSON.parse(message);
       const messageType = decodedMessage.type;
 
-      const getCallbacks = eventCallbacks[messageType];
-      if (!getCallbacks) {
-        return;
+      if (messageType === 'AUTH') {
+        const userId = decodedMessage.userId;
+        ws['userId'] = userId;
+
+        activeConnections[userId] = ws;
+        onEvent(ws, 'new_connection')
       }
 
-      getCallbacks.forEach((callback) => {
-        callback(ws, decodedMessage);
-      });
+      onMessageType(ws, messageType, decodedMessage);
     } catch (e) {
       console.log('Unknown message error', message, e);
     }
   });
 
   ws.on('close', () => {
-    const getCallbacks = eventCallbacks['close'];
-    if (!getCallbacks) {
+    const userId = ws.userId;
+    if (!activeConnections[userId]) {
       return;
     }
 
-    getCallbacks.forEach((callback) => {
-      callback(ws, { type: 'close' });
-    });
+    delete activeConnections[userId];
+    onEvent(ws, 'close');
   });
 });
+
+const onMessageType = (ws, type, message) => {
+  const getCallbacks = messageTypeCallbacks[type];
+  if (!getCallbacks) {
+    return;
+  }
+
+  getCallbacks.forEach((callback) => {
+    callback(ws, message);
+  });
+};
+
+const onEvent = (ws, eventName) => {
+  const getCallbacks = eventCallbacks[eventName];
+  if (!getCallbacks) {
+    return;
+  }
+
+  getCallbacks.forEach((callback) => {
+    callback(ws);
+  });
+};
+
+const addMessageTypeListener = (type, callback) => {
+  if (messageTypeCallbacks[type]) {
+    messageTypeCallbacks[type].push(callback);
+  } else {
+    messageTypeCallbacks[type] = [callback];
+  }
+};
 
 const addEventListener = (type, callback) => {
   if (eventCallbacks[type]) {
@@ -45,24 +76,7 @@ const addEventListener = (type, callback) => {
   }
 };
 
-addEventListener('AUTH', (ws, message) => {
-  try {
-    const userId = message.userId;
-    activeConnections[userId] = ws;
-  } catch (e) {}
-});
-
-addEventListener('close', (ws) => {
-  try {
-    Object.keys(activeConnections).forEach((userId) => {
-      const userWs = activeConnections[userId];
-      if (userWs === ws) {
-        delete activeConnections[userId];
-      }
-    });
-  } catch (e) {}
-});
-
 module.exports = router;
-module.exports.on = addEventListener;
+module.exports.on = addMessageTypeListener;
+module.exports.onEvent = addEventListener;
 module.exports.getActiveConnections = activeConnections;
