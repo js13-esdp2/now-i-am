@@ -6,63 +6,49 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ChatRoom, ChatRoomData } from '../models/chatRoom.model';
 import { MessageData } from '../models/message.model';
 import { addNewMessageToChatRoom } from '../store/chat/chat.actions';
-import { tap } from 'rxjs';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   myId!: string | undefined;
-  ws!: WebSocket;
 
   constructor(
     private store: Store<AppState>,
     private http: HttpClient,
+    private websocketService: WebsocketService,
   ) {
     store.select(state => state.users.user).subscribe(user => {
       this.myId = user?._id;
     })
-  }
-
-  openWebSocket(userId: undefined | string) {
-    this.ws = new WebSocket(env.webSocketApiUrl);
-    this.ws.onopen = (event) => {
-      this.ws.send(JSON.stringify({
-        type: 'LOGIN',
-        userId: userId,
-      }));
-    };
-    this.getMessages();
-    this.reconnectWs();
+    // this.websocketService.ws.onmessage = (event) => {
+    //   const decodedMessage = JSON.parse(event.data);
+    //   this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
+    // }
   }
 
   sendMessage(messageData: MessageData) {
-    this.ws.send(JSON.stringify({
+    this.websocketService.ws.send(JSON.stringify({
       type: 'NEW_MESSAGE',
       messageData: messageData,
     }));
+      this.websocketService.ws.onmessage = (event) => {
+        const decodedMessage = JSON.parse(event.data);
+        this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
+      }
+
+      this.websocketService.onEvent('GET_MESSAGE').subscribe(messageData => {
+        console.log(messageData);
+      })
   }
 
-  getMessages() {
-    this.ws.onmessage = (event) => {
-      const decodedMessage = JSON.parse(event.data);
-      this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
-    }
-  }
-
-  reconnectWs() {
-    this.ws.onclose = (event) => {
-      setTimeout(() => {
-        if (this.myId) {
-          this.ws = new WebSocket(env.webSocketApiUrl);
-          this.ws.send(JSON.stringify({
-            type: 'LOGIN',
-            userId: this.myId,
-          }));
-        }
-      }, 3000);
-    }
-  }
+  // getMessages() {
+  //   this.websocketService.ws.onmessage = (event) => {
+  //     const decodedMessage = JSON.parse(event.data);
+  //     this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
+  //   }
+  // }
 
   getUsersChatRooms(userId: string | undefined) {
     let params = new HttpParams();

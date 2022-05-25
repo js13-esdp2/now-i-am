@@ -1,6 +1,8 @@
 const express = require('express');
 const User = require('../models/User');
 const ChatRoom = require('../models/ChatRoom');
+const websocket = require('../classes/websocket');
+const Message = require('../models/Message');
 
 const router = express.Router();
 
@@ -98,7 +100,6 @@ router.delete('/oneChatRoom', async (req, res, next) => {
     }
 
     const chatRoomInbox = req.body.chatRoomInbox;
-    // const owner = req.body.owner;
     const chatRoom = await ChatRoom.deleteMany({chatRoomInbox});
     return res.send({message: 'chatRoom deleted with id = ', chatRoom});
   } catch (e) {
@@ -145,6 +146,35 @@ router.delete('/chatRooms/allMessages', async (req, res, next) => {
     next(e);
   }
 });
+
+websocket.on('NEW_MESSAGE', async (ws, decodedMessage)  => {
+  const activeConnections = websocket.getActiveConnections;
+  const newMessage = await Message.create(decodedMessage.messageData);
+  await ChatRoom.updateMany(
+    {chatRoomInbox: decodedMessage.messageData.chatRoomInbox},
+    {
+      $set: {lastMessage: newMessage.text},
+      $push: {messages: newMessage}
+    });
+
+  const sendMessageData = {
+    type: 'GET_MESSAGE',
+    newMessage: newMessage,
+  }
+
+  const userTo = sendMessageData.newMessage.userTo.toString();
+  const userFrom = sendMessageData.newMessage.userFrom.toString();
+
+  if (activeConnections[userTo]) {
+    const firstUser = activeConnections[userTo];
+    firstUser.send(JSON.stringify(sendMessageData));
+  }
+
+  if (activeConnections[userFrom]) {
+    const secondUser = activeConnections[userFrom];
+    secondUser.send(JSON.stringify(sendMessageData));
+  }
+})
 
 
 module.exports = router;

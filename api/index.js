@@ -7,7 +7,6 @@ const websocket = require('./classes/websocket');
 const users = require('./app/users');
 const posts = require('./app/posts');
 const search = require('./app/search');
-const chatWs = require('./app/chat-ws');
 const chat = require('./app/chat');
 const messages = require('./app/messages');
 const friends = require('./app/friends');
@@ -15,8 +14,6 @@ const friends = require('./app/friends');
 const app = express();
 
 require('express-ws')(app);
-app.use('/chat-ws', chatWs);
-
 
 const corsOptions = {
   origin: (origin, callback) => {

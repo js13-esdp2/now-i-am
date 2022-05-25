@@ -4,6 +4,7 @@ import { AppState } from './store/types';
 import { ChatService } from './services/chat.service';
 import { Observable, Subscription } from 'rxjs';
 import { User } from './models/user.model';
+import { WebsocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private chatService: ChatService,
+    private websocketService: WebsocketService,
     ) {
     this.usersIdObservable = store.select(state => state.users.user);
   }
@@ -25,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
      this.usersIdSub = this.usersIdObservable.subscribe(user => {
        if (user?._id) {
          const userId = user._id.toString();
-         this.chatService.openWebSocket(userId);
+         this.websocketService.openWebSocket(userId);
        }
     })
   }

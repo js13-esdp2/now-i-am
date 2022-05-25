@@ -44,6 +44,13 @@ export class WebsocketService {
     });
   }
 
+  openWebSocket(userId: undefined | string) {
+    this.websocket.send(JSON.stringify({
+      type: 'AUTH',
+      userId: userId,
+    }));
+  }
+
   sendMessage(data: WebsocketMessage) {
     const jsonData = JSON.stringify(data);
     this.websocket.send(jsonData);
