@@ -1,5 +1,6 @@
  import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
+ import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +22,23 @@ export class MapService {
     });
     tiles.addTo(this.map);
   }
-
-  createMarker(lat: number, lng: number, marker: string, userInfo: {title: string, photo: string}): void {
+  createMarker(lat: number, lng: number, marker: string, userInfo: {name: string, content: string, title: string}): void {
     const myIcon = L.icon({
       iconUrl: marker,
       iconSize: [40, 40],
       className: 'icon'
     });
     let popup = L.popup()
-      .setContent(userInfo.title)
+      .setContent(`<div class="popup">
+                   <span class="popup-title">${userInfo.name} - ${userInfo.title}</span>
+                   <div class="popup-content">
+                   <img class="popup-img" src="${environment.apiUrl + '/uploads/' + userInfo.content}" alt="">
+                   </div>
+                   </div>`);
 
     L.marker([lat, lng], {icon: myIcon})
       .addTo(this.map)
       .bindPopup(popup)
   }
+
 }

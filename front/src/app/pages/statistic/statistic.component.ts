@@ -55,8 +55,9 @@ export class StatisticComponent implements OnInit {
         posts.forEach((post) =>{
           if(post.geolocation) {
             const userInfo = {
-              title: post.user.displayName,
-              photo: post.user.photo
+              name: post.user.displayName,
+              content: post.content,
+              title: post.title,
             }
             this.mapService.createMarker(post.geolocation.lat, post.geolocation.lng, `${environment.apiUrl + '/uploads/' + post.user.photo}`, userInfo)
           }
