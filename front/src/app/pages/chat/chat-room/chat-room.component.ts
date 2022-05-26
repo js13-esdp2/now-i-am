@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
-import { AppState } from '../../../store/types';
-import { Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { DeleteChatModalComponent } from '../../../ui/delete-chat-modal/delete-chat-modal.component';
 import { ChatRoom, DialogDeleteData } from '../../../models/chatRoom.model';
 import { environment as env } from '../../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/types';
 import { ChatService } from '../../../services/chat.service';
-import { Message } from '../../../models/message.model';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteChatModalComponent } from '../../../ui/delete-chat-modal/delete-chat-modal.component';
-import { deleteAllMessages, deleteMyMessages } from '../../../store/chat/chat.actions';
+import { Message } from '../../../models/message.model';
+import {
+  changeChatRoom,
+  deleteAllMessages,
+  deleteMyMessages,
+  getChatRoomByIdRequest, getUsersChatRooms
+} from '../../../store/chat/chat.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.sass']
 })
-export class ChatRoomComponent {
+export class ChatRoomComponent implements OnInit {
   deleteAll = false;
   chatRoom!: ChatRoom;
   apiUrl = env.apiUrl;
@@ -24,38 +30,56 @@ export class ChatRoomComponent {
   constructor(
     private store: Store<AppState>,
     private chatService: ChatService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) {
     store.select(state => state.chat.chatRoom).subscribe(chatRoom => {
-      if (chatRoom) this.chatRoom = chatRoom;
+      if (chatRoom) {
+        this.chatRoom = chatRoom;
+        this.store.dispatch(changeChatRoom({chatRoom}));
+      }
     });
     store.select(state => state.users.user).subscribe(user => {
       this.userID = user?._id;
     });
   }
 
-  submitMessage(event: Event) {
-    const messageData = {
-      chatRoomInbox: this.chatRoom.chatRoomInbox,
-      text: this.message,
-      userFrom: this.chatRoom.owner._id,
-      userTo: this.chatRoom.chattingWith._id,
+  ngOnInit(): void {
+    const chatRoomId = this.route.snapshot.paramMap.get('id');
+    if (chatRoomId) {
+      this.store.dispatch(getChatRoomByIdRequest({chatRoomId}));
+      this.store.dispatch(getUsersChatRooms({userId: this.userID}));
     }
+  }
 
-    this.chatService.sendMessage(messageData);
-    this.message = '';
+  submitMessage(event: Event) {
+    if (this.message) {
+      const messageData = {
+        chatRoomInbox: this.chatRoom.chatRoomInbox,
+        text: this.message,
+        userFrom: this.chatRoom.owner._id,
+        userTo: this.chatRoom.chattingWith._id,
+        isRead: false,
+      }
+
+      this.chatService.sendMessage(messageData);
+      this.message = '';
+    }
   }
 
   sendMessage() {
-    const messageData = {
-      chatRoomInbox: this.chatRoom.chatRoomInbox,
-      text: this.message,
-      userFrom: this.chatRoom.owner._id,
-      userTo: this.chatRoom.chattingWith._id,
-    }
+    if (this.message) {
+      const messageData = {
+        chatRoomInbox: this.chatRoom.chatRoomInbox,
+        text: this.message,
+        userFrom: this.chatRoom.owner._id,
+        userTo: this.chatRoom.chattingWith._id,
+        isRead: false,
+      }
 
-    this.chatService.sendMessage(messageData);
-    this.message = '';
+      this.chatService.sendMessage(messageData);
+      this.message = '';
+    }
   }
 
   checkIfMe(message: Message) {
@@ -88,4 +112,3 @@ export class ChatRoomComponent {
     }
   }
 }
-

@@ -7,6 +7,7 @@
     display: flex
     flex-direction: column
     overflow: auto
+    border-right: 3px solid #cecece
 
 .search-block
   border-bottom: 1px solid #e1e4e5
@@ -40,14 +41,46 @@
 .chat-list-content
   display: flex
   flex-direction: column
+  justify-content: center
 
   &__item
     display: flex
     border-bottom: 1px solid #f4f4f4
 
-  &__info
-    margin: 13px 0 0 15px
+  &__user-icon_mobile
+    display: none
+
+    @media (max-width: 730px)
+      display: block
+
+  &__user-icon_desktop
+    display: block
+
+    @media (max-width: 730px)
+     display: none
+
+  &__info_mobile
+    margin: 13px auto 0 15px
     cursor: pointer
+    display: none
+
+    @media (max-width: 730px)
+     display: block
+
+  &__info_desktop
+    margin: 13px auto 0 15px
+    cursor: pointer
+    display: block
+
+    @media (max-width: 730px)
+      display: none
+
+  &__new-messages
+    padding: 6px 10px 4px 10px
+    color: #fff
+    background: #2979FF
+    border-radius: 13px
+    align-self: center
 
   &__name
     margin: 0
@@ -66,11 +99,8 @@
     cursor: pointer
 
   &__more-icon_wrapper
-    margin: 20px 10px 3px auto
+    margin: 7px 7px 0 0
+    align-self: center
 
   &__more-icon
     cursor: pointer
-
-
-
-

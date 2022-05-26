@@ -54,7 +54,6 @@ import { MapService } from './services/map.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ChatComponent } from './pages/chat/chat.component';
-import { ChatSidebarComponent } from './pages/chat/chat-sidebar/chat-sidebar.component';
 import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
 import { MyHistoryPostsComponent } from './pages/my-history-posts/my-history-posts.component';
 import { UserFriendsComponent } from './pages/user-friends/user-friends.component';
@@ -71,7 +70,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DeleteChatModalComponent } from './ui/delete-chat-modal/delete-chat-modal.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
-import { ChatRoomMobileComponent } from './pages/chat/chat-room-mobile/chat-room-mobile.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -127,8 +125,6 @@ const socialConfig: SocialAuthServiceConfig = {
     StatisticComponent,
     ChatComponent,
     ChatRoomComponent,
-    ChatSidebarComponent,
-    ChatSidebarComponent,
     MyHistoryPostsComponent,
     UserFriendsComponent,
     ProfileModalComponent,
@@ -139,7 +135,7 @@ const socialConfig: SocialAuthServiceConfig = {
     NotificationsComponent,
     DeleteChatModalComponent,
     ChatListComponent,
-    ChatRoomMobileComponent,
+    ChatRoomComponent,
   ],
   imports: [
     BrowserModule,

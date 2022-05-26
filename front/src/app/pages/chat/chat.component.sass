@@ -1,18 +1,44 @@
-#chatContainer
-  position: relative
-  top: 3%
-  bottom: 5%
-  margin: auto
-  width: 80%
-  height: 600px
-  background-color: #fff
-  right: 0
-  left: 0
-  box-shadow: -1px 1px 5px rgba(#333, 0.2)
-  border-radius: 3px
+.chat-block
   display: flex
-  flex-direction: row
-  overflow: hidden
+  //flex-direction: column
+  //position: relative
+  //top: 3%
+  //bottom: 5%
+  //margin: auto
+  //width: 80%
+  //height: 600px
+  //background-color: #fff
+  //right: 0
+  //left: 0
+  //box-shadow: -1px 1px 5px rgba(#333, 0.2)
+  //border-radius: 3px
+  //display: flex
+  //flex-direction: row
+  //overflow: hidden
+
+.chat-list
+  width: 30%
+
+.chat-room-mobile
+  width: 70%
+  background: #fff
+
+@media (max-width: 1000px)
+  .chat-list
+    width: 40%
+
+  .chat-room-mobile
+    width: 60%
+
+@media (max-width: 730px)
+  .chat-list
+    width: 100%
+
+  .chat-room-mobile
+    display: none
+
+
+
 
 app-chat-sidebar
   flex-basis: 30%

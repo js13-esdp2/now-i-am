@@ -34,6 +34,11 @@ const MessageSchema = new Schema({
     type: String,
     default: new Date().toLocaleString("ru", dateOptions),
     required: true,
+  },
+  isRead: {
+    type: Boolean,
+    default: false,
+    required: true,
   }
 });
 

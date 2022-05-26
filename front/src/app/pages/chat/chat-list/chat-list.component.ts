@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../store/types';
 import { Store } from '@ngrx/store';
 import { ChatRoom } from '../../../models/chatRoom.model';
-import { deleteChatRoomRequest, getUsersChatRooms } from '../../../store/chat/chat.actions';
+import { changeChatRoom, deleteChatRoomRequest, getUsersChatRooms } from '../../../store/chat/chat.actions';
 import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-list',
@@ -18,6 +19,8 @@ export class ChatListComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
+    private router: Router,
+
   ) {
     store.select(state => (state.users.user)).subscribe(user => {
       this.userId = user?._id;
@@ -33,5 +36,13 @@ export class ChatListComponent implements OnInit {
 
   deleteChatRoom(chatRoom: ChatRoom) {
     this.store.dispatch(deleteChatRoomRequest({chatRoom}));
+  }
+
+  goToChatRoom(chatRoom: ChatRoom) {
+    if (this.router.url === '/chat') {
+      this.store.dispatch(changeChatRoom({chatRoom}));
+    } else {
+      void this.router.navigate([`/chat-room-mobile/${chatRoom._id}`]);
+    }
   }
 }

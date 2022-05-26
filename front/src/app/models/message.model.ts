@@ -1,5 +1,3 @@
-import { User } from './user.model';
-
 export interface Message {
   _id: string,
   chatRoomInbox: string,
@@ -7,6 +5,7 @@ export interface Message {
   createdAt: string,
   userFrom: string,
   userTo: string,
+  isRead: boolean,
 }
 
 
@@ -15,4 +14,5 @@ export interface MessageData {
   text: string,
   userFrom: string,
   userTo: string,
+  isRead: boolean,
 }

@@ -1,57 +1,94 @@
-<div id="container">
-  <div id="header">
-    <div class="avatarSection">
-      <div class="picture">
+<div *ngIf="!chatRoom" class="chat-room">
+  <h1 class="chat-room__title">Выберите переписку</h1>
+  <p class="chat-room__subtitle">здесь пока ничего нет :( ... </p>
+  <div class="chat-room__separator"></div>
+</div>
+
+<div class="chat-room-block" *ngIf="chatRoom">
+  <div class="chat-room-header">
+    <div class="chat-room-header__info-wrapper">
+      <div class="chat-room-header__img-wrapper">
         <img
-          class="picture__img"
-          *ngIf="chatRoom.chattingWith.photo"
-          [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"/>
-        <img
-          class="picture__img"
           *ngIf="!chatRoom.chattingWith.photo"
-          src="../../assets/chat/noPic.svg"/>
+          src="../../assets/chat/noPic.svg"
+          alt="name"
+          class="chat-room-header__img">
+        <img
+          *ngIf="chatRoom.chattingWith.photo"
+          [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
+          alt="name"
+          class="chat-room-header__img">
       </div>
-      <div class="nameSection">{{ chatRoom.name }}</div>
+      <div class="chat-room-header__name">
+        {{ chatRoom?.name }}
+      </div>
     </div>
-    <div class="actionButtons">
-      <img src="../../assets/chat/attached.svg"/>
-      <img [matMenuTriggerFor]="menu"
-           src="../../assets/chat/moreVertIcon.svg"
-           class="mat-menu-trigger-icon"/>
-      <mat-menu #menu="matMenu" xPosition="before" >
+    <div class="chat-room-header__actions">
+      <img
+        class="chat-room-header__icon-attached chat-room-header__icons"
+        alt="attached"
+        src="../../assets/chat/attached.svg"
+      />
+      <img
+        [matMenuTriggerFor]="menu"
+        class="chat-room-header__trigger-icon chat-room-header__icons"
+        alt="trigger-icon"
+        src="../../assets/chat/moreVertIcon.svg"
+      />
+      <mat-menu #menu="matMenu" xPosition="before">
         <button mat-menu-item class="matMenu_delete" (click)="openDialog()">Удалить чат</button>
       </mat-menu>
     </div>
   </div>
 
-  <div id="body">
+
+  <div class="messages-block">
     <div
       class="message"
-      [ngClass]="{ me: checkIfMe(message) }"
-      *ngFor="let message of chatRoom.messages"
-    >
-      <div class="messageContent">
+      [class]="checkIfMe(message) ? 'message_send' : 'message_received' "
+      *ngFor="let message of chatRoom?.messages">
+      <div
+        class="message__content"
+        [class]="checkIfMe(message) ? 'message__content_send' : 'message__content_received' ">
         {{ message.text }}
-        <div class="time">{{ message.createdAt.slice(16, 21) }}</div>
+        <div class="message__footer">
+          <div
+            *ngIf="!message.isRead && checkIfMe(message)"
+            class="message__unread-wrapper">
+            <img src="../../assets/chat/doubleTick.svg" alt="doubleTick">
+          </div>
+          <div
+            *ngIf="message.isRead && checkIfMe(message)"
+            class="message__is-read-wrapper">
+            <img src="../../assets/chat/doubleTickBlue.svg" alt="doubleTickBlue">
+          </div>
+          <div class="message__time">{{ message.createdAt.slice(16, 21) }}</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="footer">
-    <div id="smileyIcon">
+  <div class="send-message-block">
+    <div class="send-message-block__smile-icon-wrapper">
       <img
+        class="send-message-block__smile-icon-img"
+        alt="smile-icon"
         src="../../assets/chat/smileIcon.svg"
       />
     </div>
-    <div class="textarea">
-      <textarea id="textarea" name="textarea"
+    <form
+      class="send-message-block__form">
+      <input
         [(ngModel)]="message"
         (keyup.enter)="submitMessage($event)"
-      ></textarea>
-    </div>
-    <div id="sendIcon">
-      <mat-icon (click)="sendMessage()" class="iconSend_color">send</mat-icon>
-    </div>
+        name="message"
+        class="send-message-block__input"
+        type="text">
+      <button
+        (click)="sendMessage()"
+        class="send-message-block__send-btn">
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
   </div>
 </div>
-
