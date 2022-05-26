@@ -5,26 +5,75 @@ import { Observable, Subscriber } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class WebsocketService {
-  private readonly websocket!: WebSocket;
-  private eventCallbacks: { [key: string]: Subscriber<{ ws: WebSocket, message: WebsocketMessage }>[] } = {};
+export class WebsocketService extends WebSocket {
+  private eventCallbacks: { [key: string]: Subscriber<{ ws: WebSocket, message: any }>[] } = {};
+  private sendMessagesQueue: string[] = [];
+  private userId = '';
 
   constructor() {
-    this.websocket = new WebSocket(env.webSocketUrl);
-    this.websocket.onmessage = (event) => this.onWebsocketMessage(event);
-    this.websocket.onclose = () => this.onWebsocketClose();
+    super(env.webSocketUrl);
+    this.onopen = () => this.onWebsocketOpen();
+    this.onclose = () => this.onWebsocketClose();
+    this.onmessage = (event) => this.onWebsocketMessage(event);
   }
 
-  get ws() {
-    return this.websocket;
+  override send(data: string | ArrayBufferLike | Blob | ArrayBufferView | WebsocketMessage) {
+    if (typeof data === 'object') {
+      data = JSON.stringify(data);
+    }
+
+    if (this.readyState === this.CONNECTING) {
+      this.sendMessagesQueue.push(data);
+      return;
+    }
+
+    super.send(data);
+  }
+
+  private onWebsocketOpen() {
+    const messagesQueueLength = this.sendMessagesQueue.length;
+    if (!messagesQueueLength) {
+      return;
+    }
+
+    for (let i = 0; i < messagesQueueLength; i++) {
+      const message = this.sendMessagesQueue.splice(0, 1)[0];
+      this.send(message);
+    }
+  }
+
+  private onWebsocketClose() {
+    const getCallbacks = this.eventCallbacks['close'];
+    if (!getCallbacks) {
+      return;
+    }
+
+    getCallbacks.forEach((subscriber) => {
+      subscriber.next({ws: this, message: { type: 'close' }});
+    });
   }
 
   initialize() {
     return new Promise<boolean>((resolve) => resolve(true));
   }
 
-  onEvent(type: string) {
-    return new Observable<{ws: WebSocket, message: WebsocketMessage}>((subscriber) => {
+  userConnect(userId: string) {
+    if (this.userId === userId) {
+      return;
+    }
+
+    this.userId = userId;
+    this.send({ type: 'AUTH', userId: userId });
+  }
+
+  userDisconnect() {
+    if (this.userId) {
+      this.send({ type: 'LOGOUT', userId: this.userId });
+    }
+  }
+
+  onEvent<MessageType extends WebsocketMessage>(type: string) {
+    return new Observable<{ws: WebSocket, message: MessageType}>((subscriber) => {
       let eventCallbacks = this.eventCallbacks;
 
       if (this.eventCallbacks[type]) {
@@ -44,18 +93,6 @@ export class WebsocketService {
     });
   }
 
-  openWebSocket(userId: undefined | string) {
-    this.websocket.send(JSON.stringify({
-      type: 'AUTH',
-      userId: userId,
-    }));
-  }
-
-  sendMessage(data: WebsocketMessage) {
-    const jsonData = JSON.stringify(data);
-    this.websocket.send(jsonData);
-  }
-
   private onWebsocketMessage(event: MessageEvent) {
     try {
       const decodedMessage = <WebsocketMessage>JSON.parse(event.data);
@@ -67,20 +104,9 @@ export class WebsocketService {
       }
 
       getCallbacks.forEach((subscriber) => {
-        subscriber.next({ws: this.websocket, message: decodedMessage});
+        subscriber.next({ws: this, message: decodedMessage});
       });
     } catch(e) {}
-  }
-
-  private onWebsocketClose() {
-    const getCallbacks = this.eventCallbacks['close'];
-    if (!getCallbacks) {
-      return;
-    }
-
-    getCallbacks.forEach((subscriber) => {
-      subscriber.next({ws: this.websocket, message: { type: 'close' }});
-    });
   }
 }
 
