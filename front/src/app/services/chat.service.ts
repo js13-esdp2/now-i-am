@@ -29,11 +29,11 @@ export class ChatService {
   }
 
   sendMessage(messageData: MessageData) {
-    this.websocketService.ws.send(JSON.stringify({
+    this.websocketService.send(JSON.stringify({
       type: 'NEW_MESSAGE',
       messageData: messageData,
     }));
-      this.websocketService.ws.onmessage = (event) => {
+      this.websocketService.onmessage = (event) => {
         const decodedMessage = JSON.parse(event.data);
         this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
       }
