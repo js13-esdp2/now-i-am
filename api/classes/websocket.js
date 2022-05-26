@@ -21,6 +21,10 @@ router.ws('/', (ws) => {
         onEvent(ws, 'new_connection')
       }
 
+      if (messageType === 'LOGOUT') {
+        closeConnection(ws);
+      }
+
       onMessageType(ws, messageType, decodedMessage);
     } catch (e) {
       console.log('Unknown message error', message, e);
@@ -28,15 +32,19 @@ router.ws('/', (ws) => {
   });
 
   ws.on('close', () => {
-    const userId = ws.userId;
-    if (!activeConnections[userId]) {
-      return;
-    }
-
-    delete activeConnections[userId];
+    closeConnection(ws);
     onEvent(ws, 'close');
   });
 });
+
+const closeConnection = (ws) => {
+  const userId = ws.userId;
+  if (!activeConnections[userId]) {
+    return;
+  }
+
+  delete activeConnections[userId];
+};
 
 const onMessageType = (ws, type, message) => {
   const getCallbacks = messageTypeCallbacks[type];
