@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { logoutUserRequest } from '../../store/users/users.actions';
 import { Store } from '@ngrx/store';
@@ -17,8 +17,9 @@ export interface NotificationMessage extends WebsocketMessage {
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.sass']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
+  wsSub!: Subscription;
   apiUrl = env.apiUrl;
   currentUrl = 'http://localhost:4200/notifications';
 
@@ -37,8 +38,8 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.mobWindow = this.breakpoint >= window.innerWidth;
-    this.wsService.onEvent('ADD_FRIEND').subscribe((message:{message: NotificationMessage | WebsocketMessage, ws: WebSocket}) => {
-      this.notifications = message.message.notifications;
+    this.wsService.onEvent<NotificationMessage>('ADD_FRIEND').subscribe(({message, ws}) => {
+      this.notifications = message.notifications;
       setTimeout(() => {
         if (window.location.href === this.currentUrl) {
           this.notifications = 0;
@@ -57,5 +58,9 @@ export class LayoutComponent implements OnInit {
 
   clearNotifications() {
     this.notifications = 0;
+  }
+
+  ngOnDestroy() {
+    this.wsSub.unsubscribe();
   }
 }
