@@ -42,7 +42,7 @@
           <a routerLink="/notifications"
              class="nav-list__list-item history-posts"
              mat-icon-button
-             matBadge="{{ arrNotifications > 0? arrNotifications : ''}}"
+             matBadge="{{ notifications > 0? notifications : ''}}"
              (click)="clearNotifications()"
              matBadgeColor="warn"
              title="Уведомления"
@@ -71,10 +71,15 @@
                [alt]="$user.displayName"
           >
         </button>
-        <mat-menu #menu="matMenu" class="user-menu">
+        <mat-menu #menu="matMenu" class="user-menu" >
           <button mat-menu-item [disabled]="true">{{ $user.displayName }}</button>
           <a routerLink="/profile" mat-menu-item>Мой профиль</a>
-          <a routerLink="/notifications" mat-menu-item>Уведомления</a>
+          <a routerLink="/notifications"
+             mat-menu-item
+             matBadge="{{ notifications > 0? notifications : ''}}"
+             (click)="clearNotifications()"
+             matBadgeColor="warn"
+          >Уведомления</a>
           <a routerLink="/friends" mat-menu-item>Мои друзья</a>
           <button mat-menu-item (click)="logout()">Выйти</button>
         </mat-menu>

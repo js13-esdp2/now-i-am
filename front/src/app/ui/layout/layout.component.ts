@@ -20,11 +20,12 @@ export interface NotificationMessage extends WebsocketMessage {
 export class LayoutComponent implements OnInit {
   user: Observable<null | User>;
   apiUrl = env.apiUrl;
+  currentUrl = 'http://localhost:4200/notifications';
 
   breakpoint = 768;
   mobWindow = false;
 
-  arrNotifications!: number;
+  notifications!: number;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -36,8 +37,13 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.mobWindow = this.breakpoint >= window.innerWidth;
-    this.wsService.onEvent('ADD_FRIEND').subscribe((message: any) => {
-      this.arrNotifications = message.message.notifications
+    this.wsService.onEvent('ADD_FRIEND').subscribe((message:{message: NotificationMessage | WebsocketMessage, ws: WebSocket}) => {
+      this.notifications = message.message.notifications;
+      setTimeout(() => {
+        if (window.location.href === this.currentUrl) {
+          this.notifications = 0;
+        }
+      }, 1500);
     })
   }
 
@@ -50,6 +56,6 @@ export class LayoutComponent implements OnInit {
   }
 
   clearNotifications() {
-    this.arrNotifications = 0;
+    this.notifications = 0;
   }
 }
