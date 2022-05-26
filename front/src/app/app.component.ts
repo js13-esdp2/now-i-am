@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/types';
-import { ChatService } from './services/chat.service';
 import { Observable, Subscription } from 'rxjs';
 import { User } from './models/user.model';
 import { WebsocketService } from './services/websocket.service';
@@ -11,29 +10,25 @@ import { WebsocketService } from './services/websocket.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  usersIdObservable!: Observable<null | User>;
-  usersIdSub!: Subscription;
+export class AppComponent implements OnInit {
+  user: Observable<null | User>;
+  userSub!: Subscription;
   title= 'Now-I-Am';
 
   constructor(
     private store: Store<AppState>,
-    private chatService: ChatService,
     private websocketService: WebsocketService,
-    ) {
-    this.usersIdObservable = store.select(state => state.users.user);
+  ) {
+    this.user = store.select(state => state.users.user);
   }
 
   ngOnInit(): void {
-     this.usersIdSub = this.usersIdObservable.subscribe(user => {
-       if (user?._id) {
-         const userId = user._id.toString();
-         this.websocketService.openWebSocket(userId);
-       }
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.usersIdSub.unsubscribe();
+    this.userSub = this.user.subscribe((user) => {
+      if (user) {
+        this.websocketService.userConnect(user._id);
+      } else {
+        this.websocketService.userDisconnect();
+      }
+    });
   }
 }
