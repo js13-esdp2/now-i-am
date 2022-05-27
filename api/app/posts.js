@@ -23,41 +23,32 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.get('/', async (req, res, next) => {
-  // try {
-  //   const query = {};
-  //   const andQuery = [];
-  //
-  //   if (req.query.user) {
-  //     andQuery.push({user: req.query.user});
-  //   }
-  //
-  //   if (req.query.title) {
-  //     andQuery.push({title: req.query.title});
-  //   }
-  //
-  //   if (andQuery.length) {
-  //     query['$and'] = andQuery;
-  //   }
-  //
-  //   const posts = await Post.find(query).populate('user', 'displayName');
-  //
-  //   return res.send(posts);
-  // } catch (e) {
-  //   next(e);
-  // }
-
   try {
+    const query = { isVisible: true };
+    const projection = {};
+
     const users = await User.find(req.query);
-    const usersId = users.map(user => {
+    query['user'] = users.map(user => {
       return user._id;
     });
-    const posts = await Post.find({title: {$in: req.query.title}, user: usersId, isVisible: true}).populate('user', 'displayName photo');
+
+    // if (req.query.user) {
+    //   query['user'] = req.query.user;
+    // }
+
+    if (req.query.title) {
+      query['$text'] = { $search: req.query.title };
+      projection['score'] = { $meta: 'textScore' };
+    }
+
+    const posts = await Post.find(query, projection)
+      .populate('user', 'displayName photo')
+      .sort(projection);
+
     return res.send(posts);
   } catch (e) {
-    return next(e);
+    next(e);
   }
-
-
 });
 
 router.get('/:id', async (req, res, next) => {
@@ -92,8 +83,8 @@ router.post('/', upload.single('content'), async (req, res, next) => {
     }
 
 
-    if(req.body.geolocation){
-     const geolocation = JSON.parse(req.body.geolocation);
+    if (req.body.geolocation) {
+      const geolocation = JSON.parse(req.body.geolocation);
       postData.geolocation = {
         lat: geolocation.lat,
         lng: geolocation.lng

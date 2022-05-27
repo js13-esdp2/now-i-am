@@ -59,7 +59,9 @@ const PostSchema = new Schema({
       type: Number
     }
   } | null
-})
+});
+
+PostSchema.index({ title: 'text' });
 
 const Post = mongoose.model('Post', PostSchema);
 module.exports = Post;

@@ -1,18 +1,29 @@
-<mat-card *ngIf="isSearched && (posts | async) as $posts"
-          class="search-block"
+<mat-card class="result-block"
+          *ngIf="isSearched && (posts | async) as $posts"
 >
   <mat-card-content>
-    <div class="amount-user">
-      <p class="amount-user__title-number">{{ $posts.length }}</p>
-      <h3 class="amount-user__title">Количество человек с похожим занятием</h3>
-    </div>
-    <div>
-      <div class="search-users" *ngFor="let post of $posts">
-        <mat-card  class="search-users__search-user-card"
-                   (click)="openPost(post)"
-        >{{ post.user.displayName }}</mat-card>
+    <mat-card class="post"
+              *ngFor="let post of $posts"
+              (click)="openPost(post)"
+    >
+      <div class="post__image-block">
+        <img [src]="post.content | image"
+             [alt]="post.title"
+             class="post__image-block__image"
+        >
       </div>
-    </div>
+      <mat-card-content class="post__content">
+        <mat-card-title class="post__content__title">
+          {{ post.title }}
+        </mat-card-title>
+        <button mat-raised-button
+                color="primary"
+                class="post__content__location-btn"
+        >
+          <mat-icon>place</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
   </mat-card-content>
 </mat-card>
 <div id="map"></div>
