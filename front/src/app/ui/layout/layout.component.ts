@@ -19,7 +19,7 @@ export interface NotificationMessage extends WebsocketMessage {
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
-  wsSub!: Subscription;
+  websocketFriendSub!: Subscription;
   apiUrl = env.apiUrl;
   currentUrl = 'http://localhost:4200/notifications';
 
@@ -31,21 +31,21 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private store: Store<AppState>,
-    private wsService: WebsocketService,
+    private websocketService: WebsocketService,
   ) {
     this.user = store.select((state) => state.users.user);
   }
 
   ngOnInit() {
     this.mobWindow = this.breakpoint >= window.innerWidth;
-    this.wsService.onEvent<NotificationMessage>('ADD_FRIEND').subscribe(({message, ws}) => {
+    this.websocketFriendSub = this.websocketService.onEvent<NotificationMessage>('ADD_FRIEND').subscribe(({message, ws}) => {
       this.notifications = message.notifications;
       setTimeout(() => {
         if (window.location.href === this.currentUrl) {
           this.notifications = 0;
         }
       }, 1500);
-    })
+    });
   }
 
   logout() {
@@ -61,6 +61,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.wsSub.unsubscribe();
+    this.websocketFriendSub.unsubscribe();
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -14,15 +14,17 @@ import { WebsocketService } from '../../services/websocket.service';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.sass']
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent implements OnInit, OnDestroy {
   friends: Observable<Friends[]>;
   user: Observable<User | null>;
   loading: Observable<boolean>;
   apiUrl = environment.apiUrl
 
+  websocketFriendSub!: Subscription;
+
   constructor(
     private store: Store<AppState>,
-    private wsService: WebsocketService,
+    private websocketService: WebsocketService,
     ) {
     this.user = store.select((state) => state.users.user);
     this.friends = store.select(state => state.users.friends);
@@ -31,14 +33,18 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchFriendsRequest());
-    this.wsService.onEvent('ADD_FRIEND').subscribe((message: any) => {
+    this.websocketFriendSub = this.websocketService.onEvent('ADD_FRIEND').subscribe((message: any) => {
       if (message){
         this.store.dispatch(fetchFriendsRequest());
       }
-    })
+    });
   }
 
   onRemove(friendId: string) {
     this.store.dispatch(removeFriendRequest({friendId}));
+  }
+
+  ngOnDestroy(): void {
+    this.websocketFriendSub.unsubscribe();
   }
 }
