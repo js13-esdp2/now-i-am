@@ -21,7 +21,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
   websocketFriendSub!: Subscription;
   apiUrl = env.apiUrl;
-  currentUrl = 'http://localhost:4200/notifications';
 
   breakpoint = 768;
   mobWindow = false;
@@ -41,7 +40,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.websocketFriendSub = this.websocketService.onEvent<NotificationMessage>('ADD_FRIEND').subscribe(({message, ws}) => {
       this.notifications = message.notifications;
       setTimeout(() => {
-        if (window.location.href === this.currentUrl) {
+        if (window.location.href.includes('/notifications')) {
           this.notifications = 0;
         }
       }, 1500);
