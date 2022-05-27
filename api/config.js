@@ -15,6 +15,8 @@ module.exports = {
         'http://localhost:4210',
         'http://159.223.23.60',
         'https://159.223.23.60',
+        'http://now-i-am.freeddns.org',
+        'https://now-i-am.freeddns.org',
     ],
     port,
     rootPath,

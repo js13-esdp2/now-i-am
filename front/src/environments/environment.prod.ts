@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://159.223.23.60:8000',
+  apiUrl: 'https://now-i-am.freeddns.org/api',
   apiUrlCountries: 'https://restcountries.com/v3.1',
   webSocketApiUrl: 'ws://159.223.23.60:8000/chat-ws',
   webSocketUrl: 'ws://159.223.23.60:8000',
