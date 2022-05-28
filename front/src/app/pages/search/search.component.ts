@@ -3,13 +3,10 @@ import { FormControl, NgForm } from '@angular/forms';
 import { Observable, startWith, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { MatDialog } from '@angular/material/dialog';
-import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
-import { Post, PostModalData } from '../../models/post.model';
 import { ApiCountryData } from '../../models/user.model';
 import { fetchCountriesRequest } from '../../store/users/users.actions';
-import { fetchTitlePostsRequest } from '../../store/posts/posts.actions';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -18,15 +15,11 @@ import { map } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
-  postObservable!: Observable<PostModalData>;
-  post: null | Post = null;
   country: Observable<ApiCountryData[]>;
   countrySub!: Subscription;
 
-  posts: Observable<Post[]>;
   isLoading: Observable<boolean>;
   error: Observable<null | string>;
-  postModalData!: PostModalData;
 
   myControl = new FormControl();
   options!: ApiCountryData[];
@@ -37,13 +30,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private dialog: MatDialog,
+    private router: Router,
   ) {
-    this.posts = store.select(state => state.posts.posts);
     this.country = store.select((state) => state.users.country);
     this.isLoading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);
-    this.postObservable = store.select(state => state.posts.postModalData);
   }
 
   ngOnInit() {
@@ -62,13 +53,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.isSearched = true;
     const filterData = this.form.value;
-    this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}));
-  }
-
-  openPost(post: Post): void {
-    this.dialog.open(PostModalComponent, {
-      data: {postId: post._id}
-    });
+    const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
+        sex: filterData.sex, city: this.myControl.value.city, isPrivate: filterData.isPrivate}};
+    void this.router.navigate([`/statistic`], query);
   }
 
   displayFn(data: ApiCountryData): string {

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Post, PostModalData } from '../../models/post.model';
 import { PostModalComponent } from '../../ui/post-modal/post-modal.component';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
-import { onPostModalDataChange } from '../../store/posts/posts.actions';
+import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { ApiUserData, User } from '../../models/user.model';
@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './statistic.component.html',
   styleUrls: ['./statistic.component.sass']
 })
-export class StatisticComponent implements OnInit {
+export class StatisticComponent implements OnInit, OnDestroy{
   user: Observable<null | User>;
   userData!: null | User;
   posts: Observable<Post[]>;
@@ -27,6 +27,7 @@ export class StatisticComponent implements OnInit {
   postModalData!: PostModalData;
   searchTitle!: string;
   userId!: ApiUserData;
+  paramsSub!: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -47,6 +48,16 @@ export class StatisticComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.paramsSub = this.activatedRoute.queryParams.subscribe(queryParams => {
+      const filterData = {
+        title: queryParams['title'],
+        birthday: queryParams['birthday'],
+        sex: queryParams['sex'],
+        city: queryParams['city'],
+        isPrivate: queryParams['isPrivate']
+      }
+      this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}));
+    })
     this.mapService.initMap();
     this.isSearched = true;
     this.openPreviousPost();
@@ -87,5 +98,9 @@ export class StatisticComponent implements OnInit {
         data: {postId: this.postModalData.postId}
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.paramsSub.unsubscribe();
   }
 }

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, Observable, of, tap } from 'rxjs';
-import { Router } from '@angular/router';
 import { HelpersService } from '../../services/helpers.service';
 import { PostsService } from '../../services/posts.service';
 import {
   createPostFailure,
   createPostRequest,
-  createPostSuccess, fetchMyHistoryPostsFailure, fetchMyHistoryPostsRequest, fetchMyHistoryPostsSuccess,
+  createPostSuccess,
+  fetchMyHistoryPostsFailure,
+  fetchMyHistoryPostsRequest,
+  fetchMyHistoryPostsSuccess,
   fetchOneOfPostFailure,
   fetchOneOfPostRequest,
   fetchOneOfPostSuccess,
@@ -36,7 +38,6 @@ export class PostsEffects {
   constructor(
     private actions: Actions,
     private postsService: PostsService,
-    private router: Router,
     private helpers: HelpersService,
   ) {
   }
@@ -55,9 +56,6 @@ export class PostsEffects {
     ofType(fetchTitlePostsRequest),
     mergeMap(({filterData}) => this.postsService.getPosts(filterData).pipe(
       map(posts => fetchTitlePostsSuccess({posts})),
-      tap(() => {
-        void this.router.navigate(['/statistic'])
-      }),
       catchError(() => of(fetchTitlePostsFailure({
         error: 'Что-то пошло не так'
       })))
