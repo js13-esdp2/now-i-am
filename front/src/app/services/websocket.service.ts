@@ -17,19 +17,6 @@ export class WebsocketService extends WebSocket {
     this.onmessage = (event) => this.onWebsocketMessage(event);
   }
 
-  override send(data: string | ArrayBufferLike | Blob | ArrayBufferView | WebsocketMessage) {
-    if (typeof data === 'object') {
-      data = JSON.stringify(data);
-    }
-
-    if (this.readyState === this.CONNECTING) {
-      this.sendMessagesQueue.push(data);
-      return;
-    }
-
-    super.send(data);
-  }
-
   private onWebsocketOpen() {
     const messagesQueueLength = this.sendMessagesQueue.length;
     if (!messagesQueueLength) {
@@ -51,6 +38,19 @@ export class WebsocketService extends WebSocket {
     getCallbacks.forEach((subscriber) => {
       subscriber.next({ws: this, message: { type: 'close' }});
     });
+  }
+
+  override send(data: string | ArrayBufferLike | Blob | ArrayBufferView | WebsocketMessage) {
+    if (typeof data === 'object') {
+      data = JSON.stringify(data);
+    }
+
+    if (this.readyState === this.CONNECTING) {
+      this.sendMessagesQueue.push(data);
+      return;
+    }
+
+    super.send(data);
   }
 
   initialize() {
