@@ -68,6 +68,7 @@ export type SearchState = {
 export type ChatState = {
   chatRoom: undefined | null | ChatRoom,
   chatRooms: ChatRoom[],
+  allNewMessages: number,
   fetchLoading: boolean,
   fetchError: null | string,
   createLoading: boolean,

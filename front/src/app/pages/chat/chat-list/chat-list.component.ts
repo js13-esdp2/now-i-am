@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../store/types';
 import { Store } from '@ngrx/store';
 import { ChatRoom } from '../../../models/chatRoom.model';
-import { changeChatRoom, deleteChatRoomRequest, getUsersChatRooms } from '../../../store/chat/chat.actions';
+import {
+  deleteChatRoomRequest,
+  getChatRoomByIdRequest,
+  getUsersChatRooms
+} from '../../../store/chat/chat.actions';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -16,11 +21,10 @@ export class ChatListComponent implements OnInit {
   userId!: string | undefined;
   apiUrl = environment.apiUrl;
 
-
   constructor(
     private store: Store<AppState>,
     private router: Router,
-
+    private chatService: ChatService,
   ) {
     store.select(state => (state.users.user)).subscribe(user => {
       this.userId = user?._id;
@@ -39,10 +43,16 @@ export class ChatListComponent implements OnInit {
   }
 
   goToChatRoom(chatRoom: ChatRoom) {
-    if (this.router.url === '/chat') {
-      this.store.dispatch(changeChatRoom({chatRoom}));
-    } else {
-      void this.router.navigate([`/chat-room-mobile/${chatRoom._id}`]);
+    const messagesAreReadData = {
+      ownerId: chatRoom.owner._id,
+      chatRoomInbox: chatRoom.chatRoomInbox,
+      myId: this.userId,
     }
+    this.store.dispatch(getChatRoomByIdRequest({chatRoomId: chatRoom._id}));
+    this.chatService.messagesAreRead(messagesAreReadData);
+  }
+
+  checkIfThereAreNewMessages(newMessagesCounter: number) {
+    return !!newMessagesCounter;
   }
 }

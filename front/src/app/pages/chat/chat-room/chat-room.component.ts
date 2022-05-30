@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DeleteChatModalComponent } from '../../../ui/delete-chat-modal/delete-chat-modal.component';
 import { ChatRoom, DialogDeleteData } from '../../../models/chatRoom.model';
 import { environment as env } from '../../../../environments/environment';
@@ -20,13 +20,14 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.sass']
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomComponent implements OnInit, OnDestroy {
   deleteAll = false;
   chatRoom!: ChatRoom;
   apiUrl = env.apiUrl;
   userID!: string | undefined;
 
   message = '';
+
   constructor(
     private store: Store<AppState>,
     private chatService: ChatService,
@@ -110,5 +111,9 @@ export class ChatRoomComponent implements OnInit {
         this.store.dispatch(deleteMyMessages({chatRoom}));
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(changeChatRoom({chatRoom: null}));
   }
 }
