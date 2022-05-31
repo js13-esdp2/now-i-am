@@ -26,6 +26,7 @@ const run = async () => {
     sex: 'female',
     country: 'Russia',
     city: 'MOSCVA',
+    isPrivate: false,
     role: 'moderator',
   }, {
     email: 'john@gmail.com',
@@ -37,6 +38,7 @@ const run = async () => {
     sex: 'male',
     country: 'Kyrgyzstan',
     city: 'BISHKEK',
+    isPrivate: false,
     role: 'user',
   }, {
     email: 'james@gmail.com',
@@ -105,110 +107,110 @@ const run = async () => {
   const invisibleDate = new Date((invisibleAtUnixTime  * 1000)).toString();
 
   await Post.create({
-    user: anna,
-    title: 'Пью кофе',
-    content: 'drinkingcoffee.jpg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 12,
-      minutes: 0,
+      user: anna,
+      title: 'Пью кофе',
+      content: 'drinkingcoffee.jpg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 12,
+        minutes: 0,
+      },
+    }, {
+      user: john,
+      title: 'Пью чай',
+      content: 'drinkingtea.jpg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 60,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 15,
+        minutes: 10,
+      },
+    }, {
+      user: james,
+      title: 'Пью коллу',
+      content: 'enjoycola.jpeg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 120,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 12,
+        minutes: 10,
+      },
+      geolocation: {
+        lat: 42.844748,
+        lng: 74.543953
+      }
+    }, {
+      user: james,
+      title: 'Пью чай',
+      content: 'drinkingtea.jpg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 180,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 7,
+        minutes: 10,
+      },
+    }, {
+      user: john,
+      title: 'Пью коллу',
+      content: 'enjoycola.jpeg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 240,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 15,
+        minutes: 10,
+      },
+      geolocation: {
+        lat: 42.848022,
+        lng: 74.645576
+      }
+    }, {
+      user: anna,
+      title: 'Пью коллу',
+      content: 'enjoycola.jpeg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 300,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 5,
+        minutes: 0,
+      },
+    }, {
+      user: cara,
+      title: 'Смотрю Neflix',
+      content: 'watching-neflix.jpg',
+      datetime: new Date().toISOString(),
+      createdAt: new Date().getTime(),
+      isVisible: true,
+      invisibleAtUnixTime: invisibleAtUnixTime + 300,
+      invisibleDate: invisibleDate,
+      time: {
+        hours: 5,
+        minutes: 0,
+      },
+      geolocation: {
+        lat: 42.876474,
+        lng: 74.637337
+      }
     },
-  }, {
-    user: john,
-    title: 'Пью чай',
-    content: 'drinkingtea.jpg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 60,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 15,
-      minutes: 10,
-    },
-  }, {
-    user: james,
-    title: 'Пью коллу',
-    content: 'enjoycola.jpeg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 120,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 12,
-      minutes: 10,
-    },
-    geolocation: {
-      lat: 42.844748,
-      lng: 74.543953
-    }
-  }, {
-    user: james,
-    title: 'Пью чай',
-    content: 'drinkingtea.jpg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 180,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 7,
-      minutes: 10,
-    },
-  }, {
-    user: john,
-    title: 'Пью коллу',
-    content: 'enjoycola.jpeg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 240,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 15,
-      minutes: 10,
-    },
-    geolocation: {
-      lat: 42.848022,
-      lng: 74.645576
-    }
-  }, {
-    user: anna,
-    title: 'Пью коллу',
-    content: 'enjoycola.jpeg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 300,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 5,
-      minutes: 0,
-    },
-  }, {
-    user: cara,
-    title: 'Смотрю Neflix',
-    content: 'watching-neflix.jpg',
-    datetime: new Date().toISOString(),
-    createdAt: new Date().getTime(),
-    isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 300,
-    invisibleDate: invisibleDate,
-    time: {
-      hours: 5,
-      minutes: 0,
-    },
-    geolocation: {
-      lat: 42.876474,
-      lng: 74.637337
-    }
-  },
-);
+  );
 
   const chatRoomInbox = caitlyn._id.toString() + james._id.toString();
 

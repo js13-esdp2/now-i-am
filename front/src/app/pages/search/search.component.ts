@@ -53,8 +53,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.isSearched = true;
     const filterData = this.form.value;
+    const isPrivate = this.form.value.isPrivate === '' ? '' : false;
     const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
-        sex: filterData.sex, city: this.myControl.value.city, isPrivate: filterData.isPrivate}};
+        sex: filterData.sex, city: this.myControl.value.city, isPrivate: isPrivate}};
     void this.router.navigate([`/statistic`], query);
   }
 
