@@ -1,6 +1,6 @@
 import {
   ApiCountryData,
-  City,
+  City, Countries,
   Country,
   EditUserError,
   LoginError,
@@ -11,6 +11,7 @@ import {
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
+import { CountriesApi } from '../models/countries.model';
 
 
 export type UsersState = {
@@ -76,6 +77,11 @@ export type ChatState = {
   deleteError: null | string,
 }
 
+export type CountriesState = {
+  countries: Countries[];
+  fetchError: null | string,
+}
+
 export type CountryState = {
   country: Country[];
   fetchLoading: boolean,
@@ -95,4 +101,5 @@ export type AppState = {
   country: CountryState,
   capital: CityState,
   chat: ChatState,
+  countries: CountriesState,
 }

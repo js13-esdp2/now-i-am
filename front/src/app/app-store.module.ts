@@ -10,6 +10,8 @@ import { searchReducer } from './store/search/search.reducer';
 import { SearchEffects } from './store/search/search.effects';
 import { ChatEffects } from './store/chat/chat.effects';
 import { chatReducer } from './store/chat/chat.reducer';
+import { CountriesReducer } from './store/countries/countries.reducer';
+import { CountriesEffects } from './store/countries/countries.effects';
 
 const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
   return localStorageSync({
@@ -25,6 +27,7 @@ const reducers = {
   search: searchReducer,
   posts: postsReducer,
   chat: chatReducer,
+  countries: CountriesReducer,
 };
 
 const effects = [
@@ -33,6 +36,7 @@ const effects = [
   UsersEffects,
   PostsEffects,
   ChatEffects,
+  CountriesEffects,
 ];
 
 @NgModule({

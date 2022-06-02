@@ -5,21 +5,21 @@ import {
   addFriendFailure,
   addFriendRequest,
   addFriendSuccess,
-  checkCodeFailure,
-  checkCodeRequest,
-  checkCodeSuccess,
   changeUserPasswordFailure,
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
-  fetchCountriesFailure,
-  fetchCountriesRequest,
-  fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
+  fetchFriendsSuccess,
+  fetchPasswordFailure,
+  fetchPasswordRequest,
+  fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -43,13 +43,14 @@ import {
   removeFriendRequest,
   removeFriendSuccess
 } from './users.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelpersService } from '../../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../types';
 import { onPostModalDataChange } from '../posts/posts.actions';
 import { PostModalData } from '../../models/post.model';
+import { fetchCountriesRequest } from '../countries/countries.actions';
 
 @Injectable()
 export class UsersEffects {
@@ -104,6 +105,8 @@ export class UsersEffects {
     mergeMap(({userData}) => this.usersService.login(userData).pipe(
       map((user) => loginUserSuccess({user})),
       tap(() => {
+        console.log('Im here')
+
         this.helpersService.openSnackBar('Вход успешно выполнен!');
         this.helpersService.showModal();
       }),

@@ -4,7 +4,6 @@ import { Observable, startWith, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { ApiCountryData } from '../../models/user.model';
-import { fetchCountriesRequest } from '../../store/users/users.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -24,6 +23,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   options!: ApiCountryData[];
   filteredOptions!: Observable<ApiCountryData[]>;
+  arrayCities!: string;
 
   isSearched = false;
   panelOpenState = false;
@@ -41,12 +41,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.countrySub = this.country.subscribe(countryInfo => {
       this.options = countryInfo;
     });
-    this.store.dispatch(fetchCountriesRequest());
-
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value.city)),
-      map(city => (city ? this._filter(city) : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : value.country)),
+      map(country => (this.country ? this._filter(country) : this.options.slice())),
     );
   }
 
@@ -60,12 +58,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   displayFn(data: ApiCountryData): string {
-    return data && data.city ? data.city : '';
+    return data && data.country ? data.country : '';
   }
 
-  private _filter(city: string): ApiCountryData[] {
-    const filterValue = city.toLowerCase();
-    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
+  private _filter(country: string): ApiCountryData[] {
+    const filterValue = country.toLowerCase();
+    console.log(country);
+    return this.options.filter(option => option.country.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {

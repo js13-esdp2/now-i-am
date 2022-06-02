@@ -41,13 +41,21 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="filter-block__city">
-          <mat-label>Город</mat-label>
-          <input type="text" name="city" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
+          <mat-label>Страна</mat-label>
+          <input type="text" name="country" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.city}}
+              {{option.country}}
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-block__city">
+          <mat-label>Город</mat-label>
+          <mat-select name="city" ngModel>
+            <mat-option value="0">0</mat-option>
+          </mat-select>
+
         </mat-form-field>
 
         <p class="is-private-block">
