@@ -217,12 +217,14 @@ const run = async () => {
     text: 'Hi, James! How are you doing?',
     userFrom: caitlyn,
     userTo: james,
+    isRead: true,
     createdAt: '10 мая 2022 г., 12:00:00'
   }, {
     chatRoomInbox: chatRoomInbox,
     text: 'Hello Caitlyn! Not bad',
     userFrom: james,
     userTo: caitlyn,
+    isRead: true,
     createdAt: '10 мая 2022 г., 12:05:00'
   });
 

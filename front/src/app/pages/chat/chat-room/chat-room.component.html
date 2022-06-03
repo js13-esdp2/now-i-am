@@ -7,6 +7,14 @@
 <div class="chat-room-block" *ngIf="chatRoom">
   <div class="chat-room-header">
     <div class="chat-room-header__info-wrapper">
+      <div class="chat-room-header__go-back-icon_wrapper">
+        <img
+          routerLink="/chat"
+          class="chat-room-header__go-back-icon"
+          src="../../assets/chat/go-back.svg"
+          alt="go-back-icon"
+        >
+      </div>
       <div class="chat-room-header__img-wrapper">
         <img
           *ngIf="!chatRoom.chattingWith.photo"

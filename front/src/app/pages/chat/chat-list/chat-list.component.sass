@@ -15,6 +15,19 @@
   justify-content: center
   background: #fbfbfb
 
+  &__option-mobile
+    display: none
+
+    @media (max-width: 730px)
+      display: block
+
+  &__option-desktop
+    display: block
+
+    @media (max-width: 730px)
+      display: none
+
+
   &__img
     margin: 3px 0 0 10px
 
