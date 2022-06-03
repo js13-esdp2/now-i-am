@@ -58,7 +58,17 @@ const PostSchema = new Schema({
     lng: {
       type: Number
     }
-  } | null
+  } | null,
+  comment: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    text: {
+      type: String,
+    }
+  }]
 });
 
 PostSchema.index({ title: 'text' });
