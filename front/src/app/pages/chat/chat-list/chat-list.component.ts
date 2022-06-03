@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../store/types';
 import { Store } from '@ngrx/store';
 import { ChatRoom } from '../../../models/chatRoom.model';
-import {
-  deleteChatRoomRequest,
-  getChatRoomByIdRequest,
-  getUsersChatRooms
-} from '../../../store/chat/chat.actions';
+import { deleteChatRoomRequest, getChatRoomByIdRequest } from '../../../store/chat/chat.actions';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { ChatService } from '../../../services/chat.service';
+import { FormControl } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-chat-list',
@@ -17,6 +15,9 @@ import { ChatService } from '../../../services/chat.service';
   styleUrls: ['./chat-list.component.sass'],
 })
 export class ChatListComponent implements OnInit {
+  myControl = new FormControl();
+  searchContact!: string;
+  filteredChatRooms!: Observable<ChatRoom[]>;
   chatRooms!: ChatRoom[];
   userId!: string | undefined;
   apiUrl = environment.apiUrl;
@@ -35,7 +36,26 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(getUsersChatRooms({userId: this.userId}));
+    this.filteredChatRooms = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterChatRooms(value))
+    )
+  }
+
+  private _filterChatRooms(value: string): ChatRoom[] {
+    const filterValue = value.toString().toLowerCase();
+    return this.chatRooms.filter(option =>
+      option.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  changeChatRoom(chatRoom: ChatRoom) {
+    this.store.dispatch(getChatRoomByIdRequest({chatRoomId: chatRoom._id}));
+    this.myControl.reset('');
+  }
+
+  displayFn(subject: any) {
+    return subject ? subject.name : undefined;
   }
 
   deleteChatRoom(chatRoom: ChatRoom) {
