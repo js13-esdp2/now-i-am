@@ -20,7 +20,11 @@ export class Post{
     public geolocation: {
       lat: number
       lng: number
-    }
+    },
+    public comment: [{
+      user: string,
+      text: string
+    }]
     ) {}
 }
 
@@ -68,5 +72,9 @@ export interface ApiPostData {
   geolocation: {
     lat: number,
     lng: number
-  }
+  },
+  comment: [
+    {user: string,
+    text: string}
+  ]
 }

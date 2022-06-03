@@ -14,7 +14,6 @@ import {
 import { User } from '../../models/user.model';
 import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
-import { ChatService } from '../../services/chat.service';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
 
@@ -48,7 +47,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
     private router: Router,
-    private chatService: ChatService,
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
@@ -154,5 +152,9 @@ export class PostModalComponent implements OnInit, OnDestroy {
   removePost(id: string) {
     this.store.dispatch(removePostRequest({id}));
     this.dialogRef.close();
+  }
+
+  showComments() {
+
   }
 }

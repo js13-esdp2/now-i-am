@@ -37,6 +37,7 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
+            postData.comment
           );
         });
       })
@@ -87,6 +88,7 @@ export class PostsService {
           postData.time,
           postData.likes,
           postData.geolocation,
+          postData.comment
         );
       }),
     );
@@ -105,6 +107,7 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
+            postData.comment
           );
         });
       })
