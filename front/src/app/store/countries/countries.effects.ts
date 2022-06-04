@@ -3,9 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppState } from '../types';
 import { HelpersService } from '../../services/helpers.service';
-import { fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess } from '../users/users.actions';
 import { map, mergeMap } from 'rxjs';
 import { CountriesService } from '../../services/countries.service';
+import { fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess } from './countries.actions';
 
 
 @Injectable()
@@ -20,9 +20,7 @@ export class CountriesEffects {
   fetchCountries = createEffect(() => this.actions.pipe(
     ofType(fetchCountriesRequest),
     mergeMap(() => this.countriesService.getCountries().pipe(
-      map(countries => {
-        console.log(countries);
-        return fetchCountriesSuccess({countries})}),
+      map(countries => fetchCountriesSuccess({countries})),
       this.helpersService.catchServerError(fetchCountriesFailure),
     ))
   ));

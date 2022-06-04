@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, startWith, Subscription } from 'rxjs';
-import { ApiCountryData, User } from '../../models/user.model';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { FormControl, NgForm } from '@angular/forms';
-import { editUserRequest, fetchCountriesRequest } from '../../store/users/users.actions';
-import { map } from 'rxjs/operators';
+import { editUserRequest } from '../../store/users/users.actions';
+import { CountriesModel } from '../../models/countries.model';
+import { fetchCountriesRequest } from '../../store/countries/countries.actions';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,7 +16,7 @@ import { map } from 'rxjs/operators';
 export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
   user: Observable<null | User>;
-  country: Observable<ApiCountryData[]>;
+  country: Observable<CountriesModel[]>;
   isLoading: Observable<boolean>;
   countrySub!: Subscription;
   cityData!: string;
@@ -24,17 +25,17 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private userData!: User;
   private userSub!: Subscription;
 
-  countryData: ApiCountryData [] | null = null;
+  countryData: CountriesModel[] | null = null;
 
   myControl = new FormControl();
-  options!: ApiCountryData[];
-  filteredOptions!: Observable<ApiCountryData[]>;
+  options!: CountriesModel[];
+  filteredOptions!: Observable<CountriesModel[]>;
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.user = store.select((state) => state.users.user);
-    this.country = store.select((state) => state.users.country);
+    this.country = store.select((state) => state.countries.countries);
     this.isLoading = store.select((state) => state.users.editLoading);
   }
 
@@ -49,11 +50,11 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.store.dispatch(fetchCountriesRequest());
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => (typeof value === 'string' ? value : value.city)),
-      map(city => (city ? this._filter(city) : this.options.slice())),
-    );
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => (typeof value === 'string' ? value : value.city)),
+    //   map(city => (city ? this._filter(city) : this.options.slice())),
+    // );
   }
 
   ngAfterViewInit() {
@@ -84,11 +85,11 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.options.forEach(data  => {
-      if(data.city === this.cityData){
-        countryData = data.country;
-      }
-    })
+    // this.options.forEach(data  => {
+    //   if(data.city === this.cityData){
+    //     countryData = data.country;
+    //   }
+    // })
 
     const userData = {
       photo: this.form.value.photo,
@@ -107,15 +108,15 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(editUserRequest({userData}));
   }
 
-  displayFn(data: ApiCountryData): string {
-    return data && data.city ? data.city : '';
-  }
+  // displayFn(data: ApiCountryData): string {
+  //   return data && data.city ? data.city : '';
+  // }
 
-  private _filter(city: string): ApiCountryData[] {
-    const filterValue = city.toLowerCase();
-    this.cityData = city;
-    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
-  }
+  // private _filter(city: string): CountriesModel[] {
+  //   const filterValue = city.toLowerCase();
+  //   this.cityData = city;
+  //   // return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
+  // }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();

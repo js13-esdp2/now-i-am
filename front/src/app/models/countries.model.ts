@@ -8,10 +8,15 @@ export class CountriesModel {
 }
 
 export interface CountriesApi {
-  _id: string,
+  [key: string]: any,
   country: string,
   cities: [{
-    _id: string,
+    [key: string]: any,
     city: string,
   }],
+}
+
+export interface City {
+  [key: string]: any,
+  city: string,
 }

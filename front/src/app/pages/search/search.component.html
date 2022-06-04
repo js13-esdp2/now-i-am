@@ -44,7 +44,7 @@
           <mat-label>Страна</mat-label>
           <input type="text" name="country" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="getCities(option.cities)">
               {{option.country}}
             </mat-option>
           </mat-autocomplete>
@@ -52,10 +52,9 @@
 
         <mat-form-field appearance="outline" class="filter-block__city">
           <mat-label>Город</mat-label>
-          <mat-select name="city" ngModel>
-            <mat-option value="0">0</mat-option>
+          <mat-select name="city" ngModel [disabled]="isSearched">
+            <mat-option *ngFor="let city of cities" value="{{ city.city }}">{{ city.city }}</mat-option>
           </mat-select>
-
         </mat-form-field>
 
         <p class="is-private-block">

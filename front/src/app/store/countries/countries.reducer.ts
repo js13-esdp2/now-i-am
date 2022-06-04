@@ -2,7 +2,6 @@ import { CountriesState } from '../types';
 import { createReducer, on } from '@ngrx/store';
 import { fetchCountriesFailure, fetchCountriesRequest, fetchCountriesSuccess } from './countries.actions';
 
-
 const initialState: CountriesState = {
   countries: [],
   fetchError: null,

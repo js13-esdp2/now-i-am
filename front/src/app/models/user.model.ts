@@ -110,42 +110,6 @@ export interface LoginError {
   error: string;
 }
 
-export interface Country {
-  name: string,
-}
-
-export interface ApiCountryData {
-  city: string,
-  country: string,
-}
-
-export interface CountryData {
-  name: string,
-}
-
-export class City {
-  constructor(
-    public country: string,
-    public capital: string
-  ){}
-}
-
-export class Countries {
-  constructor(
-    public city: string,
-    public country: string,
-  ){}
-}
-
-export interface CityData {
-  capital: string,
-}
-
-export interface ApiCityData {
-  _id: string,
-  capital: string,
-}
-
 export interface PasswordData {
   email: string,
   newPassword: string,

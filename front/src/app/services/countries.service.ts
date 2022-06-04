@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Countries } from '../models/user.model';
+import { CountriesModel } from '../models/countries.model';
 
 
 @Injectable({
@@ -14,6 +14,6 @@ export class CountriesService {
   ){}
 
   getCountries(){
-    return this.http.get<Countries[]>(environment.apiUrl + '/countries');
+    return this.http.get<CountriesModel[]>(environment.apiUrl + '/countries');
   }
 }

@@ -50,7 +50,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../types';
 import { onPostModalDataChange } from '../posts/posts.actions';
 import { PostModalData } from '../../models/post.model';
-import { fetchCountriesRequest } from '../countries/countries.actions';
 
 @Injectable()
 export class UsersEffects {
@@ -92,21 +91,11 @@ export class UsersEffects {
     )),
   ));
 
-  fetchCountries = createEffect(() => this.actions.pipe(
-    ofType(fetchCountriesRequest),
-    mergeMap(() => this.usersService.getCountries().pipe(
-      map(countries => fetchCountriesSuccess({countries})),
-      catchError(() => of(fetchCountriesFailure({error: 'Нет такого города!'})))
-    ))
-  ));
-
   loginUser = createEffect(() => this.actions.pipe(
     ofType(loginUserRequest),
     mergeMap(({userData}) => this.usersService.login(userData).pipe(
       map((user) => loginUserSuccess({user})),
       tap(() => {
-        console.log('Im here')
-
         this.helpersService.openSnackBar('Вход успешно выполнен!');
         this.helpersService.showModal();
       }),
