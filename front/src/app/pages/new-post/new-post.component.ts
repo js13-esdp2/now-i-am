@@ -5,12 +5,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilterData, Post, PostData } from '../../models/post.model';
-import { createPostRequest, fetchTitlePostsRequest } from '../../store/posts/posts.actions';
+import { createPostRequest } from '../../store/posts/posts.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../../ui/modal-window/modal-window.component';
 import { PostsService } from '../../services/posts.service';
 import { WebcamImage } from 'ngx-webcam';
 import { HelpersService } from 'src/app/services/helpers.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
@@ -39,7 +40,8 @@ export class NewPostComponent implements OnInit {
   constructor(private store: Store<AppState>,
               private dialog: MatDialog,
               private postsService: PostsService,
-              private helpersService: HelpersService) {
+              private helpersService: HelpersService,
+              private router: Router) {
     this.loading = store.select(state => state.posts.createLoading);
     this.error = store.select(state => state.posts.createError);
     this.post = store.select(state => state.posts.post);
@@ -128,7 +130,10 @@ export class NewPostComponent implements OnInit {
       sex: '',
       isPrivate: '',
     }
-    this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}))
+    const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
+        sex: filterData.sex, country: filterData.country,  city: filterData.city,  isPrivate: filterData.isPrivate}};
+    void this.router.navigate([`/statistic`], query);
+    // this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}))
   }
 
 

@@ -4,6 +4,8 @@ import { catchError, map, mergeMap, Observable, of, tap } from 'rxjs';
 import { HelpersService } from '../../services/helpers.service';
 import { PostsService } from '../../services/posts.service';
 import {
+  createPostCommentFailure,
+  createPostCommentRequest, createPostCommentSuccess,
   createPostFailure,
   createPostRequest,
   createPostSuccess,
@@ -29,6 +31,8 @@ import {
   removePostSuccess
 } from './posts.actions';
 import { User } from '../../models/user.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../types';
 
 @Injectable()
 export class PostsEffects {
@@ -39,6 +43,7 @@ export class PostsEffects {
     private actions: Actions,
     private postsService: PostsService,
     private helpers: HelpersService,
+    private store: Store<AppState>,
   ) {
   }
 
@@ -120,4 +125,17 @@ export class PostsEffects {
       })))
     ))
   ));
+
+  createComment = createEffect(() => this.actions.pipe(
+    ofType(createPostCommentRequest),
+    mergeMap(({comment}) => this.postsService.createComment(comment).pipe(
+      map(() => createPostCommentSuccess()),
+      tap(() => {
+        this.store.dispatch(fetchOneOfPostRequest({id: comment.postId}))
+        this.helpers.openSnackBar('Комментарий добавлен');
+      }),
+      catchError(() => of(createPostCommentFailure({error: ''})))
+    ))
+  ));
+
 }

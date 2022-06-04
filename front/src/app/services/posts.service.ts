@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { ApiPostData, Post, PostData } from '../models/post.model';
+import { ApiPostData, CommentData, Post, PostData } from '../models/post.model';
 import { Subject } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 
@@ -112,6 +112,10 @@ export class PostsService {
         });
       })
     );
+  }
+
+  createComment(comment: CommentData) {
+    return this.http.post(environment.apiUrl + '/posts/comment', comment);
   }
 
 }

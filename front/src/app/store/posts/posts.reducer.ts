@@ -21,7 +21,10 @@ import {
   likePostRequest,
   likePostSuccess,
   removePostRequest,
-  removePostSuccess, fetchMyHistoryPostsRequest, fetchMyHistoryPostsSuccess, fetchMyHistoryPostsFailure
+  removePostSuccess,
+  fetchMyHistoryPostsRequest,
+  fetchMyHistoryPostsSuccess,
+  fetchMyHistoryPostsFailure,
 } from './posts.actions';
 
 const initialState: PostState = {
@@ -65,10 +68,10 @@ export const postsReducer = createReducer(
   on(likePostFailure, (state, { error }) => ({...state, likeLoading: false, likeError: error})),
 
   on(removePostRequest, (state, {id}) => {
-    const array = state.posts.filter( post=> {
-      return post._id !== id
-    })
-    return ({...state, posts: array, fetchLoading: true})}),
+      const array = state.posts.filter( post=> {
+        return post._id !== id
+      })
+      return ({...state, posts: array, fetchLoading: true})}),
   on(removePostSuccess, state => ({...state, fetchLoading: false})),
 
   on(fetchMyHistoryPostsRequest, state => ({...state, fetchLoading: true})),
@@ -76,4 +79,5 @@ export const postsReducer = createReducer(
   on(fetchMyHistoryPostsFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 
   on(onPostModalDataChange, (state, {postModalData}) => ({...state, postModalData})),
+
 );

@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Post } from '../../models/post.model';
+import { CommentData, Post } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
 import {
+  createPostCommentRequest,
   fetchOneOfPostRequest,
   likePostRequest,
   onPostModalDataChange,
@@ -29,7 +30,8 @@ export class PostModalComponent implements OnInit, OnDestroy {
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
-
+  commentsShow!: boolean;
+  comment!: string;
   apiUrl = env.apiUrl;
   userData: null | User = null;
 
@@ -155,6 +157,14 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   showComments() {
+    this.commentsShow = !this.commentsShow;
+  }
 
+  createComment() {
+    const data: CommentData = {
+      comment: this.comment,
+      postId: this.postId,
+    }
+    this.store.dispatch(createPostCommentRequest({comment: data}))
   }
 }

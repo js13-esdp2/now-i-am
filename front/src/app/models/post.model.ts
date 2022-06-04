@@ -78,3 +78,8 @@ export interface ApiPostData {
     text: string}
   ]
 }
+
+export interface CommentData {
+  comment: string,
+  postId: string
+}

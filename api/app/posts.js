@@ -165,6 +165,27 @@ router.get('/my-history-posts/:id', auth, async (req, res, next) => {
   }
 });
 
+router.post('/comment', auth, async (req, res, next) => {
+  try{
+    console.log(req.body);
+    const post =  await Post.findById(req.body.postId);
+    if(post) {
+      const commentData = {
+        user: req.user._id,
+        text: req.body.comment
+      }
+      post.comment.push(commentData);
+      await post.save();
+    } else {
+      return res.status(404).send({error: 'Комментарий не создан'});
+    }
+    res.send(post);
+  } catch (e) {
+    next(e);
+  }
+})
+
+
 
 const checkIfPostsAreOnline = () => {
   setInterval(async () => {
