@@ -25,8 +25,8 @@ const run = async () => {
     photo: 'anna.jpeg',
     birthday: '23',
     sex: 'female',
-    country: 'Russia',
-    city: 'MOSCVA',
+    country: 'Россия',
+    city: 'Москва',
     isPrivate: false,
     role: 'moderator',
   }, {
@@ -37,8 +37,8 @@ const run = async () => {
     token: nanoid(),
     birthday: 26,
     sex: 'male',
-    country: 'Kyrgyzstan',
-    city: 'BISHKEK',
+    country: 'Кыргызстан',
+    city: 'Бишкек',
     isPrivate: false,
     role: 'user',
   }, {
@@ -63,8 +63,8 @@ const run = async () => {
     birthday: '23',
     sex: 'male',
     isPrivate: true,
-    country: 'Russian Federation',
-    city: 'Moscow',
+    country: 'Россия',
+    city: 'Москва',
     role: 'user',
   }, {
     email: 'cara@gmail.com',
@@ -75,8 +75,8 @@ const run = async () => {
     birthday: '23',
     sex: 'female',
     isPrivate: true,
-    country: 'Russian Federation',
-    city: 'Moscow',
+    country: 'Казахстан',
+    city: 'Астана',
     role: 'user',
   });
 
