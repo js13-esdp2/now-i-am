@@ -157,8 +157,13 @@ websocket.on('NEW_MESSAGE', async (ws, decodedMessage) => {
       $push: {messages: newMessage}
     });
 
+  const filterParam = {
+    owner: newMessage.userTo,
+    chatRoomInbox: newMessage.chatRoomInbox,
+  }
+
   const chattingWithChatRoom = await ChatRoom.findOneAndUpdate(
-    {chattingWith: newMessage.userFrom},
+    filterParam,
     {$inc: {'newMessagesCounter': 1}},
   );
 
