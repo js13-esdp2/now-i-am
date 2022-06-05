@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DeleteChatModalComponent } from '../../../ui/delete-chat-modal/delete-chat-modal.component';
 import { ChatRoom, DialogDeleteData } from '../../../models/chatRoom.model';
 import { environment as env } from '../../../../environments/environment';
@@ -25,7 +25,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   chatRoom!: ChatRoom;
   apiUrl = env.apiUrl;
   userID!: string | undefined;
-
+  toggled: boolean = false;
   message = '';
 
   constructor(
@@ -111,6 +111,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
         this.store.dispatch(deleteMyMessages({chatRoom}));
       }
     }
+  }
+
+  handleSelection(event: any) {
+    this.message += event.char;
   }
 
   ngOnDestroy(): void {

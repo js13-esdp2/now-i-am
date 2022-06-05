@@ -79,6 +79,10 @@
   <div class="send-message-block">
     <div class="send-message-block__smile-icon-wrapper">
       <img
+        (click)="toggled = !toggled"
+        [(emojiPickerIf)]="toggled"
+        [emojiPickerDirection]="'top'"
+        (emojiPickerSelect)="handleSelection($event)"
         class="send-message-block__smile-icon-img"
         alt="smile-icon"
         src="../../assets/chat/smileIcon.svg"
