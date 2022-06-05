@@ -25,6 +25,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   chatRoom!: ChatRoom;
   apiUrl = env.apiUrl;
   userID!: string | undefined;
+  toggled: boolean = false;
 
   message = '';
 
@@ -115,5 +116,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(changeChatRoom({chatRoom: null}));
+  }
+
+  handleSelection(event: any) {
+    this.message += event.char;
   }
 }
