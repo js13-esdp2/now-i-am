@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ChatRoomData, ChatRoom } from '../../models/chatRoom.model';
+import { ChatRoom, ChatRoomData } from '../../models/chatRoom.model';
 import { Message, NewMessages } from '../../models/message.model';
 
 export const createNewChatRoom = createAction('[Chat] Post ChatRoom Request', props<{ chatRoomData: ChatRoomData }>());
