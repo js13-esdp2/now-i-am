@@ -5,9 +5,10 @@ const {nanoid} = require('nanoid');
 const mongoose = require('mongoose');
 
 const config = require('../config');
-const Post = require('../models/Post');
 const auth = require('../middleware/auth');
+const Post = require('../models/Post');
 const User = require('../models/User');
+const Category = require('../models/Category');
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.get('/', async (req, res, next) => {
   try {
     const query = { isVisible: true };
     const projection = {};
+    const sort = { likes: 'desc' };
 
     const users = await User.find(req.query);
     query['user'] = users.map(user => {
@@ -39,11 +41,12 @@ router.get('/', async (req, res, next) => {
     if (req.query.title) {
       query['$text'] = { $search: req.query.title };
       projection['score'] = { $meta: 'textScore' };
+      sort['score'] = { $meta: 'textScore' };
     }
 
     const posts = await Post.find(query, projection)
       .populate('user', 'displayName photo')
-      .sort(projection);
+      .sort(sort);
 
     return res.send(posts);
   } catch (e) {
@@ -103,6 +106,14 @@ router.post('/', upload.single('content'), async (req, res, next) => {
       postData.content = imagePath;
     }
 
+    let category = await Category.findOne({ title: postData.title });
+    if (!category) {
+      category = new Category({ title: postData.title, posts: 1 });
+    } else category.posts++;
+
+    await category.save();
+    postData.categoryId = category._id;
+
     const post = new Post(postData);
     await post.save();
 
@@ -127,6 +138,12 @@ router.post('/:id/like', auth, async (req, res, next) => {
 
     post.likes.push({user: req.user._id});
     await post.save();
+
+    const category = await Category.findById(post.categoryId);
+    if (category) {
+      category.likes++;
+      await category.save();
+    }
 
     res.send(post);
   } catch (e) {

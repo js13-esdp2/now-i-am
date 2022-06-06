@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DeleteChatModalComponent } from '../../../ui/delete-chat-modal/delete-chat-modal.component';
 import { ChatRoom, DialogDeleteData } from '../../../models/chatRoom.model';
 import { environment as env } from '../../../../environments/environment';
