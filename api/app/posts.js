@@ -27,6 +27,7 @@ router.get('/', async (req, res, next) => {
   try {
     const query = { isVisible: true };
     const projection = {};
+    const sort = { likes: 'desc' };
 
     const users = await User.find(req.query);
     query['user'] = users.map(user => {
@@ -40,11 +41,12 @@ router.get('/', async (req, res, next) => {
     if (req.query.title) {
       query['$text'] = { $search: req.query.title };
       projection['score'] = { $meta: 'textScore' };
+      sort['score'] = { $meta: 'textScore' };
     }
 
     const posts = await Post.find(query, projection)
       .populate('user', 'displayName photo')
-      .sort(projection);
+      .sort(sort);
 
     return res.send(posts);
   } catch (e) {
