@@ -5,9 +5,10 @@ const {nanoid} = require('nanoid');
 const mongoose = require('mongoose');
 
 const config = require('../config');
-const Post = require('../models/Post');
 const auth = require('../middleware/auth');
+const Post = require('../models/Post');
 const User = require('../models/User');
+const Category = require('../models/Category');
 
 const router = express.Router();
 
@@ -103,6 +104,14 @@ router.post('/', upload.single('content'), async (req, res, next) => {
       postData.content = imagePath;
     }
 
+    let category = await Category.findOne({ title: postData.title });
+    if (!category) {
+      category = new Category({ title: postData.title, posts: 1 });
+    } else category.posts++;
+
+    await category.save();
+    postData.categoryId = category._id;
+
     const post = new Post(postData);
     await post.save();
 
@@ -127,6 +136,12 @@ router.post('/:id/like', auth, async (req, res, next) => {
 
     post.likes.push({user: req.user._id});
     await post.save();
+
+    const category = await Category.findById(post.categoryId);
+    if (category) {
+      category.likes++;
+      await category.save();
+    }
 
     res.send(post);
   } catch (e) {
