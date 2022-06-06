@@ -73,6 +73,7 @@ import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -136,6 +137,7 @@ const socialConfig: SocialAuthServiceConfig = {
     DeleteChatModalComponent,
     ChatListComponent,
     ChatRoomComponent,
+    AutocompleteCategoriesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<mat-autocomplete>
+  <mat-option
+    *ngFor="let category of (isTextInput ? (categories | async) : [])"
+    [value]="category.title"
+  >
+    {{ category.title }}
+  </mat-option>
+</mat-autocomplete>
