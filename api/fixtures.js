@@ -116,7 +116,7 @@ const run = async () => {
   const minutes = 1;
   const timer = (hours * 3600) + (minutes * 60);
   const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
-  const invisibleDate = new Date((invisibleAtUnixTime  * 1000)).toString();
+  const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
 
   await Post.create({
     user: anna,
@@ -231,19 +231,26 @@ const run = async () => {
   },
 );
 
-  const chatRoomInbox = caitlyn._id.toString() + james._id.toString();
+  const firstChatRoomInbox = caitlyn._id.toString() + james._id.toString();
+  const secondChatRoomInbox = caitlyn._id.toString() + cara._id.toString();
+  const thirdChatRoomInbox = james._id.toString() + cara._id.toString();
+  const forthChatRoomInbox = james._id.toString() + john._id.toString();
+  const fifthChatRoomInbox = john._id.toString() + caitlyn._id.toString();
+  const sixthChatRoomInbox = john._id.toString() + cara._id.toString();
 
   const [messageFromCaitlyn, messageFromJohn] = await Message.create({
-    chatRoomInbox: chatRoomInbox,
+    chatRoomInbox: firstChatRoomInbox,
     text: 'Hi, James! How are you doing?',
     userFrom: caitlyn,
     userTo: james,
+    isRead: true,
     createdAt: '10 мая 2022 г., 12:00:00'
   }, {
-    chatRoomInbox: chatRoomInbox,
+    chatRoomInbox: firstChatRoomInbox,
     text: 'Hello Caitlyn! Not bad',
     userFrom: james,
     userTo: caitlyn,
+    isRead: true,
     createdAt: '10 мая 2022 г., 12:05:00'
   });
 
@@ -251,25 +258,93 @@ const run = async () => {
     owner: caitlyn,
     chattingWith: james,
     name: 'James',
-    chatRoomInbox: chatRoomInbox,
+    chatRoomInbox: firstChatRoomInbox,
     lastMessage: 'Hello Caitlyn! Not bad',
     messages: [
       messageFromCaitlyn,
       messageFromJohn
     ]
-  })
-
-  await ChatRoom.create({
+  }, {
     owner: james,
     chattingWith: caitlyn,
     name: 'Caitlyn',
-    chatRoomInbox: chatRoomInbox,
+    chatRoomInbox: firstChatRoomInbox,
     lastMessage: 'Hello Caitlyn! Not bad',
     messages: [
       messageFromCaitlyn,
       messageFromJohn
     ]
-  });
+  }, {
+    owner: caitlyn,
+    chattingWith: cara,
+    name: 'Cara',
+    chatRoomInbox: secondChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: cara,
+    chattingWith: caitlyn,
+    name: 'Caitlyn',
+    chatRoomInbox: secondChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: james,
+    chattingWith: cara,
+    name: 'Cara',
+    chatRoomInbox: thirdChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: cara,
+    chattingWith: james,
+    name: 'James',
+    chatRoomInbox: thirdChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: james,
+    chattingWith: john,
+    name: 'John',
+    chatRoomInbox: forthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: john,
+    chattingWith: james,
+    name: 'James',
+    chatRoomInbox: forthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: john,
+    chattingWith: caitlyn,
+    name: 'Caitlyn',
+    chatRoomInbox: fifthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: caitlyn,
+    chattingWith: john,
+    name: 'John',
+    chatRoomInbox: fifthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: john,
+    chattingWith: cara,
+    name: 'Cara',
+    chatRoomInbox: sixthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  }, {
+    owner: cara,
+    chattingWith: john,
+    name: 'John',
+    chatRoomInbox: sixthChatRoomInbox,
+    lastMessage: '',
+    messages: []
+  },)
 
 
   await mongoose.connection.close();

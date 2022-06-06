@@ -73,6 +73,7 @@ import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
 
 const vkLoginOptions = {
@@ -173,6 +174,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatTabsModule,
     MatAutocompleteModule,
     MatBadgeModule,
+    NgxEmojiPickerModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

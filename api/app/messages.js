@@ -55,7 +55,8 @@ router.put('/areRead', async (req, res, next) => {
     const chattingWithChatRoom = await ChatRoom.findOne(filterParam);
 
     const myChatRoom = await ChatRoom.findOneAndUpdate(
-      {owner: messageData.myId}, {$set: {newMessagesCounter: 0}}
+      {owner: messageData.myId, chatRoomInbox: messageData.chatRoomInbox},
+      {$set: {newMessagesCounter: 0}}
     );
 
     const updatedMessages = [...chattingWithChatRoom.messages];
