@@ -7,6 +7,7 @@ const ChatRoom = require('./models/ChatRoom');
 const {nanoid} = require('nanoid');
 const Message = require('./models/Message');
 const Friends = require('./models/Friends');
+const Category = require('./models/Category');
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -97,6 +98,19 @@ const run = async () => {
     friend: anna,
   });
 
+  const [coffeeCat, teaCat, colaCat, netflixCat] = await Category.create({
+    title: 'Пью кофе',
+    posts: 1
+  }, {
+    title: 'Пью чай',
+    posts: 2
+  }, {
+    title: 'Пью коллу',
+    posts: 3
+  }, {
+    title: 'Смотрю Neflix',
+    posts: 1
+  });
 
   const hours = 0;
   const minutes = 1;
@@ -106,6 +120,7 @@ const run = async () => {
 
   await Post.create({
     user: anna,
+    categoryId: coffeeCat,
     title: 'Пью кофе',
     content: 'drinkingcoffee.jpg',
     datetime: new Date().toISOString(),
@@ -119,6 +134,7 @@ const run = async () => {
     },
   }, {
     user: john,
+    categoryId: teaCat,
     title: 'Пью чай',
     content: 'drinkingtea.jpg',
     datetime: new Date().toISOString(),
@@ -132,6 +148,7 @@ const run = async () => {
     },
   }, {
     user: james,
+    categoryId: colaCat,
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
@@ -149,6 +166,7 @@ const run = async () => {
     }
   }, {
     user: james,
+    categoryId: teaCat,
     title: 'Пью чай',
     content: 'drinkingtea.jpg',
     datetime: new Date().toISOString(),
@@ -162,6 +180,7 @@ const run = async () => {
     },
   }, {
     user: john,
+    categoryId: colaCat,
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
@@ -179,6 +198,7 @@ const run = async () => {
     }
   }, {
     user: anna,
+    categoryId: colaCat,
     title: 'Пью коллу',
     content: 'enjoycola.jpeg',
     datetime: new Date().toISOString(),
@@ -192,6 +212,7 @@ const run = async () => {
     },
   }, {
     user: cara,
+    categoryId: netflixCat,
     title: 'Смотрю Neflix',
     content: 'watching-neflix.jpg',
     datetime: new Date().toISOString(),
