@@ -11,7 +11,10 @@
              required
              ngModel
              #title="ngModel"
+             [matAutocomplete]="categories.autocomplete"
+             (input)="categories.getCategories(title.value)"
       />
+      <app-autocomplete-categories #categories="appAutocompleteCategories"></app-autocomplete-categories>
       <mat-error *ngIf="title.touched && title.hasError('required')">
         Поле обязательное для ввода
       </mat-error>

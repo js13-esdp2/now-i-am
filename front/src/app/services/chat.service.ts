@@ -4,8 +4,12 @@ import { AppState } from '../store/types';
 import { Store } from '@ngrx/store';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ChatRoom, ChatRoomData } from '../models/chatRoom.model';
-import { Message, MessageData } from '../models/message.model';
-import { addNewMessageToChatRoom } from '../store/chat/chat.actions';
+import { Message, MessageData, MessagesAreReadData, NewMessages } from '../models/message.model';
+import {
+  addNewMessageToChatRoom,
+  addNewMessageToNewMessagesCounter,
+  getUsersChatRooms
+} from '../store/chat/chat.actions';
 import { WebsocketService } from './websocket.service';
 
 @Injectable({
@@ -26,10 +30,7 @@ export class ChatService {
     store.select(state => state.chat.chatRoom).subscribe(chatRoom => {
       this.chatRoom = chatRoom;
     })
-    // this.websocketService.ws.onmessage = (event) => {
-    //   const decodedMessage = JSON.parse(event.data);
-    //   this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
-    // }
+    this.getMessages();
   }
 
   sendMessage(messageData: MessageData) {
@@ -37,19 +38,35 @@ export class ChatService {
       type: 'NEW_MESSAGE',
       messageData: messageData,
     }));
-      this.websocketService.onmessage = (event) => {
-        const decodedMessage = JSON.parse(event.data);
-        this.store.dispatch(addNewMessageToChatRoom({newMessage: decodedMessage.newMessage}));
-      }
-
-      this.websocketService.onEvent('GET_MESSAGE').subscribe(messageData => {
-        console.log(messageData);
-      })
   }
 
-  messageIsRead(messageId: string) {
-    this.http.put<Message>(`${env.apiUrl}/messages/isRead/${messageId}`, messageId).subscribe((response) => {
-    });
+  getMessages() {
+    this.websocketService.onmessage = (event) => {
+      const decodedMessage = JSON.parse(event.data);
+      const newMessage = decodedMessage.newMessage;
+
+      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
+        this.store.dispatch(addNewMessageToChatRoom({newMessage}));
+      }
+
+      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+        const messageIsReadData = {
+          ownerId: this.chatRoom?.chattingWith._id,
+          chatRoomInbox: newMessage.chatRoomInbox,
+          myId: this.myId,
+        }
+        this.messagesAreRead(messageIsReadData);
+      } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+        this.store.dispatch(getUsersChatRooms({userId: this.myId}));
+        this.store.dispatch(addNewMessageToNewMessagesCounter());
+      }
+    }
+  }
+
+  messagesAreRead(messagesAreReadData: MessagesAreReadData) {
+    this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData}).subscribe((response) => {
+      // console.log(response);
+    })
   }
 
   getUsersChatRooms(userId: string | undefined) {
@@ -80,6 +97,10 @@ export class ChatService {
 
   getChatRoomById(chatRoomId: string | null) {
     return this.http.get<ChatRoom>(`${env.apiUrl}/chat/${chatRoomId}`);
+  }
+
+  getUsersAllNewMessages(userId: string | undefined) {
+    return this.http.get<NewMessages>(`${env.apiUrl}/messages/all/new/${userId}`);
   }
 }
 

@@ -62,7 +62,12 @@
              id="sms-icon"
              title="Сообщения"
           >
-            <mat-icon>sms</mat-icon>
+            <mat-icon
+              [matBadge]="newMessagesAmount"
+              matBadgePosition="before"
+              matBadgeColor="warn"
+              [matBadgeHidden]="isHidden"
+            >sms</mat-icon>
           </a>
         </nav>
         <button mat-icon-button [matMenuTriggerFor]="menu">

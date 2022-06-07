@@ -5,14 +5,21 @@ import {
   changeChatRoom,
   createNewChatRoom,
   createNewChatRoomFailure,
-  createNewChatRoomSuccess, deleteAllMessages,
+  createNewChatRoomSuccess, decreaseMessagesCounter,
+  deleteAllMessages,
   deleteAllMessagesFailure,
   deleteAllMessagesSuccess,
   deleteChatRoomFailure,
   deleteChatRoomRequest,
   deleteChatRoomSuccess,
-  deleteMyMessages, deleteMyMessagesFailure,
-  deleteMyMessagesSuccess, getChatRoomByIdFailure, getChatRoomByIdRequest, getChatRoomByIdSuccess,
+  deleteMyMessages,
+  deleteMyMessagesFailure,
+  deleteMyMessagesSuccess,
+  getAllNewMessages, getAllNewMessagesFailure,
+  getAllNewMessagesSuccess,
+  getChatRoomByIdFailure,
+  getChatRoomByIdRequest,
+  getChatRoomByIdSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
   getUsersChatRoomsSuccess
@@ -106,7 +113,18 @@ export class ChatEffects {
     mergeMap(({chatRoomId}) => this.chatService.getChatRoomById(chatRoomId)
       .pipe(
         map((chatRoom) => getChatRoomByIdSuccess({chatRoom})),
+        tap(({chatRoom}) => this.store.dispatch(decreaseMessagesCounter({decreaseNumber: chatRoom.newMessagesCounter}))),
+        tap(({chatRoom}) => this.store.dispatch(getUsersChatRooms({userId: this.userId}))),
         this.helpers.catchServerError(getChatRoomByIdFailure)
+      ))
+  ));
+
+  getUsersAllNewMessages = createEffect(() => this.actions.pipe(
+    ofType(getAllNewMessages),
+    mergeMap(({userId}) => this.chatService.getUsersAllNewMessages(userId)
+      .pipe(
+        map((newMessages) => getAllNewMessagesSuccess({newMessages})),
+        this.helpers.catchServerError(getAllNewMessagesFailure)
       ))
   ));
 }

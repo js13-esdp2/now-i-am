@@ -4,6 +4,8 @@ import { AppState } from './store/types';
 import { Observable, Subscription } from 'rxjs';
 import { User } from './models/user.model';
 import { WebsocketService } from './services/websocket.service';
+import { ChatService } from './services/chat.service';
+import { getAllNewMessages } from './store/chat/chat.actions';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +20,7 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private websocketService: WebsocketService,
+    private chatService: ChatService,
   ) {
     this.user = store.select(state => state.users.user);
   }
@@ -26,6 +29,7 @@ export class AppComponent implements OnInit {
     this.userSub = this.user.subscribe((user) => {
       if (user) {
         this.websocketService.userConnect(user._id);
+        this.store.dispatch(getAllNewMessages({userId: user._id}));
       } else {
         this.websocketService.userDisconnect();
       }

@@ -10,7 +10,24 @@
       <input
         class="search-block__input"
         placeholder="Поиск"
+        matInput
+        [matAutocomplete]="auto"
+        [formControl]="myControl"
       >
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          class="search-block__option-mobile"
+          [routerLink]="['/chat-room/' + chatRoom._id]"
+          *ngFor="let chatRoom of (filteredChatRooms | async)" [value]="chatRoom">
+          {{ chatRoom.name }}
+        </mat-option>
+        <mat-option
+          class="search-block__option-desktop"
+          (click)="changeChatRoom(chatRoom)"
+          *ngFor="let chatRoom of (filteredChatRooms | async)" [value]="chatRoom">
+          {{ chatRoom.name }}
+        </mat-option>
+      </mat-autocomplete>
     </div>
 
     <div class="chat-list-content">
@@ -67,8 +84,10 @@
         </div>
 
 
-        <div class="chat-list-content__new-messages">
-            20
+        <div
+          *ngIf="checkIfThereAreNewMessages(chatRoom.newMessagesCounter)"
+          class="chat-list-content__new-messages">
+            {{ chatRoom.newMessagesCounter }}
         </div>
         <div class="chat-list-content__more-icon_wrapper">
           <img

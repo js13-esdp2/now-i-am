@@ -1,8 +1,18 @@
-import { EditUserError, LoginError, RecoveryData, RegisterError, User } from '../models/user.model';
+import {
+  ApiCountryData,
+  City,
+  Country,
+  EditUserError,
+  LoginError,
+  RecoveryData,
+  RegisterError,
+  User
+} from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
 import { CountriesModel } from '../models/countries.model';
+import { Category } from '../models/category.model';
 
 
 export type UsersState = {
@@ -58,6 +68,7 @@ export type SearchState = {
 export type ChatState = {
   chatRoom: undefined | null | ChatRoom,
   chatRooms: ChatRoom[],
+  allNewMessages: number,
   fetchLoading: boolean,
   fetchError: null | string,
   createLoading: boolean,
@@ -72,10 +83,17 @@ export type CountriesState = {
 }
 
 
+export type CategoriesState = {
+  categories: Category[];
+  fetchLoading: boolean;
+  fetchError: null | string;
+}
+
 export type AppState = {
   users: UsersState,
   posts: PostState,
   search: SearchState,
   chat: ChatState,
   countries: CountriesState,
+  categories: CategoriesState,
 }

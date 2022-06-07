@@ -12,7 +12,10 @@
              required
              ngModel
              #search="ngModel"
+             [matAutocomplete]="categories.autocomplete"
+             (input)="categories.getCategories(search.value)"
       />
+      <app-autocomplete-categories #categories="appAutocompleteCategories"></app-autocomplete-categories>
       <mat-error *ngIf="search.touched && search.hasError('required')">
         Поле обязательное для ввода
       </mat-error>
