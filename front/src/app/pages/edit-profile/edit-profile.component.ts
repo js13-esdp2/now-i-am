@@ -91,6 +91,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
+      country: this.myControl.value.country,
       city: this.form.value.city,
       isPrivate: this.form.value.isPrivate
     };

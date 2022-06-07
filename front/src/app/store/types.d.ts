@@ -1,13 +1,4 @@
-import {
-  ApiCountryData,
-  City,
-  Country,
-  EditUserError,
-  LoginError,
-  RecoveryData,
-  RegisterError,
-  User
-} from '../models/user.model';
+import { EditUserError, LoginError, RecoveryData, RegisterError, User } from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
