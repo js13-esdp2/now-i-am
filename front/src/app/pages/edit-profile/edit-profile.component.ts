@@ -3,7 +3,7 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { editUserRequest } from '../../store/users/users.actions';
 import { City, CountriesApi } from '../../models/countries.model';
 import { fetchCountriesRequest } from '../../store/countries/countries.actions';
@@ -91,9 +91,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
-      country: this.myControl.value.country,
-      city: this.form.value.city,
-      isPrivate: this.form.value.isPrivate
+      country: this.myControl.value.country || 'Не указано',
+      city: this.form.value.city || 'Не указано',
+      isPrivate: this.form.value.isPrivate,
     };
 
     if (this.form.value.age) {
