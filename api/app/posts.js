@@ -46,7 +46,7 @@ router.get('/', async (req, res, next) => {
 
     const posts = await Post.find(query, projection)
       .populate('user', 'displayName photo')
-      .sort(sort);
+      .sort(sort)
       .populate('user', 'displayName photo').populate([{path: 'comments.user', select: 'displayName photo'}])
       .sort(projection);
 
