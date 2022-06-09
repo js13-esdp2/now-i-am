@@ -86,7 +86,9 @@
       </nav>
     </mat-toolbar>
     <div class="content" (window:resize)="onResize($event)">
-      <ng-content></ng-content>
+      <div class="container">
+        <ng-content></ng-content>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

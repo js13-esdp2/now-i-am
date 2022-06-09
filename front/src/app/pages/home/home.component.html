@@ -1,12 +1,12 @@
 <div class="home-block">
-  <h3 class="home-block__title">Каждую секунду люди во всем мире чем-то заняты...</h3>
+  <h3 class="home-title">Каждую секунду люди во всем мире чем-то заняты...</h3>
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
         class="home-form"
   >
-    <mat-form-field appearance="outline" class="home-form__searchInput">
+    <mat-form-field appearance="outline" class="home-form-field">
       <mat-label>Название занятия</mat-label>
-      <input type="text"
+      <input type="text" class="home-input"
              name="search"
              matInput
              required
@@ -17,12 +17,12 @@
         Поле обязательное для ввода
       </mat-error>
     </mat-form-field>
-    <p class="home-form__subtitle">Посмотри сколько людей занимаются тем же</p>
+    <p class="home-subtitle">Посмотри сколько людей занимаются тем же</p>
     <button mat-raised-button
-            class="home-form__searchBtn"
+            class="home-btn"
             [disabled]="f.invalid || (isLoading)"
     >
-      <app-loader [isLoading]="isLoading" class="home-form__search-slider" size="sm">
+      <app-loader [isLoading]="isLoading" class="" size="sm">
         <span>Посмотреть</span>
       </app-loader>
     </button>

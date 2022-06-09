@@ -1,4 +1,5 @@
-export class Post{
+
+export class Post {
   constructor(
     public _id: string,
     public user: {
@@ -21,11 +22,17 @@ export class Post{
       lat: number
       lng: number
     },
-    public comment: [{
-      user: string,
+    public comments: [{
+      _id: string,
+      user: {
+        displayName: string,
+        photo: string,
+        _id: string
+      },
       text: string
     }]
-    ) {}
+  ) {
+  }
 }
 
 export interface FilterData {
@@ -73,13 +80,24 @@ export interface ApiPostData {
     lat: number,
     lng: number
   },
-  comment: [
-    {user: string,
-    text: string}
+  comments: [{
+      _id: string,
+    user: {
+      displayName: string,
+      photo: string,
+      _id: string
+    },
+      text: string,
+    }
   ]
 }
 
 export interface CommentData {
   comment: string,
   postId: string
+}
+
+export interface RemoveCommentData {
+  postId: string,
+  commentId: string
 }

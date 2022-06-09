@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { CommentData, Post, PostData, PostModalData } from '../../models/post.model';
+import { CommentData, Post, PostData, PostModalData, RemoveCommentData } from '../../models/post.model';
 
 export const fetchPostsRequest = createAction('[Posts] Fetch Request');
 export const fetchPostsSuccess = createAction('[Posts] Fetch Success', props<{posts: Post[]}>());
@@ -36,5 +36,8 @@ export const createPostCommentRequest = createAction('[Comment] Create Request',
 export const createPostCommentSuccess = createAction('[Comment] Create Success');
 export const createPostCommentFailure = createAction('[Comment] Create Failure', props<{error: string}>());
 
+export const removePostCommentRequest = createAction('[Comment] Remove Request', props<{comment: RemoveCommentData}>());
+export const removePostCommentSuccess = createAction('[Comment] Remove Success');
+export const removePostCommentFailure = createAction('[Comment] Remove Failure', props<{error: string}>());
 
 export const onPostModalDataChange = createAction('[Posts] Change Post Modal Data', props<{postModalData: PostModalData}>());

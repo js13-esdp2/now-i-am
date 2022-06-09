@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const CommentSchema = require('./Comment').CommentSchema;
 
 const TimesSchema = new Schema({
   hours: Number,
@@ -59,16 +60,7 @@ const PostSchema = new Schema({
       type: Number
     }
   } | null,
-  comment: [{
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
-    text: {
-      type: String,
-    }
-  }]
+  comments: [CommentSchema],
 });
 
 PostSchema.index({ title: 'text' });

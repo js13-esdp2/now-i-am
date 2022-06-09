@@ -7,6 +7,7 @@ const ChatRoom = require('./models/ChatRoom');
 const {nanoid} = require('nanoid');
 const Message = require('./models/Message');
 const Friends = require('./models/Friends');
+const Comment = require('./models/Comment');
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -104,6 +105,21 @@ const run = async () => {
   const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
   const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
 
+  const [Comm1, Comm2, Comm3] = await Comment.create(
+    {
+      user: anna,
+      text: "Hello"
+    },
+    {
+      user: james,
+      text: "How are you?"
+    },
+    {
+      user: anna,
+      text: "Goodbye"
+    },
+  )
+
   await Post.create({
       user: anna,
       title: 'Пью кофе',
@@ -124,7 +140,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 60,
+      invisibleAtUnixTime: invisibleAtUnixTime + 6,
       invisibleDate: invisibleDate,
       time: {
         hours: 15,
@@ -137,7 +153,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 120,
+      invisibleAtUnixTime: invisibleAtUnixTime + 12000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 12,
@@ -146,7 +162,12 @@ const run = async () => {
       geolocation: {
         lat: 42.844748,
         lng: 74.543953
-      }
+      },
+      comments: [
+        Comm1,
+        Comm2,
+        Comm3
+      ],
     }, {
       user: james,
       title: 'Пью чай',
@@ -154,7 +175,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 180,
+      invisibleAtUnixTime: invisibleAtUnixTime + 10,
       invisibleDate: invisibleDate,
       time: {
         hours: 7,
@@ -167,7 +188,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 2000040,
+      invisibleAtUnixTime: invisibleAtUnixTime + 4,
       invisibleDate: invisibleDate,
       time: {
         hours: 15,
@@ -176,29 +197,7 @@ const run = async () => {
       geolocation: {
         lat: 42.848022,
         lng: 74.645576
-      },
-      comment: [
-        {
-          user: james,
-          text: 'Отличный выбор'
-        },
-        {
-          user: john,
-          text: 'Было бы не плохо встретиться'
-        },
-        {
-          user: anna,
-          text: 'Я с вами!'
-        },
-        {
-          user: cara,
-          text: 'У меня нет времени'
-        },
-        {
-          user: james,
-          text: 'Хорошо'
-        }
-      ],
+      }
     }, {
       user: anna,
       title: 'Пью коллу',
@@ -206,7 +205,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 300,
+      invisibleAtUnixTime: invisibleAtUnixTime + 3,
       invisibleDate: invisibleDate,
       time: {
         hours: 5,
@@ -219,7 +218,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 300,
+      invisibleAtUnixTime: invisibleAtUnixTime + 3,
       invisibleDate: invisibleDate,
       time: {
         hours: 5,
@@ -247,6 +246,8 @@ const run = async () => {
     userTo: caitlyn,
     createdAt: '10 мая 2022 г., 12:05:00'
   });
+
+
 
   await ChatRoom.create({
     owner: caitlyn,

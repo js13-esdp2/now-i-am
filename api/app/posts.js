@@ -8,6 +8,7 @@ const config = require('../config');
 const Post = require('../models/Post');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const Comment = require('../models/Comment');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.get('/', async (req, res, next) => {
     }
 
     const posts = await Post.find(query, projection)
-      .populate('user', 'displayName photo')
+      .populate('user', 'displayName photo').populate([{path: 'comments.user', select: 'displayName photo'}])
       .sort(projection);
 
     return res.send(posts);
@@ -165,27 +166,48 @@ router.get('/my-history-posts/:id', auth, async (req, res, next) => {
   }
 });
 
-router.post('/comment', auth, async (req, res, next) => {
+router.post('/comment', async (req, res, next) => {
   try{
     console.log(req.body);
-    const post =  await Post.findById(req.body.postId);
-    if(post) {
-      const commentData = {
-        user: req.user._id,
-        text: req.body.comment
-      }
-      post.comment.push(commentData);
-      await post.save();
-    } else {
-      return res.status(404).send({error: 'Комментарий не создан'});
+
+    const commentData = {
+      user: req.body.user,
+      text: req.body.text
     }
-    res.send(post);
+    const comment = await new Comment(commentData)
+    res.send(comment);
+    // console.log(req.body);
+    // const post =  await Post.findById(req.body.postId);
+    // if(post) {
+    //   const commentData = {
+    //     user: req.user._id,
+    //     text: req.body.comment
+    //   }
+    //   post.comment.push(commentData);
+    //   await post.save();
+    // } else {
+    //   return res.status(404).send({error: 'Комментарий не создан'});
+    // }
+    // res.send(post);
   } catch (e) {
     next(e);
   }
 })
 
-
+router.delete('/:id/:post', auth, async (req,res,next) => {
+  try {
+    // const post = await Post.findById(req.params.post);
+    // const result = post.comment.filter(comment => comment._id !== req.params.id);
+    // const index = post.comment.findIndex(item => item.id === req.params.id)
+    // const array = post.comment.slice(1, index);
+    // console.log(result);
+    // console.log(index);
+    // console.log(array);
+    // res.send(post);
+  } catch (e) {
+    next(e);
+  }
+})
 
 const checkIfPostsAreOnline = () => {
   setInterval(async () => {

@@ -76,10 +76,10 @@
       <button type="button" mat-raised-button (click)="showComments()"><mat-icon>comment</mat-icon></button>
     </mat-card-actions>
     <mat-card-content class="comments-block" *ngIf="(commentsShow)">
-      <div *ngFor="let comments of postData?.comment" class="comments-block__comment">
-        <b class="comments-block__userName">{{ comments.user }}</b>
-        <p class="comments-block__text">: {{ comments.text }}</p>
-        <button class="comments-block__btn" *ngIf="(comments.user === userData!._id)" mat-button><mat-icon class="comments-block__btn-icon">delete</mat-icon></button>
+      <div *ngFor="let comment of postData?.comments" class="comments-block__comment">
+        <b class="comments-block__userName">{{ comment.user.displayName }}</b>
+        <p class="comments-block__text">: {{ comment.text }}</p>
+        <button class="comments-block__btn" (click)="removeComment(comment._id)" mat-button><mat-icon class="comments-block__btn-icon">delete</mat-icon></button>
       </div>
       <div class="comments-block__write-comment">
         <mat-form-field appearance="fill" style="width: 100%">

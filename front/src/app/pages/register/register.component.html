@@ -63,7 +63,7 @@
       </mat-error>
     </mat-form-field>
     <button mat-raised-button
-            class="btn"
+            class="btn-register"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" size="sm">
@@ -73,8 +73,10 @@
     <span style="text-align: center; padding-top: 10px">
       Вход при помощи:
     </span>
+
     <div fxLayout="row" fxLayoutAlign="center">
       <button
+        class="btn-social"
         type="button"
         mat-raised-button
         color="default"
@@ -84,6 +86,7 @@
         <img src="assets/icons/fb.svg" alt="facebook logo"/>
       </button>
       <button
+        class="btn-social"
         type="button"
         mat-raised-button
         color="default"
@@ -93,6 +96,7 @@
         <img src="assets/icons/google-icon.svg" alt="google logo"/>
       </button>
       <button
+        class="btn-social"
         type="button"
         mat-raised-button
         color="default"

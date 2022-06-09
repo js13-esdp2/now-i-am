@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CommentData, Post } from '../../models/post.model';
+import { ApiPostData, CommentData, Post, RemoveCommentData } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -9,7 +9,7 @@ import {
   createPostCommentRequest,
   fetchOneOfPostRequest,
   likePostRequest,
-  onPostModalDataChange,
+  onPostModalDataChange, removePostCommentRequest,
   removePostRequest
 } from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
@@ -26,7 +26,7 @@ import { searchUsersRequest } from '../../store/search/search.actions';
 export class PostModalComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
   users: Observable<null | User[]>;
-  post: Observable<null | Post>;
+  post: Observable<null | ApiPostData>;
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
@@ -166,5 +166,13 @@ export class PostModalComponent implements OnInit, OnDestroy {
       postId: this.postId,
     }
     this.store.dispatch(createPostCommentRequest({comment: data}))
+  }
+
+  removeComment(commentId: string){
+    const data: RemoveCommentData = {
+      commentId: commentId,
+      postId: this.postId,
+    }
+    this.store.dispatch(removePostCommentRequest({comment: data}))
   }
 }

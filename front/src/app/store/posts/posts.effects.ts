@@ -26,7 +26,7 @@ import {
   fetchUserPostSuccess,
   likePostFailure,
   likePostRequest,
-  likePostSuccess,
+  likePostSuccess, removePostCommentRequest, removePostCommentSuccess,
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
@@ -135,6 +135,17 @@ export class PostsEffects {
         this.helpers.openSnackBar('Комментарий добавлен');
       }),
       catchError(() => of(createPostCommentFailure({error: ''})))
+    ))
+  ));
+
+  removeComment = createEffect(() => this.actions.pipe(
+    ofType(removePostCommentRequest),
+    mergeMap(({comment}) => this.postsService.removeComment(comment).pipe(
+      map(() => removePostCommentSuccess()),
+      tap(() => {
+        this.store.dispatch(fetchOneOfPostRequest({id: comment.postId}))
+        this.helpers.openSnackBar('Комментарий был удален!');
+      })
     ))
   ));
 
