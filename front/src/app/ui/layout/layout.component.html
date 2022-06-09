@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
-    <mat-toolbar class="mat-toolbar">
+    <mat-toolbar class="mat-toolbar" *ngIf="user | async">
       <div class="logo-block">
         <button mat-icon-button class="sidenav-btn" *ngIf="mobWindow" [matMenuTriggerFor]="iconsMenu">
           <span class="material-icons icon-menu">menu</span>

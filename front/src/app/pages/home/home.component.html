@@ -1,4 +1,7 @@
 <div class="home-block">
+  <div class="logo">
+    <img alt="logo" src="./assets/images/logo.svg">
+  </div>
   <h3 class="home-title">Каждую секунду люди во всем мире чем-то заняты...</h3>
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
@@ -27,4 +30,10 @@
       </app-loader>
     </button>
   </form>
+  <div class="block-btn">
+    <button mat-raised-button class="home-btn home-btn-auth" (click)="login()">Вход</button>
+    <button mat-raised-button class="home-btn home-btn-auth" (click)="register()">Регистрация</button>
+  </div>
 </div>
+
+

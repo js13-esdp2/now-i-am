@@ -12,6 +12,7 @@ import {
   SocialUser,
   VKLoginProvider
 } from 'angularx-social-login';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private auth: SocialAuthService,
+    private router: Router,
   ) {
     this.isLoading = store.select(state => state.users.registerLoading);
     this.error = store.select(state => state.users.registerError);
@@ -92,7 +94,13 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     void this.auth.signIn(VKLoginProvider.PROVIDER_ID);
   }
 
+  reply() {
+    void this.router.navigate(['./'])
+  }
+
   ngOnDestroy(): void {
     this.errorSub.unsubscribe();
   }
+
+
 }

@@ -2,6 +2,8 @@
 form
   font-family: 'Comfortaa', cursive
   padding-top: 32px
+  @media screen and (min-width: 769px)
+    position: relative
 
 mat-error
   font-size: 10px
@@ -18,9 +20,27 @@ mat-error
     color: #000
   @media screen and (min-width: 576px)
     width: 360px
+    margin: 0 auto
+    display: block
 
 .btn-social
   background: transparent
   &:hover
     background-color: rgb(0, 0, 0)
     transition: 1s
+
+.register-block
+ text-align: center
+ margin-bottom: 10px
+
+.btn-reply
+  margin: 0
+  padding: 0
+  background: #000000
+  color: #ffff
+  position: absolute
+  top: 20px
+  left: 0
+  border-radius: 0 15px 15px 0
+
+

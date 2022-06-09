@@ -1,7 +1,13 @@
+
+<div>
+  <button mat-button type="button" class="btn-reply" (click)="reply()">
+    <mat-icon>reply</mat-icon>
+  </button>
+</div>
+
 <app-centered-card cardName="Регистрация">
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
-        fxLayout="column"
   >
     <mat-form-field appearance="outline">
       <mat-label>Имя</mat-label>
@@ -62,14 +68,14 @@
         Длина пароля должна быть не менее 6
       </mat-error>
     </mat-form-field>
-    <button mat-raised-button
-            class="btn-register"
-            [disabled]="f.invalid || (isLoading | async)"
-    >
-      <app-loader [isLoading]="isLoading | async" size="sm">
-        Зарегистрироваться
-      </app-loader>
-    </button>
+      <button mat-raised-button
+              class="btn-register"
+              [disabled]="f.invalid || (isLoading | async)"
+      >
+        <app-loader [isLoading]="isLoading | async" size="sm">
+          Зарегистрироваться
+        </app-loader>
+      </button>
     <span style="text-align: center; padding-top: 10px">
       Вход при помощи:
     </span>

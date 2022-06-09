@@ -23,13 +23,13 @@ export class Post {
       lng: number
     },
     public comments: [{
-      _id: string,
+      text: string,
       user: {
+        _id: string,
         displayName: string,
-        photo: string,
-        _id: string
+        photo: string
       },
-      text: string
+      _id: string
     }]
   ) {
   }
@@ -81,13 +81,13 @@ export interface ApiPostData {
     lng: number
   },
   comments: [{
-      _id: string,
+    text: string,
     user: {
+      _id: string,
       displayName: string,
-      photo: string,
-      _id: string
+      photo: string
     },
-      text: string,
+    _id: string
     }
   ]
 }

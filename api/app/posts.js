@@ -43,7 +43,7 @@ router.get('/', async (req, res, next) => {
     }
 
     const posts = await Post.find(query, projection)
-      .populate('user', 'displayName photo').populate([{path: 'comments.user', select: 'displayName photo'}])
+      .populate('user', 'displayName photo').populate('comments.user', '_id displayName photo')
       .sort(projection);
 
     return res.send(posts);
@@ -54,7 +54,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.id).populate('user', 'displayName');
+    const post = await Post.findById(req.params.id).populate('user', 'displayName').populate('comments.user', '_id displayName photo');
     if (!post) {
       return res.status(404).send({message: 'Нет такого поста'});
     }

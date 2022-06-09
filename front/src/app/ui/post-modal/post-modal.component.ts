@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApiPostData, CommentData, Post, RemoveCommentData } from '../../models/post.model';
+import { CommentData, Post, RemoveCommentData } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -26,7 +26,7 @@ import { searchUsersRequest } from '../../store/search/search.actions';
 export class PostModalComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
   users: Observable<null | User[]>;
-  post: Observable<null | ApiPostData>;
+  post: Observable<null | Post>;
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
