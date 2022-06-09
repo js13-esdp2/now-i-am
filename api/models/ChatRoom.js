@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const MessageSchema = require('../models/Message').MessageSchema;
 const Schema = mongoose.Schema;
 
 const dateOptions = {
@@ -10,38 +11,6 @@ const dateOptions = {
   minute: 'numeric',
   second: 'numeric'
 };
-
-
-const MessageSchema = new mongoose.Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-  },
-  userFrom: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  userTo: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  createdAt: {
-    type: String,
-    default: new Date().toLocaleString("ru", dateOptions),
-    required: true,
-  },
-  chatRoomInbox: {
-    type: String,
-    required: true,
-  }
-});
-
 
 const ChatRoomSchema = new Schema({
   owner: {
@@ -63,6 +32,11 @@ const ChatRoomSchema = new Schema({
     required: true,
   },
   lastMessage: String,
+  newMessagesCounter: {
+    type: Number,
+    default: 0,
+    required: false,
+  },
   messages: [MessageSchema],
 });
 

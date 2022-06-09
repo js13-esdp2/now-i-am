@@ -7,7 +7,15 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form" fxLayout="column">
       <mat-form-field appearance="outline" class="titleField">
         <mat-label>Напиши, чем занимаешься ты</mat-label>
-        <input name="title" required matInput formControlName="title" id="title"/>
+        <input name="title"
+               required
+               matInput
+               formControlName="title"
+               id="title"
+               [matAutocomplete]="categories.autocomplete"
+               (input)="categories.getCategories(form.get('title')?.value)"
+        />
+        <app-autocomplete-categories #categories="appAutocompleteCategories"></app-autocomplete-categories>
         <mat-error *ngIf="fieldHasError('title', 'required')" class="invalid-form-text">
           Название обязательно!!!
         </mat-error>

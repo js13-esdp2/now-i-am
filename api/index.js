@@ -10,6 +10,7 @@ const search = require('./app/search');
 const chat = require('./app/chat');
 const messages = require('./app/messages');
 const friends = require('./app/friends');
+const categories = require('./app/categories');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/search', search);
 app.use('/chat', chat);
 app.use('/messages', messages);
 app.use('/friends', friends);
+app.use('/categories', categories);
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);

@@ -9,8 +9,8 @@ export interface ChatRoom {
   chatRoomInbox: string,
   lastMessage: string,
   messages: Message[],
+  newMessagesCounter: number,
 }
-
 
 export interface ChatRoomData {
   participants: (string | undefined)[],

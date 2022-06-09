@@ -19,7 +19,6 @@ router.get('/:chatRoomId', async (req, res, next) => {
   }
 });
 
-
 router.get('/', async (req, res, next) => {
   try {
     if (req.query.ownerId) {
@@ -147,7 +146,8 @@ router.delete('/chatRooms/allMessages', async (req, res, next) => {
   }
 });
 
-websocket.on('NEW_MESSAGE', async (ws, decodedMessage)  => {
+
+websocket.on('NEW_MESSAGE', async (ws, decodedMessage) => {
   const activeConnections = websocket.getActiveConnections;
   const newMessage = await Message.create(decodedMessage.messageData);
   await ChatRoom.updateMany(
@@ -156,6 +156,16 @@ websocket.on('NEW_MESSAGE', async (ws, decodedMessage)  => {
       $set: {lastMessage: newMessage.text},
       $push: {messages: newMessage}
     });
+
+  const filterParam = {
+    owner: newMessage.userTo,
+    chatRoomInbox: newMessage.chatRoomInbox,
+  }
+
+  const chattingWithChatRoom = await ChatRoom.findOneAndUpdate(
+    filterParam,
+    {$inc: {'newMessagesCounter': 1}},
+  );
 
   const sendMessageData = {
     type: 'GET_MESSAGE',

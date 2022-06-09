@@ -21,6 +21,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
   websocketFriendSub!: Subscription;
   apiUrl = env.apiUrl;
+  newMessagesAmount = 0;
+  isHidden = true;
 
   breakpoint = 768;
   mobWindow = false;
@@ -33,6 +35,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private websocketService: WebsocketService,
   ) {
     this.user = store.select((state) => state.users.user);
+    store.select(state => state.chat.allNewMessages).subscribe(newMessagesAmount => {
+      this.newMessagesAmount = newMessagesAmount;
+      this.isHidden = newMessagesAmount === 0;
+    });
   }
 
   ngOnInit() {

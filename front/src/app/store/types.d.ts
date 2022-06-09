@@ -11,6 +11,7 @@ import {
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
+import { Category } from '../models/category.model';
 
 
 export type UsersState = {
@@ -68,6 +69,7 @@ export type SearchState = {
 export type ChatState = {
   chatRoom: undefined | null | ChatRoom,
   chatRooms: ChatRoom[],
+  allNewMessages: number,
   fetchLoading: boolean,
   fetchError: null | string,
   createLoading: boolean,
@@ -88,6 +90,12 @@ export type CityState = {
   fetchError: null | string,
 }
 
+export type CategoriesState = {
+  categories: Category[];
+  fetchLoading: boolean;
+  fetchError: null | string;
+}
+
 export type AppState = {
   users: UsersState,
   posts: PostState,
@@ -95,4 +103,5 @@ export type AppState = {
   country: CountryState,
   capital: CityState,
   chat: ChatState,
+  categories: CategoriesState,
 }

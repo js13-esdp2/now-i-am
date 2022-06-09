@@ -2,10 +2,12 @@ import { ChatState } from '../types';
 import { createReducer, on } from '@ngrx/store';
 import {
   addNewMessageToChatRoom,
+  addNewMessageToNewMessagesCounter,
   changeChatRoom,
   createNewChatRoom,
   createNewChatRoomFailure,
   createNewChatRoomSuccess,
+  decreaseMessagesCounter,
   deleteAllMessages,
   deleteAllMessagesFailure,
   deleteAllMessagesSuccess,
@@ -15,6 +17,9 @@ import {
   deleteMyMessages,
   deleteMyMessagesFailure,
   deleteMyMessagesSuccess,
+  getAllNewMessages,
+  getAllNewMessagesFailure,
+  getAllNewMessagesSuccess,
   getChatRoomByIdFailure,
   getChatRoomByIdRequest,
   getChatRoomByIdSuccess,
@@ -26,6 +31,7 @@ import {
 const initialState: ChatState = {
   chatRoom: null,
   chatRooms: [],
+  allNewMessages: 0,
   fetchLoading: false,
   fetchError: null,
   createLoading: false,
@@ -74,4 +80,20 @@ export const chatReducer = createReducer(
   on(getChatRoomByIdRequest, (state) => ({...state, fetchLoading: true})),
   on(getChatRoomByIdSuccess, (state, {chatRoom}) => ({...state, fetchLoading: false, chatRoom})),
   on(getChatRoomByIdFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
+  on(getAllNewMessages, (state) => ({...state, fetchLoading: true})),
+  on(getAllNewMessagesSuccess, (state, {newMessages}) => ({
+    ...state,
+    fetchLoading: false,
+    allNewMessages: newMessages.allNewMessages
+  })),
+  on(getAllNewMessagesFailure, (state) => ({...state, fetchLoading: false})),
+  on(addNewMessageToNewMessagesCounter, (state) => ({...state, allNewMessages: state.allNewMessages + 1})),
+  on(decreaseMessagesCounter, (state, {decreaseNumber}) => {
+      if (state.allNewMessages === 0 || state.allNewMessages < 0) {
+        return state;
+      }
+      const updatedAllNewMessages = state.allNewMessages - decreaseNumber;
+      return {...state, allNewMessages: updatedAllNewMessages};
+    }
+  )
 )

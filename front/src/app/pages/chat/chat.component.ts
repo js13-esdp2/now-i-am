@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { getUsersChatRooms } from '../../store/chat/chat.actions';
+import { changeChatRoom, getUsersChatRooms } from '../../store/chat/chat.actions';
 import { ChatRoom } from '../../models/chatRoom.model';
 
 @Component({
@@ -10,7 +10,7 @@ import { ChatRoom } from '../../models/chatRoom.model';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.sass']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   chatRoom!: undefined | null | ChatRoom;
   usersToken!: string | undefined;
   userId!: string | undefined;
@@ -30,5 +30,9 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(getUsersChatRooms({userId: this.userId}));
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(changeChatRoom({chatRoom: null}));
   }
 }
