@@ -1,16 +1,8 @@
-import {
-  ApiCountryData,
-  City,
-  Country,
-  EditUserError,
-  LoginError,
-  RecoveryData,
-  RegisterError,
-  User
-} from '../models/user.model';
+import { EditUserError, LoginError, RecoveryData, RegisterError, User } from '../models/user.model';
 import { Post, PostModalData } from '../models/post.model';
 import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
+import { CountriesModel } from '../models/countries.model';
 import { Category } from '../models/category.model';
 
 
@@ -31,14 +23,12 @@ export type UsersState = {
   fetchFriendsError: null | string,
   fetchUserLoading: boolean,
   fetchUserError: null | string,
-  country: ApiCountryData[],
   fetchLoading: boolean,
   fetchError: null | string,
   fetchPasswordLoading: boolean,
   fetchPasswordError: null | LoginError,
   checkCodeLoading: boolean,
   checkCodeError: null | LoginError,
-  capital: City[],
   removeFriendLoading: boolean,
   removeFriendError: null | string,
   changePasswordLoading: boolean,
@@ -78,17 +68,11 @@ export type ChatState = {
   deleteError: null | string,
 }
 
-export type CountryState = {
-  country: Country[];
-  fetchLoading: boolean,
+export type CountriesState = {
+  countries: CountriesModel[];
   fetchError: null | string,
 }
 
-export type CityState = {
-  capital: City[];
-  fetchLoading: boolean,
-  fetchError: null | string,
-}
 
 export type CategoriesState = {
   categories: Category[];
@@ -100,8 +84,7 @@ export type AppState = {
   users: UsersState,
   posts: PostState,
   search: SearchState,
-  country: CountryState,
-  capital: CityState,
   chat: ChatState,
+  countries: CountriesState,
   categories: CategoriesState,
 }

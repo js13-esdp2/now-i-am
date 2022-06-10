@@ -5,21 +5,21 @@ import {
   addFriendFailure,
   addFriendRequest,
   addFriendSuccess,
-  checkCodeFailure,
-  checkCodeRequest,
-  checkCodeSuccess,
   changeUserPasswordFailure,
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
-  fetchCountriesFailure,
-  fetchCountriesRequest,
-  fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
+  fetchFriendsSuccess,
+  fetchPasswordFailure,
+  fetchPasswordRequest,
+  fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -43,7 +43,7 @@ import {
   removeFriendRequest,
   removeFriendSuccess
 } from './users.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelpersService } from '../../services/helpers.service';
 import { Store } from '@ngrx/store';
@@ -89,14 +89,6 @@ export class UsersEffects {
       }),
       this.helpersService.catchServerError(editUserFailure)
     )),
-  ));
-
-  fetchCountries = createEffect(() => this.actions.pipe(
-    ofType(fetchCountriesRequest),
-    mergeMap(() => this.usersService.getCountries().pipe(
-      map(countries => fetchCountriesSuccess({countries})),
-      catchError(() => of(fetchCountriesFailure({error: 'Нет такого города!'})))
-    ))
   ));
 
   loginUser = createEffect(() => this.actions.pipe(

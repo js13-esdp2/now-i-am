@@ -10,6 +10,7 @@ const search = require('./app/search');
 const chat = require('./app/chat');
 const messages = require('./app/messages');
 const friends = require('./app/friends');
+const countries = require('./app/countries');
 const categories = require('./app/categories');
 
 const app = express();
@@ -36,6 +37,7 @@ app.use('/search', search);
 app.use('/chat', chat);
 app.use('/messages', messages);
 app.use('/friends', friends);
+app.use('/countries', countries);
 app.use('/categories', categories);
 
 const run = async () => {

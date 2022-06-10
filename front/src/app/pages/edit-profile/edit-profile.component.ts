@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, startWith, Subscription } from 'rxjs';
-import { ApiCountryData, User } from '../../models/user.model';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { map, Observable, startWith, Subscription } from 'rxjs';
+import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { FormControl, NgForm } from '@angular/forms';
-import { editUserRequest, fetchCountriesRequest } from '../../store/users/users.actions';
-import { map } from 'rxjs/operators';
+import { editUserRequest } from '../../store/users/users.actions';
+import { City, CountriesApi } from '../../models/countries.model';
+import { fetchCountriesRequest } from '../../store/countries/countries.actions';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,44 +16,46 @@ import { map } from 'rxjs/operators';
 export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
   user: Observable<null | User>;
-  country: Observable<ApiCountryData[]>;
+  country: Observable<CountriesApi[]>;
+  cities!: City[];
   isLoading: Observable<boolean>;
   countrySub!: Subscription;
-  cityData!: string;
 
   isPhotoExists: boolean = false;
+  isSearched = true;
   private userData!: User;
   private userSub!: Subscription;
 
-  countryData: ApiCountryData [] | null = null;
-
   myControl = new FormControl();
-  options!: ApiCountryData[];
-  filteredOptions!: Observable<ApiCountryData[]>;
+  options!: CountriesApi[];
+  filteredOptions!: Observable<CountriesApi[]>;
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.user = store.select((state) => state.users.user);
-    this.country = store.select((state) => state.users.country);
+    this.country = store.select((state) => state.countries.countries);
     this.isLoading = store.select((state) => state.users.editLoading);
   }
 
   ngOnInit(): void {
+    this.store.dispatch(fetchCountriesRequest());
+
     this.userSub = this.user.subscribe((user) => {
       if (user) {
         this.userData = user;
-        this.isPhotoExists = !!user.photo;}
+        this.isPhotoExists = !!user.photo;
+      }
     });
+
     this.countrySub = this.country.subscribe(countryInfo => {
       this.options = countryInfo;
     });
-    this.store.dispatch(fetchCountriesRequest());
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value.city)),
-      map(city => (city ? this._filter(city) : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : 'Россия')),
+      map(country => (country ? this._filter(country) : this.options.slice())),
     );
   }
 
@@ -63,6 +66,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       aboutMe: this.userData.aboutMe || '',
       age: this.userData.birthday || '',
       sex: this.userData.sex || '',
+      city: this.userData.city || '',
       isPrivate: this.userData.isPrivate || false
     });
   }
@@ -78,27 +82,18 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    let countryData = '';
-
     if (this.form.invalid) {
       return;
     }
-
-    this.options.forEach(data  => {
-      if(data.city === this.cityData){
-        countryData = data.country;
-      }
-    })
-
     const userData = {
       photo: this.form.value.photo,
       displayName: this.form.value.displayName,
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
-      country: countryData,
-      city: this.cityData,
-      isPrivate: this.form.value.isPrivate
+      country: this.myControl.value.country || 'Не указано',
+      city: this.form.value.city || 'Не указано',
+      isPrivate: this.form.value.isPrivate,
     };
 
     if (this.form.value.age) {
@@ -107,14 +102,18 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(editUserRequest({userData}));
   }
 
-  displayFn(data: ApiCountryData): string {
-    return data && data.city ? data.city : '';
+  displayFn(data: CountriesApi): string {
+    return data && data.country ? data.country : '';
   }
 
-  private _filter(city: string): ApiCountryData[] {
-    const filterValue = city.toLowerCase();
-    this.cityData = city;
-    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
+  private _filter(country: string): CountriesApi[] {
+    const filterValue = country.toLowerCase();
+    return this.options.filter(option => option.country.toLowerCase().includes(filterValue));
+  }
+
+  getCities(cities: City[]) {
+    this.cities = cities;
+    this.isSearched = false;
   }
 
   ngOnDestroy(): void {

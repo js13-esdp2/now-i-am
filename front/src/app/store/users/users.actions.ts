@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import {
-  ApiCountryData,
   EditUserData,
   EditUserError,
   LoginError,
@@ -52,10 +51,6 @@ export const addFriendFailure = createAction('[Users] Add Friend Failure', props
 export const fetchFriendsRequest = createAction('[Users] Fetch Friends Request');
 export const fetchFriendsSuccess = createAction('[Users] Fetch Friends Success', props<{friends: Friends[]}>());
 export const fetchFriendsFailure = createAction('[Users] Fetch Friends Failure', props<{error: string}>());
-
-export const fetchCountriesRequest = createAction('[Country] Fetch Request');
-export const fetchCountriesSuccess = createAction('[Country] Fetch Success', props<{countries: ApiCountryData[]}>());
-export const fetchCountriesFailure = createAction('[Country] Fetch Failure', props<{ error: string }>());
 
 export const fetchPasswordRequest = createAction('[User] Fetch Password Request', props<{email: string}>());
 export const fetchPasswordSuccess = createAction('[User] Fetch Password Success', props<{recoveryData: RecoveryData}>());

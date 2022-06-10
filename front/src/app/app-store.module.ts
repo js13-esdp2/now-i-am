@@ -10,6 +10,8 @@ import { searchReducer } from './store/search/search.reducer';
 import { SearchEffects } from './store/search/search.effects';
 import { ChatEffects } from './store/chat/chat.effects';
 import { chatReducer } from './store/chat/chat.reducer';
+import { CountriesReducer } from './store/countries/countries.reducer';
+import { CountriesEffects } from './store/countries/countries.effects';
 import { categoriesReducer } from './store/categories/categories.reducer';
 import { CategoriesEffects } from './store/categories/categories.effects';
 
@@ -27,6 +29,7 @@ const reducers = {
   search: searchReducer,
   posts: postsReducer,
   chat: chatReducer,
+  countries: CountriesReducer,
   categories: categoriesReducer,
 };
 
@@ -36,6 +39,7 @@ const effects = [
   UsersEffects,
   PostsEffects,
   ChatEffects,
+  CountriesEffects,
   CategoriesEffects,
 ];
 
