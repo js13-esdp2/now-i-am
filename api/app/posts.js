@@ -56,7 +56,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.id).populate('user', 'displayName');
+    const post = await Post.findById(req.params.id)
+      .populate('user', 'displayName')
+      .populate([{path: 'likes.user', select: 'displayName photo'}])
     if (!post) {
       return res.status(404).send({message: 'Нет такого поста'});
     }

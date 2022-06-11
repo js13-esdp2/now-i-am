@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Post } from '../../models/post.model';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ApiPostData, Post } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
+import { DeleteChatModalComponent } from '../delete-chat-modal/delete-chat-modal.component';
+import { LikesModalComponent } from '../likes-modal/likes-modal.component';
 
 @Component({
   selector: 'app-post-modal',
@@ -45,6 +47,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<PostModalComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
     private router: Router,
@@ -122,7 +125,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   checkUserLike(): boolean {
-    return !!this.postData.likes.find((like) => like.user === this.userData?._id);
+    return !!this.postData.likes.find((like) => like.user._id === this.userData?._id);
   }
 
   likePost(): void {
@@ -154,5 +157,12 @@ export class PostModalComponent implements OnInit, OnDestroy {
   removePost(id: string) {
     this.store.dispatch(removePostRequest({id}));
     this.dialogRef.close();
+  }
+
+  openLikesDialog(post: ApiPostData): void {
+    const dialogRef = this.dialog.open(LikesModalComponent, {
+      width: '400px',
+      data: post,
+    });
   }
 }

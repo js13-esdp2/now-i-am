@@ -15,7 +15,11 @@ export class Post{
     },
     public likes: {
       _id: string,
-      user: string
+      user: {
+        displayName: string,
+        photo: string,
+        _id: string,
+      }
     }[],
     public geolocation: {
       lat: number
@@ -63,7 +67,11 @@ export interface ApiPostData {
   },
   likes: {
     _id: string,
-    user: string
+    user: {
+      displayName: string,
+      photo: string,
+      _id: string,
+    }
   }[]
   geolocation: {
     lat: number,

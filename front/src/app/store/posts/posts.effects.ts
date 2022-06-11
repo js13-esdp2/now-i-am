@@ -29,6 +29,8 @@ import {
   removePostSuccess
 } from './posts.actions';
 import { User } from '../../models/user.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../types';
 
 @Injectable()
 export class PostsEffects {
@@ -39,6 +41,7 @@ export class PostsEffects {
     private actions: Actions,
     private postsService: PostsService,
     private helpers: HelpersService,
+    private store: Store<AppState>,
   ) {
   }
 
@@ -97,6 +100,9 @@ export class PostsEffects {
     ofType(likePostRequest),
     mergeMap(({id}) => this.postsService.likePost(id).pipe(
       map((post) => likePostSuccess({post})),
+      tap(({post}) => {
+        this.store.dispatch(fetchOneOfPostRequest({id: post._id}));
+      }),
       this.helpers.catchServerError(likePostFailure),
     )),
   ));

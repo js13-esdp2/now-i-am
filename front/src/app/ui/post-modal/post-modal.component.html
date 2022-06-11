@@ -74,6 +74,12 @@
         </app-loader>
       </button>
     </mat-card-actions>
+    <div
+      *ngIf=" postData.likes.length !== 0"
+      class="post-block__likes"
+      (click)="openLikesDialog(postData)">
+      Понравилось {{ postData.likes[0].user.displayName }} и другим
+    </div>
   </div>
 
   <ng-template #anonLink>
