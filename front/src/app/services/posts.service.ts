@@ -28,7 +28,7 @@ export class PostsService {
     return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', {params}).pipe(
       map(response => {
         return response.map(postData => {
-          let post = new Post(
+          return new Post(
             postData._id,
             postData.user,
             postData.title,
@@ -38,9 +38,7 @@ export class PostsService {
             postData.likes,
             postData.geolocation,
             postData.comments
-          );
-          console.log(post);
-          return post
+          )
         });
       })
     );
