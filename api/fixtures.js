@@ -140,7 +140,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 6,
+      invisibleAtUnixTime: invisibleAtUnixTime + 610000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 15,
@@ -175,7 +175,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 10,
+      invisibleAtUnixTime: invisibleAtUnixTime + 10000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 7,
@@ -188,7 +188,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 4,
+      invisibleAtUnixTime: invisibleAtUnixTime + 10000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 15,
@@ -205,7 +205,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 3,
+      invisibleAtUnixTime: invisibleAtUnixTime + 10000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 5,
@@ -218,7 +218,7 @@ const run = async () => {
       datetime: new Date().toISOString(),
       createdAt: new Date().getTime(),
       isVisible: true,
-      invisibleAtUnixTime: invisibleAtUnixTime + 3,
+      invisibleAtUnixTime: invisibleAtUnixTime + 10000000,
       invisibleDate: invisibleDate,
       time: {
         hours: 5,

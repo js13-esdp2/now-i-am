@@ -28,6 +28,9 @@ export class StatisticComponent implements OnInit, OnDestroy{
   searchTitle!: string;
   userId!: ApiUserData;
   paramsSub!: Subscription;
+  postSub!: Subscription;
+  visibility: boolean = true;
+  apiUrl = environment.apiUrl
 
   constructor(
     private store: Store<AppState>,
@@ -58,10 +61,10 @@ export class StatisticComponent implements OnInit, OnDestroy{
       }
       this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}));
     })
-    this.mapService.initMap();
     this.isSearched = true;
     this.openPreviousPost();
-    this.posts.subscribe(posts => {
+    this.mapService.initMap();
+    this.postSub = this.posts.subscribe(posts => {
       if(posts){
         posts.forEach((post) =>{
           if(post.geolocation) {
@@ -96,11 +99,18 @@ export class StatisticComponent implements OnInit, OnDestroy{
     if (this.postModalData.postId) {
       this.dialog.open(PostModalComponent, {
         data: {postId: this.postModalData.postId}
+
       });
     }
   }
 
+  changeTemplate() {
+    this.visibility=!this.visibility;
+  }
+
   ngOnDestroy(): void {
     this.paramsSub.unsubscribe();
+    this.postSub.unsubscribe();
   }
+
 }

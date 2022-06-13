@@ -34,7 +34,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   comment!: string;
   apiUrl = env.apiUrl;
   userData: null | User = null;
-
+  like!: string
   postId!: string;
   postData!: Post;
   profileIsOpen = true;
@@ -126,10 +126,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   likePost(): void {
+    this.like = 'is-active'
     if (!this.userData) {
       return;
     }
-
     this.store.dispatch(likePostRequest({id: this.postId}));
   }
 
@@ -139,12 +139,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   addFriend(): void {
     this.store.dispatch(addFriendRequest({userId: this.postData.user._id}));
-  }
-
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-    // this.usersSub.unsubscribe();
-    this.postSub.unsubscribe();
   }
 
   closeProfile() {
@@ -175,4 +169,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(removePostCommentRequest({comment: data}))
   }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    // this.usersSub.unsubscribe();
+    this.postSub.unsubscribe();
+  }
+
 }

@@ -12,11 +12,13 @@ app-loader
 .mat-card-header
   margin: 15px 0 0
   text-align: center
+  position: relative
 
 .mat-card-title
   font-weight: bold
   font-size: 24px
   font-style: italic
+
 
 .mat-card-subtitle
   margin-bottom: 0
@@ -76,8 +78,12 @@ app-loader
       color: #fff
       font-size: 40px
 
+.btn-actions
+  display: flex
+  flex-wrap: wrap
+
 .profile
-  color: white
+  color: #000000
   font-size: 18px
   font-weight: bold
   height: auto
@@ -85,7 +91,6 @@ app-loader
   --start: 15%
   border-top-left-radius: 10px
   border-top-right-radius: 10px
-  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
   @media screen and (max-width: 550px)
     padding: 0 10px
 
@@ -101,6 +106,9 @@ app-loader
   width: 100%
   height: 100%
   object-fit: cover
+
+.btn-group
+  margin-top: 10px
 
 .button-exit
   padding: 0
@@ -140,3 +148,32 @@ div .comments-block
     &-icon
       font-size: 12px
 
+.heart
+  width: 100px
+  height: 100px
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") 0 no-repeat
+  cursor: pointer
+  transition: background-position 1s steps(28)
+  transition-duration: 0s
+  overflow: hidden
+
+  &.is-active
+    transition-duration: 1s
+    background-position: -2800px 0
+
+body
+  background: #000000
+
+
+.placement
+  position: absolute
+  bottom: -24px
+  right: 0
+
+.btns
+  background: #000000
+  color: #fff
+  font-weight: 700
+  padding: 3px 7px
+  margin: 3px
+  text-transform: uppercase
