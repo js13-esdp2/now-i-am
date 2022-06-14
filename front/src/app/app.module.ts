@@ -76,6 +76,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
 import { LikesModalComponent } from './ui/likes-modal/likes-modal.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -177,6 +178,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatAutocompleteModule,
     MatBadgeModule,
     NgxEmojiPickerModule.forRoot(),
+    MatProgressBarModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
