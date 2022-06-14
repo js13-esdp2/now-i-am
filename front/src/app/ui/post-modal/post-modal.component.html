@@ -13,59 +13,27 @@
 
   <div *ngIf="profileIsOpen else profile">
     <img [src]="apiUrl + '/uploads/' + postData.content" [alt]="postData.title" class="post-block__image"/>
-    <mat-card-header fxLayoutAlign="center" fxLayoutGap="10px">
+    <mat-card-header>
       <mat-card-title>{{ postData.title }}</mat-card-title>
-      <mat-card-subtitle>{{ postData.user.displayName }}</mat-card-subtitle>
+      <div class="placement">
+      <div class="heart {{ like }}" (click)="likePost()">
+      </div>
+    </div>
     </mat-card-header>
-    <mat-card-actions *appUserType="'user' else anonLink">
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              title="Поставить лайк"
-              (click)="likePost()"
-              [disabled]="!userData || checkUserLike() || (likeLoading | async)"
-      >
-        <app-loader [isLoading]="likeLoading | async">
-          <mat-icon>favorite_border</mat-icon>
-          {{ postData.likes.length }}
-        </app-loader>
-      </button>
-      <a routerLink="/"
-         mat-raised-button
-         color="primary"
+    <mat-card-actions *appUserType="'user' else anonLink" class="btn-actions">
+      <button
          title="Показать на карте"
-         (click)="onClose()"
+         class="btns"
       >
         <mat-icon>location_on</mat-icon>
-      </a>
-
+      </button>
       <button type="button"
-              mat-raised-button
-              color="primary"
+              class="btns"
               (click)="goToProfile(postData.title, postData.user._id)"
       >Профиль
       </button>
-
       <button type="button"
-              mat-raised-button
-              color="accent"
-              title="Добавить в друзья"
-              *ngIf="userData && !authorIsMe()"
-              [disabled]="checkUserFriend() || (addFriendLoading | async)"
-              (click)="addFriend()"
-      >
-        <app-loader [isLoading]="addFriendLoading | async">
-          <mat-icon>person_add_alt</mat-icon>
-        </app-loader>
-      </button>
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              (click)="goToChat()">Чат
-      </button>
-      <button type="button"
-              mat-raised-button
-              color="accent"
+              class="btns"
               *ngIf="userData?.role === 'moderator'"
               (click)="removePost(postData._id)"
       >
@@ -73,7 +41,11 @@
           <mat-icon>delete</mat-icon>
         </app-loader>
       </button>
-      <button type="button" mat-raised-button (click)="showComments()"><mat-icon>comment</mat-icon></button>
+      <button type="button"
+              class="btns"
+              (click)="showComments()">
+        <mat-icon>3p</mat-icon>
+      </button>
     </mat-card-actions>
     <mat-card-content class="comments-block" *ngIf="(commentsShow)">
       <div *ngFor="let comment of postData?.comments" class="comments-block__comment">
@@ -99,10 +71,12 @@
       id="dialog-register-button"
       mat-raised-button
       routerLink="/register"
+      class="btns"
       (click)="goToRegister()"
     >Регистрация
     </button>
     <button
+      class="btns"
       id="dialog-login-button"
       mat-raised-button
       routerLink="/login"
@@ -136,6 +110,22 @@
           <p>
             <strong>Город: </strong>{{ userData.city || 'Не указано' }}
           </p>
+          <div class="btn-group">
+            <button type="button"
+                    class="btns"
+                    title="Добавить в друзья"
+                    [disabled]="checkUserFriend() || (addFriendLoading | async)"
+                    (click)="addFriend()"
+            >
+              <app-loader [isLoading]="addFriendLoading | async">
+                <mat-icon>person_add_alt</mat-icon>
+              </app-loader>
+            </button>
+            <button type="button"
+                    class="btns"
+                    (click)="goToChat()"><mat-icon>forum</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-card-content>
       <button class="button-exit" color="primary" (click)="closeProfile()">

@@ -1,6 +1,5 @@
-<div class="container">
   <div class="create-post">
-    <h2 class="create-post__title">Добавь своё занятие:</h2>
+    <h2 class="create-post__title">Добавь своё занятие</h2>
     <div class="error" *ngIf="error | async">
       {{ error | async }}
     </div>
@@ -54,20 +53,16 @@
           <mat-icon class="camera-btn__camera-icon">camera_enhance</mat-icon>
         </button>
       </div>
-      <div>
-        <section class="example-section">
+      <div class="location-chek">
+        <section>
           <mat-checkbox name="switchGeolocation" formControlName="switchGeolocation" [disabled]="!geolocation" >Поделиться местоположением</mat-checkbox>
         </section>
       </div>
-      <div class="sendBtn">
         <button
           type="submit"
-          mat-raised-button
-          class="sendBtn__btn-send"
+          class="sendBtn"
           [disabled]="!form.value.title || (loading | async)"
         >ОТПРАВИТЬ
         </button>
-      </div>
     </form>
   </div>
-</div>

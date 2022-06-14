@@ -75,6 +75,7 @@ import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -175,6 +176,7 @@ const socialConfig: SocialAuthServiceConfig = {
     MatAutocompleteModule,
     MatBadgeModule,
     NgxEmojiPickerModule.forRoot(),
+    MatSlideToggleModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

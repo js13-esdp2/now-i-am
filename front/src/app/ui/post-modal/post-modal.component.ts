@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApiPostData, CommentData, Post, RemoveCommentData } from '../../models/post.model';
+import { CommentData, Post, RemoveCommentData } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -26,7 +26,7 @@ import { searchUsersRequest } from '../../store/search/search.actions';
 export class PostModalComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
   users: Observable<null | User[]>;
-  post: Observable<null | ApiPostData>;
+  post: Observable<null | Post>;
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
@@ -34,7 +34,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   comment!: string;
   apiUrl = env.apiUrl;
   userData: null | User = null;
-
+  like!: string
   postId!: string;
   postData!: Post;
   profileIsOpen = true;
@@ -126,10 +126,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   likePost(): void {
+    this.like = 'is-active'
     if (!this.userData) {
       return;
     }
-
     this.store.dispatch(likePostRequest({id: this.postId}));
   }
 
@@ -139,12 +139,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   addFriend(): void {
     this.store.dispatch(addFriendRequest({userId: this.postData.user._id}));
-  }
-
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-    // this.usersSub.unsubscribe();
-    this.postSub.unsubscribe();
   }
 
   closeProfile() {
@@ -175,4 +169,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(removePostCommentRequest({comment: data}))
   }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    // this.usersSub.unsubscribe();
+    this.postSub.unsubscribe();
+  }
+
 }

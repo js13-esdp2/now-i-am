@@ -41,6 +41,7 @@ const initialState: PostState = {
   likeLoading: false,
   likeError: null,
 };
+
 export const postsReducer = createReducer(
   initialState,
   on(fetchPostsRequest, state => ({...state, fetchLoading: true})),
@@ -78,5 +79,5 @@ export const postsReducer = createReducer(
   on(fetchMyHistoryPostsSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
   on(fetchMyHistoryPostsFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 
-  on(onPostModalDataChange, (state, {postModalData}) => ({...state, postModalData})),
-);
+  on(onPostModalDataChange, (state, {postModalData}) => ({...state, postModalData}))
+)

@@ -38,7 +38,7 @@ export class PostsService {
             postData.likes,
             postData.geolocation,
             postData.comments
-          );
+          )
         });
       })
     );

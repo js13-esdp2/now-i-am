@@ -14,7 +14,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -25,4 +26,13 @@ export class HomeComponent implements OnInit {
     const searchTitle = (this.form.value).search;
     void this.router.navigate(['/statistic'], {queryParams: {title: searchTitle}})
   }
+
+  login() {
+    void this.router.navigate(['/login'])
+  }
+
+  register() {
+    void this.router.navigate(['/register'])
+  }
 }
+

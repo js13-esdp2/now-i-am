@@ -85,8 +85,7 @@
     <p class="is-private-block">
       <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
     </p>
-    <button mat-raised-button
-            color="primary"
+    <button class="btn"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" size="sm">

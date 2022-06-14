@@ -1,29 +1,51 @@
-<mat-card class="result-block"
-          *ngIf="isSearched && (posts | async) as $posts"
->
-  <mat-card-content>
-    <mat-card class="post"
-              *ngFor="let post of $posts"
-              (click)="openPost(post)"
-    >
-      <div class="post__image-block">
-        <img [src]="post.content | image"
-             [alt]="post.title"
-             class="post__image-block__image"
+<div class="main-block">
+  <div class="control-panel">
+    <p>
+      Количество людей с похожим занятием <span class="statistic-number">" {{ (posts | async)?.length }} "</span>
+    </p>
+    <button class="btn-changeTemplate" type="button"
+            (click)="changeTemplate()">{{ visibility ? 'Посмотреть на карте' : 'Посмотреть публикации' }}</button>
+  </div>
+  <div class="result-wrapper" [style.display]="visibility?'block':'none'">
+    <mat-card class="result-block" *ngIf="isSearched && (posts | async) as $posts">
+      <mat-card-content class="posts" fxLayout="row wrap" fxLayoutAlign="space-between">
+        <mat-card class="post"
+                  *ngFor="let post of $posts"
+                  (click)="openPost(post)"
+                  fxFlex.xs="100%"
+                  fxFlex.sm="49.5%"
+                  fxFlex.lt-lg="32.5%"
+                  fxFlex="32.5%"
         >
-      </div>
-      <mat-card-content class="post__content">
-        <mat-card-title class="post__content__title">
-          {{ post.title }}
-        </mat-card-title>
-        <button mat-raised-button
-                color="primary"
-                class="post__content__location-btn"
-        >
-          <mat-icon>place</mat-icon>
-        </button>
+          <div class="post__image-block">
+            <img [src]="post.content | image"
+                 [alt]="post.title"
+                 class="post__image-block__image"
+            >
+          </div>
+          <mat-card-content class="post__content">
+            <div class="post-text">
+              <img class="user-avatar"
+                   [src]="apiUrl + '/uploads/' + post.user.photo"
+                   [alt]="post.user.displayName"
+              >
+              <div>
+                <mat-card-title class="post__content__title">
+                  {{ post.user.displayName }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{ post.title }}
+                </mat-card-subtitle>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </mat-card-content>
     </mat-card>
-  </mat-card-content>
-</mat-card>
-<div id="map"></div>
+  </div>
+  <div [style.display]="visibility?'none':'block'" class="map-block">
+    <div id="map"></div>
+  </div>
+</div>
+
+

@@ -53,8 +53,6 @@
           </mat-autocomplete>
         </mat-form-field>
 
-
-
         <mat-form-field appearance="outline" class="filter-block__isPrivate">
           <mat-label>Приватность</mat-label>
           <mat-select name="isPrivate" ngModel>
@@ -71,9 +69,9 @@
               class="form__searchBtn"
               type="submit"
               [disabled]="f.invalid || (isLoading | async)"
-      >
+      >поиск
         <app-loader [isLoading]="isLoading | async" class="form__search-slider" size="sm">
-          <span class="material-icons form__search-icon">search</span>
+
         </app-loader>
       </button>
     </div>
