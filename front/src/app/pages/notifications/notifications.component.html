@@ -1,29 +1,22 @@
+<h2 class="title">Уведомления</h2>
 <div class="notifications-container">
-  <div class="notifications-container__header">
-    <h2 class="notifications-container__title">Уведомления</h2>
+    <mat-card class="user-item" *ngFor="let friend of friends | async">
+      <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
+        <div class="user-item__image-container">
+          <img class="user-avatar" [src]="apiUrl + '/uploads/' + friend.user.photo " [alt]="'Photo of '">
+        </div>
+        <span class="user-item__name">{{ friend.user.displayName }}  <span class="user-item__text">отправил/а вам запрос на добавление в друзья</span></span>
+        <button mat-icon-button class="user-item__btn">
+          <mat-icon class="user-item__btn-done">done</mat-icon>
+        </button>
+        <button mat-icon-button class="user-item__btn" (click)="onRemove(friend.friend._id)">
+          <mat-icon class="user-item__btn-clear">clear</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <div class="notifications-container__content">
-    <mat-tab-group class="notifications-tab">
-      <mat-tab class="notifications-tab__item" label="Запросы на добавление в друзья">
-        <mat-card class="user-item" *ngFor="let friend of friends | async">
-        <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
-          <div class="user-item__image-container">
-            <img class="user-item__image" [src]="apiUrl + '/uploads/' + friend.user.photo " [alt]="'Photo of '">
-          </div>
-          <strong class="user-item__name">{{ friend.user.displayName }}</strong>
-          <button mat-icon-button class="user-item__btn">
-            <mat-icon style="font-size: 22px" color="primary">done</mat-icon>
-          </button>
-          <button mat-icon-button class="user-item__btn" (click)="onRemove(friend.friend._id)">
-            <mat-icon style="font-size: 22px" color="warn">clear</mat-icon>
-          </button>
-        </mat-card-content>
-      </mat-card>
-      </mat-tab>
-      <mat-tab class="notifications-tab__item" label="Прочее"> <h2>Hello world</h2> </mat-tab>
-    </mat-tab-group>
-  </div>
-</div>
+
+
 
 
 

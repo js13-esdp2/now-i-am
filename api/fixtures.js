@@ -247,8 +247,6 @@ const run = async () => {
     createdAt: '10 мая 2022 г., 12:05:00'
   });
 
-
-
   await ChatRoom.create({
     owner: caitlyn,
     chattingWith: james,
