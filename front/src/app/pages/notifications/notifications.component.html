@@ -1,7 +1,8 @@
 <h2 class="title">Уведомления</h2>
-<div class="notifications-container" *ngIf="!(friends | async), else notRequests">
-    <mat-card class="user-item" *ngFor="let friend of friends | async">
-      <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
+<div class="notifications-container" >
+  <div *ngFor="let friend of friends | async">
+    <mat-card class="user-item"  *ngIf="!friend.isFriend">
+      <mat-card-content class="user-item__content" >
         <div class="user-item__image-container">
           <img class="user-avatar" [src]="apiUrl + '/uploads/' + friend.user.photo " [alt]="'Photo of '">
         </div>
@@ -15,12 +16,13 @@
       </mat-card-content>
     </mat-card>
   </div>
-
-<ng-template #notRequests>
-  <div class="notifications-container">
-    <h3>У вас нет запросов на дружбу</h3>
   </div>
-</ng-template>
+
+<!--<ng-template #notRequests>-->
+<!--  <div class="notifications-container">-->
+<!--    <h3>У вас нет запросов на дружбу</h3>-->
+<!--  </div>-->
+<!--</ng-template>-->
 
 
 

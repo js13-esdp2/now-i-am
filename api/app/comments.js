@@ -8,14 +8,14 @@ const router = express.Router();
 
 router.get('/:id', async (req, res, next) =>{
   try {
-    const comments = await Comment.find({post: req.params.id}).populate('user', 'displayName, photo');
+    const comments = await Comment.find({post: req.params.id}).populate('user', 'displayName photo');
     res.send(comments);
   } catch (e) {
     next(e)
   }
 })
 
-router.post('/:id', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const commentData = {
       user: req.body.userId,
@@ -24,7 +24,8 @@ router.post('/:id', async (req, res, next) => {
     }
     const comment = await new Comment(commentData);
     await comment.save();
-    res.send(comment);
+    const comments = await Comment.find({post: req.body.postId}).populate('user', 'displayName photo');
+    res.send(comments);
   } catch (e) {
     next(e);
   }

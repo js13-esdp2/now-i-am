@@ -1,5 +1,6 @@
 export class Comment {
   constructor(
+    public _id: string,
     public user: {
       _id: string,
       displayName: string,
@@ -12,7 +13,7 @@ export class Comment {
 
 
 export interface CommentData {
-  comment: string,
+  text: string,
   postId: string,
   userId: string
 }

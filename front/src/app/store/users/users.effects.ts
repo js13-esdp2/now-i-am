@@ -223,7 +223,7 @@ export class UsersEffects {
       map((user) => changeUserPasswordSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Ваш пароль успешно изменен!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/profile']);
       }),
       this.helpersService.catchServerError(changeUserPasswordFailure)
     )),

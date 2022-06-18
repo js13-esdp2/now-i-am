@@ -121,6 +121,7 @@ export class PostsService {
       map(response => {
         return response.map(commentData => {
           return new Comment(
+            commentData._id,
             commentData.user,
             commentData.text,
             commentData.postId,
@@ -132,10 +133,11 @@ export class PostsService {
 
 
   createComment(comment: CommentData) {
-    return this.http.post<Comment[]>(environment.apiUrl + '/posts/comment', comment).pipe(
+    return this.http.post<Comment[]>(environment.apiUrl + '/comments', comment).pipe(
       map(response => {
         return response.map(commentData => {
           return new Comment(
+            commentData._id,
             commentData.user,
             commentData.text,
             commentData.postId,
@@ -146,7 +148,7 @@ export class PostsService {
   }
 
   removeComment(commentId: string) {
-    return this.http.delete(environment.apiUrl + `/posts/${commentId}`);
+    return this.http.delete(environment.apiUrl + `/comments/${commentId}`);
   }
 
 }

@@ -16,9 +16,9 @@ import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
+import { CommentData, Comment } from '../../models/comment.model';
 import { createCommentRequest, removeCommentRequest } from '../../store/comments/comments.actions';
 import { LikesModalComponent } from '../likes-modal/likes-modal.component';
-import { CommentData } from '../../models/comment.model';
 
 @Component({
   selector: 'app-post-modal',
@@ -33,13 +33,17 @@ export class PostModalComponent implements OnInit, OnDestroy {
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
   commentsShow!: boolean;
-  comment!: string;
+  commentText!: string;
   apiUrl = env.apiUrl;
-  userData: null | User = null;
-  like!: string
+  userData!: null | User;
+  like!: string;
   postId!: string;
   postData!: Post;
   profileIsOpen = true;
+  comments: Observable<null| Comment[]>;
+  loadingComments: Observable<boolean>;
+  errorComments: Observable<string | null>;
+  isBlock: boolean = false;
 
 
   private usersSub!: Subscription;
@@ -61,6 +65,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.postLoading = store.select((state) => state.posts.fetchLoading)
     this.likeLoading = store.select((state) => state.posts.likeLoading);
     this.addFriendLoading = store.select((state) => state.users.addFriendLoading);
+    this.comments = store.select((state) => state.comments.comments);
+    this.loadingComments = store.select((state) => state.comments.fetchLoading);
+    this.errorComments = store.select((state) => state.comments.fetchError);
+
     store.select(state => state.users.user).subscribe(user => {
       this.userData = user;
     });
@@ -154,17 +162,19 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  showComments() {
+  showComments(postId: string) {
+    this.store.dispatch(fetchCommentsRequest({postId: postId}));
     this.commentsShow = !this.commentsShow;
+    this.isBlock = !this.isBlock;
   }
 
   createComment() {
     const data: CommentData = {
-      comment: this.comment,
+      text: this.commentText,
       postId: this.postId,
       userId: this.userData!._id
     }
-    this.store.dispatch(createCommentRequest({comment: data}))
+    this.store.dispatch(createCommentRequest({comment: data}));
   }
 
   removeComment(commentId: string){

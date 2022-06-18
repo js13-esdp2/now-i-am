@@ -12,6 +12,55 @@
   </button>
 
   <div *ngIf="profileIsOpen else profile">
+    <div class="modal-content">
+      <div class="post-info">
+        <img [src]="postData.content | image" [alt]="postData.title" class="post-block__image"/>
+        <mat-card-header>
+          <mat-card-title>{{ postData.title }}</mat-card-title>
+          <div class="placement">
+            <div class="heart {{ like }}" (click)="likePost()">
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-actions *appUserType="'user' else anonLink" class="btn-actions">
+          <button
+            title="Показать на карте"
+            class="btns"
+          >
+            <mat-icon>location_on</mat-icon>
+          </button>
+          <button type="button"
+                  class="btns"
+                  (click)="goToProfile(postData.title, postData.user._id)"
+          >Профиль
+          </button>
+          <button type="button"
+                  class="btns"
+                  *ngIf="userData?.role === 'moderator'"
+                  (click)="removePost(postData._id)"
+          >
+            <app-loader [isLoading]="postLoading | async">
+              <mat-icon>delete</mat-icon>
+            </app-loader>
+          </button>
+        </mat-card-actions>
+        <div class="view-comments">
+          <a type="button"
+             class="view-comments__btn"
+             (click)="showComments(postData._id)">{{ commentsShow ? 'Скрыть комментарии' : 'Показать комментарии' }}
+          </a>
+        </div>
+      </div>
+      <div [ngClass]="{commentsBlock: isBlock}" *ngIf="(commentsShow)">
+        <h4 class="comments-title">Комментарии</h4>
+        <div class="comments">
+          <div *ngFor="let comment of (comments | async)" class="comments-block__comment">
+            <b class="comments-block__userName">{{ comment.user.displayName }}</b>
+            <p class="comments-block__text"> {{ comment.text }}</p>
+            <button class="comments-block__btn" (click)="removeComment(comment._id)" mat-button>
+              <mat-icon class="comments-block__btn-icon">delete</mat-icon>
+            </button>
+          </div>
     <img [src]="postData.content | image" [alt]="postData.title" class="post-block__image"/>
     <mat-card-header>
       <mat-card-title>{{ postData.title }}</mat-card-title>
@@ -59,14 +108,15 @@
         <p class="comments-block__text">: {{ comment.text }}</p>
         <button class="comments-block__btn" (click)="removeComment(comment._id)" mat-button><mat-icon class="comments-block__btn-icon">delete</mat-icon></button>
       </div>
-      <div class="comments-block__write-comment">
-        <mat-form-field appearance="fill" style="width: 100%">
-          <mat-label>Добавить комментарий</mat-label>
-          <input matInput name="comment" [(ngModel)]=comment>
-        </mat-form-field>
-        <button type="button" mat-button  (click)="createComment()">опубликовать</button>
+        <div class="comments-block__write-comment" *ngIf="user | async">
+          <mat-form-field appearance="fill" style="width: 100%; font-size: 12px;">
+            <mat-label>Добавить комментарий</mat-label>
+            <input matInput name="comment" [(ngModel)]=commentText>
+            <mat-icon matSuffix (click)="createComment()">send</mat-icon>
+          </mat-form-field>
+        </div>
       </div>
-      </mat-card-content>
+    </div>
   </div>
 
   <ng-template #anonLink>
@@ -129,7 +179,8 @@
             </button>
             <button type="button"
                     class="btns"
-                    (click)="goToChat()"><mat-icon>forum</mat-icon>
+                    (click)="goToChat()">
+              <mat-icon>forum</mat-icon>
             </button>
           </div>
         </div>

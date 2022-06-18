@@ -11,6 +11,8 @@ import {
   fetchCommentsRequest,
   fetchCommentsSuccess, removeCommentRequest, removeCommentSuccess
 } from './comments.actions';
+import { AppState } from '../types';
+import { Store } from '@ngrx/store';
 
 
 @Injectable()
@@ -20,6 +22,7 @@ export class CommentsEffects {
     private actions: Actions,
     private postsService: PostsService,
     private helpers: HelpersService,
+    private store: Store<AppState>
   ) {}
 
   fetchComments = createEffect(() => this.actions.pipe(
@@ -37,7 +40,7 @@ export class CommentsEffects {
     mergeMap(({comment}) => this.postsService.createComment(comment).pipe(
       map(comments => createCommentSuccess({comments})),
       tap(() => {
-        this.helpers.openSnackBar('Комментарий добавлен');
+        this.store.dispatch(fetchCommentsRequest({postId: comment.postId}));
       }),
       catchError(() => of(createCommentFailure({error: ''})))
     ))
@@ -48,7 +51,7 @@ export class CommentsEffects {
     mergeMap(({commentId}) => this.postsService.removeComment(commentId).pipe(
       map(() => removeCommentSuccess()),
       tap(() => {
-        this.helpers.openSnackBar('Комментарий был удален!');
+
       })
     ))
   ));

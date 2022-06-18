@@ -158,7 +158,7 @@ const run = async () => {
     datetime: new Date().toISOString(),
     createdAt: new Date().getTime(),
     isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 120,
+    invisibleAtUnixTime: invisibleAtUnixTime + 1200,
     invisibleDate: invisibleDate,
     time: {
       hours: 12,

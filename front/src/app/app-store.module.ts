@@ -14,6 +14,8 @@ import { CountriesReducer } from './store/countries/countries.reducer';
 import { CountriesEffects } from './store/countries/countries.effects';
 import { categoriesReducer } from './store/categories/categories.reducer';
 import { CategoriesEffects } from './store/categories/categories.effects';
+import { CommentsEffects } from './store/comments/comments.effects';
+import { commentsReducer } from './store/comments/comments.reducer';
 
 const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
   return localStorageSync({
@@ -31,6 +33,7 @@ const reducers = {
   chat: chatReducer,
   countries: CountriesReducer,
   categories: categoriesReducer,
+  comments: commentsReducer
 };
 
 const effects = [
@@ -41,6 +44,7 @@ const effects = [
   ChatEffects,
   CountriesEffects,
   CategoriesEffects,
+  CommentsEffects,
 ];
 
 @NgModule({
