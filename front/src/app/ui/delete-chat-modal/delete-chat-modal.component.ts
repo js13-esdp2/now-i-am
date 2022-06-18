@@ -23,7 +23,6 @@ export class DeleteChatModalComponent implements OnInit {
       this.dialogRef.close();
       return;
     }
-    console.log('delete my chat');
     this.dialogRef.close();
   }
 

@@ -19,13 +19,33 @@
           class="search-block__option-mobile"
           [routerLink]="['/chat-room/' + chatRoom._id]"
           *ngFor="let chatRoom of (filteredChatRooms | async)" [value]="chatRoom">
-          {{ chatRoom.name }}
+          <div class="search-block__item">
+            <div class="search-block__user-avatar_wrapper">
+              <img
+                class="search-block__user-avatar-img"
+                [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
+                [alt]="chatRoom.name">
+            </div>
+            <div class="search-block__user-name">
+              {{ chatRoom.name }}
+            </div>
+          </div>
         </mat-option>
         <mat-option
           class="search-block__option-desktop"
           (click)="changeChatRoom(chatRoom)"
           *ngFor="let chatRoom of (filteredChatRooms | async)" [value]="chatRoom">
-          {{ chatRoom.name }}
+          <div class="search-block__item">
+            <div class="search-block__user-avatar_wrapper">
+              <img
+                class="search-block__user-avatar-img"
+                [src]="apiUrl + '/uploads/' + chatRoom.chattingWith.photo"
+                [alt]="chatRoom.name">
+            </div>
+            <div class="search-block__user-name">
+              {{ chatRoom.name }}
+            </div>
+          </div>
         </mat-option>
       </mat-autocomplete>
     </div>
@@ -68,7 +88,6 @@
           />
         </div>
 
-
         <div class="chat-list-content__info_mobile"
              [routerLink]="['/chat-room/' + chatRoom._id]"
         >
@@ -82,7 +101,6 @@
           <p class="chat-list-content__name">{{ chatRoom.name }}</p>
           <p class="chat-list-content__last-message">{{ chatRoom.lastMessage}}</p>
         </div>
-
 
         <div
           *ngIf="checkIfThereAreNewMessages(chatRoom.newMessagesCounter)"

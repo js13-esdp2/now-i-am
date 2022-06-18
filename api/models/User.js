@@ -76,7 +76,8 @@ const UserSchema = new Schema({
     type: String
   },
   isPrivate: {
-    type: Boolean
+    type: Boolean,
+    default: false,
   },
   code: {
     type: Number

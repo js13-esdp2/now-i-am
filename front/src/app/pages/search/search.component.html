@@ -45,22 +45,25 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="filter-block__city">
-          <mat-label>Город</mat-label>
-          <input type="text" name="city" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
+          <mat-label>Страна</mat-label>
+          <input type="text" name="country" matInput [formControl]="myControl" [matAutocomplete]="auto" ngModel/>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.city}}
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="getCities(option.cities)">
+              {{option.country}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="filter-block__isPrivate">
-          <mat-label>Приватность</mat-label>
-          <mat-select name="isPrivate" ngModel>
-            <mat-option value="true">Приватный</mat-option>
-            <mat-option value="false">Открытый</mat-option>
+        <mat-form-field appearance="outline" class="filter-block__city">
+          <mat-label>Город</mat-label>
+          <mat-select name="city" ngModel [disabled]="isSearched">
+            <mat-option *ngFor="let city of cities" value="{{ city.city }}">{{ city.city }}</mat-option>
           </mat-select>
         </mat-form-field>
+
+        <p class="is-private-block">
+          <mat-checkbox name="isPrivate" ngModel>Только открытые профили</mat-checkbox>
+        </p>
 
       </mat-expansion-panel>
     </mat-accordion>
@@ -69,10 +72,10 @@
       <button mat-raised-button
               class="form__searchBtn"
               type="submit"
-              [disabled]="f.invalid  || (isLoading | async) || check"
-      >поиск
+              [disabled]="f.invalid || (isLoading | async)"
+      >
         <app-loader [isLoading]="isLoading | async" class="form__search-slider" size="sm">
-
+          <span class="material-icons form__search-icon">search</span>
         </app-loader>
       </button>
     </div>

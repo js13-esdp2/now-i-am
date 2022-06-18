@@ -3,11 +3,13 @@ import { FormControl, NgForm } from '@angular/forms';
 import { Observable, startWith, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { ApiCountryData, User } from '../../models/user.model';
-import { checkIsOnlineRequest, fetchCountriesRequest } from '../../store/users/users.actions';
+import { User } from '../../models/user.model';
+import { checkIsOnlineRequest } from '../../store/users/users.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { City, CountriesApi, CountriesModel } from '../../models/countries.model';
 import { Post } from '../../models/post.model';
+import { fetchCountriesRequest } from '../../store/countries/countries.actions';
 
 @Component({
   selector: 'app-search',
@@ -16,7 +18,8 @@ import { Post } from '../../models/post.model';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
-  country: Observable<ApiCountryData[]>;
+  countries: Observable<CountriesApi[]>;
+  cities!: City[];
   countrySub!: Subscription;
   userSub!: Subscription;
   isCheckSub!: Subscription;
@@ -27,10 +30,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   user: Observable<null | User>;
 
   myControl = new FormControl();
-  options!: ApiCountryData[];
-  filteredOptions!: Observable<ApiCountryData[]>;
+  options!: CountriesApi[];
+  filteredOptions!: Observable<CountriesApi[]>;
 
-  isSearched = false;
+  isSearched = true;
   panelOpenState = false;
   check = true;
 
@@ -40,41 +43,48 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
     this.user = store.select(state => state.users.user);
-    this.country = store.select((state) => state.users.country);
+    this.countries = store.select((state) => state.countries.countries);
     this.isLoading = store.select(state => state.posts.fetchLoading);
     this.error = store.select(state => state.posts.fetchError);
     this.isCheck = store.select(state => state.users.posts);
   }
 
   ngOnInit() {
-    this.countrySub = this.country.subscribe(countryInfo => {
+    this.store.dispatch(fetchCountriesRequest());
+    this.countrySub = this.countries.subscribe(countryInfo => {
       this.options = countryInfo;
     });
-    this.store.dispatch(fetchCountriesRequest());
-
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value.city)),
-      map(city => (city ? this._filter(city) : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : value.country)),
+      map(country => (this.countries ? this._filter(country) : this.options.slice())),
     );
   }
 
   onSubmit(): void {
-    this.isSearched = true;
     const filterData = this.form.value;
-    const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
-        sex: filterData.sex, city: this.myControl.value.city, isPrivate: filterData.isPrivate}};
+    const isPrivate = this.form.value.isPrivate === '' ? '' : false;
+    const query = {
+      queryParams: {
+        title: filterData.title, birthday: filterData.birthday,
+        sex: filterData.sex, country: this.myControl.value.country, city: filterData.city, isPrivate: isPrivate
+      }
+    };
     void this.router.navigate([`/statistic`], query);
-
   }
 
-  displayFn(data: ApiCountryData): string {
-    return data && data.city ? data.city : '';
+  displayFn(data: CountriesApi): string {
+    return data && data.country ? data.country : '';
   }
 
-  private _filter(city: string): ApiCountryData[] {
-    const filterValue = city.toLowerCase();
-    return this.options.filter(option => option.city.toLowerCase().includes(filterValue));
+  getCities(cities: City[]) {
+    this.cities = cities;
+    this.isSearched = false;
+  }
+
+  private _filter(country: string): CountriesApi[] {
+    const filterValue = country.toLowerCase();
+    return this.options.filter(option => option.country.toLowerCase().includes(filterValue));
   }
 
   checkUser() {
@@ -99,6 +109,4 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
     this.isCheckSub.unsubscribe();
   }
-
-
 }

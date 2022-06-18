@@ -47,6 +47,12 @@
         <mat-icon>3p</mat-icon>
       </button>
     </mat-card-actions>
+    <div
+      *ngIf=" postData.likes.length !== 0"
+      class="post-block__likes"
+      (click)="openLikesDialog(postData)">
+      Понравилось {{ postData.likes[0].user.displayName }} и другим
+    </div>
     <mat-card-content class="comments-block" *ngIf="(commentsShow)">
       <div *ngFor="let comment of postData?.comments" class="comments-block__comment">
         <b class="comments-block__userName">{{ comment.user.displayName }}</b>

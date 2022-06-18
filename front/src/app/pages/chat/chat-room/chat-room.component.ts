@@ -14,6 +14,7 @@ import {
   getChatRoomByIdRequest, getUsersChatRooms
 } from '../../../store/chat/chat.actions';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat-room',
@@ -22,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
   deleteAll = false;
+  chatRoomLoading!: Observable<boolean>;
   chatRoom!: ChatRoom;
   apiUrl = env.apiUrl;
   userID!: string | undefined;
@@ -43,6 +45,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     store.select(state => state.users.user).subscribe(user => {
       this.userID = user?._id;
     });
+    this.chatRoomLoading = store.select(state => state.chat.fetchLoading);
   }
 
   ngOnInit(): void {

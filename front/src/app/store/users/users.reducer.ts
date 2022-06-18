@@ -4,18 +4,15 @@ import {
   addFriendFailure,
   addFriendRequest,
   addFriendSuccess,
-  checkCodeFailure,
-  checkCodeRequest,
-  checkCodeSuccess,
   changeUserPasswordFailure,
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
-  fetchCountriesFailure,
-  fetchCountriesRequest,
-  fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
   fetchFriendsSuccess,
@@ -42,7 +39,10 @@ import {
   registerUserRequest,
   registerUserSuccess,
   removeFriendRequest,
-  removeFriendSuccess, checkIsOnlineRequest, checkIsOnlineSuccess, checkIsOnlineFailure
+  removeFriendSuccess,
+  checkIsOnlineRequest,
+  checkIsOnlineSuccess,
+  checkIsOnlineFailure,
 } from './users.actions';
 import { User } from '../../models/user.model';
 
@@ -52,8 +52,6 @@ const initialState: UsersState = {
   recoveryData: null,
   posts: [],
   friends: [],
-  capital: [],
-  country: [],
   fetchLoading: false,
   fetchError: null,
   registerLoading: false,
@@ -136,10 +134,6 @@ export const usersReducer = createReducer(
   on(fetchFriendsSuccess, (state, {friends}) => ({...state, fetchFriendsLoading: false, friends})),
   on(fetchFriendsFailure, (state, {error}) => ({...state, fetchFriendsLoading: false, fetchFriendsError: error})),
 
-  on(fetchCountriesRequest, state => ({...state, fetchLoading: true})),
-  on(fetchCountriesSuccess, (state, {countries}) => ({...state, fetchLoading: false, country: countries})),
-  on(fetchCountriesFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
-
   on(fetchPasswordRequest, state => ({...state, fetchPasswordLoading: true})),
   on(fetchPasswordSuccess, (state, {recoveryData}) => ({...state, fetchPasswordLoading: false, recoveryData})),
   on(fetchPasswordFailure, (state, {error}) => ({...state, fetchPasswordLoading: false, fetchPasswordError: error})),
@@ -163,5 +157,3 @@ export const usersReducer = createReducer(
   on(checkIsOnlineSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
   on(checkIsOnlineFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 );
-
-

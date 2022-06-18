@@ -102,6 +102,9 @@ export class PostsEffects {
     ofType(likePostRequest),
     mergeMap(({id}) => this.postsService.likePost(id).pipe(
       map((post) => likePostSuccess({post})),
+      tap(({post}) => {
+        this.store.dispatch(fetchOneOfPostRequest({id: post._id}));
+      }),
       this.helpers.catchServerError(likePostFailure),
     )),
   ));
