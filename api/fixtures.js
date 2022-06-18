@@ -247,14 +247,14 @@ const run = async () => {
     userFrom: caitlyn,
     userTo: james,
     isRead: true,
-    createdAt: '10 мая 2022 г., 12:00:00'
+    createdAt: '10 мая 2022 г.,  12:00:00'
   }, {
     chatRoomInbox: firstChatRoomInbox,
     text: 'Hello Caitlyn! Not bad',
     userFrom: james,
     userTo: caitlyn,
     isRead: true,
-    createdAt: '10 мая 2022 г., 12:05:00'
+    createdAt: '10 мая 2022 г.,  12:05:00'
   });
 
   await ChatRoom.create({

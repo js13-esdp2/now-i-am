@@ -41,9 +41,9 @@ export class ChatService {
   }
 
   getMessages() {
-    this.websocketService.onmessage = (event) => {
-      const decodedMessage = JSON.parse(event.data);
-      const newMessage = decodedMessage.newMessage;
+    this.websocketService.onEvent('GET_MESSAGE').subscribe((data) => {
+      const decodedMessage = data.message;
+      const newMessage = decodedMessage['newMessage'];
 
       if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
         this.store.dispatch(addNewMessageToChatRoom({newMessage}));
@@ -60,7 +60,7 @@ export class ChatService {
         this.store.dispatch(getUsersChatRooms({userId: this.myId}));
         this.store.dispatch(addNewMessageToNewMessagesCounter());
       }
-    }
+    });
   }
 
   messagesAreRead(messagesAreReadData: MessagesAreReadData) {
