@@ -46,8 +46,8 @@ router.post('/', async (req, res, next) => {
     }
 
     const chatRoomInboxes = [firstUserId + secondUserId, secondUserId + firstUserId];
-    const firstUser = await User.findById(participants[0]);
-    const secondUser = await User.findById(participants[1]);
+    const firstUser = await User.findById(firstUserId);
+    const secondUser = await User.findById(secondUserId);
     const chatRooms = [];
     let chatRoomExists = false;
 
@@ -184,6 +184,7 @@ websocket.on('NEW_MESSAGE', async (ws, decodedMessage) => {
     const secondUser = activeConnections[userFrom];
     secondUser.send(JSON.stringify(sendMessageData));
   }
-})
+});
+
 
 module.exports = router;

@@ -47,25 +47,39 @@ router.get('/all/new/:ownerId', async (req, res, next) => {
 router.put('/areRead', async (req, res, next) => {
   try {
     const messageData = req.body.messagesAreReadData;
-    const filterParam = {
+    const chattingWithFilterParam = {
       chatRoomInbox: messageData.chatRoomInbox,
       owner: messageData.ownerId
     };
 
-    const chattingWithChatRoom = await ChatRoom.findOne(filterParam);
+    const myChatRoomFilterParam = {
+      chatRoomInbox: messageData.chatRoomInbox,
+      owner: messageData.myId,
+    };
 
-    const myChatRoom = await ChatRoom.findOneAndUpdate(
-      {owner: messageData.myId, chatRoomInbox: messageData.chatRoomInbox},
-      {$set: {newMessagesCounter: 0}}
-    );
+    const myChatRoom =  await ChatRoom.findOne(myChatRoomFilterParam);
+    const chattingWithChatRoom = await ChatRoom.findOne(chattingWithFilterParam);
 
-    const updatedMessages = [...chattingWithChatRoom.messages];
-    updatedMessages.map((message) => {
+    const myChatRoomsUpdatedMessages = [...myChatRoom.messages];
+    myChatRoomsUpdatedMessages.map((message) => {
       message.isRead = true;
       return message;
     });
 
-    await ChatRoom.findOneAndUpdate(filterParam, {$set: {messages: updatedMessages}});
+    const chattingWithUpdatedMessages = [...chattingWithChatRoom.messages];
+    chattingWithUpdatedMessages.map((message) => {
+      message.isRead = true;
+      return message;
+    });
+
+    await ChatRoom.findOneAndUpdate(myChatRoomFilterParam,
+      {$set: {newMessagesCounter: 0, messages: myChatRoomsUpdatedMessages}
+      }
+    );
+    await ChatRoom.findOneAndUpdate(chattingWithFilterParam,
+      {$set: {messages: chattingWithUpdatedMessages}
+      }
+    );
     return res.send(chattingWithChatRoom);
   } catch (e) {
     return next(e);

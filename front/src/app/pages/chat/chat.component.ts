@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChatService } from '../../services/chat.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { changeChatRoom, getUsersChatRooms } from '../../store/chat/chat.actions';
@@ -12,15 +11,12 @@ import { ChatRoom } from '../../models/chatRoom.model';
 })
 export class ChatComponent implements OnInit, OnDestroy {
   chatRoom!: undefined | null | ChatRoom;
-  usersToken!: string | undefined;
   userId!: string | undefined;
 
   constructor(
-    private chatService: ChatService,
     private store: Store<AppState>,
-    ) {
+  ) {
     store.select(state => (state.users.user)).subscribe(user => {
-      this.usersToken = user?.token;
       this.userId = user?._id;
     });
     store.select(state => state.chat.chatRoom).subscribe(chatRoom => {
