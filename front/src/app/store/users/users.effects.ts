@@ -5,12 +5,15 @@ import {
   addFriendFailure,
   addFriendRequest,
   addFriendSuccess,
-  checkCodeFailure,
-  checkCodeRequest,
-  checkCodeSuccess,
   changeUserPasswordFailure,
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
+  checkCodeFailure,
+  checkCodeRequest,
+  checkCodeSuccess,
+  checkIsOnlineFailure,
+  checkIsOnlineRequest,
+  checkIsOnlineSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
@@ -19,7 +22,10 @@ import {
   fetchCountriesSuccess,
   fetchFriendsFailure,
   fetchFriendsRequest,
-  fetchFriendsSuccess, fetchPasswordFailure, fetchPasswordRequest, fetchPasswordSuccess,
+  fetchFriendsSuccess,
+  fetchPasswordFailure,
+  fetchPasswordRequest,
+  fetchPasswordSuccess,
   fetchUserFailure,
   fetchUserRequest,
   fetchUserSuccess,
@@ -224,4 +230,12 @@ export class UsersEffects {
     )),
   ))
 
+  checkIsOnline = createEffect(() => this.actions.pipe(
+    ofType(checkIsOnlineRequest),
+    mergeMap(({userId}) => this.usersService.checkUser(userId).pipe(
+      map((posts) => checkIsOnlineSuccess({posts})),
+
+      this.helpersService.catchServerError(checkIsOnlineFailure)
+    )),
+  ))
 }

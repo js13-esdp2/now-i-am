@@ -90,6 +90,10 @@ export class UsersService {
     );
   }
 
+  checkUser(userId: string){
+    return this.http.get<any>(env.apiUrl + '/users/checkIfUserIsOnline/' + userId);
+  }
+
   getPassword(email: string) {
     return this.http.get<RecoveryData>(env.apiUrl + '/users/recovery/' + email);
   }

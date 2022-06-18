@@ -13,6 +13,7 @@
              #title="ngModel"
              [matAutocomplete]="categories.autocomplete"
              (input)="categories.getCategories(title.value)"
+             (focus)="checkUser()"
       />
       <app-autocomplete-categories #categories="appAutocompleteCategories"></app-autocomplete-categories>
       <mat-error *ngIf="title.touched && title.hasError('required')">
@@ -68,7 +69,7 @@
       <button mat-raised-button
               class="form__searchBtn"
               type="submit"
-              [disabled]="f.invalid || (isLoading | async)"
+              [disabled]="f.invalid  || (isLoading | async) || check"
       >поиск
         <app-loader [isLoading]="isLoading | async" class="form__search-slider" size="sm">
 

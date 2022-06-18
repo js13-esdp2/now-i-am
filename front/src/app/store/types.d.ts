@@ -17,6 +17,7 @@ import { Category } from '../models/category.model';
 export type UsersState = {
   user: null | User,
   friend: null | User,
+  posts: null | Post[],
   recoveryData: null | RecoveryData,
   friends: Friends[],
   registerLoading: boolean,
