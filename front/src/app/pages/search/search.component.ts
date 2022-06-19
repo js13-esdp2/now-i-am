@@ -7,7 +7,7 @@ import { User } from '../../models/user.model';
 import { checkIsOnlineRequest } from '../../store/users/users.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { City, CountriesApi, CountriesModel } from '../../models/countries.model';
+import { City, CountriesApi } from '../../models/countries.model';
 import { Post } from '../../models/post.model';
 import { fetchCountriesRequest } from '../../store/countries/countries.actions';
 

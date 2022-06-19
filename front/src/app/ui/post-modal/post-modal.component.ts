@@ -1,8 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CommentData, Post, RemoveCommentData } from '../../models/post.model';
+import { ApiPostData, CommentData, Post, RemoveCommentData } from '../../models/post.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ApiPostData, Post } from '../../models/post.model';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -11,7 +9,8 @@ import {
   createPostCommentRequest,
   fetchOneOfPostRequest,
   likePostRequest,
-  onPostModalDataChange, removePostCommentRequest,
+  onPostModalDataChange,
+  removePostCommentRequest,
   removePostRequest
 } from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
@@ -19,7 +18,6 @@ import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
-import { DeleteChatModalComponent } from '../delete-chat-modal/delete-chat-modal.component';
 import { LikesModalComponent } from '../likes-modal/likes-modal.component';
 
 @Component({
@@ -177,7 +175,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
-    // this.usersSub.unsubscribe();
+    this.usersSub.unsubscribe();
     this.postSub.unsubscribe();
   }
 
