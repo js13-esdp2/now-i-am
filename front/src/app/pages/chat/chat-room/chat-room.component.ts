@@ -8,7 +8,7 @@ import { ChatService } from '../../../services/chat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Message } from '../../../models/message.model';
 import {
-  changeChatRoom,
+  changeChatRoom, decreaseMessagesCounter,
   deleteAllMessages,
   deleteMyMessages,
   getChatRoomByIdRequest, getUsersChatRooms
@@ -40,6 +40,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       if (chatRoom) {
         this.chatRoom = chatRoom;
         this.store.dispatch(changeChatRoom({chatRoom}));
+        this.store.dispatch(decreaseMessagesCounter({decreaseNumber: chatRoom.newMessagesCounter}))
       }
     });
     store.select(state => state.users.user).subscribe(user => {
@@ -56,19 +57,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  submitMessage(event: Event) {
-    if (this.message) {
-      const messageData = {
-        chatRoomInbox: this.chatRoom.chatRoomInbox,
-        text: this.message,
-        userFrom: this.chatRoom.owner._id,
-        userTo: this.chatRoom.chattingWith._id,
-        isRead: false,
-      }
+  sendMessageByEnter(event: Event) {
+    this.sendMessage();
+  }
 
-      this.chatService.sendMessage(messageData);
-      this.message = '';
-    }
+  sendMessageByClick() {
+    this.sendMessage();
   }
 
   sendMessage() {

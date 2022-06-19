@@ -8,7 +8,7 @@ import { Message, MessageData, MessagesAreReadData, NewMessages } from '../model
 import {
   addNewMessageToChatRoom,
   addNewMessageToNewMessagesCounter,
-  getUsersChatRooms
+  getUsersChatRooms, messagesAreReadRequest
 } from '../store/chat/chat.actions';
 import { WebsocketService } from './websocket.service';
 
@@ -50,12 +50,12 @@ export class ChatService {
       }
 
       if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
-        const messageIsReadData = {
+        const messagesAreReadData = {
           ownerId: this.chatRoom?.chattingWith._id,
           chatRoomInbox: newMessage.chatRoomInbox,
           myId: this.myId,
         }
-        this.messagesAreRead(messageIsReadData);
+        this.store.dispatch(messagesAreReadRequest({messagesAreReadData}))
       } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
         this.store.dispatch(getUsersChatRooms({userId: this.myId}));
         this.store.dispatch(addNewMessageToNewMessagesCounter());
@@ -64,10 +64,9 @@ export class ChatService {
   }
 
   messagesAreRead(messagesAreReadData: MessagesAreReadData) {
-    this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData}).subscribe((response) => {
-      // console.log(response);
-    })
+    return this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData});
   }
+
 
   getUsersChatRooms(userId: string | undefined) {
     let params = new HttpParams();

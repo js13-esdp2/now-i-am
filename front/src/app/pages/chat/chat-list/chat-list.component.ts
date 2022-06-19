@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../store/types';
 import { Store } from '@ngrx/store';
 import { ChatRoom } from '../../../models/chatRoom.model';
-import { deleteChatRoomRequest, getChatRoomByIdRequest } from '../../../store/chat/chat.actions';
+import {
+  deleteChatRoomRequest,
+  getChatRoomByIdRequest,
+  getUsersChatRooms,
+  messagesAreReadRequest
+} from '../../../store/chat/chat.actions';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { ChatService } from '../../../services/chat.service';
@@ -24,11 +29,10 @@ export class ChatListComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private router: Router,
-    private chatService: ChatService,
   ) {
     store.select(state => (state.users.user)).subscribe(user => {
       this.userId = user?._id;
+      this.store.dispatch(getUsersChatRooms({userId: this.userId}));
     });
     store.select(state => state.chat.chatRooms).subscribe(chatRooms => {
       this.chatRooms = chatRooms;
@@ -49,11 +53,6 @@ export class ChatListComponent implements OnInit {
     );
   }
 
-  changeChatRoom(chatRoom: ChatRoom) {
-    this.store.dispatch(getChatRoomByIdRequest({chatRoomId: chatRoom._id}));
-    this.myControl.reset('');
-  }
-
   displayFn(subject: any) {
     return subject ? subject.name : undefined;
   }
@@ -69,7 +68,7 @@ export class ChatListComponent implements OnInit {
       myId: this.userId,
     }
     this.store.dispatch(getChatRoomByIdRequest({chatRoomId: chatRoom._id}));
-    this.chatService.messagesAreRead(messagesAreReadData);
+    this.store.dispatch(messagesAreReadRequest({messagesAreReadData}));
   }
 
   checkIfThereAreNewMessages(newMessagesCounter: number) {

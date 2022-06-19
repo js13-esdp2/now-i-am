@@ -14,7 +14,7 @@
     <div class="chat-room-header__info-wrapper">
       <div class="chat-room-header__go-back-icon_wrapper">
         <img
-          routerLink="/chat"
+          routerLink="/chat-list"
           class="chat-room-header__go-back-icon"
           src="../../assets/chat/go-back.svg"
           alt="go-back-icon"
@@ -97,12 +97,12 @@
       class="send-message-block__form">
       <input
         [(ngModel)]="message"
-        (keyup.enter)="submitMessage($event)"
+        (keyup.enter)="sendMessageByEnter($event)"
         name="message"
         class="send-message-block__input"
         type="text">
       <button
-        (click)="sendMessage()"
+        (click)="sendMessageByClick()"
         class="send-message-block__send-btn">
         <mat-icon>send</mat-icon>
       </button>

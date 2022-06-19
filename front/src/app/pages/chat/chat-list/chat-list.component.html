@@ -33,7 +33,7 @@
         </mat-option>
         <mat-option
           class="search-block__option-desktop"
-          (click)="changeChatRoom(chatRoom)"
+          (click)="goToChatRoom(chatRoom)"
           *ngFor="let chatRoom of (filteredChatRooms | async)" [value]="chatRoom">
           <div class="search-block__item">
             <div class="search-block__user-avatar_wrapper">
@@ -105,7 +105,7 @@
         <div
           *ngIf="checkIfThereAreNewMessages(chatRoom.newMessagesCounter)"
           class="chat-list-content__new-messages">
-            {{ chatRoom.newMessagesCounter }}
+          {{ chatRoom.newMessagesCounter }}
         </div>
         <div class="chat-list-content__more-icon_wrapper">
           <img

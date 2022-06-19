@@ -4,7 +4,6 @@ import { AppState } from './store/types';
 import { Observable, Subscription } from 'rxjs';
 import { User } from './models/user.model';
 import { WebsocketService } from './services/websocket.service';
-import { ChatService } from './services/chat.service';
 import { getAllNewMessages } from './store/chat/chat.actions';
 
 @Component({
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private websocketService: WebsocketService,
-    private chatService: ChatService,
   ) {
     this.user = store.select(state => state.users.user);
   }

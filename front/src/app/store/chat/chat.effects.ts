@@ -22,7 +22,7 @@ import {
   getChatRoomByIdSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
-  getUsersChatRoomsSuccess
+  getUsersChatRoomsSuccess, messagesAreReadFailure, messagesAreReadRequest, messagesAreReadSuccess
 } from './chat.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { HelpersService } from '../../services/helpers.service';
@@ -112,8 +112,9 @@ export class ChatEffects {
     ofType(getChatRoomByIdRequest),
     mergeMap(({chatRoomId}) => this.chatService.getChatRoomById(chatRoomId)
       .pipe(
-        map((chatRoom) => getChatRoomByIdSuccess({chatRoom})),
-        tap(({chatRoom}) => this.store.dispatch(decreaseMessagesCounter({decreaseNumber: chatRoom.newMessagesCounter}))),
+        map((chatRoom) => {
+          return getChatRoomByIdSuccess({chatRoom})
+        }),
         tap(({chatRoom}) => this.store.dispatch(getUsersChatRooms({userId: this.userId}))),
         this.helpers.catchServerError(getChatRoomByIdFailure)
       ))
@@ -127,4 +128,13 @@ export class ChatEffects {
         this.helpers.catchServerError(getAllNewMessagesFailure)
       ))
   ));
+
+  messagesAreRead = createEffect(() => this.actions.pipe(
+    ofType(messagesAreReadRequest),
+    mergeMap(({messagesAreReadData}) => this.chatService.messagesAreRead(messagesAreReadData)
+      .pipe(
+        map(() => messagesAreReadSuccess()),
+        this.helpers.catchServerError(messagesAreReadFailure)
+      ))
+  ))
 }

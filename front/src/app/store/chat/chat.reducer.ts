@@ -25,7 +25,7 @@ import {
   getChatRoomByIdSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
-  getUsersChatRoomsSuccess
+  getUsersChatRoomsSuccess, messagesAreReadFailure, messagesAreReadRequest, messagesAreReadSuccess
 } from './chat.actions';
 
 const initialState: ChatState = {
@@ -95,5 +95,8 @@ export const chatReducer = createReducer(
       const updatedAllNewMessages = state.allNewMessages - decreaseNumber;
       return {...state, allNewMessages: updatedAllNewMessages};
     }
-  )
+  ),
+  on(messagesAreReadRequest, (state) => ({...state, fetchLoading: true})),
+  on(messagesAreReadSuccess, (state) => ({...state, fetchLoading: false})),
+  on(messagesAreReadFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 )

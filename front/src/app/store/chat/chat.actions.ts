@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ChatRoom, ChatRoomData } from '../../models/chatRoom.model';
-import { Message, NewMessages } from '../../models/message.model';
+import { Message, MessagesAreReadData, NewMessages } from '../../models/message.model';
 
 export const createNewChatRoom = createAction('[Chat] Post ChatRoom Request', props<{ chatRoomData: ChatRoomData }>());
 export const createNewChatRoomSuccess = createAction('[Chat] Post ChatRoom Success');
@@ -35,3 +35,7 @@ export const getAllNewMessagesFailure = createAction('[Chat]All New Messages Fai
 
 export const addNewMessageToNewMessagesCounter = createAction('[Chat] Add New Message To Counter');
 export const decreaseMessagesCounter = createAction('[Chat] Decrease New Message Counter', props<{ decreaseNumber: number }>());
+
+export const messagesAreReadRequest = createAction('[Chat] Messages Are Read Request', props<{ messagesAreReadData: MessagesAreReadData }>());
+export const messagesAreReadSuccess = createAction('[Chat] Messages Are Read Success');
+export const messagesAreReadFailure = createAction('[Chat] Messages Are Read Failure', props<{ error: string | null }>());
