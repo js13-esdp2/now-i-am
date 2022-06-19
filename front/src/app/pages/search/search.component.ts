@@ -36,6 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   isSearched = true;
   panelOpenState = false;
   check = true;
+  userData!: User;
 
 
   constructor(
@@ -50,6 +51,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userSub = this.user.subscribe(userData => {
+      if (userData) {
+        this.userData = userData;
+      }
+    })
     this.store.dispatch(fetchCountriesRequest());
     this.countrySub = this.countries.subscribe(countryInfo => {
       this.options = countryInfo;
@@ -88,11 +94,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   checkUser() {
-    this.userSub = this.user.subscribe(userData => {
-      if (userData) {
-        this.store.dispatch(checkIsOnlineRequest({userId: userData._id}));
-      }
-    })
+    this.store.dispatch(checkIsOnlineRequest({userId: this.userData._id}));
     this.isCheckSub = this.isCheck.subscribe(data => {
       if (data){
         if (data.length > 0){
@@ -107,6 +109,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.countrySub.unsubscribe();
     this.userSub.unsubscribe();
-    this.isCheckSub.unsubscribe();
+    if (this.isCheckSub) {
+      this.isCheckSub.unsubscribe();
+    }
   }
 }

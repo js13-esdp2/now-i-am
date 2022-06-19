@@ -173,17 +173,19 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(removePostCommentRequest({comment: data}))
   }
 
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-    this.usersSub.unsubscribe();
-    this.postSub.unsubscribe();
-  }
-
-
   openLikesDialog(post: ApiPostData): void {
     const dialogRef = this.dialog.open(LikesModalComponent, {
       width: '400px',
       data: post,
     });
   }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    if (this.usersSub){
+      this.usersSub.unsubscribe();
+    }
+    this.postSub.unsubscribe();
+  }
+
 }
