@@ -82,6 +82,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSub = this.user.subscribe((user) => {
       this.userData = user;
+      console.log(user)
     });
     this.postSub = this.post.subscribe((post) => {
       if (post) {
@@ -175,9 +176,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
       userId: this.userData!._id
     }
     this.store.dispatch(createCommentRequest({comment: data}));
+    this.commentText = '';
   }
 
   removeComment(commentId: string){
+    console.log(commentId);
     this.store.dispatch(removeCommentRequest({commentId: commentId}))
   }
 

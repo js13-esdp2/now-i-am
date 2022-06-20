@@ -33,11 +33,12 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:id', auth, async (req, res, next) => {
   try {
+    console.log(req.params.id);
     const comment = await Comment.findById(req.params.id);
     if (!comment) {
       return res.send({message: 'ok'});
     }
-    if (req.user.role === 'user') {
+    if (req.user.role === 'moderator') {
       if (!comment.user.equals(req.user._id)) {
         return res.status(403).send({error: 'У Вас нет на это прав'});
       }

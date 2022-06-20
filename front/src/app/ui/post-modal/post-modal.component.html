@@ -14,7 +14,9 @@
   <div *ngIf="profileIsOpen else profile">
     <div class="modal-content">
       <div class="post-info">
-        <img [src]="postData.content | image" [alt]="postData.title" class="post-block__image"/>
+        <div class="post-block_image-block">
+          <img [src]="postData.content | image" [alt]="postData.title" class="post-block__img"/>
+        </div>
         <mat-card-header>
           <mat-card-title>{{ postData.title }}</mat-card-title>
           <div class="placement">
@@ -57,7 +59,7 @@
           <div *ngFor="let comment of (comments | async)" class="comments-block__comment">
             <b class="comments-block__userName">{{ comment.user.displayName }}</b>
             <p class="comments-block__text"> {{ comment.text }}</p>
-            <button class="comments-block__btn" (click)="removeComment(comment._id)" mat-button>
+            <button class="comments-block__btn" *ngIf="userData!.role === 'moderator'" (click)="removeComment(comment._id)" mat-button>
               <mat-icon class="comments-block__btn-icon">delete</mat-icon>
             </button>
           </div>
