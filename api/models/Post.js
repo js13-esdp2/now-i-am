@@ -65,7 +65,6 @@ const PostSchema = new Schema({
       type: Number
     }
   } | null,
-  comments: [CommentSchema],
 });
 
 PostSchema.index({ title: 'text' });

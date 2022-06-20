@@ -4,7 +4,11 @@ import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Friends } from '../../models/frends.model';
-import { fetchFriendsRequest, removeFriendRequest } from '../../store/users/users.actions';
+import {
+  confirmationOfFriendshipRequest,
+  fetchFriendsRequest,
+  removeFriendRequest
+} from '../../store/users/users.actions';
 import { environment } from '../../../environments/environment';
 import { WebsocketService } from '../../services/websocket.service';
 
@@ -39,6 +43,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  confirmationOfFriendship(friendId: string){
+    this.store.dispatch(confirmationOfFriendshipRequest({friendId}))
+  };
 
   onRemove(friendId: string) {
     this.store.dispatch(removeFriendRequest({friendId}));

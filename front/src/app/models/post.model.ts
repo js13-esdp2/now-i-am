@@ -100,12 +100,3 @@ export interface ApiPostData {
   ]
 }
 
-export interface CommentData {
-  comment: string,
-  postId: string
-}
-
-export interface RemoveCommentData {
-  postId: string,
-  commentId: string
-}

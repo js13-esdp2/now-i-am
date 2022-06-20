@@ -122,21 +122,6 @@ const run = async () => {
   const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
   const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
 
-  const [Comm1, Comm2, Comm3] = await Comment.create(
-    {
-      user: anna,
-      text: "Hello"
-    },
-    {
-      user: james,
-      text: "How are you?"
-    },
-    {
-      user: anna,
-      text: "Goodbye"
-    },
-  )
-
   await Post.create({
     user: anna,
     categoryId: coffeeCat,
@@ -247,7 +232,6 @@ const run = async () => {
       lat: 42.876474,
       lng: 74.637337
     },
-    commenst: [Comm1, Comm2, Comm3]
   },
 )
 

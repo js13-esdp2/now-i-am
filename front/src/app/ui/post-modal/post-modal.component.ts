@@ -1,16 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { ApiPostData, CommentData, Post, RemoveCommentData } from '../../models/post.model';
+import { ApiPostData, Post } from '../../models/post.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
 import {
-  createPostCommentRequest,
   fetchOneOfPostRequest,
   likePostRequest,
   onPostModalDataChange,
-  removePostCommentRequest,
   removePostRequest
 } from '../../store/posts/posts.actions';
 import { User } from '../../models/user.model';
@@ -18,7 +16,9 @@ import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
+import { createCommentRequest, removeCommentRequest } from '../../store/comments/comments.actions';
 import { LikesModalComponent } from '../likes-modal/likes-modal.component';
+import { CommentData } from '../../models/comment.model';
 
 @Component({
   selector: 'app-post-modal',
@@ -41,6 +41,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   postData!: Post;
   profileIsOpen = true;
 
+
   private usersSub!: Subscription;
   private userSub!: Subscription;
   private postSub!: Subscription;
@@ -48,10 +49,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<PostModalComponent>,
-    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
     private router: Router,
+    private dialog: MatDialog,
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
@@ -161,16 +162,13 @@ export class PostModalComponent implements OnInit, OnDestroy {
     const data: CommentData = {
       comment: this.comment,
       postId: this.postId,
+      userId: this.userData!._id
     }
-    this.store.dispatch(createPostCommentRequest({comment: data}))
+    this.store.dispatch(createCommentRequest({comment: data}))
   }
 
   removeComment(commentId: string){
-    const data: RemoveCommentData = {
-      commentId: commentId,
-      postId: this.postId,
-    }
-    this.store.dispatch(removePostCommentRequest({comment: data}))
+    this.store.dispatch(removeCommentRequest({commentId: commentId}))
   }
 
   openLikesDialog(post: ApiPostData): void {

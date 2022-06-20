@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { ApiPostData, CommentData, Post, PostData, RemoveCommentData } from '../models/post.model';
+import { ApiPostData, Post, PostData } from '../models/post.model';
+import { Comment, CommentData } from '../models/comment.model';
 import { Subject } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 
@@ -114,12 +115,38 @@ export class PostsService {
     );
   }
 
-  createComment(comment: CommentData) {
-    return this.http.post(environment.apiUrl + '/posts/comment', comment);
+
+  getComments(postId: string) {
+    return this.http.get<Comment[]>(environment.apiUrl + `/comments/${postId}`).pipe(
+      map(response => {
+        return response.map(commentData => {
+          return new Comment(
+            commentData.user,
+            commentData.text,
+            commentData.postId,
+          )
+        });
+      })
+    );
   }
 
-  removeComment(comment: RemoveCommentData) {
-    return this.http.delete(environment.apiUrl + `/posts/${comment.commentId}/${comment.postId}`);
+
+  createComment(comment: CommentData) {
+    return this.http.post<Comment[]>(environment.apiUrl + '/posts/comment', comment).pipe(
+      map(response => {
+        return response.map(commentData => {
+          return new Comment(
+            commentData.user,
+            commentData.text,
+            commentData.postId,
+          )
+        });
+      })
+    );
+  }
+
+  removeComment(commentId: string) {
+    return this.http.delete(environment.apiUrl + `/posts/${commentId}`);
   }
 
 }

@@ -2,51 +2,36 @@
   text-align: center
 
   &__title
-    font-size: 44px
-    font-weight: bold
-    padding: 15px 0
-    --start: 15%
-    color: white
-    border-top-left-radius: 10px
-    border-top-right-radius: 10px
-    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
-    overflow: hidden
+    font-size: calc(1em + 2vw)
+    text-align: center
+    padding: 35px 0 10px
+
+  &__container
+    max-width: 768px
+    margin: 0 auto
+    background-color: rgba(255, 255, 255, 0.7)
+    padding: 10px
+    position: relative
+    border-radius: 10px
 
 .friend-card
-  height: auto
-  --start: 15%
-  border-top-left-radius: 10px
-  border-top-right-radius: 10px
-  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
-  overflow: hidden
-
+  margin: 5px
   &__title
-    font-size: 20px
-    font-weight: bold
-    color: white
+    font-family: 'Comfortaa', cursive
+    margin-bottom: 15px
 
-  &__img-block
-    max-width: 330px
-    height: auto
-    margin: 10px auto
-
-  &__img
-    width: 100%
-    height: auto
-    border-radius: 10%
+.user-avatar
+  width: 100px
+  height: 100px
 
 .btn-block
   display: flex
   justify-content: space-around
   flex-wrap: wrap
 
-  &__btn-person
+  &__btn
     margin: 5px !important
+    background: #000000
+    color: #fff
+    padding: 0 10px
 
-  &__btn-chat
-    margin: 5px !important
-    background: violet
-
-  &__btn-remove
-    margin: 5px !important
-    background: red

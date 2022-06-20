@@ -12,6 +12,7 @@ const messages = require('./app/messages');
 const friends = require('./app/friends');
 const countries = require('./app/countries');
 const categories = require('./app/categories');
+const comments = require('./app/comments');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/messages', messages);
 app.use('/friends', friends);
 app.use('/countries', countries);
 app.use('/categories', categories);
+app.use('/comments', comments);
 
 const run = async () => {
   await mongoose.connect(config.mongo.db, config.mongo.options);

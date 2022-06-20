@@ -91,6 +91,10 @@ export class UsersService {
   changePassword(passwords: PasswordData) {
     return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
   }
+
+  confirmationOfFriendship(friendId: string){
+    return this.http.put(env.apiUrl + `/friends/${friendId}`, {isFriend: true});
+  }
 }
 
 const getCitiesArray = (array: any) => {

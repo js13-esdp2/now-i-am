@@ -12,7 +12,7 @@
   </button>
 
   <div *ngIf="profileIsOpen else profile">
-    <img [src]="apiUrl + '/uploads/' + postData.content" [alt]="postData.title" class="post-block__image"/>
+    <img [src]="postData.content | image" [alt]="postData.title" class="post-block__image"/>
     <mat-card-header>
       <mat-card-title>{{ postData.title }}</mat-card-title>
       <div class="placement">

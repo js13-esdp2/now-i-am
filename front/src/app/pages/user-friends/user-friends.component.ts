@@ -36,6 +36,7 @@ export class UserFriendsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchFriendsRequest());
+    console.log(this.friends);
   }
 
   removeFriend(friendId: string) {

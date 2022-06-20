@@ -64,6 +64,9 @@ export const checkCodeFailure = createAction('[User] Check Code Failure', props<
 export const removeFriendRequest = createAction('[Users] Remove Friend Request', props<{friendId: string}>());
 export const removeFriendSuccess = createAction('[Users] Remove Friend Success');
 
+export const confirmationOfFriendshipRequest = createAction('[Users] confirmationOfFriendship Friend Request', props<{friendId: string}>());
+export const confirmationOfFriendshipSuccess = createAction('[Users] confirmationOfFriendship Friend Success');
+
 export const changeUserPasswordRequest = createAction('[User] Change Password Request', props<{passwords: PasswordData}>());
 export const changeUserPasswordSuccess = createAction('[User] Change Password Success', props<{user: User}>());
 export const changeUserPasswordFailure = createAction('[User] Change Password Failure', props<{ error: string }>());
@@ -71,3 +74,6 @@ export const changeUserPasswordFailure = createAction('[User] Change Password Fa
 export const checkIsOnlineRequest = createAction('[Users] Check User Request', props<{userId: string}>());
 export const checkIsOnlineSuccess = createAction('[Users] Check User Success', props<{posts: Post[]}>());
 export const checkIsOnlineFailure = createAction('[Users] Check User Failure', props<{ error: string }>());
+
+
+

@@ -44,7 +44,7 @@ import {
   registerUserRequest,
   registerUserSuccess,
   removeFriendRequest,
-  removeFriendSuccess
+  removeFriendSuccess, confirmationOfFriendshipRequest, confirmationOfFriendshipSuccess
 } from './users.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -203,6 +203,16 @@ export class UsersEffects {
       map(() => removeFriendSuccess()),
       tap(()=> {
         this.helpersService.openSnackBar('Удаление завершено!')
+      })
+    )),
+  ));
+
+  confirmationOfFriendship = createEffect(() => this.actions.pipe(
+    ofType(confirmationOfFriendshipRequest),
+    mergeMap(({friendId}) => this.usersService.confirmationOfFriendship(friendId).pipe(
+      map(() => confirmationOfFriendshipSuccess()),
+      tap(()=> {
+        this.helpersService.openSnackBar('Запрос подтвержден!')
       })
     )),
   ));

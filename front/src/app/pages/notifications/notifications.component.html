@@ -1,12 +1,12 @@
 <h2 class="title">Уведомления</h2>
-<div class="notifications-container">
+<div class="notifications-container" *ngIf="!(friends | async), else notRequests">
     <mat-card class="user-item" *ngFor="let friend of friends | async">
       <mat-card-content class="user-item__content" *ngIf="!friend.isFriend">
         <div class="user-item__image-container">
           <img class="user-avatar" [src]="apiUrl + '/uploads/' + friend.user.photo " [alt]="'Photo of '">
         </div>
         <span class="user-item__name">{{ friend.user.displayName }}  <span class="user-item__text">отправил/а вам запрос на добавление в друзья</span></span>
-        <button mat-icon-button class="user-item__btn">
+        <button mat-icon-button class="user-item__btn" (click)="confirmationOfFriendship(friend._id)">
           <mat-icon class="user-item__btn-done">done</mat-icon>
         </button>
         <button mat-icon-button class="user-item__btn" (click)="onRemove(friend.friend._id)">
@@ -15,6 +15,12 @@
       </mat-card-content>
     </mat-card>
   </div>
+
+<ng-template #notRequests>
+  <div class="notifications-container">
+    <h3>У вас нет запросов на дружбу</h3>
+  </div>
+</ng-template>
 
 
 
