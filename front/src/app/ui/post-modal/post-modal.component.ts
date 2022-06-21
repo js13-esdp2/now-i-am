@@ -17,7 +17,11 @@ import { Router } from '@angular/router';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
 import { CommentData, Comment } from '../../models/comment.model';
-import { createCommentRequest, removeCommentRequest } from '../../store/comments/comments.actions';
+import {
+  createCommentRequest,
+  fetchCommentsRequest,
+  removeCommentRequest
+} from '../../store/comments/comments.actions';
 import { LikesModalComponent } from '../likes-modal/likes-modal.component';
 
 @Component({
@@ -82,7 +86,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSub = this.user.subscribe((user) => {
       this.userData = user;
-      console.log(user)
     });
     this.postSub = this.post.subscribe((post) => {
       if (post) {

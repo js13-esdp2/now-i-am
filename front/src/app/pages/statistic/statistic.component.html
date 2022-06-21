@@ -13,7 +13,7 @@
   </div>
   <div class="result-wrapper" [style.display]="visibility?'block':'none'">
     <mat-card class="result-block" *ngIf="isSearched && (posts | async) as $posts">
-      <mat-card-content class="posts" fxLayout="row wrap" fxLayoutAlign="space-between">
+      <mat-card-content class="posts" fxLayout="row wrap" fxLayoutAlign="space-evenly">
         <mat-card class="post"
                   *ngFor="let post of $posts"
                   (click)="openPost(post)"
