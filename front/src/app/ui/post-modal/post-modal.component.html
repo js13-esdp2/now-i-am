@@ -63,12 +63,14 @@
       <div [ngClass]="{commentsBlock: isBlock}" *ngIf="(commentsShow)">
         <h4 class="comments-title">Комментарии</h4>
         <div class="comments-block" *ngIf="(commentsShow)">
-          <div *ngFor="let comment of comments | async" class="comments-block__comment">
-            <b class="comments-block__userName">{{ comment.user.displayName }}</b>
-            <p class="comments-block__text">{{ comment.text }}</p>
-            <button class="comments-block__btn"  *ngIf="userData?.role === 'moderator'" (click)="removeComment(comment._id)" mat-button>
-              <mat-icon class="comments-block__btn-icon">delete</mat-icon>
-            </button>
+          <div class="comments-container">
+            <div *ngFor="let comment of comments | async" class="comments-block__comment">
+              <b class="comments-block__userName">{{ comment.user.displayName }}</b>
+              <p class="comments-block__text">{{ comment.text }}</p>
+              <button class="comments-block__btn"  *ngIf="userData?.role === 'moderator'" (click)="removeComment(comment._id)" mat-button>
+                <mat-icon class="comments-block__btn-icon">delete</mat-icon>
+              </button>
+            </div>
           </div>
             <mat-form-field appearance="fill" style="width: 100%; font-size: 12px;" *ngIf="user | async">
               <mat-label>Добавить комментарий</mat-label>
