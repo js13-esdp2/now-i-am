@@ -1,8 +1,6 @@
 const express = require('express');
 const Comment = require('../models/Comment');
 const auth = require('../middleware/auth');
-const Post = require('../models/Post');
-
 
 const router = express.Router();
 
@@ -33,7 +31,6 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:id', auth, async (req, res, next) => {
   try {
-    console.log(req.params.id);
     const comment = await Comment.findById(req.params.id);
     if (!comment) {
       return res.send({message: 'ok'});
