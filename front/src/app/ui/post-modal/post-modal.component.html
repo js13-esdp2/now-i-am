@@ -75,7 +75,7 @@
             <mat-form-field appearance="fill" style="width: 100%; font-size: 12px;" *ngIf="user | async">
               <mat-label>Добавить комментарий</mat-label>
               <input matInput name="comment" [(ngModel)]=commentText>
-              <mat-icon matSuffix (click)="createComment()">send</mat-icon>
+              <mat-icon class="send-icon" matSuffix (click)="createComment()">send</mat-icon>
             </mat-form-field>
         </div>
       </div>
