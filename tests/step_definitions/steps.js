@@ -64,3 +64,7 @@ Given('я не должен видеть текст {string}', (text) => {
   I.wait(2);
   I.dontSee(text);
 });
+
+Given('я жду {string} секунд', (seconds) => {
+  I.wait(seconds);
+});
