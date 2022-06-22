@@ -41,6 +41,11 @@ Given('я кликаю на текст {string}', (text) => {
 
 Given('я кликаю на текст {string} со стилями {string}', (text, styles) => {
   I.click(text, {css: styles});
+  I.wait(2);
+});
+
+Given('я кликаю на пост со стилями {string}', styles => {
+  I.click({css: styles});
 });
 
 Given('я кликаю на иконку со стилями {string}', (styles) => {
