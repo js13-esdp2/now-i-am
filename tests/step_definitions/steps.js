@@ -68,3 +68,7 @@ Given('я не должен видеть текст {string}', (text) => {
 Given('я жду {string} секунд', (seconds) => {
   I.wait(seconds);
 });
+
+Given('я не должен видеть текст со стилями {string}', (styles) => {
+  I.dontSee({css: styles});
+});
