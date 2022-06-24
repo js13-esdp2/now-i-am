@@ -1,14 +1,28 @@
+.create-post
+  padding: 35px 15px
+  max-width: 800px
+  margin: 0 auto
+  text-align: center
+
+form
+  background-color: rgba(255, 255, 255, 0.7)
+  border-radius: 10px
+  padding: 15px
+  margin-top: 10px
+
 .choose-image-box
   display: flex
   justify-content: center
   flex-direction: row
 
+.create-post
+  &__title
+    font-weight: 700
+    font-size: calc(1em + 2vw)
+
 mat-card
   max-width: 500px
   margin: 0 auto
-
-mat-card h2
-  text-align: center
 
 .titleField
   padding-bottom: 0
@@ -19,9 +33,33 @@ mat-card h2
 .hours-input
   margin-top: 10px
 
+.camera-btn
+  @media screen and (max-width: 768px)
+    display: none
+  &__camera-icon
+    font-size: 30px
+
+.location-chek
+  margin-bottom: 15px
+
 .sendBtn
-  display: flex
-  align-self: center
+  display: block
+  margin: 0 auto
+  height: 52px
+  background: #000
+  color: #fff
+  font-weight: 700
+  text-transform: uppercase
+  font-family: 'Comfortaa', cursive
+  width: 100%
+  &:hover
+    background-color: rgba(67, 67, 67, 0.65)
+    transition: 1s
+    color: #000
+  @media screen and (min-width: 576px)
+    width: 360px
+    margin: 0 auto
+    display: block
 
 mat-icon
   color: darkblue
@@ -30,9 +68,9 @@ mat-icon
   text-align: center
 
   &__title
-    font-size: 16px
-    font-weight: normal
-    margin: 3px 0 10px
+   font-weight: normal
+   margin: 3px 0 10px
+
 
 .select-block
   display: flex

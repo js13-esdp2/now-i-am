@@ -4,21 +4,18 @@
 <ng-template #friendsArea>
   <div class="friends-block" *ngIf="(friends | async)?.length">
     <h2 class="friends-block__title">Мои друзья</h2>
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.lt-lg="33%" fxFlex="15%" *ngFor="let friend of friends | async">
+    <div class="friends-block__container" fxLayout="row center">
+      <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.lt-lg="33%" *ngFor="let friend of friends | async">
         <mat-card class="friend-card" *ngIf="friend.isFriend">
-          <mat-card-header fxLayout="column" fxLayoutAlign="center center">
-            <mat-card-title class="friend-card__title">{{ friend.friend.displayName }}</mat-card-title>
-            <mat-divider inset></mat-divider>
-          </mat-card-header>
+          <h3 class="friend-card__title">{{ friend.user.displayName }}</h3>
           <div class="friend-card__img-block">
-            <img class="friend-card__img" [src]="friend.friend.photo | image" [alt]="'Photo of ' + friend.friend.displayName">
+            <img class="user-avatar" [src]="friend.user.photo | image" [alt]="'Photo of ' + friend.user.displayName">
           </div>
           <mat-divider inset></mat-divider>
           <mat-card-actions class="btn-block">
-            <button mat-raised-button class="btn-block__btn-person" (click)="openProfileModal(friend.friend._id)"><span class="material-icons">person</span></button>
-            <button mat-raised-button class="btn-block__btn-chat"><span class="material-icons">question_answer</span></button>
-            <button mat-raised-button class="btn-block__btn-remove" (click)="removeFriend(friend.friend._id)"><span class="material-icons">delete</span></button>
+            <button class="btn-block__btn" (click)="openProfileModal(friend.friend._id)"><span class="material-icons">person</span></button>
+            <button class="btn-block__btn"><span class="material-icons">question_answer</span></button>
+            <button class="btn-block__btn" (click)="removeFriend(friend.friend._id)"><span class="material-icons">delete</span></button>
           </mat-card-actions>
         </mat-card>
       </div>

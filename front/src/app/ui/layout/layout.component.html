@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
-    <mat-toolbar class="mat-toolbar">
+    <mat-toolbar class="mat-toolbar" *ngIf="user | async">
       <div class="logo-block">
         <button mat-icon-button class="sidenav-btn" *ngIf="mobWindow" [matMenuTriggerFor]="iconsMenu">
           <span class="material-icons icon-menu">menu</span>
@@ -15,11 +15,11 @@
            class="logo-link"
            *appUserType="'user' else changeWay"
         >
-          <img class="logo-link__logo" src="assets/images/logo.jpg" alt="Now-i-Am">
+          <img class="logo-link__logo" src="././assets/images/logo.svg" alt="Now-i-Am">
         </a>
         <ng-template #changeWay>
           <a class="logo-link" routerLink="/">
-            <img class="logo-link__logo" src="assets/images/logo.jpg" alt="Now-i-Am">
+            <img class="logo-link__logo" src="././assets/images/logo.svg" alt="Now-i-Am">
           </a>
         </ng-template>
       </div>
@@ -91,7 +91,9 @@
       </nav>
     </mat-toolbar>
     <div class="content" (window:resize)="onResize($event)">
-      <ng-content></ng-content>
+      <div class="container">
+        <ng-content></ng-content>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

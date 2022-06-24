@@ -1,3 +1,4 @@
+<script src="post-modal.component.ts"></script>
 <div mat-dialog-content
      fxLayout="column"
      fxLayoutAlign="center"
@@ -8,79 +9,79 @@
           class="post-block__close"
           (click)="onClose()"
   >
-    <mat-icon class="post-block__close__icon">close</mat-icon>
+    <mat-icon class="post-block__icon">close</mat-icon>
   </button>
 
   <div *ngIf="profileIsOpen else profile">
-    <img [src]="apiUrl + '/uploads/' + postData.content" [alt]="postData.title" class="post-block__image"/>
-    <mat-card-header fxLayoutAlign="center" fxLayoutGap="10px">
-      <mat-card-title>{{ postData.title }}</mat-card-title>
-      <mat-card-subtitle>{{ postData.user.displayName }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions *appUserType="'user' else anonLink">
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              title="Поставить лайк"
-              (click)="likePost()"
-              [disabled]="!userData || checkUserLike() || (likeLoading | async)"
-      >
-        <app-loader [isLoading]="likeLoading | async">
-          <mat-icon>favorite_border</mat-icon>
-          {{ postData.likes.length }}
-        </app-loader>
-      </button>
-      <a routerLink="/"
-         mat-raised-button
-         color="primary"
-         title="Показать на карте"
-         (click)="onClose()"
-      >
-        <mat-icon>location_on</mat-icon>
-      </a>
-
-      <button type="button"
-              mat-raised-button
-              color="primary"
-              (click)="goToProfile(postData.title, postData.user._id)"
-      >Профиль
-      </button>
-
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              title="Добавить в друзья"
-              *ngIf="userData && !authorIsMe()"
-              [disabled]="checkUserFriend() || (addFriendLoading | async)"
-              (click)="addFriend()"
-      >
-        <app-loader [isLoading]="addFriendLoading | async">
-          <mat-icon>person_add_alt</mat-icon>
-        </app-loader>
-      </button>
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              (click)="goToChat()">Чат
-      </button>
-      <button type="button"
-              mat-raised-button
-              color="accent"
-              *ngIf="userData?.role === 'moderator'"
-              (click)="removePost(postData._id)"
-      >
-        <app-loader [isLoading]="postLoading | async">
-          <mat-icon>delete</mat-icon>
-        </app-loader>
-      </button>
-    </mat-card-actions>
-    <div
-      *ngIf=" postData.likes.length !== 0"
-      class="post-block__likes"
-      (click)="openLikesDialog(postData)">
-      Понравилось {{ postData.likes[0].user.displayName }} и другим
+    <div class="modal-content">
+      <div class="post-info">
+        <div class="post-block_image-block">
+          <img [src]="postData.content | image" [alt]="postData.title" class="post-block__img"/>
+        </div>
+        <mat-card-header>
+          <mat-card-title>{{ postData.title }}</mat-card-title>
+          <div class="placement">
+            <div class="heart {{ like }}" (click)="likePost()">
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-actions *appUserType="'user' else anonLink" class="btn-actions">
+          <button
+            title="Показать на карте"
+            class="btns"
+          >
+            <mat-icon>location_on</mat-icon>
+          </button>
+          <button type="button"
+                  class="btns"
+                  (click)="goToProfile(postData.title, postData.user._id)"
+          >Профиль
+          </button>
+          <button type="button"
+                  class="btns"
+                  *ngIf="userData?.role === 'moderator'"
+                  (click)="removePost(postData._id)"
+          >
+            <app-loader [isLoading]="postLoading | async">
+              <mat-icon>delete</mat-icon>
+            </app-loader>
+          </button>
+        </mat-card-actions>
+        <div
+          *ngIf=" postData.likes.length !== 0"
+          class="post-block__likes"
+          (click)="openLikesDialog(postData)">
+          Понравилось {{ postData.likes[0].user.displayName }} и другим
+        </div>
+        <div class="view-comments">
+          <a type="button"
+             class="view-comments__btn"
+             (click)="showComments(postData._id)">{{ commentsShow ? 'Скрыть комментарии' : 'Показать комментарии' }}
+          </a>
+        </div>
+      </div>
+      <div [ngClass]="{commentsBlock: isBlock}" *ngIf="(commentsShow)">
+        <h4 class="comments-title">Комментарии</h4>
+        <div class="comments-block" *ngIf="(commentsShow)">
+          <div class="comments-container">
+            <div *ngFor="let comment of comments | async" class="comments-block__comment">
+              <b class="comments-block__userName">{{ comment.user.displayName }}</b>
+              <p class="comments-block__text">{{ comment.text }}</p>
+              <button class="comments-block__btn"  *ngIf="userData?.role === 'moderator'" (click)="removeComment(comment._id)" mat-button>
+                <mat-icon class="comments-block__btn-icon">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+            <mat-form-field appearance="fill" style="width: 100%; font-size: 12px;" *ngIf="user | async">
+              <mat-label>Добавить комментарий</mat-label>
+              <input matInput name="comment" [(ngModel)]=commentText>
+              <mat-icon class="send-icon" matSuffix (click)="createComment()">send</mat-icon>
+            </mat-form-field>
+        </div>
+      </div>
     </div>
   </div>
+
 
   <ng-template #anonLink>
     <a class="post-block__link">
@@ -90,10 +91,12 @@
       id="dialog-register-button"
       mat-raised-button
       routerLink="/register"
+      class="btns"
       (click)="goToRegister()"
     >Регистрация
     </button>
     <button
+      class="btns"
       id="dialog-login-button"
       mat-raised-button
       routerLink="/login"
@@ -127,12 +130,73 @@
           <p>
             <strong>Город: </strong>{{ userData.city || 'Не указано' }}
           </p>
+          <div class="btn-group">
+            <button type="button"
+                    class="btns"
+                    title="Добавить в друзья"
+                    [disabled]="checkUserFriend() || (addFriendLoading | async)"
+                    (click)="addFriend()"
+            >
+              <app-loader [isLoading]="addFriendLoading | async">
+                <mat-icon>person_add_alt</mat-icon>
+              </app-loader>
+            </button>
+            <button type="button"
+                    class="btns"
+                    (click)="goToChat()">
+              <mat-icon>forum</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-card-content>
       <button class="button-exit" color="primary" (click)="closeProfile()">
-        <mat-icon class="post-block__close__icon">reply</mat-icon>
+        <mat-icon class="post-block__icon">reply</mat-icon>
       </button>
     </div>
   </ng-template>
-</div>
 
+
+  <!--  <mat-card-content class="comments">-->
+  <!--    <div *ngFor="let comment of (comments | async)" class="comments-block__comment">-->
+  <!--      <b class="comments-block__userName">{{ comment.user.displayName }}</b>-->
+  <!--      <p class="comments-block__text"> {{ comment.text }}</p>-->
+  <!--      <button class="comments-block__btn" *ngIf="userData!.role === 'moderator'"-->
+  <!--              (click)="removeComment(comment._id)" mat-button>-->
+  <!--        <mat-icon class="comments-block__btn-icon">delete</mat-icon>-->
+  <!--      </button>-->
+  <!--    </div>-->
+  <!--  </mat-card-content>-->
+  <!--  <mat-card-header>-->
+  <!--    <mat-card-title>{{ postData.title }}</mat-card-title>-->
+  <!--    <div class="placement">-->
+  <!--      <div class="heart {{ like }}" (click)="likePost()">-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </mat-card-header>-->
+  <!--  <mat-card-actions *appUserType="'user' else anonLink" class="btn-actions">-->
+  <!--    <button-->
+  <!--      title="Показать на карте"-->
+  <!--      class="btns"-->
+  <!--    >-->
+  <!--      <mat-icon>location_on</mat-icon>-->
+  <!--    </button>-->
+  <!--    <button type="button"-->
+  <!--            class="btns"-->
+  <!--            (click)="goToProfile(postData.title, postData.user._id)"-->
+  <!--    >Профиль-->
+  <!--    </button>-->
+  <!--    <button type="button"-->
+  <!--            class="btns"-->
+  <!--            *ngIf="userData?.role === 'moderator'"-->
+  <!--            (click)="removePost(postData._id)"-->
+  <!--    >-->
+  <!--      <app-loader [isLoading]="postLoading | async">-->
+  <!--        <mat-icon>delete</mat-icon>-->
+  <!--      </app-loader>-->
+  <!--    </button>-->
+  <!--    <button type="button"-->
+  <!--            class="btns"-->
+  <!--            (click)="showComments(postData._id)">-->
+  <!--      <mat-icon>3p</mat-icon>-->
+  <!--    </button>-->
+  <!--  </mat-card-actions>-->

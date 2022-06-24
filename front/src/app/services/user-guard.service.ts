@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class UserGuardService implements CanActivate {
   user: Observable<null | User>;
 
   constructor(
@@ -21,10 +21,10 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.user.pipe(
       map((user) => {
-        if (user) {
+        if (!user || user?.role === 'moderator') {
           return true;
         }
-        void this.router.navigate(['/login']);
+        void this.router.navigate(['/search']);
         return false;
       }),
     );

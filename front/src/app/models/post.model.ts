@@ -1,4 +1,5 @@
-export class Post{
+
+export class Post {
   constructor(
     public _id: string,
     public user: {
@@ -24,8 +25,18 @@ export class Post{
     public geolocation: {
       lat: number
       lng: number
-    }
-    ) {}
+    },
+    public comments: [{
+      text: string,
+      user: {
+        _id: string,
+        displayName: string,
+        photo: string
+      },
+      _id: string
+    }]
+  ) {
+  }
 }
 
 export interface FilterData {
@@ -76,5 +87,16 @@ export interface ApiPostData {
   geolocation: {
     lat: number,
     lng: number
-  }
+  },
+  comments: [{
+    text: string,
+    user: {
+      _id: string,
+      displayName: string,
+      photo: string
+    },
+    _id: string
+    }
+  ]
 }
+

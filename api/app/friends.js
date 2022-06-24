@@ -21,9 +21,7 @@ websocket.onEvent('new_connection', (ws) => {
 
 router.get('/', auth, async (req, res, next) => {
   try {
-
     const friends = await Friends.find({friend: req.user._id}).populate('user', 'displayName photo');
-
     return res.send(friends);
   } catch (e) {
     next(e);
@@ -76,6 +74,15 @@ router.delete('/:id', auth, async(req, res, next) =>{
   try{
     const findFriend = await Friends.deleteOne({user: req.user._id, friend: req.params.id});
 
+    res.send(findFriend)
+  }catch(e){
+    next(e);
+  }
+});
+
+router.put('/:id',  async(req, res, next) =>{
+  try{
+    const findFriend = await Friends.updateOne({_id: req.params.id}, {isFriend: true});
     res.send(findFriend)
   }catch(e){
     next(e);

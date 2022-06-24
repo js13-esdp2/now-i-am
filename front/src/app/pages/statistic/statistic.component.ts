@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { MatDialog } from '@angular/material/dialog';
 import { fetchTitlePostsRequest, onPostModalDataChange } from '../../store/posts/posts.actions';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { ApiUserData, User } from '../../models/user.model';
 import { environment } from '../../../environments/environment';
@@ -28,12 +28,16 @@ export class StatisticComponent implements OnInit, OnDestroy{
   searchTitle!: string;
   userId!: ApiUserData;
   paramsSub!: Subscription;
+  postSub!: Subscription;
+  visibility: boolean = true;
+  apiUrl = environment.apiUrl
 
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private mapService: MapService,
+    private router: Router,
   ) {
     this.posts = store.select(state => state.posts.posts);
     this.isLoading = store.select(state => state.posts.fetchLoading);
@@ -58,10 +62,10 @@ export class StatisticComponent implements OnInit, OnDestroy{
       }
       this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}));
     })
-    this.mapService.initMap();
     this.isSearched = true;
     this.openPreviousPost();
-    this.posts.subscribe(posts => {
+    this.mapService.initMap();
+    this.postSub = this.posts.subscribe(posts => {
       if(posts){
         posts.forEach((post) =>{
           if(post.geolocation) {
@@ -96,11 +100,23 @@ export class StatisticComponent implements OnInit, OnDestroy{
     if (this.postModalData.postId) {
       this.dialog.open(PostModalComponent, {
         data: {postId: this.postModalData.postId}
+
       });
     }
   }
 
+  changeTemplate() {
+    this.visibility=!this.visibility;
+  }
+
+
+  reply() {
+    void this.router.navigate(['./'])
+  }
+
   ngOnDestroy(): void {
     this.paramsSub.unsubscribe();
+    this.postSub.unsubscribe();
   }
+
 }

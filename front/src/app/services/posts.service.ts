@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { ApiPostData, Post, PostData } from '../models/post.model';
+import { Comment, CommentData } from '../models/comment.model';
 import { Subject } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 
@@ -37,7 +38,8 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
-          );
+            postData.comments
+          )
         });
       })
     );
@@ -87,6 +89,7 @@ export class PostsService {
           postData.time,
           postData.likes,
           postData.geolocation,
+          postData.comments
         );
       }),
     );
@@ -105,10 +108,47 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
+            postData.comments
           );
         });
       })
     );
+  }
+
+
+  getComments(postId: string) {
+    return this.http.get<Comment[]>(environment.apiUrl + `/comments/${postId}`).pipe(
+      map(response => {
+        return response.map(commentData => {
+          return new Comment(
+            commentData._id,
+            commentData.user,
+            commentData.text,
+            commentData.postId,
+          )
+        });
+      })
+    );
+  }
+
+
+  createComment(comment: CommentData) {
+    return this.http.post<Comment[]>(environment.apiUrl + '/comments', comment).pipe(
+      map(response => {
+        return response.map(commentData => {
+          return new Comment(
+            commentData._id,
+            commentData.user,
+            commentData.text,
+            commentData.postId,
+          )
+        });
+      })
+    );
+  }
+
+  removeComment(commentId: string) {
+    return this.http.delete(environment.apiUrl + `/comments/${commentId}`);
   }
 
 }

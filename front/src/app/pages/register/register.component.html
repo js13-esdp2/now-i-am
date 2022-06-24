@@ -1,7 +1,13 @@
+
+<div>
+  <button mat-button type="button" class="btn-reply" (click)="reply()">
+    <mat-icon>reply</mat-icon>
+  </button>
+</div>
+
 <app-centered-card cardName="Регистрация">
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
-        fxLayout="column"
   >
     <mat-form-field appearance="outline">
       <mat-label>Имя</mat-label>
@@ -37,7 +43,7 @@
         {{ email.getError('serverError') }}
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="input-password">
       <mat-label>Пароль</mat-label>
       <input [type]="hide ? 'password' : 'text'"
              name="password"
@@ -62,40 +68,34 @@
         Длина пароля должна быть не менее 6
       </mat-error>
     </mat-form-field>
-    <button mat-raised-button
-            class="btn"
-            [disabled]="f.invalid || (isLoading | async)"
-    >
-      <app-loader [isLoading]="isLoading | async" size="sm">
-        Зарегистрироваться
-      </app-loader>
-    </button>
-    <span style="text-align: center; padding-top: 10px">
-      Вход при помощи:
-    </span>
+      <button mat-raised-button
+              class="btn-register"
+              [disabled]="f.invalid || (isLoading | async)"
+      >
+        <app-loader [isLoading]="isLoading | async" size="sm">
+          Зарегистрироваться
+        </app-loader>
+      </button>
     <div fxLayout="row" fxLayoutAlign="center">
       <button
+        class="btn-social"
         type="button"
-        mat-raised-button
-        color="default"
         (click)="fbLogin()"
         style="margin: 16px 5px 0"
       >
         <img src="assets/icons/fb.svg" alt="facebook logo"/>
       </button>
       <button
+        class="btn-social"
         type="button"
-        mat-raised-button
-        color="default"
         (click)="googleLogin()"
         style="margin: 16px 5px 0"
       >
         <img src="assets/icons/google-icon.svg" alt="google logo"/>
       </button>
       <button
+        class="btn-social"
         type="button"
-        mat-raised-button
-        color="default"
         (click)="vkLogin()"
         style="margin: 16px 5px 0"
       >

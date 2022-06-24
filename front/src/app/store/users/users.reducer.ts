@@ -39,7 +39,10 @@ import {
   registerUserRequest,
   registerUserSuccess,
   removeFriendRequest,
-  removeFriendSuccess
+  removeFriendSuccess,
+  checkIsOnlineRequest,
+  checkIsOnlineSuccess,
+  checkIsOnlineFailure,
 } from './users.actions';
 import { User } from '../../models/user.model';
 
@@ -47,6 +50,7 @@ const initialState: UsersState = {
   user: null,
   friend: null,
   recoveryData: null,
+  posts: [],
   friends: [],
   fetchLoading: false,
   fetchError: null,
@@ -148,4 +152,8 @@ export const usersReducer = createReducer(
   on(changeUserPasswordRequest, state => ({...state, changePasswordLoading: true, changePasswordError: null})),
   on(changeUserPasswordSuccess, (state, {user}) => ({...state, changePasswordLoading: false, user: createUserClass(user)})),
   on(changeUserPasswordFailure, (state, {error}) => ({...state, changePasswordLoading: false, changePasswordError: error})),
+
+  on(checkIsOnlineRequest, state => ({...state, fetchLoading: true})),
+  on(checkIsOnlineSuccess, (state, {posts}) => ({...state, fetchLoading: false, posts})),
+  on(checkIsOnlineFailure, (state, {error}) => ({...state, fetchLoading: false, fetchError: error})),
 );

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const CommentSchema = require('./Comment').CommentSchema;
 
 const TimesSchema = new Schema({
   hours: Number,
@@ -63,7 +64,7 @@ const PostSchema = new Schema({
     lng: {
       type: Number
     }
-  } | null
+  } | null,
 });
 
 PostSchema.index({ title: 'text' });

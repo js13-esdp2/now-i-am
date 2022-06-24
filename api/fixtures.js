@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const config = require('./config');
-
 const User = require('./models/User');
 const Post = require('./models/Post');
 const ChatRoom = require('./models/ChatRoom');
 const {nanoid} = require('nanoid');
 const Message = require('./models/Message');
 const Friends = require('./models/Friends');
+const Comment = require('./models/Comment');
 const Countries = require('./models/Countries');
 const Category = require('./models/Category');
 
@@ -157,7 +157,7 @@ const run = async () => {
     datetime: new Date().toISOString(),
     createdAt: new Date().getTime(),
     isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 120,
+    invisibleAtUnixTime: invisibleAtUnixTime + 1200,
     invisibleDate: invisibleDate,
     time: {
       hours: 12,
@@ -230,9 +230,9 @@ const run = async () => {
     geolocation: {
       lat: 42.876474,
       lng: 74.637337
-    }
+    },
   },
-);
+)
 
   const firstChatRoomInbox = caitlyn._id.toString() + james._id.toString();
   const secondChatRoomInbox = caitlyn._id.toString() + cara._id.toString();

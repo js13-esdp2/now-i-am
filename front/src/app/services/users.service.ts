@@ -72,6 +72,10 @@ export class UsersService {
     );
   }
 
+  checkUser(userId: string){
+    return this.http.get<any>(env.apiUrl + '/users/checkIfUserIsOnline/' + userId);
+  }
+
   getPassword(email: string) {
     return this.http.get<RecoveryData>(env.apiUrl + '/users/recovery/' + email);
   }
@@ -86,6 +90,10 @@ export class UsersService {
 
   changePassword(passwords: PasswordData) {
     return this.http.post<User>(env.apiUrl + '/users/changePassword', passwords);
+  }
+
+  confirmationOfFriendship(friendId: string){
+    return this.http.put(env.apiUrl + `/friends/${friendId}`, {isFriend: true});
   }
 }
 

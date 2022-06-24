@@ -4,7 +4,7 @@
         class="form"
   >
     <mat-form-field appearance="outline" class="form__searchInput">
-      <mat-label>Название поста</mat-label>
+      <mat-label>Название занятия...</mat-label>
       <input type="text"
              name="title"
              matInput
@@ -13,6 +13,7 @@
              #title="ngModel"
              [matAutocomplete]="categories.autocomplete"
              (input)="categories.getCategories(title.value)"
+             (focus)="checkUser()"
       />
       <app-autocomplete-categories #categories="appAutocompleteCategories"></app-autocomplete-categories>
       <mat-error *ngIf="title.touched && title.hasError('required')">
@@ -71,10 +72,10 @@
       <button mat-raised-button
               class="form__searchBtn"
               type="submit"
-              [disabled]="f.invalid || (isLoading | async)"
-      >
+              [disabled]="f.invalid || check || (isLoading | async)"
+      >Поиск
         <app-loader [isLoading]="isLoading | async" class="form__search-slider" size="sm">
-          <span class="material-icons form__search-icon">search</span>
+
         </app-loader>
       </button>
     </div>

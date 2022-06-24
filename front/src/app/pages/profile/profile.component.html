@@ -1,12 +1,13 @@
 <app-centered-card *ngIf="user | async as userData">
+  <div class="profile-info">
     <img mat-card-image
-         class="photo"
+         class="user-avatar"
          [src]=" apiUrl + '/uploads/' + userData.photo"
          [alt]="userData.displayName"
     />
     <mat-card-content>
       <p>
-        <strong>Отображаемое имя: </strong>{{ userData.displayName }}
+        <strong>Имя: </strong>{{ userData.displayName }}
       </p>
       <p>
         <strong>О себе: </strong>{{ userData.aboutMe || 'Не указано' }}
@@ -27,14 +28,14 @@
         <strong>Приватный аккаунт: </strong>
         <mat-checkbox [checked]="userData.isPrivate" disabled="true"></mat-checkbox>
       </p>
-      <p>
-        <a mat-button color="primary" routerLink="/profile/change-password">Изменить пароль</a>
-      </p>
     </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center">
+    <mat-card-actions fxLayoutAlign="center center" fxLayout="column">
       <a routerLink="/profile/edit"
-         mat-raised-button
-         color="primary"
+         class="btn"
       >Редактировать</a>
+      <a routerLink="/profile/change-password"
+         class="btn"
+      >Изменить пароль</a>
     </mat-card-actions>
+  </div>
 </app-centered-card>

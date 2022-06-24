@@ -29,8 +29,8 @@ import {
   removePostSuccess
 } from './posts.actions';
 import { User } from '../../models/user.model';
-import { Store } from '@ngrx/store';
 import { AppState } from '../types';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class PostsEffects {
@@ -126,4 +126,6 @@ export class PostsEffects {
       })))
     ))
   ));
+
+
 }

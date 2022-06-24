@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ApiPostData, Post } from '../../models/post.model';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { environment as env } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
@@ -14,10 +14,14 @@ import {
 import { User } from '../../models/user.model';
 import { addFriendRequest } from '../../store/users/users.actions';
 import { Router } from '@angular/router';
-import { ChatService } from '../../services/chat.service';
 import { createNewChatRoom } from '../../store/chat/chat.actions';
 import { searchUsersRequest } from '../../store/search/search.actions';
-import { DeleteChatModalComponent } from '../delete-chat-modal/delete-chat-modal.component';
+import { CommentData, Comment } from '../../models/comment.model';
+import {
+  createCommentRequest,
+  fetchCommentsRequest,
+  removeCommentRequest
+} from '../../store/comments/comments.actions';
 import { LikesModalComponent } from '../likes-modal/likes-modal.component';
 
 @Component({
@@ -32,13 +36,19 @@ export class PostModalComponent implements OnInit, OnDestroy {
   postLoading: Observable<boolean>;
   likeLoading: Observable<boolean>;
   addFriendLoading: Observable<boolean>;
-
+  commentsShow!: boolean;
+  commentText!: string;
   apiUrl = env.apiUrl;
-  userData: null | User = null;
-
+  userData!: null | User;
+  like!: string;
   postId!: string;
   postData!: Post;
   profileIsOpen = true;
+  comments: Observable<null| Comment[]>;
+  loadingComments: Observable<boolean>;
+  errorComments: Observable<string | null>;
+  isBlock: boolean = false;
+
 
   private usersSub!: Subscription;
   private userSub!: Subscription;
@@ -47,11 +57,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<PostModalComponent>,
-    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
     private store: Store<AppState>,
     private router: Router,
-    private chatService: ChatService,
+    private dialog: MatDialog,
   ) {
     this.postId = data.postId;
     this.user = store.select((state) => state.users.user);
@@ -60,6 +69,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.postLoading = store.select((state) => state.posts.fetchLoading)
     this.likeLoading = store.select((state) => state.posts.likeLoading);
     this.addFriendLoading = store.select((state) => state.users.addFriendLoading);
+    this.comments = store.select((state) => state.comments.comments);
+    this.loadingComments = store.select((state) => state.comments.fetchLoading);
+    this.errorComments = store.select((state) => state.comments.fetchError);
+
     store.select(state => state.users.user).subscribe(user => {
       this.userData = user;
     });
@@ -129,10 +142,10 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   likePost(): void {
+    this.like = 'is-active'
     if (!this.userData) {
       return;
     }
-
     this.store.dispatch(likePostRequest({id: this.postId}));
   }
 
@@ -144,12 +157,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(addFriendRequest({userId: this.postData.user._id}));
   }
 
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-    // this.usersSub.unsubscribe();
-    this.postSub.unsubscribe();
-  }
-
   closeProfile() {
     this.profileIsOpen = true;
   }
@@ -159,10 +166,40 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
+  showComments(postId: string) {
+    this.store.dispatch(fetchCommentsRequest({postId: postId}));
+    this.commentsShow = !this.commentsShow;
+    this.isBlock = !this.isBlock;
+  }
+
+  createComment() {
+    const data: CommentData = {
+      text: this.commentText,
+      postId: this.postId,
+      userId: this.userData!._id
+    }
+    this.store.dispatch(createCommentRequest({comment: data}));
+    this.commentText = '';
+  }
+
+  removeComment(commentId: string){
+    console.log(commentId);
+    this.store.dispatch(removeCommentRequest({commentId: commentId}))
+  }
+
   openLikesDialog(post: ApiPostData): void {
     const dialogRef = this.dialog.open(LikesModalComponent, {
       width: '400px',
       data: post,
     });
   }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    if (this.usersSub){
+      this.usersSub.unsubscribe();
+    }
+    this.postSub.unsubscribe();
+  }
+
 }

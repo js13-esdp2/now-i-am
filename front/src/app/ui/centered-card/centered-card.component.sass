@@ -1,18 +1,12 @@
 .centered-card
+  font-family: 'Comfortaa', cursive
   max-width: 400px
-  width: 100%
-  border: 2px solid #6d6969
-  box-shadow: 0 0 10px 2px #6d6969
+  text-align: center
+  margin: 5% auto 0
+  background: transparent
+  @media screen and (min-width: 576px)
+    margin-top: 10%
 
 .card-title
-  padding-top: 55px
-  color: white
-  font-size: 24px
-  font-weight: 500
-  text-align: center
-  height: 80px
-  --start: 15%
-  margin: 0 -15px 20px
-  border-top-left-radius: 10px
-  border-top-right-radius: 10px
-  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
+  font-size: calc(1.5em + 2vw)
+  margin-bottom: 15px !important
