@@ -5,7 +5,8 @@ export class Post {
     public user: {
       _id: string,
       displayName: string,
-      photo: string
+      photo: string,
+      isOnLiveStream?: boolean
     },
     public title: string,
     public content: string,

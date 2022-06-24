@@ -41,26 +41,26 @@ export class ChatService {
   }
 
   getMessages() {
-    this.websocketService.onmessage = (event) => {
-      const decodedMessage = JSON.parse(event.data);
-      const newMessage = decodedMessage.newMessage;
-
-      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
-        this.store.dispatch(addNewMessageToChatRoom({newMessage}));
-      }
-
-      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
-        const messageIsReadData = {
-          ownerId: this.chatRoom?.chattingWith._id,
-          chatRoomInbox: newMessage.chatRoomInbox,
-          myId: this.myId,
-        }
-        this.messagesAreRead(messageIsReadData);
-      } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
-        this.store.dispatch(getUsersChatRooms({userId: this.myId}));
-        this.store.dispatch(addNewMessageToNewMessagesCounter());
-      }
-    }
+    // this.websocketService.onmessage = (event) => {
+    //   const decodedMessage = JSON.parse(event.data);
+    //   const newMessage = decodedMessage.newMessage;
+    //
+    //   if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
+    //     this.store.dispatch(addNewMessageToChatRoom({newMessage}));
+    //   }
+    //
+    //   if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+    //     const messageIsReadData = {
+    //       ownerId: this.chatRoom?.chattingWith._id,
+    //       chatRoomInbox: newMessage.chatRoomInbox,
+    //       myId: this.myId,
+    //     }
+    //     this.messagesAreRead(messageIsReadData);
+    //   } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+    //     this.store.dispatch(getUsersChatRooms({userId: this.myId}));
+    //     this.store.dispatch(addNewMessageToNewMessagesCounter());
+    //   }
+    // }
   }
 
   messagesAreRead(messagesAreReadData: MessagesAreReadData) {
