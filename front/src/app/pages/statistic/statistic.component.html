@@ -30,11 +30,16 @@
           </div>
           <mat-card-content class="post__content">
             <div class="post-text">
-              <img class="user-avatar"
-                   [src]="apiUrl + '/uploads/' + post.user.photo"
-                   [alt]="post.user.displayName"
-              >
+              <div class="live-border">
+                <img class="user-avatar"
+                     [src]="apiUrl + '/uploads/' + post.user.photo"
+                     [alt]="post.user.displayName"
+                >
+              </div>
               <div>
+                <div>
+                  <a [routerLink]="'/live/' + post.user._id">Транслция</a>
+                </div>
                 <mat-card-title class="post__content__title">
                   {{ post.user.displayName }}
                 </mat-card-title>

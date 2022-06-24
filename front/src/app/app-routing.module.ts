@@ -19,6 +19,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
 import { UserGuardService } from './services/user-guard.service';
+import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [UserGuardService]},
@@ -55,7 +56,9 @@ const routes: Routes = [
     path: 'notifications',
     component: NotificationsComponent,
     canActivate: [AuthGuardService]
-  }
+  },
+  { path: 'live', component: LiveStreamComponent, canActivate: [AuthGuardService] },
+  { path: 'live/:id', component: LiveStreamComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@ import { Message, MessageData, MessagesAreReadData, NewMessages } from '../model
 import {
   addNewMessageToChatRoom,
   addNewMessageToNewMessagesCounter,
-  getUsersChatRooms, messagesAreReadRequest
+  getUsersChatRooms
 } from '../store/chat/chat.actions';
 import { WebsocketService } from './websocket.service';
 
@@ -41,32 +41,33 @@ export class ChatService {
   }
 
   getMessages() {
-    this.websocketService.onEvent('GET_MESSAGE').subscribe((data) => {
-      const decodedMessage = data.message;
-      const newMessage = decodedMessage['newMessage'];
-
-      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
-        this.store.dispatch(addNewMessageToChatRoom({newMessage}));
-      }
-
-      if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
-        const messagesAreReadData = {
-          ownerId: this.chatRoom?.chattingWith._id,
-          chatRoomInbox: newMessage.chatRoomInbox,
-          myId: this.myId,
-        }
-        this.store.dispatch(messagesAreReadRequest({messagesAreReadData}))
-      } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
-        this.store.dispatch(getUsersChatRooms({userId: this.myId}));
-        this.store.dispatch(addNewMessageToNewMessagesCounter());
-      }
-    });
+    // this.websocketService.onmessage = (event) => {
+    //   const decodedMessage = JSON.parse(event.data);
+    //   const newMessage = decodedMessage.newMessage;
+    //
+    //   if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox) {
+    //     this.store.dispatch(addNewMessageToChatRoom({newMessage}));
+    //   }
+    //
+    //   if (this.chatRoom?.chatRoomInbox === newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+    //     const messageIsReadData = {
+    //       ownerId: this.chatRoom?.chattingWith._id,
+    //       chatRoomInbox: newMessage.chatRoomInbox,
+    //       myId: this.myId,
+    //     }
+    //     this.messagesAreRead(messageIsReadData);
+    //   } else if (this.chatRoom?.chatRoomInbox !== newMessage.chatRoomInbox && this.myId !== newMessage.userFrom) {
+    //     this.store.dispatch(getUsersChatRooms({userId: this.myId}));
+    //     this.store.dispatch(addNewMessageToNewMessagesCounter());
+    //   }
+    // }
   }
 
   messagesAreRead(messagesAreReadData: MessagesAreReadData) {
-    return this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData});
+    this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData}).subscribe((response) => {
+      // console.log(response);
+    })
   }
-
 
   getUsersChatRooms(userId: string | undefined) {
     let params = new HttpParams();

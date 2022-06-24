@@ -5,7 +5,10 @@ exports.config = {
       url: 'http://localhost:4210',
       show: !Boolean(process.env.CI),
       // headless: Boolean(process.env.CI),
-      windowSize: '1200x900'
+      windowSize: '1200x900',
+      chrome: {
+        args: ['--use-fake-ui-for-media-stream'],
+      }
     }
   },
   include: {

@@ -19,6 +19,7 @@
       >Удалить
       </button>
     </mat-form-field>
+
     <ng-template #emptyPhoto>
       <mat-form-field appearance="outline">
         <mat-label>Фото профиля</mat-label>
@@ -32,6 +33,7 @@
         </mat-error>
       </mat-form-field>
     </ng-template>
+
     <mat-form-field appearance="outline">
       <mat-label>Отображаемое имя</mat-label>
       <input type="text"
@@ -74,25 +76,42 @@
 
     <mat-form-field appearance="outline" class="filter-block__city">
       <mat-label>Страна</mat-label>
-      <input type="text" name="country" matInput [formControl]="myControl" ngModel [matAutocomplete]="auto"/>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="getCities(option.cities)">
-          {{ option.country }}
+      <input type="text"
+             name="country"
+             matInput
+             ngModel
+             #country="ngModel"
+             [matAutocomplete]="auto"
+             (ngModelChange)="getCities(country.value)"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let country of filteredCountries | async"
+                    [value]="country.country"
+        >
+          {{ country.country }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="filter-block__city">
       <mat-label>Город</mat-label>
-      <mat-select name="city" ngModel [disabled]="isSearched">
-        <mat-option *ngFor="let city of cities" value="{{ city.city }}">{{ city.city }}</mat-option>
+      <mat-select name="city"
+                  ngModel
+                  [disabled]="!country.value"
+      >
+        <mat-option *ngFor="let city of cities"
+                    [value]="city.city">
+          {{ city.city }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
     <p class="is-private-block">
       <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
     </p>
-    <button class="btn"
+
+    <button mat-raised-button
+            color="primary"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" size="sm">

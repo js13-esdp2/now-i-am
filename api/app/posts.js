@@ -42,7 +42,7 @@ router.get('/', async (req, res, next) => {
     }
 
     const posts = await Post.find(query, projection)
-      .populate('user', 'displayName photo')
+      .populate('user', 'displayName photo isOnLiveStream')
       .sort(sort);
 
     return res.send(posts);

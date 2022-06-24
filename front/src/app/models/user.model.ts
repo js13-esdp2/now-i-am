@@ -17,6 +17,7 @@ export class User {
     public aboutMe?: string,
     public isPrivate?: boolean,
     public code?: string,
+    public isOnLiveStream?: boolean,
   ) {
   }
 

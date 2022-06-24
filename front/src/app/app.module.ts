@@ -78,6 +78,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LikesModalComponent } from './ui/likes-modal/likes-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -143,6 +144,7 @@ const socialConfig: SocialAuthServiceConfig = {
     ChatRoomComponent,
     AutocompleteCategoriesComponent,
     LikesModalComponent,
+    LiveStreamComponent,
   ],
   imports: [
     BrowserModule,

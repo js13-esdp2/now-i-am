@@ -13,6 +13,7 @@ const friends = require('./app/friends');
 const countries = require('./app/countries');
 const categories = require('./app/categories');
 const comments = require('./app/comments');
+const liveStreams = require('./app/liveStreams');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/', websocket);
+app.use('/', liveStreams);
 app.use('/users', users);
 app.use('/posts', posts);
 app.use('/search', search);
