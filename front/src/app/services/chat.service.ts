@@ -64,9 +64,7 @@ export class ChatService {
   }
 
   messagesAreRead(messagesAreReadData: MessagesAreReadData) {
-    this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData}).subscribe((response) => {
-      // console.log(response);
-    })
+    return this.http.put<Message>(`${env.apiUrl}/messages/areRead`, {messagesAreReadData});
   }
 
   getUsersChatRooms(userId: string | undefined) {

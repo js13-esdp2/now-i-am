@@ -29,11 +29,11 @@ while ! nc -z localhost 4210; do
   sleep 0.1
 done
 
-echo '# Running tests'
-cd ../tests
-echo "$@"
-npx codeceptjs run --steps "$@"
-EXIT_CODE=$?
+#echo '# Running tests'
+#cd ../tests
+#echo "$@"
+#npx codeceptjs run --steps "$@"
+#EXIT_CODE=$?
 
 echo '# Killing test processes'
 pm2 kill
