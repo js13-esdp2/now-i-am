@@ -5,10 +5,11 @@ import { environment } from '../../environments/environment';
   name: 'image'
 })
 export class ImagePipes implements  PipeTransform{
-  transform(value: string): string{
-    if(value){
-    return environment.apiUrl + '/uploads/' + value;
+  transform(value?: string) {
+    if (value) {
+      return environment.apiUrl + '/uploads/' + value;
     }
-    return '/assets/images/pipe-image.jpg'
+
+    return '/assets/images/pipe-image.jpg';
   }
 }

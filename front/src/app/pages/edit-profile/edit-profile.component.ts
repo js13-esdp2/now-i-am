@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { map, Observable, startWith, Subscription } from 'rxjs';
-import { User } from '../../models/user.model';
+import { map, Observable, Subscription } from 'rxjs';
+import { EditUserData, User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { FormControl, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { editUserRequest } from '../../store/users/users.actions';
 import { City, CountriesApi } from '../../models/countries.model';
 import { fetchCountriesRequest } from '../../store/countries/countries.actions';
@@ -15,32 +15,30 @@ import { fetchCountriesRequest } from '../../store/countries/countries.actions';
 })
 export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
-  user: Observable<null | User>;
-  country: Observable<CountriesApi[]>;
-  cities!: City[];
-  isLoading: Observable<boolean>;
-  countrySub!: Subscription;
 
-  isPhotoExists: boolean = false;
-  isSearched = true;
+  isPhotoExists = false;
+
   private userData!: User;
-  private userSub!: Subscription;
+  private user: Observable<null | User>;
+  isLoading: Observable<boolean>;
 
-  myControl = new FormControl();
-  options!: CountriesApi[];
-  filteredOptions!: Observable<CountriesApi[]>;
+  cities: City[] = [];
+  filteredCountries?: Observable<CountriesApi[]>;
+  private countriesData: CountriesApi[] = [];
+  private countries: Observable<CountriesApi[]>;
+
+  private userSub!: Subscription;
+  private countriesSub!: Subscription;
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.user = store.select((state) => state.users.user);
-    this.country = store.select((state) => state.countries.countries);
     this.isLoading = store.select((state) => state.users.editLoading);
+    this.countries = store.select((state) => state.countries.countries);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(fetchCountriesRequest());
-
     this.userSub = this.user.subscribe((user) => {
       if (user) {
         this.userData = user;
@@ -48,76 +46,94 @@ export class EditProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-    this.countrySub = this.country.subscribe(countryInfo => {
-      this.options = countryInfo;
+    this.countriesSub = this.countries.subscribe((countries) => {
+      if (!countries.length) {
+        return;
+      }
+
+      this.countriesData = countries;
+      this.updateFormData();
     });
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => (typeof value === 'string' ? value : 'Россия')),
-      map(country => (country ? this._filter(country) : this.options.slice())),
-    );
+    this.store.dispatch(fetchCountriesRequest());
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
+    this.updateFormData();
+    this.getCountries();
+  }
+
+  setFormValue(value: { [key: string]: any }): void {
+    setTimeout(() => {
+      this.form.form.setValue(value);
+    }, 0);
+  }
+
+  updateFormData(): void {
     this.setFormValue({
       photo: this.userData.photo || '',
       displayName: this.userData.displayName,
       aboutMe: this.userData.aboutMe || '',
       age: this.userData.birthday || '',
       sex: this.userData.sex || '',
-      city: this.userData.city || '',
+      country: this.countriesData.length && this.userData.country ? this.userData.country : '',
+      city: this.countriesData.length && this.userData.city  ? this.userData.city : '',
       isPrivate: this.userData.isPrivate || false
     });
   }
 
-  setFormValue(value: { [key: string]: any }) {
+  getCountries(): void {
     setTimeout(() => {
-      this.form.form.setValue(value);
+      this.filteredCountries = this.form.form.get('country')?.valueChanges.pipe(
+        map((country: string) => {
+          if (!country) {
+            return this.countriesData.slice();
+          }
+
+          const countryLow = country.toLowerCase();
+          return this.countriesData.filter((country) => country.country.toLowerCase().includes(countryLow));
+        }),
+      );
     }, 0);
   }
 
-  onRemovePhoto() {
+  getCities(countryName: string): void {
+    this.form.form.get('city')?.setValue('');
+
+    const countryData = this.countriesData.find((c) => c.country === countryName);
+    this.cities = countryData ? countryData.cities : [];
+  }
+
+  onRemovePhoto(): void {
     this.isPhotoExists = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) {
       return;
     }
-    const userData = {
+
+    const userData: EditUserData = {
       photo: this.form.value.photo,
       displayName: this.form.value.displayName,
       aboutMe: this.form.value.aboutMe,
       birthday: '',
       sex: this.form.value.sex,
-      country: this.myControl.value.country || 'Не указано',
-      city: this.form.value.city || 'Не указано',
+      country: this.form.value.country || '',
+      city: this.form.value.city || '',
       isPrivate: this.form.value.isPrivate,
     };
 
-    if (this.form.value.age) {
+    const age = this.form.value.age;
+    if (age && age instanceof Date) {
       userData.birthday = this.form.value.age.toISOString();
     }
-    this.store.dispatch(editUserRequest({userData}));
-  }
 
-  displayFn(data: CountriesApi): string {
-    return data && data.country ? data.country : '';
-  }
-
-  private _filter(country: string): CountriesApi[] {
-    const filterValue = country.toLowerCase();
-    return this.options.filter(option => option.country.toLowerCase().includes(filterValue));
-  }
-
-  getCities(cities: City[]) {
-    this.cities = cities;
-    this.isSearched = false;
+    this.store.dispatch(editUserRequest({ userData }));
   }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
-    this.countrySub.unsubscribe();
+    this.countriesSub.unsubscribe();
   }
 }

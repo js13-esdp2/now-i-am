@@ -1,7 +1,7 @@
 <app-centered-card *ngIf="user | async as userData">
     <img mat-card-image
          class="photo"
-         [src]=" apiUrl + '/uploads/' + userData.photo"
+         [src]="userData.photo | image"
          [alt]="userData.displayName"
     />
     <mat-card-content>
