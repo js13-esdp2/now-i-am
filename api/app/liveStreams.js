@@ -146,22 +146,20 @@ websocket.on('LIVE_STREAM_ANSWER', async (ws, message) => {
 websocket.on('LIVE_STREAM_CANDIDATE', async (ws, message) => {
   try {
     if (!ws['userId']) {
-      return ws.send(JSON.stringify({ error: 'Вы не авторизованы' }));
+      return;
     }
 
     const stream = onlineStreams[message.id];
     if (!stream) {
-      return ws.send(JSON.stringify({ error: 'Стрим не найден' }));
+      return;
     }
 
     const clientUser = stream.users.find((user) => user['userId'] === message.user);
     if (!clientUser) {
-      return ws.send(JSON.stringify({ error: 'Пользователь в данном стриме отсутствует' }));
+      return;
     }
 
-    const socket = stream.author === ws ? clientUser : ws;
-    ws.send(JSON.stringify({ message: 'Получатель: ' + socket['userId'] }));
-
+    const socket = stream.author === ws ? clientUser : stream.author;
     socket.send(JSON.stringify(message));
   } catch (e) {}
 });
