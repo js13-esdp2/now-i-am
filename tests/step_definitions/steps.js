@@ -13,6 +13,8 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/statistic');
     case 'Поиск':
       return I.amOnPage('/search');
+    case 'Трансляции':
+      return I.amOnPage('/live');
     default:
       return I.amOnPage('/');
   }
@@ -63,4 +65,8 @@ Given('я открываю новую вкладку', () => {
 Given('я не должен видеть текст {string}', (text) => {
   I.wait(2);
   I.dontSee(text);
+});
+
+Given('я жду {string} секунд', (seconds) => {
+  I.wait(parseInt(seconds));
 });
