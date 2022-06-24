@@ -94,7 +94,8 @@ const UserSchema = new Schema({
       ref: 'User',
       required: true
     },
-  },]
+  },],
+  isOnLiveStream: Boolean,
 });
 
 const SALT_WORK_FACTOR = 10;
