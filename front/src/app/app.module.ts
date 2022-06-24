@@ -75,6 +75,7 @@ import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
+import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -139,6 +140,7 @@ const socialConfig: SocialAuthServiceConfig = {
     ChatListComponent,
     ChatRoomComponent,
     AutocompleteCategoriesComponent,
+    LiveStreamComponent,
   ],
   imports: [
     BrowserModule,

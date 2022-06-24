@@ -1,0 +1,60 @@
+<ng-container *ngIf="!liveStreamId; else liveStreamClient">
+  <ng-container *ngIf="isPermissionsAllowed; else permissions">
+    <div class="stream"
+         *ngIf="isStreamOnline; else liveStreamClosed"
+         #stream
+    >
+      <video class="stream__video"
+             autoplay="autoplay"
+             #remoteVideo
+      ></video>
+      <div class="stream__controls" fxLayoutGap="16px">
+        <button class="stream__controls__btn"
+                mat-raised-button
+                [color]="!isStreamOnline ? 'primary' : 'warn'"
+                (click)="!isStreamOnline ? createStream() : closeStream()"
+        >
+          {{ !isStreamOnline ? 'Запустить трансляцию' : 'Завершить трансляцию' }}
+        </button>
+        <div class="stream__controls__timer" *ngIf="isStreamOnline">
+          {{ streamDuration | date:'mm:ss' }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #permissions>
+  <div class="notifications">
+    <p class="notifications__body">
+      Для запуска трансляций необходимо предоставить разрешение на использование микрофона и видеокамеры
+    </p>
+    <button class="notifications_btn" mat-raised-button color="primary" (click)="getMediaPermissions()">
+      Предоставить разрешение и начать трансляцию
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #liveStreamClient>
+  <div class="stream"
+       *ngIf="isStreamOnline; else liveStreamClosed"
+       #stream>
+    <video class="stream__video"
+           autoplay="autoplay"
+           #remoteVideo
+    ></video>
+    <div class="stream__controls" fxLayoutGap="16px">
+      <button class="stream__controls__btn"
+              mat-raised-button
+              color="warn"
+              (click)="disconnectFromStream()"
+      >Отключиться от трансляции</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #liveStreamClosed>
+  <div class="notifications">
+    <p class="notifications__body">Трансляция завершена</p>
+  </div>
+</ng-template>
