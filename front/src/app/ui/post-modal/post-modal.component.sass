@@ -12,11 +12,13 @@ app-loader
 .mat-card-header
   margin: 15px 0 0
   text-align: center
+  position: relative
 
 .mat-card-title
   font-weight: bold
   font-size: 24px
   font-style: italic
+
 
 .mat-card-subtitle
   margin-bottom: 0
@@ -40,11 +42,14 @@ app-loader
   position: relative
   text-align: center
 
+  &__img
+    width: 100%
+    max-height: 300px
+
   &__image
     width: 100%
     height: 100%
-    max-width: 650px
-    max-height: 550px
+    display: block
 
   &__link
     color: rgba(0, 0, 0, 0.54)
@@ -69,15 +74,50 @@ app-loader
     &:hover
       opacity: .3
 
-    &__icon
-      margin: 10px
-      width: 40px
-      height: 40px
-      color: #fff
-      font-size: 40px
+  &__icon
+    margin: 10px
+    width: 40px
+    height: 40px
+    color: #fff
+    font-size: 40px
+
+.modal-content
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: stretch
+  align-items: flex-start
+  @media screen and (min-width: 768px)
+    flex-wrap: nowrap
+
+
+.commentsBlock
+  width: 60%
+  display: block
+  @media screen and (max-width: 768px)
+    width: 100%
+
+
+.comments-title
+  text-align: left
+  padding: 20px 10px 20px 5px
+  border-bottom: 2px solid #000000
+
+.post-info
+  width: 100%
+
+.btn-actions
+  display: flex
+  flex-wrap: wrap
+
+  &__likes
+    color: #6d6969
+    cursor: pointer
+    padding: 0 0 10px 25px
+    text-align: left
 
 .profile
-  color: white
+  color: #000000
   font-size: 18px
   font-weight: bold
   height: auto
@@ -85,7 +125,6 @@ app-loader
   --start: 15%
   border-top-left-radius: 10px
   border-top-right-radius: 10px
-  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db)
   @media screen and (max-width: 550px)
     padding: 0 10px
 
@@ -101,6 +140,9 @@ app-loader
   width: 100%
   height: 100%
   object-fit: cover
+
+.btn-group
+  margin-top: 10px
 
 .button-exit
   padding: 0
@@ -118,10 +160,34 @@ app-loader
   &:hover
     opacity: .3
 
+.view-comments
+  padding: 10px
+  @media only screen and (max-width: 768px)
+    padding: 0
+  &__btn
+    cursor: pointer
+    font-size: 12px
+    &:hover
+      color: #d82323
+
+.comments-container
+  max-height: 120px
+  overflow: scroll
+  @media only screen and (min-width: 768px)
+    min-height: 250px
+
+.comments-title
+  @media only screen and (max-width: 768px)
+    padding: 5px
+
 div .comments-block
   font-size: 12px !important
   background-color: rgba(164, 164, 164, 0.16)
-  padding: 5px 15px
+  padding: 5px 0 0 0
+  height: 100%
+
+  &__userName
+    padding-right: 5px
 
   &__comment
     display: flex
@@ -130,6 +196,15 @@ div .comments-block
     align-items: center
     text-align: left
     margin: 0 auto 3px
+    padding: 10px 5px
+
+  &__text
+    width: 60%
+    word-wrap: break-word !important
+    font-family: 'Comfortaa', cursive
+    border-left: 2px solid #d82323
+    padding-left: 5px
+
 
   &__btn
     height: 10px
@@ -139,4 +214,37 @@ div .comments-block
 
     &-icon
       font-size: 12px
+
+.heart
+  width: 100px
+  height: 100px
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") 0 no-repeat
+  cursor: pointer
+  transition: background-position 1s steps(28)
+  transition-duration: 0s
+  overflow: hidden
+
+  &.is-active
+    transition-duration: 1s
+    background-position: -2800px 0
+
+body
+  background: #000000
+
+
+.placement
+  position: absolute
+  bottom: -24px
+  right: 0
+
+.btns
+  background: #000000
+  color: #fff
+  font-weight: 700
+  padding: 3px 7px
+  margin: 3px
+  text-transform: uppercase
+  font-family: 'Comfortaa', cursive
+
+
 

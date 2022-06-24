@@ -1,7 +1,12 @@
-<div *ngIf="!chatRoom" class="chat-room">
+<div
+  *ngIf="!chatRoom" class="chat-room">
   <h1 class="chat-room__title">Выберите переписку</h1>
   <p class="chat-room__subtitle">здесь пока ничего нет :( ... </p>
   <div class="chat-room__separator"></div>
+  <mat-progress-bar
+    class="chat-room__progress-bar"
+    mode="indeterminate"
+    *ngIf="(chatRoomLoading | async)"></mat-progress-bar>
 </div>
 
 <div class="chat-room-block" *ngIf="chatRoom">
@@ -70,7 +75,7 @@
             class="message__is-read-wrapper">
             <img src="../../assets/chat/doubleTickBlue.svg" alt="doubleTickBlue">
           </div>
-          <div class="message__time">{{ message.createdAt.slice(16, 21) }}</div>
+          <div class="message__time">{{ message.createdAt.slice(16, 22) }}</div>
         </div>
       </div>
     </div>

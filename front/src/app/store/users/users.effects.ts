@@ -11,6 +11,9 @@ import {
   checkCodeFailure,
   checkCodeRequest,
   checkCodeSuccess,
+  checkIsOnlineFailure,
+  checkIsOnlineRequest,
+  checkIsOnlineSuccess,
   editUserFailure,
   editUserRequest,
   editUserSuccess,
@@ -41,7 +44,7 @@ import {
   registerUserRequest,
   registerUserSuccess,
   removeFriendRequest,
-  removeFriendSuccess
+  removeFriendSuccess, confirmationOfFriendshipRequest, confirmationOfFriendshipSuccess
 } from './users.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -204,16 +207,34 @@ export class UsersEffects {
     )),
   ));
 
+  confirmationOfFriendship = createEffect(() => this.actions.pipe(
+    ofType(confirmationOfFriendshipRequest),
+    mergeMap(({friendId}) => this.usersService.confirmationOfFriendship(friendId).pipe(
+      map(() => confirmationOfFriendshipSuccess()),
+      tap(()=> {
+        this.helpersService.openSnackBar('Запрос подтвержден!')
+      })
+    )),
+  ));
+
   changePassword = createEffect(() => this.actions.pipe(
     ofType(changeUserPasswordRequest),
     mergeMap(({passwords}) => this.usersService.changePassword(passwords).pipe(
       map((user) => changeUserPasswordSuccess({user})),
       tap(() => {
         this.helpersService.openSnackBar('Ваш пароль успешно изменен!');
-        void this.router.navigate(['/']);
+        void this.router.navigate(['/profile']);
       }),
       this.helpersService.catchServerError(changeUserPasswordFailure)
     )),
   ))
 
+  checkIsOnline = createEffect(() => this.actions.pipe(
+    ofType(checkIsOnlineRequest),
+    mergeMap(({userId}) => this.usersService.checkUser(userId).pipe(
+      map((posts) => checkIsOnlineSuccess({posts})),
+
+      this.helpersService.catchServerError(checkIsOnlineFailure)
+    )),
+  ))
 }

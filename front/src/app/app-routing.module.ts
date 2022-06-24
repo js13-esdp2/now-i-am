@@ -18,18 +18,19 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ChatListComponent } from './pages/chat/chat-list/chat-list.component';
 import { ChatRoomComponent } from './pages/chat/chat-room/chat-room.component';
+import { UserGuardService } from './services/user-guard.service';
 import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: HomeComponent, canActivate: [UserGuardService]},
   {path: '', children: [
       {path: '', component: HomeComponent},
       {path: 'profile',
         canActivate: [AuthGuardService],
         children: [
-          {path: 'change-password', component: ChangePasswordComponent},
-          {path: '', component: ProfileComponent},
-          {path: 'edit', component: EditProfileComponent}
+          {path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuardService]},
+          {path: '', component: ProfileComponent, canActivate: [AuthGuardService]},
+          {path: 'edit', component: EditProfileComponent, canActivate: [AuthGuardService]}
       ]}
   ]},
   {path: 'login', component: LoginComponent},
@@ -41,11 +42,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]},
   {path: 'posts', component: PostsComponent},
   {path: 'statistic', component: StatisticComponent},
-  {path: 'chat', component: ChatComponent},
-  {path: 'chat-list', component: ChatListComponent},
-  {path: 'chat-room/:id', component: ChatRoomComponent},
-  {path: 'friends', component: UserFriendsComponent},
-  {path: 'password-check', component: CheckPasswordComponent},
+  {path: 'chat', component: ChatComponent, canActivate: [AuthGuardService]},
+  {path: 'chat-list', component: ChatListComponent, canActivate: [AuthGuardService]},
+  {path: 'chat-room/:id', component: ChatRoomComponent, canActivate: [AuthGuardService]},
+  {path: 'friends', component: UserFriendsComponent, canActivate: [AuthGuardService]},
+  {path: 'password-check', component: CheckPasswordComponent, canActivate: [AuthGuardService]},
   {
     path: 'my-history-posts',
     component: MyHistoryPostsComponent,

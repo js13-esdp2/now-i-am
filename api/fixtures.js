@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const config = require('./config');
-
 const User = require('./models/User');
 const Post = require('./models/Post');
 const ChatRoom = require('./models/ChatRoom');
@@ -122,21 +121,6 @@ const run = async () => {
   const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
   const invisibleDate = new Date((invisibleAtUnixTime * 1000)).toString();
 
-  const [Comm1, Comm2, Comm3] = await Comment.create(
-    {
-      user: anna,
-      text: "Hello"
-    },
-    {
-      user: james,
-      text: "How are you?"
-    },
-    {
-      user: anna,
-      text: "Goodbye"
-    },
-  )
-
   await Post.create({
     user: anna,
     categoryId: coffeeCat,
@@ -173,7 +157,7 @@ const run = async () => {
     datetime: new Date().toISOString(),
     createdAt: new Date().getTime(),
     isVisible: true,
-    invisibleAtUnixTime: invisibleAtUnixTime + 120,
+    invisibleAtUnixTime: invisibleAtUnixTime + 1200,
     invisibleDate: invisibleDate,
     time: {
       hours: 12,
@@ -247,7 +231,6 @@ const run = async () => {
       lat: 42.876474,
       lng: 74.637337
     },
-    commenst: [Comm1, Comm2, Comm3]
   },
 )
 
@@ -273,8 +256,6 @@ const run = async () => {
     isRead: true,
     createdAt: '10 мая 2022 г., 12:05:00'
   });
-
-
 
   await ChatRoom.create({
     owner: caitlyn,

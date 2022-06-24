@@ -1,21 +1,20 @@
+<div class="my-actions-header">
+  <h2 class="my-actions-header__title">История ваших занятий</h2>
+</div>
 <div class="my-actions-container">
-  <div class="my-actions-container__header">
-    <h2 class="my-actions-container__title">История ваших занятий</h2>
-  </div>
   <div class="my-actions-container__content">
     <mat-card class="my-actions-item" *ngFor="let post of (posts | async)">
       <mat-card-content class="my-actions-item__content">
         <div class="my-actions-item__image-container">
           <img class="my-actions-item__image" [src]="post.content | image" [alt]="'Photo of ' + post.title">
         </div>
-        <strong class="my-actions-item__title">{{ post.title }}</strong>
+        <h4 class="my-actions-item__title">{{ post.title }}</h4>
         <span class="my-actions-item__likes">{{ post.likes.length }} likes</span>
-        <span class="my-actions-item__time">2 мин</span>
         <button mat-icon-button class="my-actions-item__btn-remove" (click)="openModal(post._id)">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon>delete</mat-icon>
         </button>
         <button mat-icon-button class="my-actions-item__btn-update" (click)="republish(post._id)">
-          <mat-icon color="primary">update</mat-icon>
+          <mat-icon>update</mat-icon>
         </button>
       </mat-card-content>
     </mat-card>

@@ -31,7 +31,7 @@
   justify-content: space-between
   position: relative
   background: #fdfdfd
-  border-bottom: 5px solid #6d6969
+  border-bottom: 2px solid #000000
   z-index: 100
 
 .content
@@ -51,23 +51,16 @@
 .icon-menu
   margin-bottom: 5px
 
-.user-avatar
-  width: 40px
-  height: 40px
-  border-radius: 50%
-  object-fit: cover
-
 .logo-block
   display: flex
   align-items: center
 
 .logo-link
-  max-width: 38%
   display: flex
-
-  @media screen and (max-width: 650px)
-    min-width: 150px
-
+  min-width: 100px
+  max-width: 250px
+  @media screen and (max-width: 576px)
+    max-width: 200px
   &__logo
-    width: 100%
+    width: 80%
     height: auto

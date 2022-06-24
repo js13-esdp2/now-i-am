@@ -9,9 +9,13 @@ const CommentSchema = new Schema({
   },
   text: {
     type: String,
+  },
+  post: {
+    type: Schema.Types.ObjectId,
+    ref: 'Post',
+    required: true
   }
 })
 
 const Comment = mongoose.model('Comment', CommentSchema);
 module.exports = Comment;
-module.exports.CommentSchema = CommentSchema;

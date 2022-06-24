@@ -4,8 +4,6 @@ import { catchError, map, mergeMap, Observable, of, tap } from 'rxjs';
 import { HelpersService } from '../../services/helpers.service';
 import { PostsService } from '../../services/posts.service';
 import {
-  createPostCommentFailure,
-  createPostCommentRequest, createPostCommentSuccess,
   createPostFailure,
   createPostRequest,
   createPostSuccess,
@@ -26,13 +24,13 @@ import {
   fetchUserPostSuccess,
   likePostFailure,
   likePostRequest,
-  likePostSuccess, removePostCommentRequest, removePostCommentSuccess,
+  likePostSuccess,
   removePostRequest,
   removePostSuccess
 } from './posts.actions';
 import { User } from '../../models/user.model';
-import { Store } from '@ngrx/store';
 import { AppState } from '../types';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class PostsEffects {
@@ -102,6 +100,9 @@ export class PostsEffects {
     ofType(likePostRequest),
     mergeMap(({id}) => this.postsService.likePost(id).pipe(
       map((post) => likePostSuccess({post})),
+      tap(({post}) => {
+        this.store.dispatch(fetchOneOfPostRequest({id: post._id}));
+      }),
       this.helpers.catchServerError(likePostFailure),
     )),
   ));
@@ -126,27 +127,5 @@ export class PostsEffects {
     ))
   ));
 
-  createComment = createEffect(() => this.actions.pipe(
-    ofType(createPostCommentRequest),
-    mergeMap(({comment}) => this.postsService.createComment(comment).pipe(
-      map(() => createPostCommentSuccess()),
-      tap(() => {
-        this.store.dispatch(fetchOneOfPostRequest({id: comment.postId}))
-        this.helpers.openSnackBar('Комментарий добавлен');
-      }),
-      catchError(() => of(createPostCommentFailure({error: ''})))
-    ))
-  ));
-
-  removeComment = createEffect(() => this.actions.pipe(
-    ofType(removePostCommentRequest),
-    mergeMap(({comment}) => this.postsService.removeComment(comment).pipe(
-      map(() => removePostCommentSuccess()),
-      tap(() => {
-        this.store.dispatch(fetchOneOfPostRequest({id: comment.postId}))
-        this.helpers.openSnackBar('Комментарий был удален!');
-      })
-    ))
-  ));
 
 }

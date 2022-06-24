@@ -10,6 +10,7 @@ const {nanoid, customAlphabet} = require('nanoid');
 const auth = require('../middleware/auth');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const Post = require('../models/Post');
 
 
 
@@ -433,6 +434,20 @@ router.post('/usersId', async (req, res, next) => {
     return res.send(users);
   } catch (e) {
     next(e);
+  }
+})
+
+router.get('/checkIfUserIsOnline/:userId', async (req, res, next) => {
+  try{
+    const posts = await Post.find({user: req.params.userId});
+
+    if (posts.length === 0){
+      return res.status(400).send({error: 'Добавьте занятие'});
+    }
+    return res.send(posts)
+
+  } catch (e) {
+    return next(e);
   }
 })
 

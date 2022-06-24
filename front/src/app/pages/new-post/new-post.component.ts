@@ -133,7 +133,6 @@ export class NewPostComponent implements OnInit {
     const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
         sex: filterData.sex, country: filterData.country,  city: filterData.city,  isPrivate: filterData.isPrivate}};
     void this.router.navigate([`/statistic`], query);
-    // this.store.dispatch(fetchTitlePostsRequest({filterData: filterData}))
   }
 
 

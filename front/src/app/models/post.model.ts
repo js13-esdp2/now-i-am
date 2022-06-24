@@ -16,20 +16,24 @@ export class Post {
     },
     public likes: {
       _id: string,
-      user: string
+      user: {
+        displayName: string,
+        photo: string,
+        _id: string,
+      }
     }[],
     public geolocation: {
       lat: number
       lng: number
     },
     public comments: [{
-      _id: string,
+      text: string,
       user: {
+        _id: string,
         displayName: string,
-        photo: string,
-        _id: string
+        photo: string
       },
-      text: string
+      _id: string
     }]
   ) {
   }
@@ -74,30 +78,25 @@ export interface ApiPostData {
   },
   likes: {
     _id: string,
-    user: string
+    user: {
+      displayName: string,
+      photo: string,
+      _id: string,
+    }
   }[]
   geolocation: {
     lat: number,
     lng: number
   },
   comments: [{
-      _id: string,
+    text: string,
     user: {
+      _id: string,
       displayName: string,
-      photo: string,
-      _id: string
+      photo: string
     },
-      text: string,
+    _id: string
     }
   ]
 }
 
-export interface CommentData {
-  comment: string,
-  postId: string
-}
-
-export interface RemoveCommentData {
-  postId: string,
-  commentId: string
-}

@@ -1,0 +1,17 @@
+<mat-list>
+  <div *ngFor="let like of postData.likes">
+    <div class="user-item">
+      <div
+        class="user-item__img_wrapper">
+        <img
+          class="user-item__img"
+          [src]="envApi + '/uploads/' + like.user.photo"
+          [alt]="like.user.displayName">
+      </div>
+      <mat-list-item
+      >{{ like.user.displayName }}
+      </mat-list-item>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>

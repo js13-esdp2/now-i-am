@@ -22,7 +22,6 @@ import { LoaderComponent } from './ui/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
 import { UserTypeDirective } from './directives/user-type.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './pages/home/home.component';
@@ -75,7 +74,10 @@ import { WebsocketService } from './services/websocket.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { AutocompleteCategoriesComponent } from './ui/autocomplete-categories/autocomplete-categories.component';
-import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LikesModalComponent } from './ui/likes-modal/likes-modal.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -140,6 +142,7 @@ const socialConfig: SocialAuthServiceConfig = {
     ChatListComponent,
     ChatRoomComponent,
     AutocompleteCategoriesComponent,
+    LikesModalComponent,
     LiveStreamComponent,
   ],
   imports: [
@@ -160,7 +163,6 @@ const socialConfig: SocialAuthServiceConfig = {
     FlexModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatIconModule,
     MatMenuModule,
     SocialLoginModule,
     MatSelectModule,
@@ -177,6 +179,9 @@ const socialConfig: SocialAuthServiceConfig = {
     MatAutocompleteModule,
     MatBadgeModule,
     NgxEmojiPickerModule.forRoot(),
+    MatSlideToggleModule,
+    MatProgressBarModule,
+    MatIconModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

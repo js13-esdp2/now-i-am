@@ -26,29 +26,24 @@ const upload = multer({storage});
 
 router.get('/', async (req, res, next) => {
   try {
-    const query = { isVisible: true };
+    const query = {isVisible: true};
     const projection = {};
+    const sort = {likes: 'desc'};
 
     const users = await User.find(req.query);
     query['user'] = users.map(user => {
       return user._id;
     });
 
-    // if (req.query.user) {
-    //   query['user'] = req.query.user;
-    // }
-
     if (req.query.title) {
-      query['$text'] = { $search: req.query.title };
-      projection['score'] = { $meta: 'textScore' };
-      sort['score'] = { $meta: 'textScore' };
+      query['$text'] = {$search: req.query.title};
+      projection['score'] = {$meta: 'textScore'};
+      sort['score'] = {$meta: 'textScore'};
     }
 
     const posts = await Post.find(query, projection)
       .populate('user', 'displayName photo')
-      .sort(sort)
-      .populate('user', 'displayName photo').populate([{path: 'comments.user', select: 'displayName photo'}])
-      .sort(projection);
+      .sort(sort);
 
     return res.send(posts);
   } catch (e) {
@@ -58,7 +53,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.id).populate('user', 'displayName');
+    const post = await Post.findById(req.params.id).populate('user', 'displayName')
+      .populate('user', 'displayName')
+      .populate([{path: 'likes.user', select: 'displayName photo'}])
     if (!post) {
       return res.status(404).send({message: 'Нет такого поста'});
     }
@@ -108,9 +105,9 @@ router.post('/', upload.single('content'), async (req, res, next) => {
       postData.content = imagePath;
     }
 
-    let category = await Category.findOne({ title: postData.title });
+    let category = await Category.findOne({title: postData.title});
     if (!category) {
-      category = new Category({ title: postData.title, posts: 1 });
+      category = new Category({title: postData.title, posts: 1});
     } else category.posts++;
 
     await category.save();
@@ -163,7 +160,7 @@ router.delete('/:id', auth, async (req, res, next) => {
     if (!post) {
       return res.send({message: 'ok'});
     }
-    if (req.user.role === 'user'){
+    if (req.user.role === 'user') {
       if (!post.user.equals(req.user._id)) {
         return res.status(403).send({error: 'У Вас нет на это прав'});
       }
@@ -184,48 +181,6 @@ router.get('/my-history-posts/:id', auth, async (req, res, next) => {
   }
 });
 
-router.post('/comment', async (req, res, next) => {
-  try{
-    console.log(req.body);
-
-    const commentData = {
-      user: req.body.user,
-      text: req.body.text
-    }
-    const comment = await new Comment(commentData)
-    res.send(comment);
-    // console.log(req.body);
-    // const post =  await Post.findById(req.body.postId);
-    // if(post) {
-    //   const commentData = {
-    //     user: req.user._id,
-    //     text: req.body.comment
-    //   }
-    //   post.comment.push(commentData);
-    //   await post.save();
-    // } else {
-    //   return res.status(404).send({error: 'Комментарий не создан'});
-    // }
-    // res.send(post);
-  } catch (e) {
-    next(e);
-  }
-})
-
-router.delete('/:id/:post', auth, async (req,res,next) => {
-  try {
-    // const post = await Post.findById(req.params.post);
-    // const result = post.comment.filter(comment => comment._id !== req.params.id);
-    // const index = post.comment.findIndex(item => item.id === req.params.id)
-    // const array = post.comment.slice(1, index);
-    // console.log(result);
-    // console.log(index);
-    // console.log(array);
-    // res.send(post);
-  } catch (e) {
-    next(e);
-  }
-})
 
 const checkIfPostsAreOnline = () => {
   setInterval(async () => {

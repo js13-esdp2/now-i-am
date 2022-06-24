@@ -4,11 +4,13 @@ import { ChatRoom } from '../models/chatRoom.model';
 import { Friends } from '../models/frends.model';
 import { CountriesModel } from '../models/countries.model';
 import { Category } from '../models/category.model';
+import { Comment } from '../models/comment.model';
 
 
 export type UsersState = {
   user: null | User,
   friend: null | User,
+  posts: null | Post[],
   recoveryData: null | RecoveryData,
   friends: Friends[],
   registerLoading: boolean,
@@ -80,6 +82,12 @@ export type CategoriesState = {
   fetchError: null | string;
 }
 
+export type CommentsState = {
+  comments: null | Comment[],
+  fetchLoading: boolean,
+  fetchError: null | string,
+}
+
 export type AppState = {
   users: UsersState,
   posts: PostState,
@@ -87,4 +95,5 @@ export type AppState = {
   chat: ChatState,
   countries: CountriesState,
   categories: CategoriesState,
+  comments: CommentsState
 }
