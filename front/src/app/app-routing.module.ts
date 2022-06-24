@@ -45,7 +45,7 @@ const routes: Routes = [
   {path: 'chat-list', component: ChatListComponent, canActivate: [AuthGuardService]},
   {path: 'chat-room/:id', component: ChatRoomComponent, canActivate: [AuthGuardService]},
   {path: 'friends', component: UserFriendsComponent, canActivate: [AuthGuardService]},
-  {path: 'password-check', component: CheckPasswordComponent, canActivate: [AuthGuardService]},
+  {path: 'password-check', component: CheckPasswordComponent},
   {
     path: 'my-history-posts',
     component: MyHistoryPostsComponent,
