@@ -83,3 +83,7 @@ Given('я жду {string} секунд', (seconds) => {
 Given('я не должен видеть текст со стилями {string}', (styles) => {
   I.dontSee({css: styles});
 });
+
+Given('я кликаю на кнопку со стилями {string}', (styles) => {
+  I.click({css: styles});
+});
