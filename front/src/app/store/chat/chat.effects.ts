@@ -5,7 +5,7 @@ import {
   changeChatRoom,
   createNewChatRoom,
   createNewChatRoomFailure,
-  createNewChatRoomSuccess, decreaseMessagesCounter,
+  createNewChatRoomSuccess,
   deleteAllMessages,
   deleteAllMessagesFailure,
   deleteAllMessagesSuccess,
@@ -15,14 +15,18 @@ import {
   deleteMyMessages,
   deleteMyMessagesFailure,
   deleteMyMessagesSuccess,
-  getAllNewMessages, getAllNewMessagesFailure,
+  getAllNewMessages,
+  getAllNewMessagesFailure,
   getAllNewMessagesSuccess,
   getChatRoomByIdFailure,
   getChatRoomByIdRequest,
   getChatRoomByIdSuccess,
   getUsersChatRooms,
   getUsersChatRoomsFailure,
-  getUsersChatRoomsSuccess, messagesAreReadFailure, messagesAreReadRequest, messagesAreReadSuccess
+  getUsersChatRoomsSuccess,
+  messagesAreReadFailure,
+  messagesAreReadRequest,
+  messagesAreReadSuccess
 } from './chat.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { HelpersService } from '../../services/helpers.service';
@@ -113,9 +117,14 @@ export class ChatEffects {
     mergeMap(({chatRoomId}) => this.chatService.getChatRoomById(chatRoomId)
       .pipe(
         map((chatRoom) => {
+          const messagesAreReadData = {
+            ownerId: chatRoom.owner._id,
+            chatRoomInbox: chatRoom.chatRoomInbox,
+            myId: this.userId,
+          }
+          this.store.dispatch(messagesAreReadRequest({messagesAreReadData}));
           return getChatRoomByIdSuccess({chatRoom})
         }),
-        tap(({chatRoom}) => this.store.dispatch(getUsersChatRooms({userId: this.userId}))),
         this.helpers.catchServerError(getChatRoomByIdFailure)
       ))
   ));
@@ -134,6 +143,7 @@ export class ChatEffects {
     mergeMap(({messagesAreReadData}) => this.chatService.messagesAreRead(messagesAreReadData)
       .pipe(
         map(() => messagesAreReadSuccess()),
+        tap(() => this.store.dispatch(getUsersChatRooms({userId: this.userId}))),
         this.helpers.catchServerError(messagesAreReadFailure)
       ))
   ))

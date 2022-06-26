@@ -2,15 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../store/types';
 import { Store } from '@ngrx/store';
 import { ChatRoom } from '../../../models/chatRoom.model';
-import {
-  deleteChatRoomRequest,
-  getChatRoomByIdRequest,
-  getUsersChatRooms,
-  messagesAreReadRequest
-} from '../../../store/chat/chat.actions';
+import { deleteChatRoomRequest, getChatRoomByIdRequest, getUsersChatRooms } from '../../../store/chat/chat.actions';
 import { environment } from '../../../../environments/environment';
-import { Router } from '@angular/router';
-import { ChatService } from '../../../services/chat.service';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 
@@ -62,13 +55,7 @@ export class ChatListComponent implements OnInit {
   }
 
   goToChatRoom(chatRoom: ChatRoom) {
-    const messagesAreReadData = {
-      ownerId: chatRoom.owner._id,
-      chatRoomInbox: chatRoom.chatRoomInbox,
-      myId: this.userId,
-    }
     this.store.dispatch(getChatRoomByIdRequest({chatRoomId: chatRoom._id}));
-    this.store.dispatch(messagesAreReadRequest({messagesAreReadData}));
   }
 
   checkIfThereAreNewMessages(newMessagesCounter: number) {
