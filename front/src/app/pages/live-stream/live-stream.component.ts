@@ -62,7 +62,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.streamCandidateSub = this.liveStreamService.onCreateCandidate.subscribe((candidate) => {
-      this.websocketService.send({ type: 'LIVE_STREAM_CANDIDATE', id: this.userData?._id, user: candidate.id, candidate: candidate.candidate });
+      this.websocketService.send({ type: 'LIVE_STREAM_CANDIDATE', id: this.liveStreamId || this.userData?._id, user: candidate.id, candidate: candidate.candidate });
     });
 
     this.websocketCloseSub = this.websocketService.onEvent('LIVE_STREAM_CLOSE').subscribe(() => {

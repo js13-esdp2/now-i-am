@@ -30,6 +30,7 @@ import { LikesModalComponent } from '../likes-modal/likes-modal.component';
   styleUrls: ['./post-modal.component.sass']
 })
 export class PostModalComponent implements OnInit, OnDestroy {
+  myId!: string | undefined;
   user: Observable<null | User>;
   users: Observable<null | User[]>;
   post: Observable<null | Post>;
@@ -76,6 +77,9 @@ export class PostModalComponent implements OnInit, OnDestroy {
     store.select(state => state.users.user).subscribe(user => {
       this.userData = user;
     });
+    store.select(state => state.users.user).subscribe(user => {
+      this.myId = user?._id;
+    });
     this.dialogRef.backdropClick().subscribe(() => {
       const postModalData = {postId: '', searchTitle: ''};
       this.store.dispatch(onPostModalDataChange({postModalData: postModalData}))
@@ -112,11 +116,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
 
   goToChat() {
     this.dialogRef.close();
-    void this.router.navigate(['/chat'], {queryParams: {ownerId: this.userData?._id}});
     const chatRoomData = {
-      participants: [this.userData?._id, this.postData.user._id],
+      participants: [this.myId, this.postData.user._id],
     }
     this.store.dispatch(createNewChatRoom({chatRoomData}));
+    void this.router.navigate(['/chat'], {queryParams: {ownerId: this.userData?._id}});
   }
 
   goToProfile(title: string, id: string) {

@@ -165,7 +165,7 @@ websocket.on('LIVE_STREAM_CANDIDATE', async (ws, message) => {
       return;
     }
 
-    const socket = stream.author === ws ? clientUser : ws;
+    const socket = stream.author === ws ? clientUser : stream.author;
     socket.send(JSON.stringify(message));
   } catch (e) {}
 });

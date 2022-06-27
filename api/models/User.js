@@ -95,7 +95,10 @@ const UserSchema = new Schema({
       required: true
     },
   },],
-  isOnLiveStream: Boolean,
+  isOnLiveStream: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const SALT_WORK_FACTOR = 10;
