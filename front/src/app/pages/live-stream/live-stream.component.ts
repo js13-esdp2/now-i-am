@@ -47,6 +47,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
   websocketAnswerSub!: Subscription;
   websocketCandidateSub!: Subscription;
   websocketDisconnectSub!: Subscription;
+  websocketErrorSub!: Subscription;
   routeSub!: Subscription;
 
   constructor(
@@ -104,6 +105,15 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
 
       connection.close();
       delete this.streamConnections[message.user];
+    });
+    this.websocketErrorSub = this.websocketService.onEvent<WebRTCError>('LIVE_STREAM_ERROR').subscribe(({ message }) => {
+      if (this.liveStreamId) {
+        this.disconnectFromStream();
+      } else {
+        this.closeStream();
+      }
+
+      this.helpersService.openSnackBar(message.error);
     });
 
     this.routeSub = this.route.params.subscribe((param) => {
@@ -175,6 +185,10 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
   }
 
   closeStream() {
+    this.videoStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+
     this.isStreamOnline = false;
     clearInterval(this.calculateStreamDurationInterval);
 
@@ -220,6 +234,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
     this.websocketAnswerSub.unsubscribe();
     this.websocketCandidateSub.unsubscribe();
     this.websocketDisconnectSub.unsubscribe();
+    this.websocketErrorSub.unsubscribe();
     this.routeSub.unsubscribe();
   }
 }
@@ -242,4 +257,9 @@ interface WebRTCAnswerMessage extends WebRTCMessage {
 interface WebRTCCandidateMessage extends WebRTCMessage {
   type: string;
   candidate: RTCIceCandidate;
+}
+
+interface WebRTCError {
+  type: string;
+  error: string;
 }

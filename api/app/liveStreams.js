@@ -13,7 +13,7 @@ websocket.on('LIVE_STREAM_CREATE', async (ws) => {
 
     const user = await User.findOne({ _id: ws['userId'], isOnLiveStream: false });
     if (!user) {
-      return ws.send(JSON.stringify({ error: 'Не удалось создать трансляцию' }));
+      return ws.send(JSON.stringify({ type: 'LIVE_STREAM_ERROR', error: 'Не удалось создать трансляцию' }));
     }
 
     user.isOnLiveStream = true;
@@ -70,7 +70,7 @@ websocket.onEvent('close', async (ws) => {
     }
 
     stream.users.forEach((user) => {
-      user.send(JSON.stringify({type: 'LIVE_STREAM_CLOSE'}));
+      user.send(JSON.stringify({ type: 'LIVE_STREAM_CLOSE' }));
     });
 
     delete onlineStreams[user._id];
@@ -90,12 +90,18 @@ websocket.on('LIVE_STREAM_CONNECT', async (ws, message) => {
 
     const checkUser = await User.findOne({ _id: message.id, isOnLiveStream: true });
     if (!checkUser) {
-      return ws.send(JSON.stringify({ error: 'Пользователь на данный момент не в трансляции' }));
+      return ws.send(JSON.stringify({
+        type: 'LIVE_STREAM_ERROR',
+        error: 'Пользователь на данный момент не в трансляции'
+      }));
     }
 
     const stream = onlineStreams[message.id];
     if (!stream) {
-      return ws.send(JSON.stringify({ error: 'Пользователь на данный момент не в трансляции' }));
+      return ws.send(JSON.stringify({
+        type: 'LIVE_STREAM_ERROR',
+        error: 'Пользователь на данный момент не в трансляции'
+      }));
     }
 
     stream['users'].push(ws);
