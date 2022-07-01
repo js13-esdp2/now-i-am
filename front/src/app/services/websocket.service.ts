@@ -7,17 +7,25 @@ import { Observable, Subscriber } from 'rxjs';
 })
 export class WebsocketService extends WebSocket {
   private eventCallbacks: { [key: string]: Subscriber<{ ws: WebSocket, message: any }>[] } = {};
+
   private sendMessagesQueue: string[] = [];
+  private sendLivePingInterval = 0;
+
   private userId = '';
 
   constructor() {
     super(env.webSocketUrl);
     this.onopen = () => this.onWebsocketOpen();
     this.onclose = () => this.onWebsocketClose();
+    this.onerror = () => this.onWebsocketClose();
     this.onmessage = (event) => this.onWebsocketMessage(event);
   }
 
   private onWebsocketOpen() {
+    this.sendLivePingInterval = setInterval(() => {
+      this.send({ type: 'PING' });
+    }, 20000);
+
     const messagesQueueLength = this.sendMessagesQueue.length;
     if (!messagesQueueLength) {
       return;
@@ -30,6 +38,8 @@ export class WebsocketService extends WebSocket {
   }
 
   private onWebsocketClose() {
+    clearInterval(this.sendLivePingInterval);
+
     const getCallbacks = this.eventCallbacks['close'];
     if (!getCallbacks) {
       return;

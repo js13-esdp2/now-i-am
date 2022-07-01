@@ -25,6 +25,10 @@ router.ws('/', (ws) => {
         closeConnection(ws);
       }
 
+      if (messageType === 'PING') {
+        ws.send(JSON.stringify({ type: 'PONG' }));
+      }
+
       onMessageType(ws, messageType, decodedMessage);
     } catch (e) {
       console.log('Unknown message error', message, e);
