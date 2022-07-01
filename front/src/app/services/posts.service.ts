@@ -18,6 +18,24 @@ export class PostsService {
   constructor(private http: HttpClient) {
   }
 
+  getSecondsToHms(secondsUnix: string){
+    const unixTime = (Math.round(new Date().getTime() / 1000));
+    const time = Number(secondsUnix);
+    let resSeconds = time - unixTime;
+    let action = 'осталось'
+    if(resSeconds < 0) {
+      action = 'прошло'
+      resSeconds = (Math.abs(resSeconds));
+    }
+      const d = Math.floor(resSeconds / (3600*24));
+      const h = Math.floor(resSeconds / 3600);
+      const m = Math.floor(resSeconds % 3600 / 60);
+      const dDisplay = d > 0 ? d + (d == 1 ? " д " : " д ") : "";
+      const hDisplay = h > 0 ? h + (h == 1 ? " ч " : " ч ") : "";
+      const mDisplay = m > 0 ? m + (m == 1 ? " мин " : " мин ") : "";
+      return dDisplay + hDisplay + mDisplay + action;
+  }
+
   getPosts(filterData: any) {
     let params = new HttpParams();
     if (filterData?.title) params = params.append('title', filterData.title);
@@ -29,6 +47,7 @@ export class PostsService {
     return this.http.get<ApiPostData[]>(environment.apiUrl + '/posts', {params}).pipe(
       map(response => {
         return response.map(postData => {
+          let lastTime = this.getSecondsToHms(postData.invisibleAtUnixTime);
           return new Post(
             postData._id,
             postData.user,
@@ -38,9 +57,10 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
-            postData.comments
+            postData.comments,
+            lastTime
           )
-        });
+        }).reverse();
       })
     );
   }
@@ -89,7 +109,8 @@ export class PostsService {
           postData.time,
           postData.likes,
           postData.geolocation,
-          postData.comments
+          postData.comments,
+          postData.invisibleAtUnixTime
         );
       }),
     );
@@ -99,6 +120,7 @@ export class PostsService {
     return this.http.get<ApiPostData[]>(environment.apiUrl + `/posts/my-history-posts/${user_id}`).pipe(
       map(response => {
         return response.map(postData => {
+          let lastTime = this.getSecondsToHms(postData.invisibleAtUnixTime);
           return new Post(
             postData._id,
             postData.user,
@@ -108,9 +130,10 @@ export class PostsService {
             postData.time,
             postData.likes,
             postData.geolocation,
-            postData.comments
+            postData.comments,
+            lastTime
           );
-        });
+        }).reverse();
       })
     );
   }

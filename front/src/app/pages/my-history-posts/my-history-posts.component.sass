@@ -26,6 +26,7 @@
     flex-direction: row
     align-items: center
     border-radius: 10px
+    padding-bottom: 30px
     @media only screen and (max-width: 576px)
       flex-direction: column
 
@@ -61,13 +62,20 @@
     color:  #d82323
     font-weight: 700
     font-size: 16px
-    bottom: 13px
+    top: 82%
     right: 20px
 
   &__time
+    font-family: 'Comfortaa', cursive
+    font-size: 14px
+    letter-spacing: -0.03em
+    font-weight: bold
     position: absolute
     bottom: 10px
     right: 10px
+    @media screen and (min-width: 576px)
+      left: 10px
+      bottom: 5px
 
   &__btn-remove
     position: absolute
@@ -75,7 +83,7 @@
     right: 10px
     color:  #d82323 !important
     @media screen and (max-width: 576px)
-      top: 86%
+      top: 88%
       right: 70%
 
   &__btn-update
@@ -85,7 +93,7 @@
     color: #000000
     @media screen and (max-width: 576px)
       margin-right: 10px
-      top: 86%
+      top: 88%
       right: 80%
 
 .completed

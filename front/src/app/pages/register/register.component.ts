@@ -7,8 +7,7 @@ import { AppState } from '../../store/types';
 import { loginFbRequest, loginGoogleRequest, loginVKRequest, registerUserRequest } from '../../store/users/users.actions';
 import {
   FacebookLoginProvider,
-  GoogleLoginProvider,
-  SocialAuthService,
+  GoogleLoginProvider, SocialAuthService,
   SocialUser,
   VKLoginProvider
 } from 'angularx-social-login';

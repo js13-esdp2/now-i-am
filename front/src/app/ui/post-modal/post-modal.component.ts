@@ -94,6 +94,11 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.postSub = this.post.subscribe((post) => {
       if (post) {
         this.postData = post;
+        post.likes.forEach(like =>{
+          if(like.user._id === this.userData!._id){
+            this.like = 'is-active';
+          }
+        })
       }
     });
   }
@@ -146,7 +151,7 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   likePost(): void {
-    this.like = 'is-active'
+    this.like = 'is-active';
     if (!this.userData) {
       return;
     }
@@ -187,7 +192,6 @@ export class PostModalComponent implements OnInit, OnDestroy {
   }
 
   removeComment(commentId: string){
-    console.log(commentId);
     this.store.dispatch(removeCommentRequest({commentId: commentId}))
   }
 

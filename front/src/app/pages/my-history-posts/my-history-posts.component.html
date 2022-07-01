@@ -9,6 +9,7 @@
           <img class="my-actions-item__image" [src]="post.content | image" [alt]="'Photo of ' + post.title">
         </div>
         <h4 class="my-actions-item__title">{{ post.title }}</h4>
+        <span class="my-actions-item__time">{{ post.invisibleAtUnixTime }}</span>
         <span class="my-actions-item__likes">{{ post.likes.length }} likes</span>
         <button mat-icon-button class="my-actions-item__btn-remove" (click)="openModal(post._id)">
           <mat-icon>delete</mat-icon>

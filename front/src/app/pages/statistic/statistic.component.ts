@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MapService } from 'src/app/services/map.service';
 import { ApiUserData, User } from '../../models/user.model';
 import { environment } from '../../../environments/environment';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-statistic',

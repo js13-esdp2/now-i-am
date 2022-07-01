@@ -35,7 +35,8 @@ export class Post {
         photo: string
       },
       _id: string
-    }]
+    }],
+    public invisibleAtUnixTime: string
   ) {
   }
 }
@@ -98,6 +99,7 @@ export interface ApiPostData {
     },
     _id: string
     }
-  ]
+  ],
+  invisibleAtUnixTime: string
 }
 
