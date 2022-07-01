@@ -13,6 +13,7 @@ router.get('/', auth, async (req, res, next) => {
       return user._id;
     });
     const posts = await Post.find({title: {$in: req.query.title}, user: usersId, isVisible: true});
+    console.log(posts);
     return res.send(posts);
   } catch (e) {
     return next(e);

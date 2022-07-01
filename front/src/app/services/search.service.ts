@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiUserData, User } from '../models/user.model';
+import { User } from '../models/user.model';
 import { environment as env } from '../../environments/environment';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

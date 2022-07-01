@@ -114,7 +114,6 @@ export class NewPostComponent implements OnInit {
       }
     }
 
-
     if (this.form.value.content) {
       postData.content = this.form.value.content
     }
