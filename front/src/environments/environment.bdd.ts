@@ -5,6 +5,7 @@ export const environment = {
   webSocketUrl: 'ws://localhost:8010',
   facebookAppId: '1036035837346520',
   googleAppId: '40811209122-h2vmbta5hlsirf6rkjtahnuiv4rdko4u.apps.googleusercontent.com',
-  vkAppId: '8157037'
+  vkAppId: '8157037',
+  bugfenderKey: '',
 };
 

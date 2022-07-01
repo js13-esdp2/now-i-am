@@ -5,5 +5,6 @@ export const environment = {
   webSocketUrl: 'wss://now-i-am.freeddns.org/api/',
   facebookAppId: '1036035837346520',
   googleAppId: '40811209122-h2vmbta5hlsirf6rkjtahnuiv4rdko4u.apps.googleusercontent.com',
-  vkAppId: '8157037'
+  vkAppId: '8157037',
+  bugfenderKey: 'NicuPu6y54K3JyYcA7ndczvJ7vJwvs8s',
 };

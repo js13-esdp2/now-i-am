@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -79,6 +79,8 @@ import { LikesModalComponent } from './ui/likes-modal/likes-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveStreamComponent } from './pages/live-stream/live-stream.component';
+import { Bugfender } from '@bugfender/sdk';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 const vkLoginOptions = {
   fields: 'photo_max',
@@ -105,6 +107,9 @@ const socialConfig: SocialAuthServiceConfig = {
   ]
 }
 
+Bugfender.init({
+  appKey: environment.bugfenderKey,
+});
 
 @NgModule({
   declarations: [
@@ -195,6 +200,7 @@ const socialConfig: SocialAuthServiceConfig = {
       deps: [WebsocketService],
       multi: true
     },
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
   bootstrap: [AppComponent],
 })
