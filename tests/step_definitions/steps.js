@@ -37,6 +37,11 @@ Given('я должен увидеть текст {string}', (text) => {
   I.see(text);
 });
 
+Given('я должен увидеть элемент со стилями {string}', (styles) => {
+  I.wait(2);
+  I.seeElement({css: styles});
+});
+
 Given('я кликаю на текст {string}', (text) => {
   I.click(text);
 });
