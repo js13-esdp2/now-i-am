@@ -9,6 +9,8 @@ Given('я нахожусь на странице {string}', (page) => {
       return I.amOnPage('/register');
     case 'Логин':
       return I.amOnPage('/login');
+    case 'Профиль':
+      return I.amOnPage('/profile');
     case 'Статистика':
       return I.amOnPage('/statistic');
     case 'Поиск':
