@@ -115,7 +115,7 @@ const run = async () => {
     posts: 1
   });
 
-  const hours = 0;
+  const hours = 5;
   const minutes = 1;
   const timer = (hours * 3600) + (minutes * 60);
   const invisibleAtUnixTime = Math.round((new Date().getTime() / 1000)) + timer;
