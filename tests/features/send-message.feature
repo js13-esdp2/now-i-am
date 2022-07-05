@@ -9,17 +9,17 @@
   @send-message
   Сценарий: Отправление сообщений
     Допустим  я нахожусь на странице "Логин"
-    Если я ввожу в поля формы:
-      | Почтовый адрес | caitlyn@gmail.com |
-      | Пароль         | 123               |
-    И нажимаю на кнопку формы "Войти"
-    То я должен увидеть текст "Вход успешно выполнен!"
-    Допустим я кликаю на иконку со стилями "#sms-icon"
-    Допустим я вижу текст "James" со стилями ".chat-list-content__name"
-    Допустим я кликаю на иконку со стилями ".chat-list-content__info_desktop"
-    Допустим я жду "10" секунд
-    Допустим я кликаю на иконку со стилями ".chat-room-header__name"
-    Допустим я ввожу в поле ".send-message-block__input" текст "Hi, there. How are you doing?"
-    Допустим я кликаю на иконку со стилями ".send-message-block__send-btn"
-    То я вижу текст "Hi, there. How are you doing?" со стилями ".message__content_send"
+#    Если я ввожу в поля формы:
+#      | Почтовый адрес | caitlyn@gmail.com |
+#      | Пароль         | 123               |
+#    И нажимаю на кнопку формы "Войти"
+#    То я должен увидеть текст "Вход успешно выполнен!"
+#    Допустим я кликаю на иконку со стилями "#sms-icon"
+#    Допустим я вижу текст "James" со стилями ".chat-list-content__name"
+#    Допустим я кликаю на иконку со стилями ".chat-list-content__info_desktop"
+#    Допустим я жду "10" секунд
+#    Допустим я кликаю на иконку со стилями ".chat-room-header__name"
+#    Допустим я ввожу в поле ".send-message-block__input" текст "Hi, there. How are you doing?"
+#    Допустим я кликаю на иконку со стилями ".send-message-block__send-btn"
+#    То я вижу текст "Hi, there. How are you doing?" со стилями ".message__content_send"
 
