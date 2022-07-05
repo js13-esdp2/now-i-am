@@ -23,6 +23,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   user: Observable<User | null>;
   loading: Observable<boolean>;
   apiUrl = environment.apiUrl
+  notNewRequests: boolean = false;
 
   websocketFriendSub!: Subscription;
 
@@ -42,14 +43,26 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.store.dispatch(fetchFriendsRequest());
       }
     });
+    this.checkFriend();
   }
 
   confirmationOfFriendship(friendId: string){
-    this.store.dispatch(confirmationOfFriendshipRequest({friendId}))
+    this.store.dispatch(confirmationOfFriendshipRequest({friendId}));
+    this.checkFriend();
   };
 
   onRemove(friendId: string) {
     this.store.dispatch(removeFriendRequest({friendId}));
+    this.checkFriend();
+  }
+
+  checkFriend() {
+    this.friends.subscribe(friends => {
+      this.notNewRequests = friends.length > 0;
+      friends.forEach(friend => {
+        this.notNewRequests = !friend.isFriend
+      })
+    });
   }
 
   ngOnDestroy(): void {

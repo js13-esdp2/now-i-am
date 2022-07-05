@@ -26,12 +26,6 @@
           </div>
         </mat-card-header>
         <mat-card-actions *appUserType="'user' else anonLink" class="btn-actions">
-          <button
-            title="Показать на карте"
-            class="btns"
-          >
-            <mat-icon>location_on</mat-icon>
-          </button>
           <button type="button"
                   class="btns"
                   (click)="goToProfile(postData.title, postData.user._id)"
@@ -130,7 +124,10 @@
           <p>
             <strong>Город: </strong>{{ userData.city || 'Не указано' }}
           </p>
-          <div class="btn-group">
+
+          <div class="btn-group"
+               *ngIf="(user | async)?._id !== postData.user._id"
+          >
             <button type="button"
                     class="btns"
                     title="Добавить в друзья"

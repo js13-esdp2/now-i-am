@@ -202,6 +202,7 @@ export class UsersEffects {
     mergeMap(({friendId}) => this.usersService.removeFriend(friendId).pipe(
       map(() => removeFriendSuccess()),
       tap(()=> {
+        this.store.dispatch(fetchFriendsRequest());
         this.helpersService.openSnackBar('Удаление завершено!')
       })
     )),
@@ -212,7 +213,8 @@ export class UsersEffects {
     mergeMap(({friendId}) => this.usersService.confirmationOfFriendship(friendId).pipe(
       map(() => confirmationOfFriendshipSuccess()),
       tap(()=> {
-        this.helpersService.openSnackBar('Запрос подтвержден!')
+        this.store.dispatch(fetchFriendsRequest());
+        this.helpersService.openSnackBar('Запрос подтвержден!');
       })
     )),
   ));

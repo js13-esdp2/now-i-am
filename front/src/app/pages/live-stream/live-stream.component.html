@@ -19,6 +19,9 @@
         <div class="stream__controls__timer" *ngIf="isStreamOnline">
           {{ streamDuration | date:'mm:ss' }}
         </div>
+        <div class="stream__controls__online" *ngIf="isStreamOnline">
+          Зрители: {{ onlineStreamUsers }}
+        </div>
       </div>
     </div>
   </ng-container>

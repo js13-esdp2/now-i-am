@@ -1,5 +1,5 @@
 <h2 class="title">Уведомления</h2>
-<div class="notifications-container" *ngIf="(friends | async)?.length !== 0 else notRequests">
+<div class="notifications-container" *ngIf="notNewRequests else notRequests">
   <div *ngFor="let friend of friends | async">
     <mat-card class="user-item"  *ngIf="!friend.isFriend">
       <mat-card-content class="user-item__content" >
@@ -20,7 +20,7 @@
 
 <ng-template #notRequests>
   <div class="notifications-container">
-    <h3>У вас нет запросов на дружбу</h3>
+    <h3 class="not-request-test">У вас нет запросов на дружбу</h3>
   </div>
 </ng-template>
 

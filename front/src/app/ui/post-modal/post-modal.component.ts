@@ -74,6 +74,8 @@ export class PostModalComponent implements OnInit, OnDestroy {
     this.loadingComments = store.select((state) => state.comments.fetchLoading);
     this.errorComments = store.select((state) => state.comments.fetchError);
 
+    debugger;
+
     store.select(state => state.users.user).subscribe(user => {
       this.userData = user;
     });

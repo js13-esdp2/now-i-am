@@ -7,6 +7,8 @@ import { AppState } from '../../store/types';
 import { fetchFriendsRequest, fetchUserRequest, removeFriendRequest } from '../../store/users/users.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileModalComponent } from '../../ui/profile-modal/profile-modal.component';
+import { createNewChatRoom } from '../../store/chat/chat.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-friends',
@@ -18,10 +20,12 @@ export class UserFriendsComponent implements OnInit {
   loading: Observable<boolean>;
   error: Observable<null | string>;
   user: Observable<User | null>;
+  userData!: User;
 
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
+    private router: Router,
   ) {
     this.friends = store.select(state => state.users.friends);
     this.loading = store.select(state => state.users.fetchFriendsLoading);
@@ -35,8 +39,18 @@ export class UserFriendsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user.subscribe(user => {
+      this.userData = user!
+    })
     this.store.dispatch(fetchFriendsRequest());
-    console.log(this.friends);
+  }
+
+  goToChat(idFriend: string) {
+    const chatRoomData = {
+      participants: [this.userData._id, idFriend],
+    }
+    this.store.dispatch(createNewChatRoom({chatRoomData}));
+    void this.router.navigate(['/chat'], {queryParams: {ownerId: this.userData?._id}});
   }
 
   removeFriend(friendId: string) {

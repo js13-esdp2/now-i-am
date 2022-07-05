@@ -35,6 +35,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
   streamStartedOn: number = 0;
   streamDuration: number = 0;
   calculateStreamDurationInterval: number = 0;
+  onlineStreamUsers = 0;
   streamConnections: { [key: string]: RTCPeerConnection } = {};
 
   isPermissionsAllowed = false;
@@ -76,6 +77,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
 
       const offer = await this.liveStreamService.createOffer(message.user, this.videoStream);
       this.streamConnections[message.user] = offer.connection;
+      this.onlineStreamUsers++;
 
       this.websocketService.send({ type: 'LIVE_STREAM_OFFER', id: message.id, user: message.user, offer: offer.offer });
     });
@@ -104,6 +106,8 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
       }
 
       connection.close();
+
+      this.onlineStreamUsers--;
       delete this.streamConnections[message.user];
     });
     this.websocketErrorSub = this.websocketService.onEvent<WebRTCError>('LIVE_STREAM_ERROR').subscribe(({ message }) => {
@@ -197,6 +201,8 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
       const connection = this.streamConnections[connectionKey];
 
       connection.close();
+
+      this.onlineStreamUsers--;
       delete this.streamConnections[connectionKey];
     });
 

@@ -9,7 +9,7 @@
 
 <ng-template #photoArea>
   <mat-dialog-content class="mat-typography">
-    <img class="photo" [src]=" apiUrl + '/uploads/' + friendData.photo" [alt]="friendData.displayName">
+    <img class="user-avatar" [src]=" apiUrl + '/uploads/' + friendData.photo" [alt]="friendData.displayName">
     <mat-card-content>
       <h2 class="title" mat-dialog-title>Имя: {{ friendData.displayName }}</h2>
       <div *ngIf="!friendData.isPrivate">
@@ -31,7 +31,7 @@
       </div>
     </mat-card-content>
     <mat-dialog-actions>
-      <button class="button" mat-raised-button color="primary" mat-dialog-close="">Cancel</button>
+      <button class="button" mat-dialog-close="">Закрыть</button>
     </mat-dialog-actions>
   </mat-dialog-content>
 </ng-template>

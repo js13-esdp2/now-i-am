@@ -144,7 +144,7 @@ export const usersReducer = createReducer(
 
   on(removeFriendRequest, (state, {friendId}) => {
     const array = state.friends.filter( friend => {
-      return friend.user._id !== friendId;
+      return friend.friend._id !== friendId;
     });
     return {...state, friends: array, removeFriendLoading: true, removeFriendError: null,}}),
   on(removeFriendSuccess, (state) => ({...state, removeFriendLoading: false})),

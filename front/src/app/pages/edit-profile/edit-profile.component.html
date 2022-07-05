@@ -3,7 +3,6 @@
         #f="ngForm"
   >
 
-   <div>
      <mat-form-field appearance="outline" *ngIf="isPhotoExists; else emptyPhoto">
        <mat-label>Фото профиля</mat-label>
        <input type="text"
@@ -33,7 +32,7 @@
          Поле обязательное для ввода
        </mat-error>
      </mat-form-field>
-   </div>
+
 
     <ng-template #emptyPhoto>
       <mat-form-field appearance="outline">
@@ -49,7 +48,7 @@
       </mat-form-field>
     </ng-template>
 
-    <div>
+
       <mat-form-field appearance="outline">
         <mat-label>О себе</mat-label>
         <input type="text"
@@ -66,8 +65,6 @@
         </mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </div>
-   <div>
      <mat-form-field appearance="outline">
       <mat-label>Пол</mat-label>
       <mat-select name="sex" ngModel>
@@ -105,7 +102,6 @@
          </mat-option>
        </mat-select>
      </mat-form-field>
-   </div>
 
     <div class="is-private-block">
       <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
