@@ -41,14 +41,13 @@
             <mat-icon>pending_actions</mat-icon>
           </a>
           <a routerLink="/notifications"
-             class="nav-list__list-item history-posts"
+             class="nav-list__list-item link-badge history-posts"
              mat-icon-button
-             matBadge="{{ notifications > 0? notifications : ''}}"
              (click)="clearNotifications()"
-             matBadgeColor="warn"
              title="Уведомления"
           >
             <mat-icon>notifications</mat-icon>
+            <span class="badge" *ngIf="notifications > 0">{{ notifications }}</span>
           </a>
           <a routerLink="/new-post"
              class="nav-list__list-item"
@@ -71,11 +70,8 @@
              title="Сообщения"
           >
             <mat-icon
-              [matBadge]="newMessagesAmount"
-              matBadgePosition="before"
-              matBadgeColor="warn"
-              [matBadgeHidden]="isHidden"
             >sms</mat-icon>
+            <span class="badge" *ngIf="newMessagesAmount > 0">{{ newMessagesAmount }}</span>
           </a>
         </nav>
         <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -87,12 +83,11 @@
         <mat-menu #menu="matMenu" class="user-menu" >
           <button mat-menu-item [disabled]="true">{{ $user.displayName }}</button>
           <a routerLink="/profile" mat-menu-item>Мой профиль</a>
-          <a routerLink="/notifications"
+          <a routerLink="/notifications" class="link-badge"
              mat-menu-item
-             matBadge="{{ notifications > 0? notifications : ''}}"
              (click)="clearNotifications()"
-             matBadgeColor="warn"
-          >Уведомления</a>
+          >Уведомления
+            <span class="badge badge-menu" *ngIf="notifications > 0">{{ notifications }}</span></a>
           <a routerLink="/friends" mat-menu-item>Мои друзья</a>
           <button mat-menu-item (click)="logout()">Выйти</button>
         </mat-menu>

@@ -31,6 +31,8 @@ import {
 import { User } from '../../models/user.model';
 import { AppState } from '../types';
 import { Store } from '@ngrx/store';
+import { FilterData } from '../../models/post.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PostsEffects {
@@ -42,6 +44,7 @@ export class PostsEffects {
     private postsService: PostsService,
     private helpers: HelpersService,
     private store: Store<AppState>,
+    private router: Router,
   ) {
   }
 
@@ -90,6 +93,17 @@ export class PostsEffects {
     mergeMap(({postData}) => this.postsService.createPost(postData).pipe(
       map(() => createPostSuccess()),
       tap(() => {
+        const filterData: FilterData = {
+          title: postData.title,
+          birthday: '',
+          country: '',
+          city: '',
+          sex: '',
+          isPrivate: '',
+        }
+        const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
+            sex: filterData.sex, country: filterData.country,  city: filterData.city,  isPrivate: filterData.isPrivate}};
+        void this.router.navigate([`/statistic`], query);
         this.helpers.openSnackBar('Успешно создан пост');
       }),
       catchError(() => of(createPostFailure({error: 'Неверные данные'})))

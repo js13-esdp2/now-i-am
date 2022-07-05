@@ -1,6 +1,6 @@
 <app-centered-card *ngIf="user | async as userData">
   <div class="profile-info">
-    <img mat-card-image
+    <img
          class="user-avatar"
          [src]="userData.photo | image"
          [alt]="userData.displayName"

@@ -1,8 +1,4 @@
-<div>
-  <button mat-button type="button" class="btn-reply" (click)="reply()">
-    <mat-icon>reply</mat-icon>
-  </button>
-</div>
+
 <div class="main-block">
   <div class="control-panel">
     <p>
@@ -10,6 +6,8 @@
     </p>
     <button class="btn-changeTemplate" type="button"
             (click)="changeTemplate()">{{ visibility ? 'Посмотреть на карте' : 'Посмотреть публикации' }}</button>
+    <div>
+    </div>
   </div>
   <div class="result-wrapper" [style.display]="visibility?'block':'none'">
     <mat-card class="result-block" *ngIf="isSearched && (posts | async) as $posts">
@@ -30,22 +28,26 @@
           </div>
           <mat-card-content class="post__content">
             <div class="post-text">
-              <div class="live-border">
-                <img class="user-avatar"
-                     [src]="apiUrl + '/uploads/' + post.user.photo"
-                     [alt]="post.user.displayName"
-                >
-              </div>
-              <div>
-                <div>
-                  <a [routerLink]="'/live/' + post.user._id">Транслция</a>
-                </div>
-                <mat-card-title class="post__content__title">
-                  {{ post.user.displayName }}
-                </mat-card-title>
-                <mat-card-subtitle>
+             <div fxFlex fxLayoutAlign="row">
+               <div class="post-text__user-avatar">
+                 <img class="user-avatar"
+                      [src]="apiUrl + '/uploads/' + post.user.photo"
+                      [alt]="post.user.displayName"
+                 >
+               </div>
+               <div>
+                 <mat-card-title class="post__content__title">
+                   {{ post.user.displayName }}
+                 </mat-card-title>
+                 <mat-card-subtitle>
                   {{ post.title }}
-                </mat-card-subtitle>
+                 </mat-card-subtitle>
+               </div>
+             </div>
+              <div *ngIf="post.user?.isOnLiveStream">
+                <a class="live-link live-border user-avatar" [routerLink]="'/live/' + post.user._id">
+                  <img width="50px" height="50px" src="./assets/icons/camera-icon.gif" alt="live">
+                </a>
               </div>
             </div>
             <div>

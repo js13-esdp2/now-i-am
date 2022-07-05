@@ -121,17 +121,6 @@ export class NewPostComponent implements OnInit {
       postData.content = this.imageData64.imageAsBase64
     }
     await this.store.dispatch(createPostRequest({postData}));
-    const filterData: FilterData = {
-      title: postData.title,
-      birthday: '',
-      country: '',
-      city: '',
-      sex: '',
-      isPrivate: '',
-    }
-    const query = {queryParams: {title: filterData.title, birthday: filterData.birthday,
-        sex: filterData.sex, country: filterData.country,  city: filterData.city,  isPrivate: filterData.isPrivate}};
-    void this.router.navigate([`/statistic`], query);
   }
 
 

@@ -1,24 +1,39 @@
 <app-centered-card cardName="Редактировать профиль">
   <form (ngSubmit)="onSubmit()"
         #f="ngForm"
-        fxLayout="column"
   >
-    <mat-form-field appearance="outline" *ngIf="isPhotoExists; else emptyPhoto">
-      <mat-label>Фото профиля</mat-label>
-      <input type="text"
-             name="photo"
-             matInput
-             ngModel
-             disabled="true"
-      />
-      <button type="button"
-              mat-raised-button
-              color="warn"
-              class="remove-photo-btn"
-              (click)="onRemovePhoto()"
-      >Удалить
-      </button>
-    </mat-form-field>
+
+   <div>
+     <mat-form-field appearance="outline" *ngIf="isPhotoExists; else emptyPhoto">
+       <mat-label>Фото профиля</mat-label>
+       <input type="text"
+              name="photo"
+              matInput
+              ngModel
+              disabled="true"
+       />
+       <button type="button"
+               mat-raised-button
+               color="warn"
+               class="remove-photo-btn"
+               (click)="onRemovePhoto()"
+       >Удалить
+       </button>
+     </mat-form-field>
+     <mat-form-field appearance="outline">
+       <mat-label>Имя</mat-label>
+       <input type="text"
+              name="displayName"
+              matInput
+              ngModel
+              #name="ngModel"
+              required
+       />
+       <mat-error *ngIf="name.touched && name.hasError('required')">
+         Поле обязательное для ввода
+       </mat-error>
+     </mat-form-field>
+   </div>
 
     <ng-template #emptyPhoto>
       <mat-form-field appearance="outline">
@@ -34,47 +49,33 @@
       </mat-form-field>
     </ng-template>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Отображаемое имя</mat-label>
-      <input type="text"
-             name="displayName"
-             matInput
-             ngModel
-             #name="ngModel"
-             required
-      />
-      <mat-error *ngIf="name.touched && name.hasError('required')">
-        Поле обязательное для ввода
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>О себе</mat-label>
-      <input type="text"
-             name="aboutMe"
-             matInput
-             ngModel
-      />
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" name="age" id="age" ngModel>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-      </mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>О себе</mat-label>
+        <input type="text"
+               name="aboutMe"
+               matInput
+               ngModel
+        />
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Дата рождения</mat-label>
+        <input matInput [matDatepicker]="picker" name="age" id="age" ngModel>
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+   <div>
+     <mat-form-field appearance="outline">
       <mat-label>Пол</mat-label>
       <mat-select name="sex" ngModel>
         <mat-option value="male">Мужской</mat-option>
         <mat-option value="female">Женский</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <mat-form-field appearance="outline" class="filter-block__city">
+     <mat-form-field appearance="outline" class="filter-block__city">
       <mat-label>Страна</mat-label>
       <input type="text"
              name="country"
@@ -92,26 +93,25 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
+     <mat-form-field appearance="outline" class="filter-block__city">
+       <mat-label>Город</mat-label>
+       <mat-select name="city"
+                   ngModel
+                   [disabled]="!country.value"
+       >
+         <mat-option *ngFor="let city of cities"
+                     [value]="city.city">
+           {{ city.city }}
+         </mat-option>
+       </mat-select>
+     </mat-form-field>
+   </div>
 
-    <mat-form-field appearance="outline" class="filter-block__city">
-      <mat-label>Город</mat-label>
-      <mat-select name="city"
-                  ngModel
-                  [disabled]="!country.value"
-      >
-        <mat-option *ngFor="let city of cities"
-                    [value]="city.city">
-          {{ city.city }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <p class="is-private-block">
+    <div class="is-private-block">
       <mat-checkbox name="isPrivate" ngModel>Приватный профиль</mat-checkbox>
-    </p>
+    </div>
 
-    <button mat-raised-button
-            color="primary"
+    <button class="btn"
             [disabled]="f.invalid || (isLoading | async)"
     >
       <app-loader [isLoading]="isLoading | async" size="sm">

@@ -30,6 +30,7 @@ const run = async () => {
     city: 'Москва',
     isPrivate: false,
     role: 'moderator',
+    isOnLiveStream: true
   }, {
     email: 'john@gmail.com',
     password: '123',

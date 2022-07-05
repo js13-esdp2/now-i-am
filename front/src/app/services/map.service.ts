@@ -28,14 +28,13 @@ export class MapService {
       iconSize: [40, 40],
       className: 'icon'
     });
-    let popup = L.popup()
+    let popup = L.popup({closeButton: false})
       .setContent(`<div class="popup">
                    <span class="popup-title">${userInfo.name} - ${userInfo.title}</span>
                    <div class="popup-content">
                    <img class="popup-img" src="${environment.apiUrl + '/uploads/' + userInfo.content}" alt="">
                    </div>
                    </div>`);
-
     L.marker([lat, lng], {icon: myIcon})
       .addTo(this.map)
       .bindPopup(popup)
