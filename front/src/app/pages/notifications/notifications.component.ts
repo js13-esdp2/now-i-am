@@ -26,6 +26,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   notNewRequests: boolean = false;
 
   websocketFriendSub!: Subscription;
+  friendSub!: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -43,29 +44,31 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.store.dispatch(fetchFriendsRequest());
       }
     });
-    this.checkFriend();
+
+    this.friendSub = this.friends.subscribe((friends) => {
+      const idFriendRequestsAccepted = friends.reduce((acc: boolean, val) => {
+        return acc && val.isFriend;
+      }, true);
+
+      this.notNewRequests = !idFriendRequestsAccepted;
+
+      // this.notNewRequests = friends.length > 0;
+      // friends.forEach(friend => {
+      //   this.notNewRequests = !friend.isFriend
+      // })
+    });
   }
 
   confirmationOfFriendship(friendId: string){
     this.store.dispatch(confirmationOfFriendshipRequest({friendId}));
-    this.checkFriend();
   };
 
   onRemove(friendId: string) {
     this.store.dispatch(removeFriendRequest({friendId}));
-    this.checkFriend();
-  }
-
-  checkFriend() {
-    this.friends.subscribe(friends => {
-      this.notNewRequests = friends.length > 0;
-      friends.forEach(friend => {
-        this.notNewRequests = !friend.isFriend
-      })
-    });
   }
 
   ngOnDestroy(): void {
     this.websocketFriendSub.unsubscribe();
+    this.friendSub.unsubscribe();
   }
 }
