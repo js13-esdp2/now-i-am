@@ -10,7 +10,7 @@
         <button mat-icon-button class="user-item__btn" (click)="confirmationOfFriendship(friend._id)">
           <mat-icon class="user-item__btn-done">done</mat-icon>
         </button>
-        <button mat-icon-button class="user-item__btn" (click)="onRemove(friend._id)">
+        <button mat-icon-button class="user-item__btn" (click)="onRemove(friend.user._id)">
           <mat-icon class="user-item__btn-clear">clear</mat-icon>
         </button>
       </mat-card-content>

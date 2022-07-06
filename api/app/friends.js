@@ -72,8 +72,7 @@ router.post('/', auth, async (req, res, next) => {
 
 router.delete('/:id', auth, async(req, res, next) =>{
   try{
-    // const findFriend = await Friends.deleteOne({user: {_id: req.params.id}}, {friend: {_id: req.user._id}});
-    const findFriend = await Friends.deleteOne({_id: req.params.id}, {friend: req.user._id});
+    const findFriend = await Friends.deleteOne({user: req.params.id, friend: req.user._id});
     return res.send(findFriend)
   }catch(e){
     next(e);
